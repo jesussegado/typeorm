@@ -570,12 +570,15 @@ export class MongoEntityManager extends EntityManager {
         if (!optionsOrConditions)
             return undefined;
 
-        if (FindOptionsUtils.isFindManyOptions(optionsOrConditions))
+        if (FindOptionsUtils.isFindManyOptions(optionsOrConditions)){
         // If where condition is passed as a string which contains sql we have to ignore
         // as mongo is not a sql database
-            return typeof optionsOrConditions.where === "string"
+            const options: FindManyOptions<Entity> = optionsOrConditions; // TODO: remove once typescript sees proper type here(once code without that line compiles)
+            return typeof options.where === "string"
                 ? {}
-                : optionsOrConditions.where;
+                : options.where;
+
+        }
 
         return optionsOrConditions;
     }

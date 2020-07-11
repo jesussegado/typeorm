@@ -36,7 +36,7 @@ describe("github issues > #4156 QueryExpressionMap doesn't clone all values corr
         await prepareData(connection);
 
         const qb = connection.manager
-          .createQueryBuilder("Post", "post");
+          .createQueryBuilder<Post>("Post", "post");
 
         const [loadedPost1, loadedPost2] = await Promise.all([
           qb.clone().where({ id: 1 }).getOne(),
@@ -61,7 +61,7 @@ describe("github issues > #4156 QueryExpressionMap doesn't clone all values corr
         await prepareData(connection);
 
         const qb = connection.manager
-          .createQueryBuilder("Post", "post")
+          .createQueryBuilder<Post>("Post", "post")
           .where({ id: 1 });
 
         const [loadedPost1, loadedPost2] = await Promise.all([
