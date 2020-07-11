@@ -36,20 +36,12 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run: npm install
-      - run: npm install nyc mocha-junit-reporter # just for CircleCI
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm run lint
-      - run: npm run compile
-      - run: mkdir reports
-      - run:
-          name: npm test
-          command: ./node_modules/.bin/nyc ./node_modules/.bin/mocha --file ./build/compiled/test/utils/test-setup.js --bail --recursive --timeout 60000 --reporter mocha-junit-reporter --reporter-options mochaFile=reports/mocha/test-results.xml ./build/compiled/test
-          when: always
-      - store_test_results:
-          path: reports
+      - run: npm t
 
   cockroachdb:
     working_directory: ~/typeorm
