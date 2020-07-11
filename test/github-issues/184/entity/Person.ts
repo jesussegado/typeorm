@@ -1,18 +1,17 @@
-import {Column} from "../../../../src/decorator/columns/Column";
-import {TableInheritance} from "../../../../src/decorator/entity/TableInheritance";
-import {Entity} from "../../../../src/decorator/entity/Entity";
-import {PrimaryColumn} from "../../../../src/decorator/columns/PrimaryColumn";
+import { Column } from "../../../../src/decorator/columns/Column";
+import { TableInheritance } from "../../../../src/decorator/entity/TableInheritance";
+import { Entity } from "../../../../src/decorator/entity/Entity";
+import { PrimaryColumn } from "../../../../src/decorator/columns/PrimaryColumn";
 
 export enum PersonType {
     Employee = 1,
     Homesitter = 2,
-    Student = 3
+    Student = 3,
 }
 
 @Entity("issue184_person")
-@TableInheritance({ column: { name: "type", type: "int"} })
-export abstract class Person  {
-
+@TableInheritance({ column: { name: "type", type: "int" } })
+export abstract class Person {
     @PrimaryColumn()
     id: string;
 
@@ -23,5 +22,4 @@ export abstract class Person  {
     lastName: string;
 
     type: PersonType;
-
 }

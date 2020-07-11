@@ -1,11 +1,10 @@
-import {Column} from "../../../../../../../src/decorator/columns/Column";
-import {PrimaryColumn} from "../../../../../../../src/decorator/columns/PrimaryColumn";
-import {OneToMany} from "../../../../../../../src/decorator/relations/OneToMany";
-import {Category} from "./Category";
-import {Subcounters} from "./Subcounters";
+import { Column } from "../../../../../../../src/decorator/columns/Column";
+import { PrimaryColumn } from "../../../../../../../src/decorator/columns/PrimaryColumn";
+import { OneToMany } from "../../../../../../../src/decorator/relations/OneToMany";
+import { Category } from "./Category";
+import { Subcounters } from "./Subcounters";
 
 export class Counters {
-
     @PrimaryColumn()
     code: number;
 
@@ -18,12 +17,11 @@ export class Counters {
     @Column()
     favorites: number;
 
-    @OneToMany(type => Category, category => category.post)
+    @OneToMany((type) => Category, (category) => category.post)
     categories: Category[];
 
     @Column(() => Subcounters)
     subcounters: Subcounters;
 
     categoryIds: number[];
-
 }

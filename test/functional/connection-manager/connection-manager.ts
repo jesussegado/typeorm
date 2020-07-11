@@ -1,11 +1,11 @@
 import "reflect-metadata";
-import {expect} from "chai";
-import {setupSingleTestingConnection} from "../../utils/test-utils";
-import {ConnectionManager} from "../../../src/connection/ConnectionManager";
-import {MysqlDriver} from "../../../src/driver/mysql/MysqlDriver";
-import {PrimaryGeneratedColumn} from "../../../src/decorator/columns/PrimaryGeneratedColumn";
-import {Column} from "../../../src/decorator/columns/Column";
-import {Entity} from "../../../src/decorator/entity/Entity";
+import { expect } from "chai";
+import { setupSingleTestingConnection } from "../../utils/test-utils";
+import { ConnectionManager } from "../../../src/connection/ConnectionManager";
+import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
+import { PrimaryGeneratedColumn } from "../../../src/decorator/columns/PrimaryGeneratedColumn";
+import { Column } from "../../../src/decorator/columns/Column";
+import { Entity } from "../../../src/decorator/entity/Entity";
 
 // Uncomment when testing the aurora data API driver
 // import {AuroraDataApiDriver} from "../../../src/driver/aurora-data-api/AuroraDataApiDriver";
@@ -14,10 +14,8 @@ import {Entity} from "../../../src/decorator/entity/Entity";
 // import {AuroraDataApiPostgresConnectionOptions} from "../../../src/driver/aurora-data-api-pg/AuroraDataApiPostgresConnectionOptions";
 
 describe("ConnectionManager", () => {
-
     @Entity()
     class Post {
-
         @PrimaryGeneratedColumn()
         id: number;
 
@@ -30,16 +28,13 @@ describe("ConnectionManager", () => {
         }
     }
 
-    describe("create", function() {
-
+    describe("create", function () {
         it("should create a mysql connection when mysql driver is specified", () => {
-
             const options = setupSingleTestingConnection("mysql", {
                 name: "default",
-                entities: []
+                entities: [],
             });
-            if (!options)
-                return;
+            if (!options) return;
             const connectionManager = new ConnectionManager();
             const connection = connectionManager.create(options);
             connection.name.should.be.equal("default");
@@ -47,7 +42,7 @@ describe("ConnectionManager", () => {
             connection.isConnected.should.be.false;
         });
 
-       /* it("should create a postgres connection when postgres driver is specified", () => {
+        /* it("should create a postgres connection when postgres driver is specified", () => {
             const options: ConnectionOptions = {
                 name: "myPostgresConnection",
                 driver: createTestingConnectionOptions("postgres")
@@ -58,7 +53,6 @@ describe("ConnectionManager", () => {
             connection.driver.should.be.instanceOf(PostgresDriver);
             connection.isConnected.should.be.false;
         });*/
-
     });
 
     /*describe("createAndConnect", function() {
@@ -126,46 +120,44 @@ describe("ConnectionManager", () => {
 
     });*/
 
-    describe("get", function() {
-
+    describe("get", function () {
         it("should give connection with a requested name", () => {
             const options = setupSingleTestingConnection("mysql", {
                 name: "myMysqlConnection",
-                entities: []
+                entities: [],
             });
-            if (!options)
-                return;
+            if (!options) return;
             const connectionManager = new ConnectionManager();
             const connection = connectionManager.create(options);
             connection.driver.should.be.instanceOf(MysqlDriver);
-            connectionManager.get("myMysqlConnection").should.be.equal(connection);
+            connectionManager
+                .get("myMysqlConnection")
+                .should.be.equal(connection);
         });
 
         it("should throw an error if connection with the given name was not found", () => {
             const options = setupSingleTestingConnection("mysql", {
                 name: "myMysqlConnection",
-                entities: []
+                entities: [],
             });
-            if (!options)
-                return;
+            if (!options) return;
             const connectionManager = new ConnectionManager();
             const connection = connectionManager.create(options);
             connection.driver.should.be.instanceOf(MysqlDriver);
-            expect(() => connectionManager.get("myPostgresConnection")).to.throw(Error);
+            expect(() =>
+                connectionManager.get("myPostgresConnection")
+            ).to.throw(Error);
         });
-
     });
 
-    describe("create connection options", function() {
-
+    describe("create connection options", function () {
         it("should not drop the database if dropSchema was not specified", async () => {
             const options = setupSingleTestingConnection("mysql", {
                 name: "myMysqlConnection",
                 schemaCreate: true,
-                entities: [Post]
+                entities: [Post],
             });
-            if (!options)
-                return;
+            if (!options) return;
 
             const connectionManager = new ConnectionManager();
 
@@ -188,10 +180,9 @@ describe("ConnectionManager", () => {
                 name: "myMysqlConnection",
                 schemaCreate: true,
                 dropSchema: true,
-                entities: [Post]
+                entities: [Post],
             });
-            if (!options)
-                return;
+            if (!options) return;
 
             const connectionManager = new ConnectionManager();
 
@@ -206,9 +197,9 @@ describe("ConnectionManager", () => {
             const loadedPost = await connection.manager.findOne(Post, 1);
             expect(loadedPost).to.be.undefined;
             await connection.close();
-         });
+        });
 
-     /*   it("should drop the database if dropSchema was set to true (postgres)", async () => {
+        /*   it("should drop the database if dropSchema was set to true (postgres)", async () => {
             const options: ConnectionOptions = {
                 dropSchema: true,
                 synchronize: true,
@@ -231,7 +222,7 @@ describe("ConnectionManager", () => {
             await connection.close();
          });*/
 
-    /*    it("should drop the database if dropSchema was set to true (postgres)", async () => {
+        /*    it("should drop the database if dropSchema was set to true (postgres)", async () => {
             const options: ConnectionOptions = {
                 dropSchema: true,
                 synchronize: true,
@@ -252,7 +243,5 @@ describe("ConnectionManager", () => {
             expect(loadedPost).to.be.undefined;
             await connection.close();
          });*/
-
     });
-
 });

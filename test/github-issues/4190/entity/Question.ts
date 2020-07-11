@@ -1,10 +1,14 @@
-import {Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable} from "../../../../src";
-import {Column} from "../../../../src/decorator/columns/Column";
-import {Category} from "./Category";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    ManyToMany,
+    JoinTable,
+} from "../../../../src";
+import { Column } from "../../../../src/decorator/columns/Column";
+import { Category } from "./Category";
 
 @Entity()
 export class Question {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -14,5 +18,4 @@ export class Question {
     @ManyToMany("Category")
     @JoinTable()
     categories: Category[];
-
 }

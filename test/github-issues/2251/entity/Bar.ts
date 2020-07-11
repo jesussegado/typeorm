@@ -4,10 +4,10 @@ import { Foo } from "./Foo";
 
 @Entity()
 export class Bar {
-  @PrimaryGeneratedColumn() id: number;
+    @PrimaryGeneratedColumn() id: number;
 
-  @Column() description: string;
+    @Column() description: string;
 
-  @ManyToOne(type => Foo, foo => foo.bars)
-  foo?: Foo;
+    @ManyToOne((type) => Foo, (foo) => foo.bars)
+    foo?: Foo;
 }

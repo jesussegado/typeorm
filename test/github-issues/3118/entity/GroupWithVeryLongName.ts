@@ -1,6 +1,6 @@
-import {PrimaryGeneratedColumn} from "../../../../src/decorator/columns/PrimaryGeneratedColumn";
-import {Column, Entity, OneToMany} from "../../../../src";
-import {AuthorWithVeryLongName} from "./AuthorWithVeryLongName";
+import { PrimaryGeneratedColumn } from "../../../../src/decorator/columns/PrimaryGeneratedColumn";
+import { Column, Entity, OneToMany } from "../../../../src";
+import { AuthorWithVeryLongName } from "./AuthorWithVeryLongName";
 
 @Entity()
 export class GroupWithVeryLongName {
@@ -10,6 +10,9 @@ export class GroupWithVeryLongName {
     @Column()
     name: string;
 
-    @OneToMany(() => AuthorWithVeryLongName, author => author.groupWithVeryLongName)
+    @OneToMany(
+        () => AuthorWithVeryLongName,
+        (author) => author.groupWithVeryLongName
+    )
     authorsWithVeryLongName: AuthorWithVeryLongName[];
 }

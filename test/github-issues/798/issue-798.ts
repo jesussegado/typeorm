@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import * as assert from "assert";
-import {createConnection, getConnectionOptions} from "../../../src/index";
-import {Connection} from "../../../src/connection/Connection";
+import { createConnection, getConnectionOptions } from "../../../src/index";
+import { Connection } from "../../../src/connection/Connection";
 
 describe("github issues > #798 sqlite: 'database' path in ormconfig.json is not relative", () => {
     let connection: Connection;
@@ -27,5 +27,4 @@ describe("github issues > #798 sqlite: 'database' path in ormconfig.json is not 
 
         assert.strictEqual(connection.isConnected, true);
     });
-
 });

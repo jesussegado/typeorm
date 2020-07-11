@@ -1,11 +1,10 @@
 import { Driver } from "./Driver";
 import { hash } from "../util/StringUtils";
 
-    /**
+/**
  * Common driver utility functions.
  */
 export class DriverUtils {
-
     // -------------------------------------------------------------------------
     // Public Static Methods
     // -------------------------------------------------------------------------
@@ -14,7 +13,10 @@ export class DriverUtils {
      * Normalizes and builds a new driver options.
      * Extracts settings from connection url and sets to a new options object.
      */
-    static buildDriverOptions(options: any, buildOptions?: { useSid: boolean }): any {
+    static buildDriverOptions(
+        options: any,
+        buildOptions?: { useSid: boolean }
+    ): any {
         if (options.url) {
             const parsedUrl = this.parseConnectionUrl(options.url);
             let urlDriverOptions: any = {
@@ -23,7 +25,7 @@ export class DriverUtils {
                 username: parsedUrl.username,
                 password: parsedUrl.password,
                 port: parsedUrl.port,
-                database: parsedUrl.database
+                database: parsedUrl.database,
             };
             if (buildOptions && buildOptions.useSid) {
                 urlDriverOptions.sid = parsedUrl.database;
@@ -35,7 +37,7 @@ export class DriverUtils {
 
     /**
      * Builds column alias from given alias name and column name.
-     * 
+     *
      * If alias length is greater than the limit (if any) allowed by the current
      * driver, replaces it with a hashed string.
      *
@@ -45,10 +47,18 @@ export class DriverUtils {
      *
      * @return An alias allowing to select/transform the target `column`.
      */
-    static buildColumnAlias({ maxAliasLength }: Driver, alias: string, column: string): string {
+    static buildColumnAlias(
+        { maxAliasLength }: Driver,
+        alias: string,
+        column: string
+    ): string {
         const columnAliasName = alias + "_" + column;
 
-        if (maxAliasLength && maxAliasLength > 0 && columnAliasName.length > maxAliasLength) {
+        if (
+            maxAliasLength &&
+            maxAliasLength > 0 &&
+            columnAliasName.length > maxAliasLength
+        ) {
             return hash(columnAliasName, { length: maxAliasLength });
         }
 
@@ -67,8 +77,10 @@ export class DriverUtils {
         const firstSlashes = url.indexOf("//");
         const preBase = url.substr(firstSlashes + 2);
         const secondSlash = preBase.indexOf("/");
-        const base = (secondSlash !== -1) ? preBase.substr(0, secondSlash) : preBase;
-        const afterBase = (secondSlash !== -1) ? preBase.substr(secondSlash + 1) : undefined;
+        const base =
+            secondSlash !== -1 ? preBase.substr(0, secondSlash) : preBase;
+        const afterBase =
+            secondSlash !== -1 ? preBase.substr(secondSlash + 1) : undefined;
 
         const lastAtSign = base.lastIndexOf("@");
         const usernameAndPassword = base.substr(0, lastAtSign);
@@ -89,7 +101,7 @@ export class DriverUtils {
             username: decodeURIComponent(username),
             password: decodeURIComponent(password),
             port: port ? parseInt(port) : undefined,
-            database: afterBase || undefined
+            database: afterBase || undefined,
         };
     }
 }

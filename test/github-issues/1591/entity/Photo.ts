@@ -1,8 +1,7 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "../../../../src";
+import { Column, Entity, PrimaryGeneratedColumn } from "../../../../src";
 
 @Entity()
 export class Photo {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -11,5 +10,4 @@ export class Photo {
 
     @Column()
     date: Date;
-
 }

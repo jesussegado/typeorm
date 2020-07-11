@@ -1,10 +1,9 @@
-import {BaseConnectionOptions} from "../../connection/BaseConnectionOptions";
+import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
 
 /**
  * Sqlite-specific connection options.
  */
 export interface ExpoConnectionOptions extends BaseConnectionOptions {
-
     /**
      * Database type.
      */
@@ -16,7 +15,7 @@ export interface ExpoConnectionOptions extends BaseConnectionOptions {
     readonly database: string;
 
     /**
-    * Driver module
-    */
+     * Driver module
+     */
     readonly driver: any;
 }

@@ -1,10 +1,9 @@
 import "reflect-metadata";
-import {expect} from "chai";
-import {Connection} from "../../../src/connection/Connection";
-import {PostgresConnectionOptions} from "../../../src/driver/postgres/PostgresConnectionOptions";
+import { expect } from "chai";
+import { Connection } from "../../../src/connection/Connection";
+import { PostgresConnectionOptions } from "../../../src/driver/postgres/PostgresConnectionOptions";
 
 describe.skip("github issues > #114 Can not be parsed correctly the URL of pg.", () => {
-
     let connection: Connection;
     before(() => {
         connection = new Connection({
@@ -21,5 +20,4 @@ describe.skip("github issues > #114 Can not be parsed correctly the URL of pg.",
         expect(options.port).to.be.eq(5432);
         expect(options.database).to.be.eq("test");
     });
-
 });

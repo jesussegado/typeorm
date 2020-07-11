@@ -1,13 +1,12 @@
-import {getMetadataArgsStorage} from "../../";
-import {TableMetadataArgs} from "../../metadata-args/TableMetadataArgs";
-import {DiscriminatorValueMetadataArgs} from "../../metadata-args/DiscriminatorValueMetadataArgs";
+import { getMetadataArgsStorage } from "../../";
+import { TableMetadataArgs } from "../../metadata-args/TableMetadataArgs";
+import { DiscriminatorValueMetadataArgs } from "../../metadata-args/DiscriminatorValueMetadataArgs";
 
 /**
  * Special type of the table used in the single-table inherited tables.
  */
 export function ChildEntity(discriminatorValue?: any) {
     return function (target: Function) {
-
         // register a table metadata
         getMetadataArgsStorage().tables.push({
             target: target,
@@ -18,7 +17,7 @@ export function ChildEntity(discriminatorValue?: any) {
         if (discriminatorValue) {
             getMetadataArgsStorage().discriminatorValues.push({
                 target: target,
-                value: discriminatorValue
+                value: discriminatorValue,
             } as DiscriminatorValueMetadataArgs);
         }
     };

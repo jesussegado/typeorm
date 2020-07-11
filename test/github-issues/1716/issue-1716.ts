@@ -1,7 +1,12 @@
 import "reflect-metadata";
 import { Connection } from "../../../src/connection/Connection";
 import { ConnectionOptions } from "../../../src/connection/ConnectionOptions";
-import { createTestingConnections, closeTestingConnections, reloadTestingDatabases, getTypeOrmConfig } from "../../utils/test-utils";
+import {
+    createTestingConnections,
+    closeTestingConnections,
+    reloadTestingDatabases,
+    getTypeOrmConfig,
+} from "../../utils/test-utils";
 import { expect } from "chai";
 
 import { PgEntity } from "./entity/pgEntity";
@@ -9,30 +14,24 @@ import { MysqlEntity } from "./entity/mysqlEntity";
 import { MariadbEntity } from "./entity/mariadbEntity";
 import { MssqlEntity } from "./entity/mssqlEntity";
 
-
-
 const toISOString = (input: string) => new Date(input).toISOString();
 
-
 const convertPropsToISOStrings = (obj: any, props: string[]) => {
-    props.map(prop => {
+    props.map((prop) => {
         obj[prop] = toISOString(obj[prop]);
     });
 };
 
-
 const isDriverEnabled = (driver: string) => {
     const ormConfigConnectionOptionsArray = getTypeOrmConfig();
-    const config = ormConfigConnectionOptionsArray.find((options: ConnectionOptions) => options.name === driver);
+    const config = ormConfigConnectionOptionsArray.find(
+        (options: ConnectionOptions) => options.name === driver
+    );
     return config && !config.skip;
 };
 
-
 describe("github issues > #1716 send timestamp to database without converting it into UTC", () => {
-
-
     describe("postgres", async () => {
-
         if (!isDriverEnabled("postgres")) {
             return;
         }
@@ -44,20 +43,15 @@ describe("github issues > #1716 send timestamp to database without converting it
                 entities: [PgEntity],
                 schemaCreate: true,
                 dropSchema: true,
-                enabledDrivers: [
-                    "postgres"
-                ]
+                enabledDrivers: ["postgres"],
             });
         });
 
         beforeEach(() => reloadTestingDatabases(connections));
         after(() => closeTestingConnections(connections));
 
-
         it("should persist dates and times correctly", async () => {
-
             const manager = connections[0].manager;
-
 
             await manager.save(PgEntity, {
                 id: 1,
@@ -70,7 +64,11 @@ describe("github issues > #1716 send timestamp to database without converting it
             });
 
             const result1 = await manager.findOne(PgEntity, 1);
-            convertPropsToISOStrings(result1, ["fieldTimestamp", "fieldTimestampWithoutTZ", "fieldTimestampWithTZ"]);
+            convertPropsToISOStrings(result1, [
+                "fieldTimestamp",
+                "fieldTimestampWithoutTZ",
+                "fieldTimestampWithTZ",
+            ]);
 
             expect(result1).to.deep.equal({
                 id: 1,
@@ -81,8 +79,6 @@ describe("github issues > #1716 send timestamp to database without converting it
                 fieldTimestampWithoutTZ: toISOString("2018-03-07 14:00:00+05"),
                 fieldTimestampWithTZ: toISOString("2018-03-07 14:00:00+05"),
             });
-
-
 
             await manager.save(PgEntity, {
                 id: 2,
@@ -95,7 +91,11 @@ describe("github issues > #1716 send timestamp to database without converting it
             });
 
             const result2 = await manager.findOne(PgEntity, 2);
-            convertPropsToISOStrings(result2, ["fieldTimestamp", "fieldTimestampWithoutTZ", "fieldTimestampWithTZ"]);
+            convertPropsToISOStrings(result2, [
+                "fieldTimestamp",
+                "fieldTimestampWithoutTZ",
+                "fieldTimestampWithTZ",
+            ]);
 
             expect(result2).to.deep.equal({
                 id: 2,
@@ -106,15 +106,10 @@ describe("github issues > #1716 send timestamp to database without converting it
                 fieldTimestampWithoutTZ: toISOString("2018-03-07 17:00:00"),
                 fieldTimestampWithTZ: toISOString("2018-03-07 17:00:00"),
             });
-
         });
-
     });
 
-
-
     describe("mysql", async () => {
-
         if (!isDriverEnabled("mysql")) {
             return;
         }
@@ -126,20 +121,15 @@ describe("github issues > #1716 send timestamp to database without converting it
                 entities: [MysqlEntity],
                 schemaCreate: true,
                 dropSchema: true,
-                enabledDrivers: [
-                    "mysql"
-                ]
+                enabledDrivers: ["mysql"],
             });
         });
 
         beforeEach(() => reloadTestingDatabases(connections));
         after(() => closeTestingConnections(connections));
 
-
         it("should persist dates and times correctly", async () => {
-
             const manager = connections[0].manager;
-
 
             await manager.save(MysqlEntity, {
                 id: 1,
@@ -149,7 +139,10 @@ describe("github issues > #1716 send timestamp to database without converting it
             });
 
             const result1 = await manager.findOne(MysqlEntity, 1);
-            convertPropsToISOStrings(result1, ["fieldTimestamp", "fieldDatetime"]);
+            convertPropsToISOStrings(result1, [
+                "fieldTimestamp",
+                "fieldDatetime",
+            ]);
 
             expect(result1).to.deep.equal({
                 id: 1,
@@ -157,8 +150,6 @@ describe("github issues > #1716 send timestamp to database without converting it
                 fieldTimestamp: toISOString("2018-03-07 14:00:00+05"),
                 fieldDatetime: toISOString("2018-03-07 14:00:00+05"),
             });
-
-
 
             await manager.save(MysqlEntity, {
                 id: 2,
@@ -168,7 +159,10 @@ describe("github issues > #1716 send timestamp to database without converting it
             });
 
             const result2 = await manager.findOne(MysqlEntity, 2);
-            convertPropsToISOStrings(result2, ["fieldTimestamp", "fieldDatetime"]);
+            convertPropsToISOStrings(result2, [
+                "fieldTimestamp",
+                "fieldDatetime",
+            ]);
 
             expect(result2).to.deep.equal({
                 id: 2,
@@ -176,15 +170,10 @@ describe("github issues > #1716 send timestamp to database without converting it
                 fieldTimestamp: toISOString("2018-03-07 17:00:00"),
                 fieldDatetime: toISOString("2018-03-07 17:00:00"),
             });
-
         });
-
     });
 
-
-
     describe("mariadb", async () => {
-
         if (!isDriverEnabled("mariadb")) {
             return;
         }
@@ -196,20 +185,15 @@ describe("github issues > #1716 send timestamp to database without converting it
                 entities: [MariadbEntity],
                 schemaCreate: true,
                 dropSchema: true,
-                enabledDrivers: [
-                    "mariadb"
-                ]
+                enabledDrivers: ["mariadb"],
             });
         });
 
         beforeEach(() => reloadTestingDatabases(connections));
         after(() => closeTestingConnections(connections));
 
-
         it("should persist dates and times correctly", async () => {
-
             const manager = connections[0].manager;
-
 
             await manager.save(MariadbEntity, {
                 id: 1,
@@ -219,7 +203,10 @@ describe("github issues > #1716 send timestamp to database without converting it
             });
 
             const result1 = await manager.findOne(MariadbEntity, 1);
-            convertPropsToISOStrings(result1, ["fieldTimestamp", "fieldDatetime"]);
+            convertPropsToISOStrings(result1, [
+                "fieldTimestamp",
+                "fieldDatetime",
+            ]);
 
             expect(result1).to.deep.equal({
                 id: 1,
@@ -227,8 +214,6 @@ describe("github issues > #1716 send timestamp to database without converting it
                 fieldTimestamp: toISOString("2018-03-07 14:00:00+05"),
                 fieldDatetime: toISOString("2018-03-07 14:00:00+05"),
             });
-
-
 
             await manager.save(MariadbEntity, {
                 id: 2,
@@ -238,7 +223,10 @@ describe("github issues > #1716 send timestamp to database without converting it
             });
 
             const result2 = await manager.findOne(MariadbEntity, 2);
-            convertPropsToISOStrings(result2, ["fieldTimestamp", "fieldDatetime"]);
+            convertPropsToISOStrings(result2, [
+                "fieldTimestamp",
+                "fieldDatetime",
+            ]);
 
             expect(result2).to.deep.equal({
                 id: 2,
@@ -246,15 +234,10 @@ describe("github issues > #1716 send timestamp to database without converting it
                 fieldTimestamp: toISOString("2018-03-07 17:00:00"),
                 fieldDatetime: toISOString("2018-03-07 17:00:00"),
             });
-
         });
-
     });
 
-
-
     describe("mssql", async () => {
-
         if (!isDriverEnabled("mssql")) {
             return;
         }
@@ -266,20 +249,15 @@ describe("github issues > #1716 send timestamp to database without converting it
                 entities: [MssqlEntity],
                 schemaCreate: true,
                 dropSchema: true,
-                enabledDrivers: [
-                    "mssql"
-                ]
+                enabledDrivers: ["mssql"],
             });
         });
 
         beforeEach(() => reloadTestingDatabases(connections));
         after(() => closeTestingConnections(connections));
 
-
         it("should persist dates and times correctly", async () => {
-
             const manager = connections[0].manager;
-
 
             await manager.save(MssqlEntity, {
                 id: 1,
@@ -290,7 +268,11 @@ describe("github issues > #1716 send timestamp to database without converting it
             });
 
             const result1 = await manager.findOne(MssqlEntity, 1);
-            convertPropsToISOStrings(result1, ["fieldDatetime", "fieldDatetime2", "fieldDatetimeoffset"]);
+            convertPropsToISOStrings(result1, [
+                "fieldDatetime",
+                "fieldDatetime2",
+                "fieldDatetimeoffset",
+            ]);
 
             expect(result1).to.deep.equal({
                 id: 1,
@@ -299,8 +281,6 @@ describe("github issues > #1716 send timestamp to database without converting it
                 fieldDatetime2: toISOString("2018-03-07 14:00:00+05"),
                 fieldDatetimeoffset: toISOString("2018-03-07 14:00:00+05"),
             });
-
-
 
             await manager.save(MssqlEntity, {
                 id: 2,
@@ -311,7 +291,11 @@ describe("github issues > #1716 send timestamp to database without converting it
             });
 
             const result2 = await manager.findOne(MssqlEntity, 2);
-            convertPropsToISOStrings(result2, ["fieldDatetime", "fieldDatetime2", "fieldDatetimeoffset"]);
+            convertPropsToISOStrings(result2, [
+                "fieldDatetime",
+                "fieldDatetime2",
+                "fieldDatetimeoffset",
+            ]);
 
             expect(result2).to.deep.equal({
                 id: 2,
@@ -320,9 +304,6 @@ describe("github issues > #1716 send timestamp to database without converting it
                 fieldDatetime2: toISOString("2018-03-07 17:00:00"),
                 fieldDatetimeoffset: toISOString("2018-03-07 17:00:00"),
             });
-
         });
-
     });
-
 });

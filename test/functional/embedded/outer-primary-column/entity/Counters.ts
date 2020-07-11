@@ -1,8 +1,7 @@
-import {Column} from "../../../../../src/decorator/columns/Column";
-import {PrimaryColumn} from "../../../../../src/decorator/columns/PrimaryColumn";
+import { Column } from "../../../../../src/decorator/columns/Column";
+import { PrimaryColumn } from "../../../../../src/decorator/columns/PrimaryColumn";
 
 export class Counters {
-
     @PrimaryColumn()
     code: number;
 
@@ -14,5 +13,4 @@ export class Counters {
 
     @Column()
     favorites: number;
-
 }

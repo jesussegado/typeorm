@@ -9,7 +9,7 @@ export class Chapter {
     @Column()
     title: string;
 
-    @Column(type => Page)
+    @Column((type) => Page)
     pages: Page[];
 }
 
@@ -21,6 +21,6 @@ export class Book {
     @Column()
     title: string;
 
-    @Column(type => Chapter)
+    @Column((type) => Chapter)
     chapters: Chapter[];
 }

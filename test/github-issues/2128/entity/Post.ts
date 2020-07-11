@@ -2,7 +2,6 @@ import { PrimaryGeneratedColumn, Entity, Column } from "../../../../src";
 
 @Entity()
 export class Post {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -10,8 +9,7 @@ export class Post {
     title: string;
 
     @Column({
-        type: "json"
+        type: "json",
     })
     meta: any;
-
 }

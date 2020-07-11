@@ -8,7 +8,7 @@ describe("github issues > #4878 URL Connection string not overridden by supplied
             password: "password",
             host: "host",
             database: "database",
-            port: 8888
+            port: 8888,
         };
 
         const url = `postgres://url_user:${obj.password}@${obj.host}:${obj.port}/${obj.database}`;

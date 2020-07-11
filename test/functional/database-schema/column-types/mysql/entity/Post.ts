@@ -1,11 +1,10 @@
-import {Entity} from "../../../../../../src/decorator/entity/Entity";
-import {PrimaryColumn} from "../../../../../../src/decorator/columns/PrimaryColumn";
-import {Column} from "../../../../../../src/decorator/columns/Column";
-import {FruitEnum} from "../enum/FruitEnum";
+import { Entity } from "../../../../../../src/decorator/entity/Entity";
+import { PrimaryColumn } from "../../../../../../src/decorator/columns/PrimaryColumn";
+import { Column } from "../../../../../../src/decorator/columns/Column";
+import { FruitEnum } from "../enum/FruitEnum";
 
 @Entity()
 export class Post {
-
     // -------------------------------------------------------------------------
     // Numeric Types
     // -------------------------------------------------------------------------

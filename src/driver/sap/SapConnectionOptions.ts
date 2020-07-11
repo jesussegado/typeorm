@@ -1,11 +1,12 @@
-import {BaseConnectionOptions} from "../../connection/BaseConnectionOptions";
-import {SapConnectionCredentialsOptions} from "./SapConnectionCredentialsOptions";
+import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
+import { SapConnectionCredentialsOptions } from "./SapConnectionCredentialsOptions";
 
 /**
  * SAP Hana specific connection options.
  */
-export interface SapConnectionOptions extends BaseConnectionOptions, SapConnectionCredentialsOptions {
-
+export interface SapConnectionOptions
+    extends BaseConnectionOptions,
+        SapConnectionCredentialsOptions {
     /**
      * Database type.
      */
@@ -20,40 +21,37 @@ export interface SapConnectionOptions extends BaseConnectionOptions, SapConnecti
      * Pool options.
      */
     readonly pool?: {
-
         /**
-        * Max number of connections.
-        */
+         * Max number of connections.
+         */
         readonly max?: number;
 
         /**
-        * Minimum number of connections.
-        */
+         * Minimum number of connections.
+         */
         readonly min?: number;
 
         /**
-        * Maximum number of waiting requests allowed. (default=0, no limit).
-        */
-       readonly maxWaitingRequests?: number;
-       /**
-        * Max milliseconds a request will wait for a resource before timing out. (default=5000)
-        */
-       readonly requestTimeout?: number;
-       /**
-        * How often to run resource timeout checks. (default=0, disabled)
-        */
-       readonly checkInterval?: number;
-       /**
-        * Idle timeout
-        */
-       readonly idleTimeout?: number;
+         * Maximum number of waiting requests allowed. (default=0, no limit).
+         */
+        readonly maxWaitingRequests?: number;
+        /**
+         * Max milliseconds a request will wait for a resource before timing out. (default=5000)
+         */
+        readonly requestTimeout?: number;
+        /**
+         * How often to run resource timeout checks. (default=0, disabled)
+         */
+        readonly checkInterval?: number;
+        /**
+         * Idle timeout
+         */
+        readonly idleTimeout?: number;
 
         /**
-        * Function handling errors thrown by drivers pool.
-        * Defaults to logging error with `warn` level.
-        */
+         * Function handling errors thrown by drivers pool.
+         * Defaults to logging error with `warn` level.
+         */
         readonly poolErrorHandler?: (err: any) => any;
-
     };
-
 }

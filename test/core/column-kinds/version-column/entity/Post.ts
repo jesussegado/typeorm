@@ -1,8 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, VersionColumn } from "../../../../../src";
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    VersionColumn,
+} from "../../../../../src";
 
 @Entity()
 export class Post {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -11,5 +15,4 @@ export class Post {
 
     @VersionColumn()
     version: number;
-
 }

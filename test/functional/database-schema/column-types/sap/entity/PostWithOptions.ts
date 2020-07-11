@@ -1,10 +1,9 @@
-import {Entity} from "../../../../../../src";
-import {PrimaryColumn} from "../../../../../../src";
-import {Column} from "../../../../../../src";
+import { Entity } from "../../../../../../src";
+import { PrimaryColumn } from "../../../../../../src";
+import { Column } from "../../../../../../src";
 
 @Entity()
 export class PostWithOptions {
-
     @PrimaryColumn()
     id: number;
 
@@ -33,5 +32,4 @@ export class PostWithOptions {
 
     @Column("shorttext", { length: 50 })
     shorttext: string;
-
 }

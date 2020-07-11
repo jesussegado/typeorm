@@ -1,12 +1,17 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "../../../../src/index";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from "../../../../src/index";
 
 @Entity({
     orderBy: {
         updatedDate: "DESC",
-    }
+    },
 })
 export class Post {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -18,5 +23,4 @@ export class Post {
 
     @UpdateDateColumn()
     updatedDate: Date;
-
 }

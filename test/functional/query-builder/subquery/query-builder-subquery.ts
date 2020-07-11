@@ -1,21 +1,27 @@
 import "reflect-metadata";
-import {CockroachDriver} from "../../../../src/driver/cockroachdb/CockroachDriver";
-import {closeTestingConnections, createTestingConnections, reloadTestingDatabases} from "../../../utils/test-utils";
-import {Connection} from "../../../../src/connection/Connection";
-import {User} from "./entity/User";
-import {Post} from "./entity/Post";
-import {Category} from "./entity/Category";
+import { CockroachDriver } from "../../../../src/driver/cockroachdb/CockroachDriver";
+import {
+    closeTestingConnections,
+    createTestingConnections,
+    reloadTestingDatabases,
+} from "../../../utils/test-utils";
+import { Connection } from "../../../../src/connection/Connection";
+import { User } from "./entity/User";
+import { Post } from "./entity/Post";
+import { Category } from "./entity/Category";
 
 describe("query builder > sub-query", () => {
-
     // -------------------------------------------------------------------------
     // Prepare
     // -------------------------------------------------------------------------
 
     let connections: Connection[];
-    before(async () => connections = await createTestingConnections({
-        entities: [__dirname + "/entity/*{.js,.ts}"],
-    }));
+    before(
+        async () =>
+            (connections = await createTestingConnections({
+                entities: [__dirname + "/entity/*{.js,.ts}"],
+            }))
+    );
     beforeEach(() => reloadTestingDatabases(connections));
     after(() => closeTestingConnections(connections));
 
@@ -24,7 +30,6 @@ describe("query builder > sub-query", () => {
     // -------------------------------------------------------------------------
 
     async function prepare(connection: Connection) {
-
         const user1 = new User();
         user1.name = "Alex Messer";
         user1.registered = true;
@@ -67,329 +72,445 @@ describe("query builder > sub-query", () => {
     // Specifications
     // -------------------------------------------------------------------------
 
-    it("should execute sub query in where string using subQuery method", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
+    it("should execute sub query in where string using subQuery method", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
 
-        const qb = await connection.getRepository(Post).createQueryBuilder("post");
-        const posts = await qb
-            .where("post.title IN " + qb.subQuery().select("usr.name").from(User, "usr").where("usr.registered = :registered").getQuery())
-            .setParameter("registered", true)
-            .orderBy("post.id")
-            .getMany();
+                const qb = await connection
+                    .getRepository(Post)
+                    .createQueryBuilder("post");
+                const posts = await qb
+                    .where(
+                        "post.title IN " +
+                            qb
+                                .subQuery()
+                                .select("usr.name")
+                                .from(User, "usr")
+                                .where("usr.registered = :registered")
+                                .getQuery()
+                    )
+                    .setParameter("registered", true)
+                    .orderBy("post.id")
+                    .getMany();
 
-        posts.should.be.eql([
-            { id: 1, title: "Alex Messer" },
-            { id: 2, title: "Dima Zotov" },
-        ]);
-    })));
-
-    it("should execute sub query in where function using subQuery method", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
-
-        const posts = await connection.getRepository(Post)
-            .createQueryBuilder("post")
-            .where(qb => {
-                const subQuery = qb.subQuery()
-                    .select("usr.name")
-                    .from(User, "usr")
-                    .where("usr.registered = :registered")
-                    .getQuery();
-                return "post.title IN " + subQuery;
+                posts.should.be.eql([
+                    { id: 1, title: "Alex Messer" },
+                    { id: 2, title: "Dima Zotov" },
+                ]);
             })
-            .setParameter("registered", true)
-            .orderBy("post.id")
-            .getMany();
+        ));
 
-        posts.should.be.eql([
-            { id: 1, title: "Alex Messer" },
-            { id: 2, title: "Dima Zotov" },
-        ]);
-    })));
+    it("should execute sub query in where function using subQuery method", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
 
-    it("should execute sub query in where function using subQuery method", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
+                const posts = await connection
+                    .getRepository(Post)
+                    .createQueryBuilder("post")
+                    .where((qb) => {
+                        const subQuery = qb
+                            .subQuery()
+                            .select("usr.name")
+                            .from(User, "usr")
+                            .where("usr.registered = :registered")
+                            .getQuery();
+                        return "post.title IN " + subQuery;
+                    })
+                    .setParameter("registered", true)
+                    .orderBy("post.id")
+                    .getMany();
 
-        const posts = await connection.getRepository(Post)
-            .createQueryBuilder("post")
-            .where(qb => {
-                const subQuery = qb.subQuery()
-                    .select("usr.name")
-                    .from(User, "usr")
-                    .where("usr.registered = :registered")
-                    .getQuery();
-                return "post.title IN " + subQuery;
+                posts.should.be.eql([
+                    { id: 1, title: "Alex Messer" },
+                    { id: 2, title: "Dima Zotov" },
+                ]);
             })
-            .setParameter("registered", true)
-            .orderBy("post.id")
-            .getMany();
+        ));
 
-        posts.should.be.eql([
-            { id: 1, title: "Alex Messer" },
-            { id: 2, title: "Dima Zotov" },
-        ]);
-    })));
+    it("should execute sub query in where function using subQuery method", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
 
-    it("should execute sub query using different query builder", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
+                const posts = await connection
+                    .getRepository(Post)
+                    .createQueryBuilder("post")
+                    .where((qb) => {
+                        const subQuery = qb
+                            .subQuery()
+                            .select("usr.name")
+                            .from(User, "usr")
+                            .where("usr.registered = :registered")
+                            .getQuery();
+                        return "post.title IN " + subQuery;
+                    })
+                    .setParameter("registered", true)
+                    .orderBy("post.id")
+                    .getMany();
 
-        const userQb = await connection.getRepository(User)
-            .createQueryBuilder("usr")
-            .select("usr.name")
-            .where("usr.registered = :registered", { registered: true });
+                posts.should.be.eql([
+                    { id: 1, title: "Alex Messer" },
+                    { id: 2, title: "Dima Zotov" },
+                ]);
+            })
+        ));
 
-        const posts = await connection.getRepository(Post)
-            .createQueryBuilder("post")
-            .where("post.title IN (" + userQb.getQuery() + ")")
-            .setParameters(userQb.getParameters())
-            .orderBy("post.id")
-            .getMany();
+    it("should execute sub query using different query builder", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
 
-        posts.should.be.eql([
-            { id: 1, title: "Alex Messer" },
-            { id: 2, title: "Dima Zotov" },
-        ]);
-    })));
+                const userQb = await connection
+                    .getRepository(User)
+                    .createQueryBuilder("usr")
+                    .select("usr.name")
+                    .where("usr.registered = :registered", {
+                        registered: true,
+                    });
 
-    it("should execute sub query in from expression (using different query builder)", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
+                const posts = await connection
+                    .getRepository(Post)
+                    .createQueryBuilder("post")
+                    .where("post.title IN (" + userQb.getQuery() + ")")
+                    .setParameters(userQb.getParameters())
+                    .orderBy("post.id")
+                    .getMany();
 
-        const userQb = await connection.getRepository(User)
-            .createQueryBuilder("usr")
-            .select("usr.name", "name")
-            .where("usr.registered = :registered", { registered: true });
+                posts.should.be.eql([
+                    { id: 1, title: "Alex Messer" },
+                    { id: 2, title: "Dima Zotov" },
+                ]);
+            })
+        ));
 
-        const posts = await connection
-            .createQueryBuilder()
-            .select(`${connection.driver.escape("usr")}.${connection.driver.escape("name")}`, "name")
-            .from("(" + userQb.getQuery() + ")", "usr")
-            .setParameters(userQb.getParameters())
-            .getRawMany();
+    it("should execute sub query in from expression (using different query builder)", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
 
-        posts.should.be.eql([
-            { name: "Alex Messer" },
-            { name: "Dima Zotov" },
-        ]);
-    })));
+                const userQb = await connection
+                    .getRepository(User)
+                    .createQueryBuilder("usr")
+                    .select("usr.name", "name")
+                    .where("usr.registered = :registered", {
+                        registered: true,
+                    });
 
-    it("should execute sub query in from expression (using from's query builder)", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
+                const posts = await connection
+                    .createQueryBuilder()
+                    .select(
+                        `${connection.driver.escape(
+                            "usr"
+                        )}.${connection.driver.escape("name")}`,
+                        "name"
+                    )
+                    .from("(" + userQb.getQuery() + ")", "usr")
+                    .setParameters(userQb.getParameters())
+                    .getRawMany();
 
-        const userQb = await connection.getRepository(User)
-            .createQueryBuilder("usr")
-            .select("usr.name", "name")
-            .where("usr.registered = :registered", { registered: true });
+                posts.should.be.eql([
+                    { name: "Alex Messer" },
+                    { name: "Dima Zotov" },
+                ]);
+            })
+        ));
 
-        const posts = await connection
-            .createQueryBuilder()
-            .select(`${connection.driver.escape("usr")}.${connection.driver.escape("name")}`, "name")
-            .from(subQuery => {
-                return subQuery
+    it("should execute sub query in from expression (using from's query builder)", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
+
+                const userQb = await connection
+                    .getRepository(User)
+                    .createQueryBuilder("usr")
+                    .select("usr.name", "name")
+                    .where("usr.registered = :registered", {
+                        registered: true,
+                    });
+
+                const posts = await connection
+                    .createQueryBuilder()
+                    .select(
+                        `${connection.driver.escape(
+                            "usr"
+                        )}.${connection.driver.escape("name")}`,
+                        "name"
+                    )
+                    .from((subQuery) => {
+                        return subQuery
+                            .select("usr.name", "name")
+                            .from(User, "usr")
+                            .where("usr.registered = :registered", {
+                                registered: true,
+                            });
+                    }, "usr")
+                    .setParameters(userQb.getParameters())
+                    .getRawMany();
+
+                posts.should.be.eql([
+                    { name: "Alex Messer" },
+                    { name: "Dima Zotov" },
+                ]);
+            })
+        ));
+
+    it("should execute sub query in from expression (using from's query builder)", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
+
+                const userQb = await connection
+                    .getRepository(User)
+                    .createQueryBuilder("usr")
+                    .select("usr.name", "name")
+                    .where("usr.registered = :registered", {
+                        registered: true,
+                    });
+
+                const posts = await connection
+                    .createQueryBuilder()
+                    .select(
+                        `${connection.driver.escape(
+                            "usr"
+                        )}.${connection.driver.escape("name")}`,
+                        "name"
+                    )
+                    .from((subQuery) => {
+                        return subQuery
+                            .select("usr.name", "name")
+                            .from(User, "usr")
+                            .where("usr.registered = :registered", {
+                                registered: true,
+                            });
+                    }, "usr")
+                    .setParameters(userQb.getParameters())
+                    .getRawMany();
+
+                posts.should.be.eql([
+                    { name: "Alex Messer" },
+                    { name: "Dima Zotov" },
+                ]);
+            })
+        ));
+
+    it("should execute sub query in from expression as second from expression", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
+
+                const posts = await connection
+                    .createQueryBuilder()
+                    .select("post")
+                    .from(Post, "post")
+                    .addFrom((subQuery) => {
+                        return subQuery
+                            .select("usr.name", "name")
+                            .from(User, "usr")
+                            .where("usr.registered = :registered", {
+                                registered: true,
+                            });
+                    }, "usr")
+                    .where(
+                        `${connection.driver.escape(
+                            "post"
+                        )}.${connection.driver.escape(
+                            "title"
+                        )} = ${connection.driver.escape(
+                            "usr"
+                        )}.${connection.driver.escape("name")}`
+                    )
+                    .orderBy("post.id")
+                    .getMany();
+
+                posts.should.be.eql([
+                    { id: 1, title: "Alex Messer" },
+                    { id: 2, title: "Dima Zotov" },
+                ]);
+            })
+        ));
+
+    it("should execute sub query in selects", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
+
+                const subQuery = connection
+                    .createQueryBuilder()
                     .select("usr.name", "name")
                     .from(User, "usr")
-                    .where("usr.registered = :registered", { registered: true });
-            }, "usr")
-            .setParameters(userQb.getParameters())
-            .getRawMany();
-
-        posts.should.be.eql([
-            { name: "Alex Messer" },
-            { name: "Dima Zotov" },
-        ]);
-    })));
-
-    it("should execute sub query in from expression (using from's query builder)", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
-
-        const userQb = await connection.getRepository(User)
-            .createQueryBuilder("usr")
-            .select("usr.name", "name")
-            .where("usr.registered = :registered", { registered: true });
-
-        const posts = await connection
-            .createQueryBuilder()
-            .select(`${connection.driver.escape("usr")}.${connection.driver.escape("name")}`, "name")
-            .from(subQuery => {
-                return subQuery
-                    .select("usr.name", "name")
-                    .from(User, "usr")
-                    .where("usr.registered = :registered", { registered: true });
-            }, "usr")
-            .setParameters(userQb.getParameters())
-            .getRawMany();
-
-        posts.should.be.eql([
-            { name: "Alex Messer" },
-            { name: "Dima Zotov" },
-        ]);
-    })));
-
-    it("should execute sub query in from expression as second from expression", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
-
-        const posts = await connection
-            .createQueryBuilder()
-            .select("post")
-            .from(Post, "post")
-            .addFrom(subQuery => {
-                return subQuery
-                    .select("usr.name", "name")
-                    .from(User, "usr")
-                    .where("usr.registered = :registered", { registered: true });
-            }, "usr")
-            .where(`${connection.driver.escape("post")}.${connection.driver.escape("title")} = ${connection.driver.escape("usr")}.${connection.driver.escape("name")}`)
-            .orderBy("post.id")
-            .getMany();
-
-        posts.should.be.eql([
-            { id: 1, title: "Alex Messer" },
-            { id: 2, title: "Dima Zotov" },
-        ]);
-    })));
-
-    it("should execute sub query in selects", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
-
-        const subQuery = connection
-            .createQueryBuilder()
-            .select("usr.name", "name")
-            .from(User, "usr")
-            .limit(1)
-            .orderBy("usr.name")
-            .getQuery();
-
-        const posts = await connection
-            .createQueryBuilder()
-            .select("post.id", "id")
-            .addSelect(`(${subQuery})`, "name")
-            .from(Post, "post")
-            .orderBy("post.id")
-            .getRawMany();
-
-        // CockroachDB returns numeric data types as string
-        if (connection.driver instanceof CockroachDriver) {
-            posts.should.be.eql([
-                { id: "1", name: "Alex Messer" },
-                { id: "2", name: "Alex Messer" },
-                { id: "3", name: "Alex Messer" },
-            ]);
-
-        } else {
-            posts.should.be.eql([
-                { id: 1, name: "Alex Messer" },
-                { id: 2, name: "Alex Messer" },
-                { id: 3, name: "Alex Messer" },
-            ]);
-        }
-    })));
-
-    it("should execute sub query in selects (using provided sub query builder)", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
-
-        const posts = await connection
-            .createQueryBuilder()
-            .select("post.id", "id")
-            .addSelect(subQuery => {
-                return subQuery
-                    .select("usr.name", "name")
-                    .from(User, "usr")
+                    .limit(1)
                     .orderBy("usr.name")
-                    .limit(1);
-            }, "name")
-            .from(Post, "post")
-            .orderBy("post.id")
-            .getRawMany();
+                    .getQuery();
 
-        // CockroachDB returns numeric data types as string
-        if (connection.driver instanceof CockroachDriver) {
-            posts.should.be.eql([
-                { id: "1", name: "Alex Messer" },
-                { id: "2", name: "Alex Messer" },
-                { id: "3", name: "Alex Messer" },
-            ]);
+                const posts = await connection
+                    .createQueryBuilder()
+                    .select("post.id", "id")
+                    .addSelect(`(${subQuery})`, "name")
+                    .from(Post, "post")
+                    .orderBy("post.id")
+                    .getRawMany();
 
-        } else {
-            posts.should.be.eql([
-                { id: 1, name: "Alex Messer" },
-                { id: 2, name: "Alex Messer" },
-                { id: 3, name: "Alex Messer" },
-            ]);
-        }
-    })));
+                // CockroachDB returns numeric data types as string
+                if (connection.driver instanceof CockroachDriver) {
+                    posts.should.be.eql([
+                        { id: "1", name: "Alex Messer" },
+                        { id: "2", name: "Alex Messer" },
+                        { id: "3", name: "Alex Messer" },
+                    ]);
+                } else {
+                    posts.should.be.eql([
+                        { id: 1, name: "Alex Messer" },
+                        { id: 2, name: "Alex Messer" },
+                        { id: 3, name: "Alex Messer" },
+                    ]);
+                }
+            })
+        ));
 
-    it("should execute sub query in joins (using provided sub query builder)", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
+    it("should execute sub query in selects (using provided sub query builder)", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
 
-        const subQuery = connection
-            .createQueryBuilder()
-            .select("usr.name", "name")
-            .from(User, "usr")
-            .getQuery();
+                const posts = await connection
+                    .createQueryBuilder()
+                    .select("post.id", "id")
+                    .addSelect((subQuery) => {
+                        return subQuery
+                            .select("usr.name", "name")
+                            .from(User, "usr")
+                            .orderBy("usr.name")
+                            .limit(1);
+                    }, "name")
+                    .from(Post, "post")
+                    .orderBy("post.id")
+                    .getRawMany();
 
-        const posts = await connection
-            .getRepository(Post)
-            .createQueryBuilder("post")
-            .innerJoin("post.categories", "category", `${connection.driver.escape("category")}.${connection.driver.escape("name")} IN (${subQuery})`)
-            .orderBy("post.id")
-            .getMany();
+                // CockroachDB returns numeric data types as string
+                if (connection.driver instanceof CockroachDriver) {
+                    posts.should.be.eql([
+                        { id: "1", name: "Alex Messer" },
+                        { id: "2", name: "Alex Messer" },
+                        { id: "3", name: "Alex Messer" },
+                    ]);
+                } else {
+                    posts.should.be.eql([
+                        { id: 1, name: "Alex Messer" },
+                        { id: 2, name: "Alex Messer" },
+                        { id: 3, name: "Alex Messer" },
+                    ]);
+                }
+            })
+        ));
 
-        posts.should.be.eql([
-            { id: 1, title: "Alex Messer" },
-            { id: 2, title: "Dima Zotov" },
-        ]);
-    })));
+    it("should execute sub query in joins (using provided sub query builder)", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
 
-    it("should execute sub query in joins with subquery factory (as selection)", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
+                const subQuery = connection
+                    .createQueryBuilder()
+                    .select("usr.name", "name")
+                    .from(User, "usr")
+                    .getQuery();
 
-        const joinConditionSubQuery = connection
-            .createQueryBuilder()
-            .select("usr.name", "name")
-            .from(User, "usr")
-            .getQuery();
+                const posts = await connection
+                    .getRepository(Post)
+                    .createQueryBuilder("post")
+                    .innerJoin(
+                        "post.categories",
+                        "category",
+                        `${connection.driver.escape(
+                            "category"
+                        )}.${connection.driver.escape("name")} IN (${subQuery})`
+                    )
+                    .orderBy("post.id")
+                    .getMany();
 
-        const posts = await connection
-            .getRepository(Post)
-            .createQueryBuilder("post")
-            .innerJoin(subQuery => {
-                return subQuery.select().from("category", "category");
-            }, "category", `${connection.driver.escape("category")}.${connection.driver.escape("name")} IN (${joinConditionSubQuery})`)
-            .orderBy("post.id")
-            .getMany();
+                posts.should.be.eql([
+                    { id: 1, title: "Alex Messer" },
+                    { id: 2, title: "Dima Zotov" },
+                ]);
+            })
+        ));
 
-        posts.should.be.eql([
-            { id: 1, title: "Alex Messer" },
-            { id: 2, title: "Dima Zotov" },
-            { id: 3, title: "Umed Khudoiberdiev" },
-        ]);
-    })));
+    it("should execute sub query in joins with subquery factory (as selection)", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
 
-    it("should execute sub query in joins as string (as selection)", () => Promise.all(connections.map(async connection => {
-        await prepare(connection);
+                const joinConditionSubQuery = connection
+                    .createQueryBuilder()
+                    .select("usr.name", "name")
+                    .from(User, "usr")
+                    .getQuery();
 
-        const joinConditionSubQuery = connection
-            .createQueryBuilder()
-            .select("usr.name", "name")
-            .from(User, "usr")
-            .getQuery();
+                const posts = await connection
+                    .getRepository(Post)
+                    .createQueryBuilder("post")
+                    .innerJoin(
+                        (subQuery) => {
+                            return subQuery
+                                .select()
+                                .from("category", "category");
+                        },
+                        "category",
+                        `${connection.driver.escape(
+                            "category"
+                        )}.${connection.driver.escape(
+                            "name"
+                        )} IN (${joinConditionSubQuery})`
+                    )
+                    .orderBy("post.id")
+                    .getMany();
 
-        const joinSubQuery = connection
-            .createQueryBuilder()
-            .select()
-            .from("category", "category")
-            .getQuery();
+                posts.should.be.eql([
+                    { id: 1, title: "Alex Messer" },
+                    { id: 2, title: "Dima Zotov" },
+                    { id: 3, title: "Umed Khudoiberdiev" },
+                ]);
+            })
+        ));
 
-        const posts = await connection
-            .getRepository(Post)
-            .createQueryBuilder("post")
-            .innerJoin("(" + joinSubQuery + ")", "category", `${connection.driver.escape("category")}.${connection.driver.escape("name")} IN (${joinConditionSubQuery})`)
-            .orderBy("post.id")
-            .getMany();
+    it("should execute sub query in joins as string (as selection)", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepare(connection);
 
-        posts.should.be.eql([
-            { id: 1, title: "Alex Messer" },
-            { id: 2, title: "Dima Zotov" },
-            { id: 3, title: "Umed Khudoiberdiev" },
-        ]);
-    })));
+                const joinConditionSubQuery = connection
+                    .createQueryBuilder()
+                    .select("usr.name", "name")
+                    .from(User, "usr")
+                    .getQuery();
 
+                const joinSubQuery = connection
+                    .createQueryBuilder()
+                    .select()
+                    .from("category", "category")
+                    .getQuery();
+
+                const posts = await connection
+                    .getRepository(Post)
+                    .createQueryBuilder("post")
+                    .innerJoin(
+                        "(" + joinSubQuery + ")",
+                        "category",
+                        `${connection.driver.escape(
+                            "category"
+                        )}.${connection.driver.escape(
+                            "name"
+                        )} IN (${joinConditionSubQuery})`
+                    )
+                    .orderBy("post.id")
+                    .getMany();
+
+                posts.should.be.eql([
+                    { id: 1, title: "Alex Messer" },
+                    { id: 2, title: "Dima Zotov" },
+                    { id: 3, title: "Umed Khudoiberdiev" },
+                ]);
+            })
+        ));
 });

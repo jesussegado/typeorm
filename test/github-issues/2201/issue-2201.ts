@@ -1,22 +1,28 @@
-import {expect} from "chai";
-import {closeTestingConnections, createTestingConnections} from "../../utils/test-utils";
-import {RecordContext} from "./entity/ver2/context";
-import {Record} from "./entity/ver2/record";
-import {User} from "./entity/ver2/user";
+import { expect } from "chai";
+import {
+    closeTestingConnections,
+    createTestingConnections,
+} from "../../utils/test-utils";
+import { RecordContext } from "./entity/ver2/context";
+import { Record } from "./entity/ver2/record";
+import { User } from "./entity/ver2/user";
 
 describe("github issues > #2201 - Create a select query when using a (custom) junction table", () => {
-
     it("Should create only two PM columns ('order_id' and 'user_id')", async () => {
         const connections = await createTestingConnections({
             entities: [__dirname + "/entity/ver1/*{.js,.ts}"],
             schemaCreate: true,
-            dropSchema: true
+            dropSchema: true,
         });
         if (!connections.length) return;
 
-        const contextMetadata = connections[0].entityMetadatas.find(metadata => metadata.name === "RecordContext")!;
+        const contextMetadata = connections[0].entityMetadatas.find(
+            (metadata) => metadata.name === "RecordContext"
+        )!;
         const expectedColumnNames = ["record_id", "meta", "user_id"];
-        const existingColumnNames = contextMetadata.columns.map(col => col.databaseName);
+        const existingColumnNames = contextMetadata.columns.map(
+            (col) => col.databaseName
+        );
 
         expect(existingColumnNames.length).to.eql(expectedColumnNames.length);
         expect(existingColumnNames).have.members(expectedColumnNames);
@@ -48,12 +54,11 @@ describe("github issues > #2201 - Create a select query when using a (custom) ju
             record,
             userId: user.id,
             recordId: record.id,
-            meta: { name: "meta name", description: "meta description" }
+            meta: { name: "meta name", description: "meta description" },
         } as RecordContext);
         await context.save();
 
-        const query = Record
-            .createQueryBuilder("record")
+        const query = Record.createQueryBuilder("record")
             .leftJoinAndSelect("record.contexts", "context")
             .where("record.id = :recordId", { recordId: record.id });
 

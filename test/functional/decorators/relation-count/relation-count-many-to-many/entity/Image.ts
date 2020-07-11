@@ -1,13 +1,12 @@
-import {PrimaryColumn} from "../../../../../../src/decorator/columns/PrimaryColumn";
-import {Entity} from "../../../../../../src/decorator/entity/Entity";
-import {Column} from "../../../../../../src/decorator/columns/Column";
-import {ManyToMany} from "../../../../../../src/decorator/relations/ManyToMany";
-import {RelationCount} from "../../../../../../src/decorator/relations/RelationCount";
-import {Category} from "./Category";
+import { PrimaryColumn } from "../../../../../../src/decorator/columns/PrimaryColumn";
+import { Entity } from "../../../../../../src/decorator/entity/Entity";
+import { Column } from "../../../../../../src/decorator/columns/Column";
+import { ManyToMany } from "../../../../../../src/decorator/relations/ManyToMany";
+import { RelationCount } from "../../../../../../src/decorator/relations/RelationCount";
+import { Category } from "./Category";
 
 @Entity()
 export class Image {
-
     @PrimaryColumn()
     id: number;
 
@@ -17,10 +16,9 @@ export class Image {
     @Column()
     isRemoved: boolean = false;
 
-    @ManyToMany(type => Category, category => category.images)
+    @ManyToMany((type) => Category, (category) => category.images)
     categories: Category[];
 
     @RelationCount((image: Image) => image.categories)
     categoryCount: number;
-
 }

@@ -1,11 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "../../../../src";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    OneToOne,
+} from "../../../../src";
 import { SessionSettings } from "./SessionSettings";
 
 @Entity({
-    name: "Sessions"
+    name: "Sessions",
 })
 export class Session {
-
     @PrimaryGeneratedColumn()
     id?: number;
 
@@ -13,10 +17,13 @@ export class Session {
     title: string;
 
     @Column({
-        nullable: true
+        nullable: true,
     })
     description?: string;
 
-    @OneToOne(type => SessionSettings, sessionSettings => sessionSettings.session)
+    @OneToOne(
+        (type) => SessionSettings,
+        (sessionSettings) => sessionSettings.session
+    )
     settings: SessionSettings;
 }

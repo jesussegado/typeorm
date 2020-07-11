@@ -2,7 +2,6 @@ import { PrimaryColumn, Entity, Column } from "../../../../src";
 
 @Entity()
 export class MssqlEntity {
-
     @PrimaryColumn()
     id: number;
 
@@ -17,5 +16,4 @@ export class MssqlEntity {
 
     @Column("datetimeoffset")
     fieldDatetimeoffset: Date;
-
 }

@@ -5,7 +5,6 @@ import { ObjectID } from "../../../../../../src/driver/mongodb/typings";
 
 @Entity()
 export class PostWithUnderscoreId {
-
     @ObjectIdColumn()
     _id: ObjectID;
 

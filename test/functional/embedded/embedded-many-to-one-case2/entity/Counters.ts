@@ -1,10 +1,9 @@
-import {Column} from "../../../../../src/decorator/columns/Column";
-import {OneToMany} from "../../../../../src/decorator/relations/OneToMany";
-import {User} from "./User";
-import {Subcounters} from "./Subcounters";
+import { Column } from "../../../../../src/decorator/columns/Column";
+import { OneToMany } from "../../../../../src/decorator/relations/OneToMany";
+import { User } from "./User";
+import { Subcounters } from "./Subcounters";
 
 export class Counters {
-
     @Column()
     code: number;
 
@@ -20,7 +19,6 @@ export class Counters {
     @Column(() => Subcounters, { prefix: "subcnt" })
     subcounters: Subcounters;
 
-    @OneToMany(type => User, user => user.likedPost)
+    @OneToMany((type) => User, (user) => user.likedPost)
     likedUsers: User[];
-
 }

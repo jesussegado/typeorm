@@ -1,11 +1,10 @@
-import {IndexMetadata} from "../../metadata/IndexMetadata";
-import {TableIndexOptions} from "../options/TableIndexOptions";
+import { IndexMetadata } from "../../metadata/IndexMetadata";
+import { TableIndexOptions } from "../options/TableIndexOptions";
 
 /**
  * Database's table index stored in this class.
  */
 export class TableIndex {
-
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -77,7 +76,7 @@ export class TableIndex {
             isSpatial: this.isSpatial,
             isFulltext: this.isFulltext,
             parser: this.parser,
-            where: this.where
+            where: this.where,
         });
     }
 
@@ -91,13 +90,14 @@ export class TableIndex {
     static create(indexMetadata: IndexMetadata): TableIndex {
         return new TableIndex(<TableIndexOptions>{
             name: indexMetadata.name,
-            columnNames: indexMetadata.columns.map(column => column.databaseName),
+            columnNames: indexMetadata.columns.map(
+                (column) => column.databaseName
+            ),
             isUnique: indexMetadata.isUnique,
             isSpatial: indexMetadata.isSpatial,
             isFulltext: indexMetadata.isFulltext,
             parser: indexMetadata.parser,
-            where: indexMetadata.where
+            where: indexMetadata.where,
         });
     }
-
 }

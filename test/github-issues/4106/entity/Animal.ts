@@ -6,7 +6,6 @@ import { Gender } from "./GenderEnum";
 
 @Entity()
 export class Animal {
-
     @PrimaryColumn()
     id: number;
 
@@ -16,11 +15,10 @@ export class Animal {
     @Column({
         type: "enum",
         enum: Gender,
-        enumName: "genderEnum"
+        enumName: "genderEnum",
     })
     gender: Gender;
 
     @Column()
     specie: string;
-
 }

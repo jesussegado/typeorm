@@ -1,10 +1,12 @@
 import "reflect-metadata";
-import {Connection} from "../../../src/connection/Connection";
-import {closeTestingConnections, createTestingConnections} from "../../utils/test-utils";
-import {Post} from "./entity/Post";
+import { Connection } from "../../../src/connection/Connection";
+import {
+    closeTestingConnections,
+    createTestingConnections,
+} from "../../utils/test-utils";
+import { Post } from "./entity/Post";
 
 describe("github issues > #1733 Postgresql driver does not detect/support varying without length specified", () => {
-
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
@@ -16,35 +18,41 @@ describe("github issues > #1733 Postgresql driver does not detect/support varyin
     });
     after(() => closeTestingConnections(connections));
 
-    it("should correctly synchronize schema when varchar column length is not specified", () => Promise.all(connections.map(async connection => {
-        const queryRunner = connection.createQueryRunner();
-        let table = await queryRunner.getTable("post");
+    it("should correctly synchronize schema when varchar column length is not specified", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                const queryRunner = connection.createQueryRunner();
+                let table = await queryRunner.getTable("post");
 
-        table!.findColumnByName("name")!.length.should.be.empty;
-        table!.findColumnByName("name2")!.length.should.be.equal("255");
+                table!.findColumnByName("name")!.length.should.be.empty;
+                table!.findColumnByName("name2")!.length.should.be.equal("255");
 
-        const postMetadata = connection.getMetadata(Post);
-        const column1 = postMetadata.findColumnWithPropertyName("name")!;
-        const column2 = postMetadata.findColumnWithPropertyName("name2")!;
-        column1.length = "500";
-        column2.length = "";
+                const postMetadata = connection.getMetadata(Post);
+                const column1 = postMetadata.findColumnWithPropertyName(
+                    "name"
+                )!;
+                const column2 = postMetadata.findColumnWithPropertyName(
+                    "name2"
+                )!;
+                column1.length = "500";
+                column2.length = "";
 
-        await connection.synchronize();
+                await connection.synchronize();
 
-        table = await queryRunner.getTable("post");
-        table!.findColumnByName("name")!.length.should.be.equal("500");
-        table!.findColumnByName("name2")!.length.should.be.empty;
+                table = await queryRunner.getTable("post");
+                table!.findColumnByName("name")!.length.should.be.equal("500");
+                table!.findColumnByName("name2")!.length.should.be.empty;
 
-        column1.length = "";
-        column2.length = "255";
+                column1.length = "";
+                column2.length = "255";
 
-        await connection.synchronize();
+                await connection.synchronize();
 
-        table = await queryRunner.getTable("post");
-        table!.findColumnByName("name")!.length.should.be.empty;
-        table!.findColumnByName("name2")!.length.should.be.equal("255");
+                table = await queryRunner.getTable("post");
+                table!.findColumnByName("name")!.length.should.be.empty;
+                table!.findColumnByName("name2")!.length.should.be.equal("255");
 
-        await queryRunner.release();
-    })));
-
+                await queryRunner.release();
+            })
+        ));
 });

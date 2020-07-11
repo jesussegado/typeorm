@@ -1,10 +1,9 @@
-import {BaseConnectionOptions} from "../../connection/BaseConnectionOptions";
+import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
 
 /**
  * NativeScript-specific connection options.
  */
 export interface NativescriptConnectionOptions extends BaseConnectionOptions {
-
     /**
      * Database type.
      */

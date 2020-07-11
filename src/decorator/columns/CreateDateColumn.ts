@@ -1,5 +1,5 @@
-import {ColumnOptions, getMetadataArgsStorage} from "../../";
-import {ColumnMetadataArgs} from "../../metadata-args/ColumnMetadataArgs";
+import { ColumnOptions, getMetadataArgsStorage } from "../../";
+import { ColumnMetadataArgs } from "../../metadata-args/ColumnMetadataArgs";
 
 /**
  * This column will store a creation date of the inserted object.
@@ -12,7 +12,7 @@ export function CreateDateColumn(options?: ColumnOptions): Function {
             target: object.constructor,
             propertyName: propertyName,
             mode: "createDate",
-            options: options || {}
+            options: options || {},
         } as ColumnMetadataArgs);
     };
 }

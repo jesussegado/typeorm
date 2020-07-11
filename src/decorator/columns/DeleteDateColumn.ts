@@ -6,12 +6,12 @@ import { ColumnMetadataArgs } from "../../metadata-args/ColumnMetadataArgs";
  * This date is being updated each time you soft-delete the object.
  */
 export function DeleteDateColumn(options?: ColumnOptions): Function {
-    return function(object: Object, propertyName: string) {
+    return function (object: Object, propertyName: string) {
         getMetadataArgsStorage().columns.push({
             target: object.constructor,
             propertyName: propertyName,
             mode: "deleteDate",
-            options: options || {}
+            options: options || {},
         } as ColumnMetadataArgs);
     };
 }

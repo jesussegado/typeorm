@@ -1,16 +1,15 @@
-import { User} from "./User";
-import {Entity} from "../../../../src/decorator/entity/Entity";
-import {PrimaryGeneratedColumn} from "../../../../src/decorator/columns/PrimaryGeneratedColumn";
-import {ManyToMany} from "../../../../src/decorator/relations/ManyToMany";
-import {JoinTable} from "../../../../src/decorator/relations/JoinTable";
+import { User } from "./User";
+import { Entity } from "../../../../src/decorator/entity/Entity";
+import { PrimaryGeneratedColumn } from "../../../../src/decorator/columns/PrimaryGeneratedColumn";
+import { ManyToMany } from "../../../../src/decorator/relations/ManyToMany";
+import { JoinTable } from "../../../../src/decorator/relations/JoinTable";
 
 @Entity()
 export class Circle {
-
     /**
      * Circle's identifier
      */
-    @PrimaryGeneratedColumn({type: "bigint"})
+    @PrimaryGeneratedColumn({ type: "bigint" })
     private id: string;
 
     /**
@@ -19,7 +18,7 @@ export class Circle {
      * You have to use getter and setter
      */
     @ManyToMany((type) => User, (user) => "circles")
-    @JoinTable({name: "circle_users_user"})
+    @JoinTable({ name: "circle_users_user" })
     private users: Promise<User[]>;
 
     /**
@@ -48,7 +47,6 @@ export class Circle {
     public setUsers(users: Promise<User[]>): void {
         this.users = users;
     }
-
 
     /**
      * Getter user

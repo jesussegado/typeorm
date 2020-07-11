@@ -1,10 +1,13 @@
 import "reflect-metadata";
-import {Connection} from "../../../src/connection/Connection";
-import {CockroachDriver} from "../../../src/driver/cockroachdb/CockroachDriver";
-import {closeTestingConnections, createTestingConnections, reloadTestingDatabases} from "../../utils/test-utils";
+import { Connection } from "../../../src/connection/Connection";
+import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
+import {
+    closeTestingConnections,
+    createTestingConnections,
+    reloadTestingDatabases,
+} from "../../utils/test-utils";
 
 describe("query runner > drop primary key", () => {
-
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
@@ -16,28 +19,28 @@ describe("query runner > drop primary key", () => {
     beforeEach(() => reloadTestingDatabases(connections));
     after(() => closeTestingConnections(connections));
 
-    it("should correctly drop primary key and revert drop", () => Promise.all(connections.map(async connection => {
+    it("should correctly drop primary key and revert drop", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                // CockroachDB does not allow dropping primary key
+                if (connection.driver instanceof CockroachDriver) return;
 
-        // CockroachDB does not allow dropping primary key
-        if (connection.driver instanceof CockroachDriver)
-            return;
+                const queryRunner = connection.createQueryRunner();
 
-        const queryRunner = connection.createQueryRunner();
+                let table = await queryRunner.getTable("post");
+                table!.findColumnByName("id")!.isPrimary.should.be.true;
 
-        let table = await queryRunner.getTable("post");
-        table!.findColumnByName("id")!.isPrimary.should.be.true;
+                await queryRunner.dropPrimaryKey(table!);
 
-        await queryRunner.dropPrimaryKey(table!);
+                table = await queryRunner.getTable("post");
+                table!.findColumnByName("id")!.isPrimary.should.be.false;
 
-        table = await queryRunner.getTable("post");
-        table!.findColumnByName("id")!.isPrimary.should.be.false;
+                await queryRunner.executeMemoryDownSql();
 
-        await queryRunner.executeMemoryDownSql();
+                table = await queryRunner.getTable("post");
+                table!.findColumnByName("id")!.isPrimary.should.be.true;
 
-        table = await queryRunner.getTable("post");
-        table!.findColumnByName("id")!.isPrimary.should.be.true;
-
-        await queryRunner.release();
-    })));
-
+                await queryRunner.release();
+            })
+        ));
 });

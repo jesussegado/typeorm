@@ -1,15 +1,15 @@
-import {QueryRunnerAlreadyReleasedError} from "../../error/QueryRunnerAlreadyReleasedError";
-import {TransactionAlreadyStartedError} from "../../error/TransactionAlreadyStartedError";
-import {TransactionNotStartedError} from "../../error/TransactionNotStartedError";
-import {QueryRunner} from "../../query-runner/QueryRunner";
-import {IsolationLevel} from "../types/IsolationLevel";
-import {AuroraDataApiPostgresDriver} from "../postgres/PostgresDriver";
-import {PostgresQueryRunner} from "../postgres/PostgresQueryRunner";
+import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
+import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
+import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
+import { QueryRunner } from "../../query-runner/QueryRunner";
+import { IsolationLevel } from "../types/IsolationLevel";
+import { AuroraDataApiPostgresDriver } from "../postgres/PostgresDriver";
+import { PostgresQueryRunner } from "../postgres/PostgresQueryRunner";
 
 class PostgresQueryRunnerWrapper extends PostgresQueryRunner {
     driver: any;
 
-    constructor(driver: any, mode: "master"|"slave") {
+    constructor(driver: any, mode: "master" | "slave") {
         super(driver, mode);
     }
 }
@@ -17,8 +17,8 @@ class PostgresQueryRunnerWrapper extends PostgresQueryRunner {
 /**
  * Runs queries on a single postgres database connection.
  */
-export class AuroraDataApiPostgresQueryRunner extends PostgresQueryRunnerWrapper implements QueryRunner {
-
+export class AuroraDataApiPostgresQueryRunner extends PostgresQueryRunnerWrapper
+    implements QueryRunner {
     // -------------------------------------------------------------------------
     // Public Implemented Properties
     // -------------------------------------------------------------------------
@@ -46,7 +46,10 @@ export class AuroraDataApiPostgresQueryRunner extends PostgresQueryRunnerWrapper
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(driver: AuroraDataApiPostgresDriver, mode: "master"|"slave" = "master") {
+    constructor(
+        driver: AuroraDataApiPostgresDriver,
+        mode: "master" | "slave" = "master"
+    ) {
         super(driver, mode);
     }
 
@@ -65,21 +68,25 @@ export class AuroraDataApiPostgresQueryRunner extends PostgresQueryRunnerWrapper
         if (this.databaseConnectionPromise)
             return this.databaseConnectionPromise;
 
-        if (this.mode === "slave" && this.driver.isReplicated)  {
-            this.databaseConnectionPromise = this.driver.obtainSlaveConnection().then(([ connection, release]: any[]) => {
-                this.driver.connectedQueryRunners.push(this);
-                this.databaseConnection = connection;
-                this.releaseCallback = release;
-                return this.databaseConnection;
-            });
-
-        } else { // master
-            this.databaseConnectionPromise = this.driver.obtainMasterConnection().then(([connection, release]: any[]) => {
-                this.driver.connectedQueryRunners.push(this);
-                this.databaseConnection = connection;
-                this.releaseCallback = release;
-                return this.databaseConnection;
-            });
+        if (this.mode === "slave" && this.driver.isReplicated) {
+            this.databaseConnectionPromise = this.driver
+                .obtainSlaveConnection()
+                .then(([connection, release]: any[]) => {
+                    this.driver.connectedQueryRunners.push(this);
+                    this.databaseConnection = connection;
+                    this.releaseCallback = release;
+                    return this.databaseConnection;
+                });
+        } else {
+            // master
+            this.databaseConnectionPromise = this.driver
+                .obtainMasterConnection()
+                .then(([connection, release]: any[]) => {
+                    this.driver.connectedQueryRunners.push(this);
+                    this.databaseConnection = connection;
+                    this.releaseCallback = release;
+                    return this.databaseConnection;
+                });
         }
 
         return this.databaseConnectionPromise;
@@ -101,8 +108,7 @@ export class AuroraDataApiPostgresQueryRunner extends PostgresQueryRunnerWrapper
      * Error will be thrown if transaction was not started.
      */
     async commitTransaction(): Promise<void> {
-        if (!this.isTransactionActive)
-            throw new TransactionNotStartedError();
+        if (!this.isTransactionActive) throw new TransactionNotStartedError();
 
         await this.driver.client.commitTransaction();
         this.isTransactionActive = false;
@@ -113,8 +119,7 @@ export class AuroraDataApiPostgresQueryRunner extends PostgresQueryRunnerWrapper
      * Error will be thrown if transaction was not started.
      */
     async rollbackTransaction(): Promise<void> {
-        if (!this.isTransactionActive)
-            throw new TransactionNotStartedError();
+        if (!this.isTransactionActive) throw new TransactionNotStartedError();
 
         await this.driver.client.rollbackTransaction();
         this.isTransactionActive = false;
@@ -124,8 +129,7 @@ export class AuroraDataApiPostgresQueryRunner extends PostgresQueryRunnerWrapper
      * Executes a given SQL query.
      */
     async query(query: string, parameters?: any[]): Promise<any> {
-        if (this.isReleased)
-            throw new QueryRunnerAlreadyReleasedError();
+        if (this.isReleased) throw new QueryRunnerAlreadyReleasedError();
 
         const result = await this.driver.client.query(query, parameters);
 

@@ -5,7 +5,6 @@ import { ObjectID } from "../../../../../../src/driver/mongodb/typings";
 
 @Entity()
 export class Post {
-
     @ObjectIdColumn()
     nonIdNameOfObjectId: ObjectID;
 

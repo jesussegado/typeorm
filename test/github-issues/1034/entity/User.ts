@@ -1,15 +1,14 @@
-import {Entity} from "../../../../src/decorator/entity/Entity";
-import {PrimaryGeneratedColumn} from "../../../../src/decorator/columns/PrimaryGeneratedColumn";
-import {ManyToMany} from "../../../../src/decorator/relations/ManyToMany";
+import { Entity } from "../../../../src/decorator/entity/Entity";
+import { PrimaryGeneratedColumn } from "../../../../src/decorator/columns/PrimaryGeneratedColumn";
+import { ManyToMany } from "../../../../src/decorator/relations/ManyToMany";
 import { Circle } from "./Circle";
 
 @Entity()
 export class User {
-
     /**
      * User's identifier
      */
-    @PrimaryGeneratedColumn({type: "bigint"})
+    @PrimaryGeneratedColumn({ type: "bigint" })
     private id: string;
 
     @ManyToMany((type: object) => Circle, (circle) => "users")

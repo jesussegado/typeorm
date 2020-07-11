@@ -1,5 +1,13 @@
-import {Column, PrimaryGeneratedColumn, Tree, TreeParent, TreeChildren, UpdateDateColumn, CreateDateColumn} from "../../../../src";
-import {Entity} from "../../../../src/decorator/entity/Entity";
+import {
+    Column,
+    PrimaryGeneratedColumn,
+    Tree,
+    TreeParent,
+    TreeChildren,
+    UpdateDateColumn,
+    CreateDateColumn,
+} from "../../../../src";
+import { Entity } from "../../../../src/decorator/entity/Entity";
 
 @Entity()
 @Tree("closure-table")
@@ -8,12 +16,12 @@ export class File {
 
     @Column("text", {
         nullable: false,
-        name: "name"
+        name: "name",
     })
     name: string;
 
     @Column("integer", {
-        nullable: true
+        nullable: true,
     })
     parentId: number;
 

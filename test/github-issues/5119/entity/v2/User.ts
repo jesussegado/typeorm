@@ -1,7 +1,7 @@
 import {
     Column,
     Entity,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
 } from "../../../../../src/index";
 
 @Entity()

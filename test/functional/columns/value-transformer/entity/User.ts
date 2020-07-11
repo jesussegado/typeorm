@@ -1,4 +1,9 @@
-import { Column, ValueTransformer, Entity, PrimaryGeneratedColumn } from "../../../../../src";
+import {
+    Column,
+    ValueTransformer,
+    Entity,
+    PrimaryGeneratedColumn,
+} from "../../../../../src";
 
 const encode: ValueTransformer = {
     to: (entityValue: string) => {
@@ -18,14 +23,13 @@ export const encrypt: ValueTransformer = {
     },
 };
 
-
 export const lowercase: ValueTransformer = {
     to: (entityValue: string) => {
         return entityValue.toLocaleLowerCase();
     },
     from: (databaseValue: string) => {
         return databaseValue;
-    }
+    },
 };
 
 @Entity()
@@ -33,6 +37,6 @@ export class User {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column({transformer: [lowercase, encode, encrypt]})
+    @Column({ transformer: [lowercase, encode, encrypt] })
     email: string;
 }

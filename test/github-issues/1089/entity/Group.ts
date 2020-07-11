@@ -1,9 +1,16 @@
-import {BaseEntity, Column, Entity, PrimaryGeneratedColumn, Tree, TreeChildren, TreeParent} from "../../../../src";
+import {
+    BaseEntity,
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    Tree,
+    TreeChildren,
+    TreeParent,
+} from "../../../../src";
 
 @Entity()
 @Tree("closure-table")
 export class Group extends BaseEntity {
-
     @PrimaryGeneratedColumn("uuid")
     id: string;
 

@@ -1,5 +1,4 @@
 export interface EntitySchemaIndexOptions {
-
     /**
      * Index name.
      */
@@ -8,7 +7,7 @@ export interface EntitySchemaIndexOptions {
     /**
      * Index column names.
      */
-    columns?: ((object?: any) => (any[]|{ [key: string]: number }))|string[];
+    columns?: ((object?: any) => any[] | { [key: string]: number }) | string[];
 
     /**
      * Indicates if index must sync with database index.
@@ -38,7 +37,7 @@ export interface EntitySchemaIndexOptions {
      * Works only in MySQL.
      */
     fulltext?: boolean;
-    
+
     /**
      * Fulltext parser.
      * Works only in MySQL.
@@ -49,5 +48,4 @@ export interface EntitySchemaIndexOptions {
      * Index filter condition.
      */
     where?: string;
-
 }

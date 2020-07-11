@@ -1,7 +1,6 @@
 import { ObjectLiteral } from "../common/ObjectLiteral";
 
 export class OrmUtils {
-
     // -------------------------------------------------------------------------
     // Public methods
     // -------------------------------------------------------------------------
@@ -15,51 +14,64 @@ export class OrmUtils {
         });
     }
 
-    static splitClassesAndStrings<T>(clsesAndStrings: (string | T)[]): [T[], string[]] {
+    static splitClassesAndStrings<T>(
+        clsesAndStrings: (string | T)[]
+    ): [T[], string[]] {
         return [
-            (clsesAndStrings).filter((cls): cls is T => typeof cls !== "string"),
-            (clsesAndStrings).filter((str): str is string => typeof str === "string"),
+            clsesAndStrings.filter((cls): cls is T => typeof cls !== "string"),
+            clsesAndStrings.filter(
+                (str): str is string => typeof str === "string"
+            ),
         ];
     }
 
-    static groupBy<T, R>(array: T[], propertyCallback: (item: T) => R): { id: R, items: T[] }[] {
+    static groupBy<T, R>(
+        array: T[],
+        propertyCallback: (item: T) => R
+    ): { id: R; items: T[] }[] {
         return array.reduce((groupedArray, value) => {
             const key = propertyCallback(value);
-            let grouped = groupedArray.find(i => i.id === key);
+            let grouped = groupedArray.find((i) => i.id === key);
             if (!grouped) {
                 grouped = { id: key, items: [] };
                 groupedArray.push(grouped);
             }
             grouped.items.push(value);
             return groupedArray;
-        }, [] as Array<{ id: R, items: T[] }>);
+        }, [] as Array<{ id: R; items: T[] }>);
     }
 
     static uniq<T>(array: T[], criteria?: (item: T) => any): T[];
     static uniq<T, K extends keyof T>(array: T[], property: K): T[];
-    static uniq<T, K extends keyof T>(array: T[], criteriaOrProperty?: ((item: T) => any) | K): T[] {
+    static uniq<T, K extends keyof T>(
+        array: T[],
+        criteriaOrProperty?: ((item: T) => any) | K
+    ): T[] {
         return array.reduce((uniqueArray, item) => {
             let found: boolean = false;
             if (criteriaOrProperty instanceof Function) {
                 const itemValue = criteriaOrProperty(item);
-                found = !!uniqueArray.find(uniqueItem => criteriaOrProperty(uniqueItem) === itemValue);
-
+                found = !!uniqueArray.find(
+                    (uniqueItem) => criteriaOrProperty(uniqueItem) === itemValue
+                );
             } else if (typeof criteriaOrProperty === "string") {
-                found = !!uniqueArray.find(uniqueItem => uniqueItem[criteriaOrProperty] === item[criteriaOrProperty]);
-
+                found = !!uniqueArray.find(
+                    (uniqueItem) =>
+                        uniqueItem[criteriaOrProperty] ===
+                        item[criteriaOrProperty]
+                );
             } else {
                 found = uniqueArray.indexOf(item) !== -1;
             }
 
-            if (!found)
-                uniqueArray.push(item);
+            if (!found) uniqueArray.push(item);
 
             return uniqueArray;
         }, [] as T[]);
     }
 
     static isObject(item: any) {
-        return (item && typeof item === "object" && !Array.isArray(item));
+        return item && typeof item === "object" && !Array.isArray(item);
     }
 
     /**
@@ -74,17 +86,20 @@ export class OrmUtils {
         if (this.isObject(target) && this.isObject(source)) {
             for (const key in source) {
                 const value = source[key];
-                if (key === "__proto__" || value instanceof Promise)
-                    continue;
+                if (key === "__proto__" || value instanceof Promise) continue;
 
-                if (this.isObject(value)
-                && !(value instanceof Map)
-                && !(value instanceof Set)
-                && !(value instanceof Date)
-                && !(value instanceof Buffer)
-                && !(value instanceof RegExp)) {
+                if (
+                    this.isObject(value) &&
+                    !(value instanceof Map) &&
+                    !(value instanceof Set) &&
+                    !(value instanceof Date) &&
+                    !(value instanceof Buffer) &&
+                    !(value instanceof RegExp)
+                ) {
                     if (!target[key])
-                        Object.assign(target, { [key]: Object.create(Object.getPrototypeOf(value)) });
+                        Object.assign(target, {
+                            [key]: Object.create(Object.getPrototypeOf(value)),
+                        });
                     this.mergeDeep(target[key], value);
                 } else {
                     Object.assign(target, { [key]: value });
@@ -109,11 +124,17 @@ export class OrmUtils {
         }
 
         for (i = 1, l = arguments.length; i < l; i++) {
-
             leftChain = []; // Todo: this can be cached
             rightChain = [];
 
-            if (!this.compare2Objects(leftChain, rightChain, arguments[0], arguments[i])) {
+            if (
+                !this.compare2Objects(
+                    leftChain,
+                    rightChain,
+                    arguments[0],
+                    arguments[i]
+                )
+            ) {
                 return false;
             }
         }
@@ -124,14 +145,24 @@ export class OrmUtils {
     /**
      * Check if two entity-id-maps are the same
      */
-    static compareIds(firstId: ObjectLiteral|undefined, secondId: ObjectLiteral|undefined): boolean {
-        if (firstId === undefined || firstId === null || secondId === undefined || secondId === null)
+    static compareIds(
+        firstId: ObjectLiteral | undefined,
+        secondId: ObjectLiteral | undefined
+    ): boolean {
+        if (
+            firstId === undefined ||
+            firstId === null ||
+            secondId === undefined ||
+            secondId === null
+        )
             return false;
 
         // Optimized version for the common case
         if (
-            ((typeof firstId.id === "string" && typeof secondId.id === "string") ||
-            (typeof firstId.id === "number" && typeof secondId.id === "number")) &&
+            ((typeof firstId.id === "string" &&
+                typeof secondId.id === "string") ||
+                (typeof firstId.id === "number" &&
+                    typeof secondId.id === "number")) &&
             Object.keys(firstId).length === 1 &&
             Object.keys(secondId).length === 1
         ) {
@@ -145,14 +176,11 @@ export class OrmUtils {
      * Transforms given value into boolean value.
      */
     static toBoolean(value: any): boolean {
-        if (typeof value === "boolean")
-            return value;
+        if (typeof value === "boolean") return value;
 
-        if (typeof value === "string")
-            return value === "true" || value === "1";
+        if (typeof value === "string") return value === "true" || value === "1";
 
-        if (typeof value === "number")
-            return value > 0;
+        if (typeof value === "number") return value > 0;
 
         return false;
     }
@@ -172,7 +200,7 @@ export class OrmUtils {
      */
     static isArraysEqual(arr1: any[], arr2: any[]): boolean {
         if (arr1.length !== arr2.length) return false;
-        return arr1.every(element => {
+        return arr1.every((element) => {
             return arr2.indexOf(element) !== -1;
         });
     }
@@ -181,52 +209,56 @@ export class OrmUtils {
     // Private methods
     // -------------------------------------------------------------------------
 
-    private static compare2Objects(leftChain: any, rightChain: any, x: any, y: any) {
+    private static compare2Objects(
+        leftChain: any,
+        rightChain: any,
+        x: any,
+        y: any
+    ) {
         let p;
 
         // remember that NaN === NaN returns false
         // and isNaN(undefined) returns true
-        if (Number.isNaN(x) && Number.isNaN(y))
-            return true;
+        if (Number.isNaN(x) && Number.isNaN(y)) return true;
 
         // Compare primitives and functions.
         // Check if both arguments link to the same object.
         // Especially useful on the step where we compare prototypes
-        if (x === y)
-            return true;
+        if (x === y) return true;
 
         // Unequal, but either is null or undefined (use case: jsonb comparasion)
         // PR #3776, todo: add tests
         if (x === null || y === null || x === undefined || y === undefined)
-          return false;
+            return false;
 
         // Fix the buffer compare bug.
         // See: https://github.com/typeorm/typeorm/issues/3654
-        if ((typeof x.equals === "function" || x.equals instanceof Function) && x.equals(y))
+        if (
+            (typeof x.equals === "function" || x.equals instanceof Function) &&
+            x.equals(y)
+        )
             return true;
 
         // Works in case when functions are created in constructor.
         // Comparing dates is a common scenario. Another built-ins?
         // We can even handle functions passed across iframes
-        if ((typeof x === "function" && typeof y === "function") ||
+        if (
+            (typeof x === "function" && typeof y === "function") ||
             (x instanceof Date && y instanceof Date) ||
             (x instanceof RegExp && y instanceof RegExp) ||
             (x instanceof String && y instanceof String) ||
-            (x instanceof Number && y instanceof Number))
+            (x instanceof Number && y instanceof Number)
+        )
             return x.toString() === y.toString();
 
         // At last checking prototypes as good as we can
-        if (!(x instanceof Object && y instanceof Object))
-            return false;
+        if (!(x instanceof Object && y instanceof Object)) return false;
 
-        if (x.isPrototypeOf(y) || y.isPrototypeOf(x))
-            return false;
+        if (x.isPrototypeOf(y) || y.isPrototypeOf(x)) return false;
 
-        if (x.constructor !== y.constructor)
-            return false;
+        if (x.constructor !== y.constructor) return false;
 
-        if (x.prototype !== y.prototype)
-            return false;
+        if (x.prototype !== y.prototype) return false;
 
         // Check for infinitive linking loops
         if (leftChain.indexOf(x) > -1 || rightChain.indexOf(y) > -1)
@@ -237,8 +269,7 @@ export class OrmUtils {
         for (p in y) {
             if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
                 return false;
-            }
-            else if (typeof y[p] !== typeof x[p]) {
+            } else if (typeof y[p] !== typeof x[p]) {
                 return false;
             }
         }
@@ -246,19 +277,19 @@ export class OrmUtils {
         for (p in x) {
             if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
                 return false;
-            }
-            else if (typeof y[p] !== typeof x[p]) {
+            } else if (typeof y[p] !== typeof x[p]) {
                 return false;
             }
 
-            switch (typeof (x[p])) {
+            switch (typeof x[p]) {
                 case "object":
                 case "function":
-
                     leftChain.push(x);
                     rightChain.push(y);
 
-                    if (!this.compare2Objects(leftChain, rightChain, x[p], y[p])) {
+                    if (
+                        !this.compare2Objects(leftChain, rightChain, x[p], y[p])
+                    ) {
                         return false;
                     }
 
@@ -276,5 +307,4 @@ export class OrmUtils {
 
         return true;
     }
-
 }

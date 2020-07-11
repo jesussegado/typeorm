@@ -5,7 +5,6 @@ import { SimpleCounters } from "./SimpleCounters";
 
 @Entity()
 export class SimplePost {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -15,6 +14,6 @@ export class SimplePost {
     @Column()
     text: string;
 
-    @Column(type => SimpleCounters)
+    @Column((type) => SimpleCounters)
     counters: SimpleCounters;
 }

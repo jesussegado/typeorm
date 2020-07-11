@@ -9,7 +9,11 @@ export class User {
     @Column({ type: "varchar", length: 100, nullable: true, default: null })
     first: string;
 
-    @Column({ type: "varchar", length: 100, nullable: true, default: () => "null" })
+    @Column({
+        type: "varchar",
+        length: 100,
+        nullable: true,
+        default: () => "null",
+    })
     second: string;
-
 }

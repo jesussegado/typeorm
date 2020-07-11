@@ -2,7 +2,6 @@ import { Entity, PrimaryGeneratedColumn, Column } from "../../../../src";
 
 @Entity({ name: "Session" })
 export class Session {
-
     @PrimaryGeneratedColumn()
     id?: number;
 
@@ -13,5 +12,4 @@ export class Session {
         onUpdate: "CURRENT_TIMESTAMP(3)",
     })
     ts: Date;
-
 }

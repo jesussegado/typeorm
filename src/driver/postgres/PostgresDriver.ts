@@ -1,32 +1,31 @@
-import {Driver} from "../Driver";
-import {ConnectionIsNotSetError} from "../../error/ConnectionIsNotSetError";
-import {ObjectLiteral} from "../../common/ObjectLiteral";
-import {DriverPackageNotInstalledError} from "../../error/DriverPackageNotInstalledError";
-import {DriverUtils} from "../DriverUtils";
-import {ColumnMetadata} from "../../metadata/ColumnMetadata";
-import {PostgresQueryRunner} from "./PostgresQueryRunner";
-import {DateUtils} from "../../util/DateUtils";
-import {PlatformTools} from "../../platform/PlatformTools";
-import {Connection} from "../../connection/Connection";
-import {RdbmsSchemaBuilder} from "../../schema-builder/RdbmsSchemaBuilder";
-import {PostgresConnectionOptions} from "./PostgresConnectionOptions";
-import {MappedColumnTypes} from "../types/MappedColumnTypes";
-import {ColumnType} from "../types/ColumnTypes";
-import {QueryRunner} from "../../query-runner/QueryRunner";
-import {DataTypeDefaults} from "../types/DataTypeDefaults";
-import {TableColumn} from "../../schema-builder/table/TableColumn";
-import {PostgresConnectionCredentialsOptions} from "./PostgresConnectionCredentialsOptions";
-import {EntityMetadata} from "../../metadata/EntityMetadata";
-import {OrmUtils} from "../../util/OrmUtils";
-import {ApplyValueTransformers} from "../../util/ApplyValueTransformers";
-import {AuroraDataApiPostgresConnectionOptions} from "../aurora-data-api-pg/AuroraDataApiPostgresConnectionOptions";
-import {AuroraDataApiPostgresQueryRunner} from "../aurora-data-api-pg/AuroraDataApiPostgresQueryRunner";
+import { Driver } from "../Driver";
+import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
+import { ObjectLiteral } from "../../common/ObjectLiteral";
+import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
+import { DriverUtils } from "../DriverUtils";
+import { ColumnMetadata } from "../../metadata/ColumnMetadata";
+import { PostgresQueryRunner } from "./PostgresQueryRunner";
+import { DateUtils } from "../../util/DateUtils";
+import { PlatformTools } from "../../platform/PlatformTools";
+import { Connection } from "../../connection/Connection";
+import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
+import { PostgresConnectionOptions } from "./PostgresConnectionOptions";
+import { MappedColumnTypes } from "../types/MappedColumnTypes";
+import { ColumnType } from "../types/ColumnTypes";
+import { QueryRunner } from "../../query-runner/QueryRunner";
+import { DataTypeDefaults } from "../types/DataTypeDefaults";
+import { TableColumn } from "../../schema-builder/table/TableColumn";
+import { PostgresConnectionCredentialsOptions } from "./PostgresConnectionCredentialsOptions";
+import { EntityMetadata } from "../../metadata/EntityMetadata";
+import { OrmUtils } from "../../util/OrmUtils";
+import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
+import { AuroraDataApiPostgresConnectionOptions } from "../aurora-data-api-pg/AuroraDataApiPostgresConnectionOptions";
+import { AuroraDataApiPostgresQueryRunner } from "../aurora-data-api-pg/AuroraDataApiPostgresQueryRunner";
 
 /**
  * Organizes communication with PostgreSQL DBMS.
  */
 export class PostgresDriver implements Driver {
-
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -151,16 +150,13 @@ export class PostgresDriver implements Driver {
         "daterange",
         "geometry",
         "geography",
-        "cube"
+        "cube",
     ];
 
     /**
      * Gets list of spatial column data types.
      */
-    spatialTypes: ColumnType[] = [
-        "geometry",
-        "geography"
-    ];
+    spatialTypes: ColumnType[] = ["geometry", "geography"];
 
     /**
      * Gets list of column data types that support length by a driver.
@@ -172,7 +168,7 @@ export class PostgresDriver implements Driver {
         "char",
         "bit",
         "varbit",
-        "bit varying"
+        "bit varying",
     ];
 
     /**
@@ -185,16 +181,13 @@ export class PostgresDriver implements Driver {
         "time without time zone",
         "time with time zone",
         "timestamp without time zone",
-        "timestamp with time zone"
+        "timestamp with time zone",
     ];
 
     /**
      * Gets list of column data types that support scale by a driver.
      */
-    withScaleColumnTypes: ColumnType[] = [
-        "numeric",
-        "decimal"
-    ];
+    withScaleColumnTypes: ColumnType[] = ["numeric", "decimal"];
 
     /**
      * Orm has special columns and we need to know what database column types should be for those types.
@@ -231,9 +224,9 @@ export class PostgresDriver implements Driver {
      * Used in the cases when length/precision/scale is not specified by user.
      */
     dataTypeDefaults: DataTypeDefaults = {
-        "character": { length: 1 },
-        "bit": { length: 1 },
-        "interval": { precision: 6 },
+        character: { length: 1 },
+        bit: { length: 1 },
+        interval: { precision: 6 },
         "time without time zone": { precision: 6 },
         "time with time zone": { precision: 6 },
         "timestamp without time zone": { precision: 6 },
@@ -283,14 +276,17 @@ export class PostgresDriver implements Driver {
      * either create a pool and create connection when needed.
      */
     async connect(): Promise<void> {
-
         if (this.options.replication) {
-            this.slaves = await Promise.all(this.options.replication.slaves.map(slave => {
-                return this.createPool(this.options, slave);
-            }));
-            this.master = await this.createPool(this.options, this.options.replication.master);
+            this.slaves = await Promise.all(
+                this.options.replication.slaves.map((slave) => {
+                    return this.createPool(this.options, slave);
+                })
+            );
+            this.master = await this.createPool(
+                this.options,
+                this.options.replication.master
+            );
             this.database = this.options.replication.master.database;
-
         } else {
             this.master = await this.createPool(this.options, this.options);
             this.database = this.options.database;
@@ -301,72 +297,160 @@ export class PostgresDriver implements Driver {
      * Makes any action after connection (e.g. create extensions in Postgres driver).
      */
     async afterConnect(): Promise<void> {
-        const hasUuidColumns = this.connection.entityMetadatas.some(metadata => {
-            return metadata.generatedColumns.filter(column => column.generationStrategy === "uuid").length > 0;
-        });
-        const hasCitextColumns = this.connection.entityMetadatas.some(metadata => {
-            return metadata.columns.filter(column => column.type === "citext").length > 0;
-        });
-        const hasHstoreColumns = this.connection.entityMetadatas.some(metadata => {
-            return metadata.columns.filter(column => column.type === "hstore").length > 0;
-        });
-        const hasCubeColumns = this.connection.entityMetadatas.some(metadata => {
-            return metadata.columns.filter(column => column.type === "cube").length > 0;
-        });
-        const hasGeometryColumns = this.connection.entityMetadatas.some(metadata => {
-            return metadata.columns.filter(column => this.spatialTypes.indexOf(column.type) >= 0).length > 0;
-        });
-        const hasExclusionConstraints = this.connection.entityMetadatas.some(metadata => {
-            return metadata.exclusions.length > 0;
-        });
-        if (hasUuidColumns || hasCitextColumns || hasHstoreColumns || hasGeometryColumns || hasCubeColumns || hasExclusionConstraints) {
-            await Promise.all([this.master, ...this.slaves].map(pool => {
-                return new Promise((ok, fail) => {
-                    pool.connect(async (err: any, connection: any, release: Function) => {
-                        const { logger } = this.connection;
-                        if (err) return fail(err);
-                        if (hasUuidColumns)
-                            try {
-                                await this.executeQuery(connection, `CREATE EXTENSION IF NOT EXISTS "${this.options.uuidExtension || "uuid-ossp"}"`);
-                            } catch (_) {
-                                logger.log("warn", `At least one of the entities has uuid column, but the '${this.options.uuidExtension || "uuid-ossp"}' extension cannot be installed automatically. Please install it manually using superuser rights, or select another uuid extension.`);
+        const hasUuidColumns = this.connection.entityMetadatas.some(
+            (metadata) => {
+                return (
+                    metadata.generatedColumns.filter(
+                        (column) => column.generationStrategy === "uuid"
+                    ).length > 0
+                );
+            }
+        );
+        const hasCitextColumns = this.connection.entityMetadatas.some(
+            (metadata) => {
+                return (
+                    metadata.columns.filter(
+                        (column) => column.type === "citext"
+                    ).length > 0
+                );
+            }
+        );
+        const hasHstoreColumns = this.connection.entityMetadatas.some(
+            (metadata) => {
+                return (
+                    metadata.columns.filter(
+                        (column) => column.type === "hstore"
+                    ).length > 0
+                );
+            }
+        );
+        const hasCubeColumns = this.connection.entityMetadatas.some(
+            (metadata) => {
+                return (
+                    metadata.columns.filter((column) => column.type === "cube")
+                        .length > 0
+                );
+            }
+        );
+        const hasGeometryColumns = this.connection.entityMetadatas.some(
+            (metadata) => {
+                return (
+                    metadata.columns.filter(
+                        (column) => this.spatialTypes.indexOf(column.type) >= 0
+                    ).length > 0
+                );
+            }
+        );
+        const hasExclusionConstraints = this.connection.entityMetadatas.some(
+            (metadata) => {
+                return metadata.exclusions.length > 0;
+            }
+        );
+        if (
+            hasUuidColumns ||
+            hasCitextColumns ||
+            hasHstoreColumns ||
+            hasGeometryColumns ||
+            hasCubeColumns ||
+            hasExclusionConstraints
+        ) {
+            await Promise.all(
+                [this.master, ...this.slaves].map((pool) => {
+                    return new Promise((ok, fail) => {
+                        pool.connect(
+                            async (
+                                err: any,
+                                connection: any,
+                                release: Function
+                            ) => {
+                                const { logger } = this.connection;
+                                if (err) return fail(err);
+                                if (hasUuidColumns)
+                                    try {
+                                        await this.executeQuery(
+                                            connection,
+                                            `CREATE EXTENSION IF NOT EXISTS "${
+                                                this.options.uuidExtension ||
+                                                "uuid-ossp"
+                                            }"`
+                                        );
+                                    } catch (_) {
+                                        logger.log(
+                                            "warn",
+                                            `At least one of the entities has uuid column, but the '${
+                                                this.options.uuidExtension ||
+                                                "uuid-ossp"
+                                            }' extension cannot be installed automatically. Please install it manually using superuser rights, or select another uuid extension.`
+                                        );
+                                    }
+                                if (hasCitextColumns)
+                                    try {
+                                        await this.executeQuery(
+                                            connection,
+                                            `CREATE EXTENSION IF NOT EXISTS "citext"`
+                                        );
+                                    } catch (_) {
+                                        logger.log(
+                                            "warn",
+                                            "At least one of the entities has citext column, but the 'citext' extension cannot be installed automatically. Please install it manually using superuser rights"
+                                        );
+                                    }
+                                if (hasHstoreColumns)
+                                    try {
+                                        await this.executeQuery(
+                                            connection,
+                                            `CREATE EXTENSION IF NOT EXISTS "hstore"`
+                                        );
+                                    } catch (_) {
+                                        logger.log(
+                                            "warn",
+                                            "At least one of the entities has hstore column, but the 'hstore' extension cannot be installed automatically. Please install it manually using superuser rights"
+                                        );
+                                    }
+                                if (hasGeometryColumns)
+                                    try {
+                                        await this.executeQuery(
+                                            connection,
+                                            `CREATE EXTENSION IF NOT EXISTS "postgis"`
+                                        );
+                                    } catch (_) {
+                                        logger.log(
+                                            "warn",
+                                            "At least one of the entities has a geometry column, but the 'postgis' extension cannot be installed automatically. Please install it manually using superuser rights"
+                                        );
+                                    }
+                                if (hasCubeColumns)
+                                    try {
+                                        await this.executeQuery(
+                                            connection,
+                                            `CREATE EXTENSION IF NOT EXISTS "cube"`
+                                        );
+                                    } catch (_) {
+                                        logger.log(
+                                            "warn",
+                                            "At least one of the entities has a cube column, but the 'cube' extension cannot be installed automatically. Please install it manually using superuser rights"
+                                        );
+                                    }
+                                if (hasExclusionConstraints)
+                                    try {
+                                        // The btree_gist extension provides operator support in PostgreSQL exclusion constraints
+                                        await this.executeQuery(
+                                            connection,
+                                            `CREATE EXTENSION IF NOT EXISTS "btree_gist"`
+                                        );
+                                    } catch (_) {
+                                        logger.log(
+                                            "warn",
+                                            "At least one of the entities has an exclusion constraint, but the 'btree_gist' extension cannot be installed automatically. Please install it manually using superuser rights"
+                                        );
+                                    }
+                                release();
+                                ok();
                             }
-                        if (hasCitextColumns)
-                            try {
-                                await this.executeQuery(connection, `CREATE EXTENSION IF NOT EXISTS "citext"`);
-                            } catch (_) {
-                                logger.log("warn", "At least one of the entities has citext column, but the 'citext' extension cannot be installed automatically. Please install it manually using superuser rights");
-                            }
-                        if (hasHstoreColumns)
-                            try {
-                                await this.executeQuery(connection, `CREATE EXTENSION IF NOT EXISTS "hstore"`);
-                            } catch (_) {
-                                logger.log("warn", "At least one of the entities has hstore column, but the 'hstore' extension cannot be installed automatically. Please install it manually using superuser rights");
-                            }
-                        if (hasGeometryColumns)
-                            try {
-                                await this.executeQuery(connection, `CREATE EXTENSION IF NOT EXISTS "postgis"`);
-                            } catch (_) {
-                                logger.log("warn", "At least one of the entities has a geometry column, but the 'postgis' extension cannot be installed automatically. Please install it manually using superuser rights");
-                            }
-                        if (hasCubeColumns)
-                            try {
-                                await this.executeQuery(connection, `CREATE EXTENSION IF NOT EXISTS "cube"`);
-                            } catch (_) {
-                                logger.log("warn", "At least one of the entities has a cube column, but the 'cube' extension cannot be installed automatically. Please install it manually using superuser rights");
-                            }
-                        if (hasExclusionConstraints)
-                            try {
-                                // The btree_gist extension provides operator support in PostgreSQL exclusion constraints
-                                await this.executeQuery(connection, `CREATE EXTENSION IF NOT EXISTS "btree_gist"`);
-                            } catch (_) {
-                                logger.log("warn", "At least one of the entities has an exclusion constraint, but the 'btree_gist' extension cannot be installed automatically. Please install it manually using superuser rights");
-                            }
-                        release();
-                        ok();
+                        );
                     });
-                });
-            }));
+                })
+            );
         }
 
         return Promise.resolve();
@@ -380,7 +464,7 @@ export class PostgresDriver implements Driver {
             return Promise.reject(new ConnectionIsNotSetError("postgres"));
 
         await this.closePool(this.master);
-        await Promise.all(this.slaves.map(slave => this.closePool(slave)));
+        await Promise.all(this.slaves.map((slave) => this.closePool(slave)));
         this.master = undefined;
         this.slaves = [];
     }
@@ -395,7 +479,7 @@ export class PostgresDriver implements Driver {
     /**
      * Creates a query runner used to execute database queries.
      */
-    createQueryRunner(mode: "master"|"slave" = "master") {
+    createQueryRunner(mode: "master" | "slave" = "master") {
         return new PostgresQueryRunner(this, mode);
     }
 
@@ -404,30 +488,33 @@ export class PostgresDriver implements Driver {
      */
     preparePersistentValue(value: any, columnMetadata: ColumnMetadata): any {
         if (columnMetadata.transformer)
-            value = ApplyValueTransformers.transformTo(columnMetadata.transformer, value);
+            value = ApplyValueTransformers.transformTo(
+                columnMetadata.transformer,
+                value
+            );
 
-        if (value === null || value === undefined)
-            return value;
+        if (value === null || value === undefined) return value;
 
         if (columnMetadata.type === Boolean) {
             return value === true ? 1 : 0;
-
         } else if (columnMetadata.type === "date") {
             return DateUtils.mixedDateToDateString(value);
-
         } else if (columnMetadata.type === "time") {
             return DateUtils.mixedDateToTimeString(value);
-
-        } else if (columnMetadata.type === "datetime"
-            || columnMetadata.type === Date
-            || columnMetadata.type === "timestamp"
-            || columnMetadata.type === "timestamp with time zone"
-            || columnMetadata.type === "timestamp without time zone") {
+        } else if (
+            columnMetadata.type === "datetime" ||
+            columnMetadata.type === Date ||
+            columnMetadata.type === "timestamp" ||
+            columnMetadata.type === "timestamp with time zone" ||
+            columnMetadata.type === "timestamp without time zone"
+        ) {
             return DateUtils.mixedDateToDate(value);
-
-        } else if (["json", "jsonb", ...this.spatialTypes].indexOf(columnMetadata.type) >= 0) {
+        } else if (
+            ["json", "jsonb", ...this.spatialTypes].indexOf(
+                columnMetadata.type
+            ) >= 0
+        ) {
             return JSON.stringify(value);
-
         } else if (columnMetadata.type === "hstore") {
             if (typeof value === "string") {
                 return value;
@@ -443,27 +530,28 @@ export class PostgresDriver implements Driver {
                     // To include a double quote or a backslash in a key or value, escape it with a backslash.
                     return `"${`${value}`.replace(/(?=["\\])/g, "\\")}"`;
                 };
-                return Object.keys(value).map(key => quoteString(key) + "=>" + quoteString(value[key])).join(",");
+                return Object.keys(value)
+                    .map(
+                        (key) =>
+                            quoteString(key) + "=>" + quoteString(value[key])
+                    )
+                    .join(",");
             }
-
         } else if (columnMetadata.type === "simple-array") {
             return DateUtils.simpleArrayToString(value);
-
         } else if (columnMetadata.type === "simple-json") {
             return DateUtils.simpleJsonToString(value);
-
         } else if (columnMetadata.type === "cube") {
             if (columnMetadata.isArray) {
-                return `{${value.map((cube: number[]) => `"(${cube.join(",")})"`).join(",")}}`;
+                return `{${value
+                    .map((cube: number[]) => `"(${cube.join(",")})"`)
+                    .join(",")}}`;
             }
             return `(${value.join(",")})`;
-
         } else if (
-            (
-                columnMetadata.type === "enum"
-                || columnMetadata.type === "simple-enum"
-            )
-            && !columnMetadata.isArray
+            (columnMetadata.type === "enum" ||
+                columnMetadata.type === "simple-enum") &&
+            !columnMetadata.isArray
         ) {
             return "" + value;
         }
@@ -476,45 +564,47 @@ export class PostgresDriver implements Driver {
      */
     prepareHydratedValue(value: any, columnMetadata: ColumnMetadata): any {
         if (value === null || value === undefined)
-            return columnMetadata.transformer ? ApplyValueTransformers.transformFrom(columnMetadata.transformer, value) : value;
+            return columnMetadata.transformer
+                ? ApplyValueTransformers.transformFrom(
+                      columnMetadata.transformer,
+                      value
+                  )
+                : value;
 
         if (columnMetadata.type === Boolean) {
             value = value ? true : false;
-
-        } else if (columnMetadata.type === "datetime"
-            || columnMetadata.type === Date
-            || columnMetadata.type === "timestamp"
-            || columnMetadata.type === "timestamp with time zone"
-            || columnMetadata.type === "timestamp without time zone") {
+        } else if (
+            columnMetadata.type === "datetime" ||
+            columnMetadata.type === Date ||
+            columnMetadata.type === "timestamp" ||
+            columnMetadata.type === "timestamp with time zone" ||
+            columnMetadata.type === "timestamp without time zone"
+        ) {
             value = DateUtils.normalizeHydratedDate(value);
-
         } else if (columnMetadata.type === "date") {
             value = DateUtils.mixedDateToDateString(value);
-
         } else if (columnMetadata.type === "time") {
             value = DateUtils.mixedTimeToString(value);
-
         } else if (columnMetadata.type === "hstore") {
             if (columnMetadata.hstoreType === "object") {
-                const unescapeString = (str: string) => str.replace(/\\./g, (m) => m[1]);
+                const unescapeString = (str: string) =>
+                    str.replace(/\\./g, (m) => m[1]);
                 const regexp = /"([^"\\]*(?:\\.[^"\\]*)*)"=>(?:(NULL)|"([^"\\]*(?:\\.[^"\\]*)*)")(?:,|$)/g;
                 const object: ObjectLiteral = {};
                 `${value}`.replace(regexp, (_, key, nullValue, stringValue) => {
-                    object[unescapeString(key)] = nullValue ? null : unescapeString(stringValue);
+                    object[unescapeString(key)] = nullValue
+                        ? null
+                        : unescapeString(stringValue);
                     return "";
                 });
                 return object;
-
             } else {
                 return value;
             }
-
         } else if (columnMetadata.type === "simple-array") {
             value = DateUtils.stringToSimpleArray(value);
-
         } else if (columnMetadata.type === "simple-json") {
             value = DateUtils.stringToSimpleJson(value);
-
         } else if (columnMetadata.type === "cube") {
             value = value.replace(/[\(\)\s]+/g, ""); // remove whitespace
             if (columnMetadata.isArray) {
@@ -532,7 +622,9 @@ export class PostgresDriver implements Driver {
                 // Iterate through all regexp matches for cubes/null in array
                 while ((cube = regexp.exec(unparsedArrayString)) !== null) {
                     if (cube[1] !== undefined) {
-                        value.push(cube[1].split(",").filter(Boolean).map(Number));
+                        value.push(
+                            cube[1].split(",").filter(Boolean).map(Number)
+                        );
                     } else {
                         value.push(undefined);
                     }
@@ -540,23 +632,40 @@ export class PostgresDriver implements Driver {
             } else {
                 value = value.split(",").filter(Boolean).map(Number);
             }
-
-        } else if (columnMetadata.type === "enum" || columnMetadata.type === "simple-enum" ) {
+        } else if (
+            columnMetadata.type === "enum" ||
+            columnMetadata.type === "simple-enum"
+        ) {
             if (columnMetadata.isArray) {
                 // manually convert enum array to array of values (pg does not support, see https://github.com/brianc/node-pg-types/issues/56)
-                value = value !== "{}" ? (value as string).substr(1, (value as string).length - 2).split(",") : [];
+                value =
+                    value !== "{}"
+                        ? (value as string)
+                              .substr(1, (value as string).length - 2)
+                              .split(",")
+                        : [];
                 // convert to number if that exists in poosible enum options
                 value = value.map((val: string) => {
-                    return !isNaN(+val) && columnMetadata.enum!.indexOf(parseInt(val)) >= 0 ? parseInt(val) : val;
+                    return !isNaN(+val) &&
+                        columnMetadata.enum!.indexOf(parseInt(val)) >= 0
+                        ? parseInt(val)
+                        : val;
                 });
             } else {
                 // convert to number if that exists in poosible enum options
-                value = !isNaN(+value) && columnMetadata.enum!.indexOf(parseInt(value)) >= 0 ? parseInt(value) : value;
+                value =
+                    !isNaN(+value) &&
+                    columnMetadata.enum!.indexOf(parseInt(value)) >= 0
+                        ? parseInt(value)
+                        : value;
             }
         }
 
         if (columnMetadata.transformer)
-            value = ApplyValueTransformers.transformFrom(columnMetadata.transformer, value);
+            value = ApplyValueTransformers.transformFrom(
+                columnMetadata.transformer,
+                value
+            );
 
         return value;
     }
@@ -565,12 +674,20 @@ export class PostgresDriver implements Driver {
      * Replaces parameters in the given sql with special escaping character
      * and an array of parameter names to be passed to a query.
      */
-    escapeQueryWithParameters(sql: string, parameters: ObjectLiteral, nativeParameters: ObjectLiteral): [string, any[]] {
-        const builtParameters: any[] = Object.keys(nativeParameters).map(key => nativeParameters[key]);
+    escapeQueryWithParameters(
+        sql: string,
+        parameters: ObjectLiteral,
+        nativeParameters: ObjectLiteral
+    ): [string, any[]] {
+        const builtParameters: any[] = Object.keys(nativeParameters).map(
+            (key) => nativeParameters[key]
+        );
         if (!parameters || !Object.keys(parameters).length)
             return [sql, builtParameters];
 
-        const keys = Object.keys(parameters).map(parameter => "(:(\\.\\.\\.)?" + parameter + "\\b)").join("|");
+        const keys = Object.keys(parameters)
+            .map((parameter) => "(:(\\.\\.\\.)?" + parameter + "\\b)")
+            .join("|");
         sql = sql.replace(new RegExp(keys, "g"), (key: string): string => {
             let value: any;
             let isArray = false;
@@ -582,14 +699,14 @@ export class PostgresDriver implements Driver {
             }
 
             if (isArray) {
-                return value.map((v: any) => {
-                    builtParameters.push(v);
-                    return "$" + builtParameters.length;
-                }).join(", ");
-
+                return value
+                    .map((v: any) => {
+                        builtParameters.push(v);
+                        return "$" + builtParameters.length;
+                    })
+                    .join(", ");
             } else if (value instanceof Function) {
                 return value();
-
             } else {
                 builtParameters.push(value);
                 return "$" + builtParameters.length;
@@ -602,7 +719,7 @@ export class PostgresDriver implements Driver {
      * Escapes a column name.
      */
     escape(columnName: string): string {
-        return "\"" + columnName + "\"";
+        return '"' + columnName + '"';
     }
 
     /**
@@ -616,60 +733,53 @@ export class PostgresDriver implements Driver {
     /**
      * Creates a database type from a given column metadata.
      */
-    normalizeType(column: { type?: ColumnType, length?: number | string, precision?: number|null, scale?: number, isArray?: boolean }): string {
-        if (column.type === Number || column.type === "int" || column.type === "int4") {
+    normalizeType(column: {
+        type?: ColumnType;
+        length?: number | string;
+        precision?: number | null;
+        scale?: number;
+        isArray?: boolean;
+    }): string {
+        if (
+            column.type === Number ||
+            column.type === "int" ||
+            column.type === "int4"
+        ) {
             return "integer";
-
         } else if (column.type === String || column.type === "varchar") {
             return "character varying";
-
         } else if (column.type === Date || column.type === "timestamp") {
             return "timestamp without time zone";
-
         } else if (column.type === "timestamptz") {
             return "timestamp with time zone";
-
         } else if (column.type === "time") {
             return "time without time zone";
-
         } else if (column.type === "timetz") {
             return "time with time zone";
-
         } else if (column.type === Boolean || column.type === "bool") {
             return "boolean";
-
         } else if (column.type === "simple-array") {
             return "text";
-
         } else if (column.type === "simple-json") {
             return "text";
-
         } else if (column.type === "simple-enum") {
             return "enum";
-
         } else if (column.type === "int2") {
             return "smallint";
-
         } else if (column.type === "int8") {
             return "bigint";
-
         } else if (column.type === "decimal") {
             return "numeric";
-
         } else if (column.type === "float8" || column.type === "float") {
             return "double precision";
-
         } else if (column.type === "float4") {
             return "real";
-
         } else if (column.type === "char") {
             return "character";
-
         } else if (column.type === "varbit") {
             return "bit varying";
-
         } else {
-            return column.type as string || "";
+            return (column.type as string) || "";
         }
     }
 
@@ -678,38 +788,35 @@ export class PostgresDriver implements Driver {
      */
     normalizeDefault(columnMetadata: ColumnMetadata): string {
         const defaultValue = columnMetadata.default;
-        const arrayCast = columnMetadata.isArray ? `::${columnMetadata.type}[]` : "";
+        const arrayCast = columnMetadata.isArray
+            ? `::${columnMetadata.type}[]`
+            : "";
 
         if (
-            (
-                columnMetadata.type === "enum"
-                || columnMetadata.type === "simple-enum"
-            ) && defaultValue !== undefined
+            (columnMetadata.type === "enum" ||
+                columnMetadata.type === "simple-enum") &&
+            defaultValue !== undefined
         ) {
             if (columnMetadata.isArray && Array.isArray(defaultValue)) {
-                return `'{${defaultValue.map((val: string) => `${val}`).join(",")}}'`;
+                return `'{${defaultValue
+                    .map((val: string) => `${val}`)
+                    .join(",")}}'`;
             }
             return `'${defaultValue}'`;
         }
 
         if (typeof defaultValue === "number") {
             return "" + defaultValue;
-
         } else if (typeof defaultValue === "boolean") {
             return defaultValue === true ? "true" : "false";
-
         } else if (typeof defaultValue === "function") {
             return defaultValue();
-
         } else if (typeof defaultValue === "string") {
             return `'${defaultValue}'${arrayCast}`;
-
         } else if (defaultValue === null) {
             return `null`;
-
         } else if (typeof defaultValue === "object") {
             return `'${JSON.stringify(defaultValue)}'`;
-
         } else {
             return defaultValue;
         }
@@ -719,7 +826,9 @@ export class PostgresDriver implements Driver {
      * Normalizes "isUnique" value of the column.
      */
     normalizeIsUnique(column: ColumnMetadata): boolean {
-        return column.entityMetadata.uniques.some(uq => uq.columns.length === 1 && uq.columns[0] === column);
+        return column.entityMetadata.uniques.some(
+            (uq) => uq.columns.length === 1 && uq.columns[0] === column
+        );
     }
 
     /**
@@ -737,23 +846,46 @@ export class PostgresDriver implements Driver {
 
         if (column.length) {
             type += "(" + column.length + ")";
-        } else if (column.precision !== null && column.precision !== undefined && column.scale !== null && column.scale !== undefined) {
+        } else if (
+            column.precision !== null &&
+            column.precision !== undefined &&
+            column.scale !== null &&
+            column.scale !== undefined
+        ) {
             type += "(" + column.precision + "," + column.scale + ")";
-        } else if (column.precision !== null && column.precision !== undefined) {
-            type +=  "(" + column.precision + ")";
+        } else if (
+            column.precision !== null &&
+            column.precision !== undefined
+        ) {
+            type += "(" + column.precision + ")";
         }
 
         if (column.type === "time without time zone") {
-            type = "TIME" + (column.precision !== null && column.precision !== undefined ? "(" + column.precision + ")" : "");
-
+            type =
+                "TIME" +
+                (column.precision !== null && column.precision !== undefined
+                    ? "(" + column.precision + ")"
+                    : "");
         } else if (column.type === "time with time zone") {
-            type = "TIME" + (column.precision !== null && column.precision !== undefined ? "(" + column.precision + ")" : "") + " WITH TIME ZONE";
-
+            type =
+                "TIME" +
+                (column.precision !== null && column.precision !== undefined
+                    ? "(" + column.precision + ")"
+                    : "") +
+                " WITH TIME ZONE";
         } else if (column.type === "timestamp without time zone") {
-            type = "TIMESTAMP" + (column.precision !== null && column.precision !== undefined ? "(" + column.precision + ")" : "");
-
+            type =
+                "TIMESTAMP" +
+                (column.precision !== null && column.precision !== undefined
+                    ? "(" + column.precision + ")"
+                    : "");
         } else if (column.type === "timestamp with time zone") {
-            type = "TIMESTAMP" + (column.precision !== null && column.precision !== undefined ? "(" + column.precision + ")" : "") + " WITH TIME ZONE";
+            type =
+                "TIMESTAMP" +
+                (column.precision !== null && column.precision !== undefined
+                    ? "(" + column.precision + ")"
+                    : "") +
+                " WITH TIME ZONE";
         } else if (this.spatialTypes.indexOf(column.type as ColumnType) >= 0) {
             if (column.spatialFeatureType != null && column.srid != null) {
                 type = `${column.type}(${column.spatialFeatureType},${column.srid})`;
@@ -764,8 +896,7 @@ export class PostgresDriver implements Driver {
             }
         }
 
-        if (column.isArray)
-            type += " array";
+        if (column.isArray) type += " array";
 
         return type;
     }
@@ -789,14 +920,15 @@ export class PostgresDriver implements Driver {
      * If replication is not setup then returns master (default) connection's database connection.
      */
     obtainSlaveConnection(): Promise<any> {
-        if (!this.slaves.length)
-            return this.obtainMasterConnection();
+        if (!this.slaves.length) return this.obtainMasterConnection();
 
         return new Promise((ok, fail) => {
             const random = Math.floor(Math.random() * this.slaves.length);
-            this.slaves[random].connect((err: any, connection: any, release: any) => {
-                err ? fail(err) : ok([connection, release]);
-            });
+            this.slaves[random].connect(
+                (err: any, connection: any, release: any) => {
+                    err ? fail(err) : ok([connection, release]);
+                }
+            );
         });
     }
 
@@ -806,13 +938,15 @@ export class PostgresDriver implements Driver {
      * todo: slow. optimize Object.keys(), OrmUtils.mergeDeep and column.createValueMap parts
      */
     createGeneratedMap(metadata: EntityMetadata, insertResult: ObjectLiteral) {
-        if (!insertResult)
-            return undefined;
+        if (!insertResult) return undefined;
 
         return Object.keys(insertResult).reduce((map, key) => {
             const column = metadata.findColumnWithDatabaseName(key);
             if (column) {
-                OrmUtils.mergeDeep(map, column.createValueMap(insertResult[key]));
+                OrmUtils.mergeDeep(
+                    map,
+                    column.createValueMap(insertResult[key])
+                );
                 // OrmUtils.mergeDeep(map, column.createValueMap(this.prepareHydratedValue(insertResult[key], column))); // TODO: probably should be like there, but fails on enums, fix later
             }
             return map;
@@ -823,26 +957,42 @@ export class PostgresDriver implements Driver {
      * Differentiate columns of this table and columns from the given column metadatas columns
      * and returns only changed.
      */
-    findChangedColumns(tableColumns: TableColumn[], columnMetadatas: ColumnMetadata[]): ColumnMetadata[] {
-        return columnMetadatas.filter(columnMetadata => {
-            const tableColumn = tableColumns.find(c => c.name === columnMetadata.databaseName);
-            if (!tableColumn)
-                return false; // we don't need new columns, we only need exist and changed
+    findChangedColumns(
+        tableColumns: TableColumn[],
+        columnMetadatas: ColumnMetadata[]
+    ): ColumnMetadata[] {
+        return columnMetadatas.filter((columnMetadata) => {
+            const tableColumn = tableColumns.find(
+                (c) => c.name === columnMetadata.databaseName
+            );
+            if (!tableColumn) return false; // we don't need new columns, we only need exist and changed
 
-            return tableColumn.name !== columnMetadata.databaseName
-                || tableColumn.type !== this.normalizeType(columnMetadata)
-                || tableColumn.length !== columnMetadata.length
-                || tableColumn.precision !== columnMetadata.precision
-                || tableColumn.scale !== columnMetadata.scale
+            return (
+                tableColumn.name !== columnMetadata.databaseName ||
+                tableColumn.type !== this.normalizeType(columnMetadata) ||
+                tableColumn.length !== columnMetadata.length ||
+                tableColumn.precision !== columnMetadata.precision ||
+                tableColumn.scale !== columnMetadata.scale ||
                 // || tableColumn.comment !== columnMetadata.comment // todo
-                || (!tableColumn.isGenerated && this.lowerDefaultValueIfNecessary(this.normalizeDefault(columnMetadata)) !== tableColumn.default) // we included check for generated here, because generated columns already can have default values
-                || tableColumn.isPrimary !== columnMetadata.isPrimary
-                || tableColumn.isNullable !== columnMetadata.isNullable
-                || tableColumn.isUnique !== this.normalizeIsUnique(columnMetadata)
-                || (tableColumn.enum && columnMetadata.enum && !OrmUtils.isArraysEqual(tableColumn.enum, columnMetadata.enum.map(val => val + ""))) // enums in postgres are always strings
-                || tableColumn.isGenerated !== columnMetadata.isGenerated
-                || (tableColumn.spatialFeatureType || "").toLowerCase() !== (columnMetadata.spatialFeatureType || "").toLowerCase()
-                || tableColumn.srid !== columnMetadata.srid;
+                (!tableColumn.isGenerated &&
+                    this.lowerDefaultValueIfNecessary(
+                        this.normalizeDefault(columnMetadata)
+                    ) !== tableColumn.default) || // we included check for generated here, because generated columns already can have default values
+                tableColumn.isPrimary !== columnMetadata.isPrimary ||
+                tableColumn.isNullable !== columnMetadata.isNullable ||
+                tableColumn.isUnique !==
+                    this.normalizeIsUnique(columnMetadata) ||
+                (tableColumn.enum &&
+                    columnMetadata.enum &&
+                    !OrmUtils.isArraysEqual(
+                        tableColumn.enum,
+                        columnMetadata.enum.map((val) => val + "")
+                    )) || // enums in postgres are always strings
+                tableColumn.isGenerated !== columnMetadata.isGenerated ||
+                (tableColumn.spatialFeatureType || "").toLowerCase() !==
+                    (columnMetadata.spatialFeatureType || "").toLowerCase() ||
+                tableColumn.srid !== columnMetadata.srid
+            );
         });
     }
 
@@ -851,9 +1001,12 @@ export class PostgresDriver implements Driver {
         if (!value) {
             return value;
         }
-        return value.split(`'`).map((v, i) => {
-            return i % 2 === 1 ? v : v.toLowerCase();
-        }).join(`'`);
+        return value
+            .split(`'`)
+            .map((v, i) => {
+                return i % 2 === 1 ? v : v.toLowerCase();
+            })
+            .join(`'`);
     }
     /**
      * Returns true if driver supports RETURNING / OUTPUT statement.
@@ -870,7 +1023,9 @@ export class PostgresDriver implements Driver {
     }
 
     get uuidGenerator(): string {
-        return this.options.uuidExtension === "pgcrypto" ? "gen_random_uuid()" : "uuid_generate_v4()";
+        return this.options.uuidExtension === "pgcrypto"
+            ? "gen_random_uuid()"
+            : "uuid_generate_v4()";
     }
 
     /**
@@ -890,9 +1045,11 @@ export class PostgresDriver implements Driver {
     loadStreamDependency() {
         try {
             return PlatformTools.load("pg-query-stream");
-
-        } catch (e) { // todo: better error for browser env
-            throw new Error(`To use streams you should install pg-query-stream package. Please run npm i pg-query-stream --save command.`);
+        } catch (e) {
+            // todo: better error for browser env
+            throw new Error(
+                `To use streams you should install pg-query-stream package. Please run npm i pg-query-stream --save command.`
+            );
         }
     }
 
@@ -908,11 +1065,11 @@ export class PostgresDriver implements Driver {
             this.postgres = PlatformTools.load("pg");
             try {
                 const pgNative = PlatformTools.load("pg-native");
-                if (pgNative && this.postgres.native) this.postgres = this.postgres.native;
-
-            } catch (e) { }
-
-        } catch (e) { // todo: better error for browser env
+                if (pgNative && this.postgres.native)
+                    this.postgres = this.postgres.native;
+            } catch (e) {}
+        } catch (e) {
+            // todo: better error for browser env
             throw new DriverPackageNotInstalledError("Postgres", "pg");
         }
     }
@@ -920,27 +1077,40 @@ export class PostgresDriver implements Driver {
     /**
      * Creates a new connection pool for a given database credentials.
      */
-    protected async createPool(options: PostgresConnectionOptions, credentials: PostgresConnectionCredentialsOptions): Promise<any> {
-
-        credentials = Object.assign({}, credentials, DriverUtils.buildDriverOptions(credentials)); // todo: do it better way
+    protected async createPool(
+        options: PostgresConnectionOptions,
+        credentials: PostgresConnectionCredentialsOptions
+    ): Promise<any> {
+        credentials = Object.assign(
+            {},
+            credentials,
+            DriverUtils.buildDriverOptions(credentials)
+        ); // todo: do it better way
 
         // build connection options for the driver
         // See: https://github.com/brianc/node-postgres/tree/master/packages/pg-pool#create
-        const connectionOptions = Object.assign({}, {
-            host: credentials.host,
-            user: credentials.username,
-            password: credentials.password,
-            database: credentials.database,
-            port: credentials.port,
-            ssl: credentials.ssl,
-            connectionTimeoutMillis: options.connectTimeoutMS
-        }, options.extra || {});
+        const connectionOptions = Object.assign(
+            {},
+            {
+                host: credentials.host,
+                user: credentials.username,
+                password: credentials.password,
+                database: credentials.database,
+                port: credentials.port,
+                ssl: credentials.ssl,
+                connectionTimeoutMillis: options.connectTimeoutMS,
+            },
+            options.extra || {}
+        );
 
         // create a connection pool
         const pool = new this.postgres.Pool(connectionOptions);
         const { logger } = this.connection;
 
-        const poolErrorHandler = options.poolErrorHandler || ((error: any) => logger.log("warn", `Postgres pool raised an error. ${error}`));
+        const poolErrorHandler =
+            options.poolErrorHandler ||
+            ((error: any) =>
+                logger.log("warn", `Postgres pool raised an error. ${error}`));
 
         /*
           Attaching an error handler to pool errors is essential, as, otherwise, errors raised will go unhandled and
@@ -961,9 +1131,13 @@ export class PostgresDriver implements Driver {
      * Closes connection pool.
      */
     protected async closePool(pool: any): Promise<void> {
-        await Promise.all(this.connectedQueryRunners.map(queryRunner => queryRunner.release()));
+        await Promise.all(
+            this.connectedQueryRunners.map((queryRunner) =>
+                queryRunner.release()
+            )
+        );
         return new Promise<void>((ok, fail) => {
-            pool.end((err: any) => err ? fail(err) : ok());
+            pool.end((err: any) => (err ? fail(err) : ok()));
         });
     }
 
@@ -978,20 +1152,18 @@ export class PostgresDriver implements Driver {
             });
         });
     }
-
 }
 
 abstract class PostgresWrapper extends PostgresDriver {
     options: any;
 
-    abstract createQueryRunner(mode: "master"|"slave"): any;
+    abstract createQueryRunner(mode: "master" | "slave"): any;
 }
 
 /**
  * Organizes communication with PostgreSQL DBMS.
  */
 export class AuroraDataApiPostgresDriver extends PostgresWrapper {
-
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -1040,7 +1212,8 @@ export class AuroraDataApiPostgresDriver extends PostgresWrapper {
             this.options.secretArn,
             this.options.resourceArn,
             this.options.database,
-            (query: string, parameters?: any[]) => this.connection.logger.logQuery(query, parameters),
+            (query: string, parameters?: any[]) =>
+                this.connection.logger.logQuery(query, parameters),
             this.options.serviceConfigOptions
         );
     }
@@ -1054,19 +1227,17 @@ export class AuroraDataApiPostgresDriver extends PostgresWrapper {
      * Based on pooling options, it can either create connection immediately,
      * either create a pool and create connection when needed.
      */
-    async connect(): Promise<void> {
-    }
+    async connect(): Promise<void> {}
 
     /**
      * Closes connection with database.
      */
-    async disconnect(): Promise<void> {
-    }
+    async disconnect(): Promise<void> {}
 
     /**
      * Creates a query runner used to execute database queries.
      */
-    createQueryRunner(mode: "master"|"slave" = "master") {
+    createQueryRunner(mode: "master" | "slave" = "master") {
         return new AuroraDataApiPostgresQueryRunner(this, mode);
     }
 
@@ -1089,5 +1260,4 @@ export class AuroraDataApiPostgresDriver extends PostgresWrapper {
     protected executeQuery(connection: any, query: string) {
         return this.client.query(query);
     }
-
 }

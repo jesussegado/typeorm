@@ -1,10 +1,9 @@
-import {Entity} from "../../../../../../src/decorator/entity/Entity";
-import {PrimaryColumn} from "../../../../../../src/decorator/columns/PrimaryColumn";
-import {Column} from "../../../../../../src/decorator/columns/Column";
+import { Entity } from "../../../../../../src/decorator/entity/Entity";
+import { PrimaryColumn } from "../../../../../../src/decorator/columns/PrimaryColumn";
+import { Column } from "../../../../../../src/decorator/columns/Column";
 
 @Entity()
 export class Post {
-
     @PrimaryColumn()
     id: number;
 
@@ -143,16 +142,16 @@ export class Post {
     // -------------------------------------------------------------------------
 
     @Column("point")
-    point: string|Object;
+    point: string | Object;
 
     @Column("line")
     line: string;
 
     @Column("lseg")
-    lseg: string|string[];
+    lseg: string | string[];
 
     @Column("box")
-    box: string|Object;
+    box: string | Object;
 
     @Column("path")
     path: string;
@@ -161,7 +160,7 @@ export class Post {
     polygon: string;
 
     @Column("circle")
-    circle: string|Object;
+    circle: string | Object;
 
     // -------------------------------------------------------------------------
     // Network Address Type

@@ -1,18 +1,24 @@
 import "reflect-metadata";
-import {Connection} from "../../../../../src/connection/Connection";
-import {closeTestingConnections, createTestingConnections, reloadTestingDatabases} from "../../../../utils/test-utils";
-import {User} from "./entity/User";
-import {Profile} from "./entity/Profile";
-import {Editor} from "./entity/Editor";
-import {Post} from "./entity/Post";
-import {Category} from "./entity/Category";
+import { Connection } from "../../../../../src/connection/Connection";
+import {
+    closeTestingConnections,
+    createTestingConnections,
+    reloadTestingDatabases,
+} from "../../../../utils/test-utils";
+import { User } from "./entity/User";
+import { Profile } from "./entity/Profile";
+import { Editor } from "./entity/Editor";
+import { Post } from "./entity/Post";
+import { Category } from "./entity/Category";
 
 describe("relations > eager relations > basic", () => {
-
     let connections: Connection[];
-    before(async () => connections = await createTestingConnections({
-        entities: [__dirname + "/entity/*{.js,.ts}"],
-    }));
+    before(
+        async () =>
+            (connections = await createTestingConnections({
+                entities: [__dirname + "/entity/*{.js,.ts}"],
+            }))
+    );
     beforeEach(() => reloadTestingDatabases(connections));
     after(() => closeTestingConnections(connections));
 
@@ -56,63 +62,75 @@ describe("relations > eager relations > basic", () => {
         await connection.manager.save(editor);
     }
 
-    it("should load all eager relations when object is loaded", () => Promise.all(connections.map(async connection => {
-        await prepareData(connection);
+    it("should load all eager relations when object is loaded", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepareData(connection);
 
-        const loadedPost = await connection.manager.findOne(Post, 1);
-        loadedPost!.should.be.eql({
-            id: 1,
-            title: "about eager relations",
-            categories1: [{
-                id: 1,
-                name: "primary category #1"
-            }, {
-                id: 2,
-                name: "primary category #2"
-            }],
-            categories2: [{
-                id: 3,
-                name: "secondary category #1"
-            }, {
-                id: 4,
-                name: "secondary category #2"
-            }],
-            author: {
-                id: 1,
-                firstName: "Timber",
-                lastName: "Saw",
-                profile: {
+                const loadedPost = await connection.manager.findOne(Post, 1);
+                loadedPost!.should.be.eql({
                     id: 1,
-                    about: "I cut trees!"
-                }
-            },
-            editors: [{
-                user: {
-                    id: 1,
-                    firstName: "Timber",
-                    lastName: "Saw",
-                    profile: {
+                    title: "about eager relations",
+                    categories1: [
+                        {
+                            id: 1,
+                            name: "primary category #1",
+                        },
+                        {
+                            id: 2,
+                            name: "primary category #2",
+                        },
+                    ],
+                    categories2: [
+                        {
+                            id: 3,
+                            name: "secondary category #1",
+                        },
+                        {
+                            id: 4,
+                            name: "secondary category #2",
+                        },
+                    ],
+                    author: {
                         id: 1,
-                        about: "I cut trees!"
-                    }
-                }
-            }]
-        });
+                        firstName: "Timber",
+                        lastName: "Saw",
+                        profile: {
+                            id: 1,
+                            about: "I cut trees!",
+                        },
+                    },
+                    editors: [
+                        {
+                            user: {
+                                id: 1,
+                                firstName: "Timber",
+                                lastName: "Saw",
+                                profile: {
+                                    id: 1,
+                                    about: "I cut trees!",
+                                },
+                            },
+                        },
+                    ],
+                });
+            })
+        ));
 
-    })));
+    it("should not load eager relations when query builder is used", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                await prepareData(connection);
 
-    it("should not load eager relations when query builder is used", () => Promise.all(connections.map(async connection => {
-        await prepareData(connection);
+                const loadedPost = await connection.manager
+                    .createQueryBuilder(Post, "post")
+                    .where("post.id = :id", { id: 1 })
+                    .getOne();
 
-        const loadedPost = await connection.manager
-            .createQueryBuilder(Post, "post")
-            .where("post.id = :id", { id: 1 })
-            .getOne();
-
-        loadedPost!.should.be.eql({
-            id: 1,
-            title: "about eager relations"
-        });
-    })));
-
+                loadedPost!.should.be.eql({
+                    id: 1,
+                    title: "about eager relations",
+                });
+            })
+        ));
 });

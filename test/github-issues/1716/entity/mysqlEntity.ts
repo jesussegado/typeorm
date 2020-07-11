@@ -2,7 +2,6 @@ import { PrimaryColumn, Entity, Column } from "../../../../src";
 
 @Entity()
 export class MysqlEntity {
-
     @PrimaryColumn()
     id: number;
 
@@ -14,5 +13,4 @@ export class MysqlEntity {
 
     @Column("datetime")
     fieldDatetime: Date;
-
 }

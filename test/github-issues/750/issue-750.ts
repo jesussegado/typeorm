@@ -1,12 +1,14 @@
 import "reflect-metadata";
-import {Connection} from "../../../src/connection/Connection";
-import {closeTestingConnections, createTestingConnections} from "../../utils/test-utils";
-import {Post} from "./entity/Post";
-import {IndexMetadata} from "../../../src/metadata/IndexMetadata";
-import {expect} from "chai";
+import { Connection } from "../../../src/connection/Connection";
+import {
+    closeTestingConnections,
+    createTestingConnections,
+} from "../../utils/test-utils";
+import { Post } from "./entity/Post";
+import { IndexMetadata } from "../../../src/metadata/IndexMetadata";
+import { expect } from "chai";
 
 describe("github issues > #750 Need option for Mysql's full text search", () => {
-
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
@@ -18,40 +20,54 @@ describe("github issues > #750 Need option for Mysql's full text search", () => 
     });
     after(() => closeTestingConnections(connections));
 
-    it("should correctly create SPATIAL and FULLTEXT indices", () => Promise.all(connections.map(async connection => {
-        const queryRunner = connection.createQueryRunner();
-        let table = await queryRunner.getTable("post");
-        table!.indices.length.should.be.equal(2);
-        const spatialIndex = table!.indices.find(index => !!index.isSpatial);
-        spatialIndex!.should.be.exist;
-        const fulltextIndex = table!.indices.find(index => !!index.isFulltext);
-        fulltextIndex!.should.be.exist;
+    it("should correctly create SPATIAL and FULLTEXT indices", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                const queryRunner = connection.createQueryRunner();
+                let table = await queryRunner.getTable("post");
+                table!.indices.length.should.be.equal(2);
+                const spatialIndex = table!.indices.find(
+                    (index) => !!index.isSpatial
+                );
+                spatialIndex!.should.be.exist;
+                const fulltextIndex = table!.indices.find(
+                    (index) => !!index.isFulltext
+                );
+                fulltextIndex!.should.be.exist;
 
-        const metadata = connection.getMetadata(Post);
-        const polygonColumn = metadata.findColumnWithPropertyName("polygon");
-        const indexMetadata = new IndexMetadata({
-            entityMetadata: metadata,
-            columns: [polygonColumn!],
-            args: {
-                target: Post,
-                spatial: true
-            }
-        });
-        indexMetadata.build(connection.namingStrategy);
-        metadata.indices.push(indexMetadata);
+                const metadata = connection.getMetadata(Post);
+                const polygonColumn = metadata.findColumnWithPropertyName(
+                    "polygon"
+                );
+                const indexMetadata = new IndexMetadata({
+                    entityMetadata: metadata,
+                    columns: [polygonColumn!],
+                    args: {
+                        target: Post,
+                        spatial: true,
+                    },
+                });
+                indexMetadata.build(connection.namingStrategy);
+                metadata.indices.push(indexMetadata);
 
-        const fulltextIndexMetadata = metadata.indices.find(index => index.isFulltext);
-        fulltextIndexMetadata!.isFulltext = false;
+                const fulltextIndexMetadata = metadata.indices.find(
+                    (index) => index.isFulltext
+                );
+                fulltextIndexMetadata!.isFulltext = false;
 
-        await connection.synchronize();
-        table = await queryRunner.getTable("post");
-        table!.indices.length.should.be.equal(3);
-        const spatialIndices = table!.indices.filter(index => !!index.isSpatial);
-        spatialIndices.length.should.be.equal(2);
-        const fulltextIndex2 = table!.indices.find(index => !!index.isFulltext);
-        expect(fulltextIndex2).to.be.undefined;
+                await connection.synchronize();
+                table = await queryRunner.getTable("post");
+                table!.indices.length.should.be.equal(3);
+                const spatialIndices = table!.indices.filter(
+                    (index) => !!index.isSpatial
+                );
+                spatialIndices.length.should.be.equal(2);
+                const fulltextIndex2 = table!.indices.find(
+                    (index) => !!index.isFulltext
+                );
+                expect(fulltextIndex2).to.be.undefined;
 
-        await queryRunner.release();
-    })));
-
+                await queryRunner.release();
+            })
+        ));
 });

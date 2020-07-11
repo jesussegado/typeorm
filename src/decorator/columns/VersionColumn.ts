@@ -1,5 +1,5 @@
-import {ColumnOptions, getMetadataArgsStorage} from "../../";
-import {ColumnMetadataArgs} from "../../metadata-args/ColumnMetadataArgs";
+import { ColumnOptions, getMetadataArgsStorage } from "../../";
+import { ColumnMetadataArgs } from "../../metadata-args/ColumnMetadataArgs";
 
 /**
  * This column will store a number - version of the entity.
@@ -8,13 +8,11 @@ import {ColumnMetadataArgs} from "../../metadata-args/ColumnMetadataArgs";
  */
 export function VersionColumn(options?: ColumnOptions): Function {
     return function (object: Object, propertyName: string) {
-
         getMetadataArgsStorage().columns.push({
             target: object.constructor,
             propertyName: propertyName,
             mode: "version",
-            options: options || {}
+            options: options || {},
         } as ColumnMetadataArgs);
     };
 }
-

@@ -1,11 +1,10 @@
-import {TableCheckOptions} from "../options/TableCheckOptions";
-import {CheckMetadata} from "../../metadata/CheckMetadata";
+import { TableCheckOptions } from "../options/TableCheckOptions";
+import { CheckMetadata } from "../../metadata/CheckMetadata";
 
 /**
  * Database's table check constraint stored in this class.
  */
 export class TableCheck {
-
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -60,8 +59,7 @@ export class TableCheck {
     static create(checkMetadata: CheckMetadata): TableCheck {
         return new TableCheck(<TableCheckOptions>{
             name: checkMetadata.name,
-            expression: checkMetadata.expression
+            expression: checkMetadata.expression,
         });
     }
-
 }

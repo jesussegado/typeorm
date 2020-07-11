@@ -1,9 +1,9 @@
 import * as path from "path";
 import * as fs from "fs";
-import {highlight, Theme} from "cli-highlight";
-export {ReadStream} from "fs";
-export {EventEmitter} from "events";
-export {Readable, Writable} from "stream";
+import { highlight, Theme } from "cli-highlight";
+export { ReadStream } from "fs";
+export { EventEmitter } from "events";
+export { Readable, Writable } from "stream";
 
 const chalk = require("chalk");
 
@@ -11,11 +11,10 @@ const chalk = require("chalk");
  * Platform-specific tools.
  */
 export class PlatformTools {
-
     /**
      * Type of the currently running platform.
      */
-    static type: "browser"|"node" = "node";
+    static type: "browser" | "node" = "node";
 
     /**
      * Gets global variable where global stuff can be stored.
@@ -29,32 +28,29 @@ export class PlatformTools {
      * This operation only supports on node platform
      */
     static load(name: string): any {
-
         // if name is not absolute or relative, then try to load package from the node_modules of the directory we are currently in
         // this is useful when we are using typeorm package globally installed and it accesses drivers
         // that are not installed globally
 
         try {
-
             // switch case to explicit require statements for webpack compatibility.
 
             switch (name) {
-
                 /**
-                * mongodb
-                */
+                 * mongodb
+                 */
                 case "mongodb":
                     return require("mongodb");
 
                 /**
-                * hana
-                */
+                 * hana
+                 */
                 case "@sap/hdbext":
                     return require("@sap/hdbext");
 
                 /**
-                * mysql
-                */
+                 * mysql
+                 */
                 case "mysql":
                     return require("mysql");
 
@@ -62,14 +58,14 @@ export class PlatformTools {
                     return require("mysql2");
 
                 /**
-                * oracle
-                */
+                 * oracle
+                 */
                 case "oracledb":
                     return require("oracledb");
 
                 /**
-                * postgres
-                */
+                 * postgres
+                 */
                 case "pg":
                     return require("pg");
 
@@ -80,8 +76,8 @@ export class PlatformTools {
                     return require("pg-query-stream");
 
                 /**
-                * redis
-                */
+                 * redis
+                 */
                 case "redis":
                     return require("redis");
 
@@ -93,26 +89,26 @@ export class PlatformTools {
                     return require("ioredis");
 
                 /**
-                * sqlite
-                */
+                 * sqlite
+                 */
                 case "sqlite3":
                     return require("sqlite3");
 
                 /**
-                * sql.js
-                */
+                 * sql.js
+                 */
                 case "sql.js":
                     return require("sql.js");
 
                 /**
-                * sqlserver
-                */
+                 * sqlserver
+                 */
                 case "mssql":
                     return require("mssql");
 
                 /**
-                * other modules
-                */
+                 * other modules
+                 */
                 case "mkdirp":
                     return require("mkdirp");
 
@@ -131,16 +127,20 @@ export class PlatformTools {
                 case "typeorm-aurora-data-api-driver":
                     return require("typeorm-aurora-data-api-driver");
                 /**
-                * default
-                */
+                 * default
+                 */
                 default:
                     return require(name);
-
             }
-
         } catch (err) {
-            if (!path.isAbsolute(name) && name.substr(0, 2) !== "./" && name.substr(0, 3) !== "../") {
-                return require(path.resolve(process.cwd() + "/node_modules/" + name));
+            if (
+                !path.isAbsolute(name) &&
+                name.substr(0, 2) !== "./" &&
+                name.substr(0, 3) !== "../"
+            ) {
+                return require(path.resolve(
+                    process.cwd() + "/node_modules/" + name
+                ));
             }
 
             throw err;
@@ -204,12 +204,12 @@ export class PlatformTools {
      */
     static highlightSql(sql: string) {
         const theme: Theme = {
-            "keyword": chalk.blueBright,
-            "literal": chalk.blueBright,
-            "string": chalk.white,
-            "type": chalk.magentaBright,
-            "built_in": chalk.magentaBright,
-            "comment": chalk.gray,
+            keyword: chalk.blueBright,
+            literal: chalk.blueBright,
+            string: chalk.white,
+            type: chalk.magentaBright,
+            built_in: chalk.magentaBright,
+            comment: chalk.gray,
         };
         return highlight(sql, { theme: theme, language: "sql" });
     }

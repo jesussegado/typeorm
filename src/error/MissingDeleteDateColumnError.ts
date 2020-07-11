@@ -1,4 +1,4 @@
-import {EntityMetadata} from "../metadata/EntityMetadata";
+import { EntityMetadata } from "../metadata/EntityMetadata";
 
 /**
  */
@@ -10,5 +10,4 @@ export class MissingDeleteDateColumnError extends Error {
         Object.setPrototypeOf(this, MissingDeleteDateColumnError.prototype);
         this.message = `Entity "${entityMetadata.name}" does not have delete date columns.`;
     }
-
 }

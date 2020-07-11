@@ -1,8 +1,12 @@
-import {AfterLoad, Column, Entity, PrimaryGeneratedColumn} from "../../../../src";
+import {
+    AfterLoad,
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+} from "../../../../src";
 
 @Entity()
 export class Category {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -15,5 +19,4 @@ export class Category {
     printMessage() {
         this.loaded = true;
     }
-
 }

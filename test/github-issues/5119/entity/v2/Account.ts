@@ -1,7 +1,7 @@
 import {
     Entity,
     PrimaryGeneratedColumn,
-    ManyToOne
+    ManyToOne,
 } from "../../../../../src/index";
 import { User } from "./User";
 
@@ -10,6 +10,6 @@ export class Account {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(type => User)
+    @ManyToOne((type) => User)
     user: User;
 }

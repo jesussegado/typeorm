@@ -1,10 +1,9 @@
-import {Entity} from "../../../../../../src";
-import {PrimaryColumn} from "../../../../../../src";
-import {Column} from "../../../../../../src";
+import { Entity } from "../../../../../../src";
+import { PrimaryColumn } from "../../../../../../src";
+import { Column } from "../../../../../../src";
 
 @Entity()
 export class Post {
-
     @PrimaryColumn()
     id: number;
 
@@ -127,5 +126,4 @@ export class Post {
 
     @Column("simple-array")
     simpleArray: string[];
-
 }

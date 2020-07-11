@@ -1,13 +1,12 @@
-import {Column} from "../../../../../src/decorator/columns/Column";
-import {BeforeInsert, BeforeUpdate} from "../../../../../src";
-import {PostCounter} from "./PostCounter";
+import { Column } from "../../../../../src/decorator/columns/Column";
+import { BeforeInsert, BeforeUpdate } from "../../../../../src";
+import { PostCounter } from "./PostCounter";
 
 export class PostInformation {
-
-    @Column({nullable: true})
+    @Column({ nullable: true })
     description?: string;
 
-    @Column(type => PostCounter, {prefix: "counters"})
+    @Column((type) => PostCounter, { prefix: "counters" })
     counters?: PostCounter;
 
     @BeforeInsert()
@@ -19,5 +18,4 @@ export class PostInformation {
     beforeUpdate() {
         this.description = "default post description";
     }
-
 }

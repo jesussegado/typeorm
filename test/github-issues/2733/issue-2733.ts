@@ -1,10 +1,13 @@
 import "reflect-metadata";
-import { createTestingConnections, closeTestingConnections, reloadTestingDatabases } from "../../utils/test-utils";
+import {
+    createTestingConnections,
+    closeTestingConnections,
+    reloadTestingDatabases,
+} from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { expect } from "chai";
 
 describe("github issues > #2733 should correctly handle function calls with upercase letters as default values", () => {
-
     let connections: Connection[];
 
     it("MSSQL, Sqljs, Sqlite", async () => {
@@ -15,12 +18,14 @@ describe("github issues > #2733 should correctly handle function calls with uper
             enabledDrivers: ["mssql", "sqljs", "sqlite"],
         });
         await reloadTestingDatabases(connections);
-        await Promise.all(connections.map(async connection => {
-            const schemaBuilder = connection.driver.createSchemaBuilder();
-            const syncQueries = await schemaBuilder.log();
-            expect(syncQueries.downQueries).to.be.eql([]);
-            expect(syncQueries.upQueries).to.be.eql([]);
-        }));
+        await Promise.all(
+            connections.map(async (connection) => {
+                const schemaBuilder = connection.driver.createSchemaBuilder();
+                const syncQueries = await schemaBuilder.log();
+                expect(syncQueries.downQueries).to.be.eql([]);
+                expect(syncQueries.upQueries).to.be.eql([]);
+            })
+        );
         await closeTestingConnections(connections);
     });
     it("Postgres", async () => {
@@ -31,12 +36,14 @@ describe("github issues > #2733 should correctly handle function calls with uper
             enabledDrivers: ["postgres"],
         });
         await reloadTestingDatabases(connections);
-        await Promise.all(connections.map(async connection => {
-            const schemaBuilder = connection.driver.createSchemaBuilder();
-            const syncQueries = await schemaBuilder.log();
-            expect(syncQueries.downQueries).to.be.eql([]);
-            expect(syncQueries.upQueries).to.be.eql([]);
-        }));
+        await Promise.all(
+            connections.map(async (connection) => {
+                const schemaBuilder = connection.driver.createSchemaBuilder();
+                const syncQueries = await schemaBuilder.log();
+                expect(syncQueries.downQueries).to.be.eql([]);
+                expect(syncQueries.upQueries).to.be.eql([]);
+            })
+        );
         await closeTestingConnections(connections);
     });
 });

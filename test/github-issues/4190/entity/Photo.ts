@@ -1,9 +1,13 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "../../../../src";
-import {User} from "./User";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToOne,
+} from "../../../../src";
+import { User } from "./User";
 
 @Entity()
 export class Photo {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -12,5 +16,4 @@ export class Photo {
 
     @ManyToOne("User", "photos")
     user: User;
-
 }

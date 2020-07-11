@@ -1,16 +1,15 @@
-import {EntitySchema} from "../entity-schema/EntitySchema";
-import {LoggerOptions} from "../logger/LoggerOptions";
-import {NamingStrategyInterface} from "../naming-strategy/NamingStrategyInterface";
-import {DatabaseType} from "../driver/types/DatabaseType";
-import {Logger} from "../logger/Logger";
-import {Connection} from "./Connection";
-import {QueryResultCache} from "../cache/QueryResultCache";
+import { EntitySchema } from "../entity-schema/EntitySchema";
+import { LoggerOptions } from "../logger/LoggerOptions";
+import { NamingStrategyInterface } from "../naming-strategy/NamingStrategyInterface";
+import { DatabaseType } from "../driver/types/DatabaseType";
+import { Logger } from "../logger/Logger";
+import { Connection } from "./Connection";
+import { QueryResultCache } from "../cache/QueryResultCache";
 
 /**
  * BaseConnectionOptions is set of connection options shared by all database types.
  */
 export interface BaseConnectionOptions {
-
     /**
      * Database type. This value is required.
      */
@@ -27,21 +26,21 @@ export interface BaseConnectionOptions {
      * Accepts both entity classes and directories where from entities need to be loaded.
      * Directories support glob patterns.
      */
-    readonly entities?: ((Function|string|EntitySchema<any>))[];
+    readonly entities?: (Function | string | EntitySchema<any>)[];
 
     /**
      * Subscribers to be loaded for this connection.
      * Accepts both subscriber classes and directories where from subscribers need to be loaded.
      * Directories support glob patterns.
      */
-    readonly subscribers?: (Function|string)[];
+    readonly subscribers?: (Function | string)[];
 
     /**
      * Migrations to be loaded for this connection.
      * Accepts both migration classes and directories where from migrations need to be loaded.
      * Directories support glob patterns.
      */
-    readonly migrations?: (Function|string)[];
+    readonly migrations?: (Function | string)[];
 
     /**
      * Migrations table name, in case of different name from "migrations".
@@ -67,7 +66,12 @@ export interface BaseConnectionOptions {
     /**
      * Logger instance used to log queries and events in the ORM.
      */
-    readonly logger?: "advanced-console"|"simple-console"|"file"|"debug"|Logger;
+    readonly logger?:
+        | "advanced-console"
+        | "simple-console"
+        | "file"
+        | "debug"
+        | Logger;
 
     /**
      * Maximum number of milliseconds query should be executed before logger log a warning.
@@ -113,51 +117,54 @@ export interface BaseConnectionOptions {
     /**
      * Allows to setup cache options.
      */
-    readonly cache?: boolean|{
+    readonly cache?:
+        | boolean
+        | {
+              /**
+               * Type of caching.
+               *
+               * - "database" means cached values will be stored in the separate table in database. This is default value.
+               * - "redis" means cached values will be stored inside redis. You must provide redis connection options.
+               */
+              readonly type?:
+                  | "database"
+                  | "redis"
+                  | "ioredis"
+                  | "ioredis/cluster"; // todo: add mongodb and other cache providers as well in the future
 
-        /**
-         * Type of caching.
-         *
-         * - "database" means cached values will be stored in the separate table in database. This is default value.
-         * - "redis" means cached values will be stored inside redis. You must provide redis connection options.
-         */
-        readonly type?: "database" | "redis" | "ioredis" | "ioredis/cluster"; // todo: add mongodb and other cache providers as well in the future
+              /**
+               * Factory function for custom cache providers that implement QueryResultCache.
+               */
+              readonly provider?: (connection: Connection) => QueryResultCache;
 
-        /**
-         * Factory function for custom cache providers that implement QueryResultCache.
-         */
-        readonly provider?: (connection: Connection) => QueryResultCache;
+              /**
+               * Configurable table name for "database" type cache.
+               * Default value is "query-result-cache"
+               */
+              readonly tableName?: string;
 
-        /**
-         * Configurable table name for "database" type cache.
-         * Default value is "query-result-cache"
-         */
-        readonly tableName?: string;
+              /**
+               * Used to provide redis connection options.
+               */
+              readonly options?: any;
 
-        /**
-         * Used to provide redis connection options.
-         */
-        readonly options?: any;
+              /**
+               * If set to true then queries (using find methods and QueryBuilder's methods) will always be cached.
+               */
+              readonly alwaysEnabled?: boolean;
 
-        /**
-         * If set to true then queries (using find methods and QueryBuilder's methods) will always be cached.
-         */
-        readonly alwaysEnabled?: boolean;
-
-        /**
-         * Time in milliseconds in which cache will expire.
-         * This can be setup per-query.
-         * Default value is 1000 which is equivalent to 1 second.
-         */
-        readonly duration?: number;
-
-    };
+              /**
+               * Time in milliseconds in which cache will expire.
+               * This can be setup per-query.
+               * Default value is 1000 which is equivalent to 1 second.
+               */
+              readonly duration?: number;
+          };
 
     /**
      * CLI settings.
      */
     readonly cli?: {
-
         /**
          * Directory where entities should be created by default.
          */
@@ -172,7 +179,5 @@ export interface BaseConnectionOptions {
          * Directory where subscribers should be created by default.
          */
         readonly subscribersDir?: string;
-
     };
-
 }

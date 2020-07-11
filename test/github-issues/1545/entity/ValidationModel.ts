@@ -5,13 +5,10 @@ import { DataModel } from "./DataModel";
 export class ValidationModel {
     @Column({
         type: "integer",
-        primary: true
+        primary: true,
     })
     validation: number;
 
-    @OneToMany(
-        type => DataModel,
-        dataModel => dataModel.validations
-    )
+    @OneToMany((type) => DataModel, (dataModel) => dataModel.validations)
     dataModel: DataModel[];
 }

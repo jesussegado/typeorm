@@ -5,12 +5,11 @@ import { Column } from "../../../../src/decorator/columns/Column";
 
 @Entity()
 export class Person {
-
     @PrimaryGeneratedColumn()
     id: number;
 
     @Index({
-        unique: true
+        unique: true,
     })
     @Column()
     firstname: string;

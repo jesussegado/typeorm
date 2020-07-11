@@ -1,9 +1,8 @@
-import {Column} from "../../../../../../src/decorator/columns/Column";
-import {Information} from "./Information";
-import {ExtraInformation} from "./ExtraInformation";
+import { Column } from "../../../../../../src/decorator/columns/Column";
+import { Information } from "./Information";
+import { ExtraInformation } from "./ExtraInformation";
 
 export class Counters {
-
     @Column()
     likes: number;
 
@@ -13,9 +12,9 @@ export class Counters {
     @Column()
     favorites: number;
 
-    @Column(type => Information)
+    @Column((type) => Information)
     information: Information;
 
-    @Column(type => ExtraInformation)
+    @Column((type) => ExtraInformation)
     extraInformation: ExtraInformation;
 }

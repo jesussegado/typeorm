@@ -2,7 +2,7 @@ import { EntitySchemaOptions } from "../../../../src/entity-schema/EntitySchemaO
 
 export enum PostType {
     draft = "draft",
-    published = "published"
+    published = "published",
 }
 
 export class Post {
@@ -19,12 +19,12 @@ export const PostSchema: EntitySchemaOptions<Post> = {
     columns: {
         id: {
             primary: true,
-            type: Number
+            type: Number,
         },
 
         type: {
             type: "simple-enum",
-            enum: PostType
-        }
-    }
+            enum: PostType,
+        },
+    },
 };

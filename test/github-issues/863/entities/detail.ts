@@ -8,27 +8,25 @@ import { JoinColumn } from "../../../../src/decorator/relations/JoinColumn";
 import { Master } from "./master";
 
 @Entity()
-@Index("IDX_UNQ_MasterId", type => [type.masterId], { unique: true })
+@Index("IDX_UNQ_MasterId", (type) => [type.masterId], { unique: true })
 export class Detail {
-
     @PrimaryColumn({
-        length: 20
+        length: 20,
     })
     id: string;
 
     @Column({
         nullable: false,
-        length: 20
+        length: 20,
     })
     masterId: string;
 
-    @ManyToOne(type => Master, master => master.details, {
+    @ManyToOne((type) => Master, (master) => master.details, {
         nullable: false,
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
     })
     @JoinColumn({
-        name: "masterId"
+        name: "masterId",
     })
     master: Master;
-
 }

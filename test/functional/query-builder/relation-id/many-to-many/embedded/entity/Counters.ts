@@ -1,11 +1,10 @@
-import {Column} from "../../../../../../../src/decorator/columns/Column";
-import {ManyToMany} from "../../../../../../../src/decorator/relations/ManyToMany";
-import {JoinTable} from "../../../../../../../src/decorator/relations/JoinTable";
-import {Category} from "./Category";
-import {Subcounters} from "./Subcounters";
+import { Column } from "../../../../../../../src/decorator/columns/Column";
+import { ManyToMany } from "../../../../../../../src/decorator/relations/ManyToMany";
+import { JoinTable } from "../../../../../../../src/decorator/relations/JoinTable";
+import { Category } from "./Category";
+import { Subcounters } from "./Subcounters";
 
 export class Counters {
-
     @Column()
     likes: number;
 
@@ -15,7 +14,7 @@ export class Counters {
     @Column()
     favorites: number;
 
-    @ManyToMany(type => Category, category => category.posts)
+    @ManyToMany((type) => Category, (category) => category.posts)
     @JoinTable({ name: "counter_categories" })
     categories: Category[];
 
@@ -23,5 +22,4 @@ export class Counters {
     subcounters: Subcounters;
 
     categoryIds: number[];
-
 }

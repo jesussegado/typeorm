@@ -2,7 +2,7 @@ import {
     Column,
     Entity,
     ManyToOne,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
 } from "../../../../../src/index";
 import { Account } from "./Account";
 
@@ -17,6 +17,6 @@ export class Post {
     @Column()
     text: string;
 
-    @ManyToOne(type => Account)
+    @ManyToOne((type) => Account)
     owner: Account;
 }

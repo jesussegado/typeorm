@@ -6,7 +6,6 @@ const mkdirp = require("mkdirp");
  * Command line utils functions.
  */
 export class CommandUtils {
-
     /**
      * Creates directories recursively.
      */
@@ -17,13 +16,16 @@ export class CommandUtils {
     /**
      * Creates a file with the given content in the given path.
      */
-    static async createFile(filePath: string, content: string, override: boolean = true): Promise<void> {
+    static async createFile(
+        filePath: string,
+        content: string,
+        override: boolean = true
+    ): Promise<void> {
         await CommandUtils.createDirectories(path.dirname(filePath));
         return new Promise<void>((ok, fail) => {
-            if (override === false && fs.existsSync(filePath))
-                return ok();
+            if (override === false && fs.existsSync(filePath)) return ok();
 
-            fs.writeFile(filePath, content, err => err ? fail(err) : ok());
+            fs.writeFile(filePath, content, (err) => (err ? fail(err) : ok()));
         });
     }
 
@@ -32,10 +34,11 @@ export class CommandUtils {
      */
     static async readFile(filePath: string): Promise<string> {
         return new Promise<string>((ok, fail) => {
-            fs.readFile(filePath, (err, data) => err ? fail(err) : ok(data.toString()));
+            fs.readFile(filePath, (err, data) =>
+                err ? fail(err) : ok(data.toString())
+            );
         });
     }
-
 
     static async fileExists(filePath: string) {
         return fs.existsSync(filePath);

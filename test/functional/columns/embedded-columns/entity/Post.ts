@@ -5,7 +5,6 @@ import { Counters } from "./Counters";
 
 @Entity()
 export class Post {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -15,13 +14,12 @@ export class Post {
     @Column()
     text: string;
 
-    @Column(type => Counters)
+    @Column((type) => Counters)
     counters: Counters;
 
-    @Column(type => Counters, { prefix: "testCounters" })
+    @Column((type) => Counters, { prefix: "testCounters" })
     otherCounters: Counters;
 
-    @Column(type => Counters, { prefix: "" })
+    @Column((type) => Counters, { prefix: "" })
     countersWithoutPrefix: Counters;
-
 }

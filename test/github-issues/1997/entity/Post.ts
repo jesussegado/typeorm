@@ -1,8 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "../../../../src";
 
-@Entity({schema: "schema"})
+@Entity({ schema: "schema" })
 export class Post {
-
     @PrimaryGeneratedColumn()
     id: number;
 

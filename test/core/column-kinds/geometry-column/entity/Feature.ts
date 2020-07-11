@@ -2,7 +2,6 @@ import { Column, Entity, PrimaryGeneratedColumn } from "../../../../../src";
 
 @Entity()
 export class FeatureWithoutSRID {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -11,12 +10,10 @@ export class FeatureWithoutSRID {
 
     @Column({ type: "geometry" })
     shape: string;
-
 }
 
 @Entity()
 export class FeatureWithSRID {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -25,5 +22,4 @@ export class FeatureWithSRID {
 
     @Column({ type: "geometry", srid: 2326 })
     shape: string;
-
 }

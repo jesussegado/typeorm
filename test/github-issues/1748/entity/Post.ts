@@ -1,14 +1,17 @@
-import {Entity} from "../../../../src/decorator/entity/Entity";
-import {ValueTransformer} from "../../../../src/decorator/options/ValueTransformer";
-import {PrimaryColumn} from "../../../../src/decorator/columns/PrimaryColumn";
-import {Column} from "../../../../src/decorator/columns/Column";
+import { Entity } from "../../../../src/decorator/entity/Entity";
+import { ValueTransformer } from "../../../../src/decorator/options/ValueTransformer";
+import { PrimaryColumn } from "../../../../src/decorator/columns/PrimaryColumn";
+import { Column } from "../../../../src/decorator/columns/Column";
 
 export class Uuid {
-
     private value: string;
 
     constructor(value: string) {
-        if (!/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(value)) {
+        if (
+            !/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(
+                value
+            )
+        ) {
             throw new Error("Invalid UUID format");
         }
 
@@ -21,7 +24,6 @@ export class Uuid {
 }
 
 class UuidTransformer implements ValueTransformer {
-
     to(value: Uuid): string {
         return value.getValue();
     }
@@ -29,12 +31,10 @@ class UuidTransformer implements ValueTransformer {
     from(value: string): Uuid {
         return new Uuid(value);
     }
-
 }
 
 @Entity()
 export class Post {
-
     @PrimaryColumn({ type: "uuid", transformer: new UuidTransformer() })
     id: Uuid;
 

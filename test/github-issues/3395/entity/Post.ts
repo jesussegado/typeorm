@@ -1,9 +1,7 @@
 import { PrimaryColumn, Entity, Column } from "../../../../src";
 
-
 @Entity()
 export class Post {
-
     @PrimaryColumn()
     id: number;
 
@@ -15,9 +13,8 @@ export class Post {
             },
             to(val: string | undefined | null) {
                 return val;
-            }
-        }
+            },
+        },
     })
     text: string;
-
 }

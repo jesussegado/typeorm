@@ -1,5 +1,5 @@
-import {getMetadataArgsStorage} from "../../";
-import {ColumnMetadataArgs} from "../../metadata-args/ColumnMetadataArgs";
+import { getMetadataArgsStorage } from "../../";
+import { ColumnMetadataArgs } from "../../metadata-args/ColumnMetadataArgs";
 import { ViewColumnOptions } from "../options/ViewColumnOptions";
 
 /**
@@ -11,7 +11,7 @@ export function ViewColumn(options?: ViewColumnOptions): Function {
             target: object.constructor,
             propertyName: propertyName,
             mode: "regular",
-            options: options || {}
+            options: options || {},
         } as ColumnMetadataArgs);
     };
 }

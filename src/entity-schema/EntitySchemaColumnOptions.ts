@@ -1,9 +1,8 @@
-import {ColumnType} from "../driver/types/ColumnTypes";
-import {ValueTransformer} from "../decorator/options/ValueTransformer";
+import { ColumnType } from "../driver/types/ColumnTypes";
+import { ValueTransformer } from "../decorator/options/ValueTransformer";
 import { SpatialColumnOptions } from "../decorator/options/SpatialColumnOptions";
 
 export interface EntitySchemaColumnOptions extends SpatialColumnOptions {
-
     /**
      * Indicates if this column is a primary column.
      */
@@ -104,7 +103,7 @@ export interface EntitySchemaColumnOptions extends SpatialColumnOptions {
     /**
      * Specifies if this column will use AUTO_INCREMENT or not (e.g. generated number).
      */
-    generated?: true|"increment"|"uuid"|"rowid";
+    generated?: true | "increment" | "uuid" | "rowid";
 
     /**
      * Specifies if column's value must be unique or not.
@@ -169,7 +168,7 @@ export interface EntitySchemaColumnOptions extends SpatialColumnOptions {
     /**
      * Array of possible enumerated values.
      */
-    enum?: any[]|Object;
+    enum?: any[] | Object;
 
     /**
      * Generated column expression. Supports only in MySQL.
@@ -179,13 +178,13 @@ export interface EntitySchemaColumnOptions extends SpatialColumnOptions {
     /**
      * Generated column type. Supports only in MySQL.
      */
-    generatedType?: "VIRTUAL"|"STORED";
+    generatedType?: "VIRTUAL" | "STORED";
 
     /**
      * Return type of HSTORE column.
      * Returns value as string or as object.
      */
-    hstoreType?: "object"|"string";
+    hstoreType?: "object" | "string";
 
     /**
      * Indicates if this column is an array.
@@ -198,6 +197,5 @@ export interface EntitySchemaColumnOptions extends SpatialColumnOptions {
      * Specifies a value transformer that is to be used to (un)marshal
      * this column when reading or writing to the database.
      */
-    transformer?: ValueTransformer|ValueTransformer[];
-
+    transformer?: ValueTransformer | ValueTransformer[];
 }

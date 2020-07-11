@@ -1,8 +1,7 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "../../../../src/index";
+import { Column, Entity, PrimaryGeneratedColumn } from "../../../../src/index";
 
 @Entity()
 export class Post {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -11,5 +10,4 @@ export class Post {
 
     @Column("hstore", { hstoreType: "string" })
     hstoreStr: string;
-
 }

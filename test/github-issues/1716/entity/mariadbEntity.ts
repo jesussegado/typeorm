@@ -2,7 +2,6 @@ import { PrimaryColumn, Entity, Column } from "../../../../src";
 
 @Entity()
 export class MariadbEntity {
-
     @PrimaryColumn()
     id: number;
 
@@ -14,5 +13,4 @@ export class MariadbEntity {
 
     @Column("datetime")
     fieldDatetime: Date;
-
 }

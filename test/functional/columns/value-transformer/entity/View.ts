@@ -5,6 +5,6 @@ export class View {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column({transformer: []})
+    @Column({ transformer: [] })
     title: string;
 }

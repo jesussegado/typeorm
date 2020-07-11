@@ -1,10 +1,10 @@
-import {BaseConnectionOptions} from "../../connection/BaseConnectionOptions";
+import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
 
 /**
  * Postgres-specific connection options.
  */
-export interface AuroraDataApiPostgresConnectionOptions extends BaseConnectionOptions {
-
+export interface AuroraDataApiPostgresConnectionOptions
+    extends BaseConnectionOptions {
     /**
      * Database type.
      */
@@ -25,10 +25,9 @@ export interface AuroraDataApiPostgresConnectionOptions extends BaseConnectionOp
      */
     readonly uuidExtension?: "pgcrypto" | "uuid-ossp";
 
-
     /*
-    * Function handling errors thrown by drivers pool.
-    * Defaults to logging error with `warn` level.
+     * Function handling errors thrown by drivers pool.
+     * Defaults to logging error with `warn` level.
      */
     readonly poolErrorHandler?: (err: any) => any;
 

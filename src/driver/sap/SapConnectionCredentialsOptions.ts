@@ -2,7 +2,6 @@
  * SAP Hana specific connection credential options.
  */
 export interface SapConnectionCredentialsOptions {
-
     /**
      * Database host.
      */
@@ -52,5 +51,4 @@ export interface SapConnectionCredentialsOptions {
      * Ca for encrypted connection
      */
     readonly ca?: string;
-
 }

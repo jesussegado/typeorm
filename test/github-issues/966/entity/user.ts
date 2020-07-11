@@ -20,11 +20,9 @@ export class UserInfo extends PersonalInfo {
 
 @Entity()
 export class User {
-
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column(type => UserInfo)
+    @Column((type) => UserInfo)
     info: UserInfo;
-
 }

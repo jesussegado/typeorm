@@ -1,11 +1,10 @@
-import {Entity} from "../../../../../../../src/decorator/entity/Entity";
-import {Column} from "../../../../../../../src/decorator/columns/Column";
-import {Counters} from "./Counters";
-import {PrimaryColumn} from "../../../../../../../src/decorator/columns/PrimaryColumn";
+import { Entity } from "../../../../../../../src/decorator/entity/Entity";
+import { Column } from "../../../../../../../src/decorator/columns/Column";
+import { Counters } from "./Counters";
+import { PrimaryColumn } from "../../../../../../../src/decorator/columns/PrimaryColumn";
 
 @Entity()
 export class Post {
-
     @PrimaryColumn()
     id: number;
 
@@ -14,5 +13,4 @@ export class Post {
 
     @Column(() => Counters)
     counters: Counters;
-
 }

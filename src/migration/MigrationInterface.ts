@@ -1,4 +1,4 @@
-import {QueryRunner} from "../query-runner/QueryRunner";
+import { QueryRunner } from "../query-runner/QueryRunner";
 
 /**
  * Migrations should implement this interface and all its methods.
@@ -18,5 +18,4 @@ export interface MigrationInterface {
      * Reverse the migrations.
      */
     down(queryRunner: QueryRunner): Promise<any>;
-
 }

@@ -6,13 +6,10 @@ import { JoinTable } from "../../../../../../src/decorator/relations/JoinTable";
 import { ManyToOne } from "../../../../../../src/decorator/relations/ManyToOne";
 import { OneToOne } from "../../../../../../src/decorator/relations/OneToOne";
 import { JoinColumn } from "../../../../../../src/decorator/relations/JoinColumn";
-import {
-    Category,
-} from "./Category";
+import { Category } from "./Category";
 
 @Entity()
 export class Post {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -22,24 +19,24 @@ export class Post {
     @Column()
     text: string;
 
-    @ManyToMany(type => Category)
+    @ManyToMany((type) => Category)
     @JoinTable()
     categories: Promise<Category[]>;
 
-    @ManyToMany(type => Category, category => category.twoSidePosts)
+    @ManyToMany((type) => Category, (category) => category.twoSidePosts)
     @JoinTable()
     twoSideCategories: Promise<Category[]>;
 
     @Column()
     viewCount: number = 0;
 
-    @ManyToOne(type => Category)
+    @ManyToOne((type) => Category)
     category: Promise<Category>;
 
-    @OneToOne(type => Category, category => category.onePost)
+    @OneToOne((type) => Category, (category) => category.onePost)
     @JoinColumn()
     oneCategory: Promise<Category>;
 
-    @ManyToOne(type => Category, category => category.twoSidePosts2)
+    @ManyToOne((type) => Category, (category) => category.twoSidePosts2)
     twoSideCategory: Promise<Category>;
 }

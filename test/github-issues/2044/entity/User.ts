@@ -1,12 +1,11 @@
-import {Column, Entity, OneToMany, PrimaryColumn} from "../../../../src";
-import {Photo} from "./Photo";
-import {StringDecoder} from "string_decoder";
+import { Column, Entity, OneToMany, PrimaryColumn } from "../../../../src";
+import { Photo } from "./Photo";
+import { StringDecoder } from "string_decoder";
 
 @Entity()
 export class User {
-
     @PrimaryColumn("binary", {
-        length: 2
+        length: 2,
     })
     private _id: Buffer;
 
@@ -22,7 +21,6 @@ export class User {
     @Column()
     age: number;
 
-    @OneToMany(type => Photo, photo => photo.user)
+    @OneToMany((type) => Photo, (photo) => photo.user)
     photos: Photo[];
-
 }

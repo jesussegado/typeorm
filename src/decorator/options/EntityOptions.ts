@@ -1,10 +1,9 @@
-import {OrderByCondition} from "../../find-options/OrderByCondition";
+import { OrderByCondition } from "../../find-options/OrderByCondition";
 
 /**
  * Describes all entity's options.
  */
 export interface EntityOptions {
-
     /**
      * Table name.
      * If not specified then naming strategy will generate table name from entity name.
@@ -14,7 +13,7 @@ export interface EntityOptions {
     /**
      * Specifies a default order by used for queries from this table when no explicit order by is specified.
      */
-    orderBy?: OrderByCondition|((object: any) => OrderByCondition|any);
+    orderBy?: OrderByCondition | ((object: any) => OrderByCondition | any);
 
     /**
      * Table's database engine type (like "InnoDB", "MyISAM", etc).
@@ -43,8 +42,8 @@ export interface EntityOptions {
 
     /**
      * If set to 'true' this option disables Sqlite's default behaviour of secretly creating
-     * an integer primary key column named 'rowid' on table creation. 
-     * @see https://www.sqlite.org/withoutrowid.html. 
+     * an integer primary key column named 'rowid' on table creation.
+     * @see https://www.sqlite.org/withoutrowid.html.
      */
     withoutRowid?: boolean;
 }

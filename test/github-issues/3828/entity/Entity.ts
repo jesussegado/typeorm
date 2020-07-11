@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "../../../../src";
 
 enum MyEntityEnum {
     Something = "SOMETHING",
-    SomethingElse = "SOMETHING_ELSE"
+    SomethingElse = "SOMETHING_ELSE",
 }
 
 @Entity({ name: "MyEntity" })

@@ -1,11 +1,10 @@
-import {PlatformTools} from "../../platform/PlatformTools";
-import {ConnectionOptions} from "../ConnectionOptions";
+import { PlatformTools } from "../../platform/PlatformTools";
+import { ConnectionOptions } from "../ConnectionOptions";
 
 /**
  * Reads connection options defined in the yml file.
  */
 export class ConnectionOptionsYmlReader {
-
     // -------------------------------------------------------------------------
     // Public Methods
     // -------------------------------------------------------------------------
@@ -16,9 +15,11 @@ export class ConnectionOptionsYmlReader {
     read(path: string): ConnectionOptions[] {
         const ymlParser = PlatformTools.load("js-yaml");
         const config = ymlParser.safeLoad(PlatformTools.readFileSync(path));
-        return Object.keys(config).map(connectionName => {
-            return Object.assign({ name: connectionName }, config[connectionName]);
+        return Object.keys(config).map((connectionName) => {
+            return Object.assign(
+                { name: connectionName },
+                config[connectionName]
+            );
         });
     }
-
 }

@@ -1,20 +1,19 @@
-import {Entity} from "../../../../../src/decorator/entity/Entity";
+import { Entity } from "../../../../../src/decorator/entity/Entity";
 import {
     PrimaryGeneratedColumn,
     ManyToMany,
-    JoinTable
+    JoinTable,
 } from "../../../../../src/index";
-import {Column} from "../../../../../src/decorator/columns/Column";
-import {Category} from "./Category";
+import { Column } from "../../../../../src/decorator/columns/Column";
+import { Category } from "./Category";
 
 @Entity()
 export class Photo {
-
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column({
-        length: 500
+        length: 500,
     })
     name: string;
 
@@ -30,8 +29,7 @@ export class Photo {
     @Column()
     isPublished: boolean;
 
-    @ManyToMany(type => Category)
+    @ManyToMany((type) => Category)
     @JoinTable()
     categories: Category[];
-
 }

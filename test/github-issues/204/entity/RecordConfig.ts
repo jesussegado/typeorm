@@ -1,5 +1,4 @@
 export interface RecordConfig {
-
     id: number;
     option1: string;
     option2: string;
@@ -9,5 +8,4 @@ export interface RecordConfig {
         data1: string;
         data2: string;
     };
-
 }

@@ -7,6 +7,6 @@ export class CreateUuidExtension0000000000001 implements MigrationInterface {
     }
 
     public down(queryRunner: QueryRunner): Promise<any> {
-        return queryRunner.query("DROP EXTENSION \"uuid-ossp\"");
+        return queryRunner.query('DROP EXTENSION "uuid-ossp"');
     }
 }

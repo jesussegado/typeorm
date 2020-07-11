@@ -2,7 +2,6 @@
  * Database's table index options.
  */
 export interface TableIndexOptions {
-
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -33,7 +32,7 @@ export interface TableIndexOptions {
      * Works only in MySQL.
      */
     isFulltext?: boolean;
-    
+
     /**
      * Fulltext parser.
      * Works only in MySQL.
@@ -44,5 +43,4 @@ export interface TableIndexOptions {
      * Index filter condition.
      */
     where?: string;
-
 }

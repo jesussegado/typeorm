@@ -29,16 +29,20 @@ function createDFS(edges: any, leavesOnly: any, result: any) {
                 DFS(node);
             } else if (currentPath.indexOf(node) >= 0) {
                 currentPath.push(node);
-                throw new Error(`Dependency Cycle Found: ${currentPath.join(" -> ")}`);
+                throw new Error(
+                    `Dependency Cycle Found: ${currentPath.join(" -> ")}`
+                );
             }
         });
         currentPath.pop();
-        if ((!leavesOnly || edges[currentNode].length === 0) && result.indexOf(currentNode) === -1) {
+        if (
+            (!leavesOnly || edges[currentNode].length === 0) &&
+            result.indexOf(currentNode) === -1
+        ) {
             result.push(currentNode);
         }
     };
 }
-
 
 export class DepGraph {
     nodes: any = {};
@@ -69,7 +73,9 @@ export class DepGraph {
             delete this.nodes[node];
             delete this.outgoingEdges[node];
             delete this.incomingEdges[node];
-            [this.incomingEdges, this.outgoingEdges].forEach(function (edgeList) {
+            [this.incomingEdges, this.outgoingEdges].forEach(function (
+                edgeList
+            ) {
                 Object.keys(edgeList).forEach(function (key: any) {
                     let idx = edgeList[key].indexOf(node);
                     if (idx >= 0) {
@@ -167,8 +173,7 @@ export class DepGraph {
                 result.splice(idx, 1);
             }
             return result;
-        }
-        else {
+        } else {
             throw new Error(`Node does not exist: ${node}`);
         }
     }
@@ -228,5 +233,4 @@ export class DepGraph {
             return result;
         }
     }
-
 }

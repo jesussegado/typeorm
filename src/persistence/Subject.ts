@@ -1,9 +1,9 @@
-import {ObjectLiteral} from "../common/ObjectLiteral";
-import {EntityMetadata} from "../metadata/EntityMetadata";
-import {SubjectChangeMap} from "./SubjectChangeMap";
-import {OrmUtils} from "../util/OrmUtils";
-import {RelationMetadata} from "../metadata/RelationMetadata";
-import {ColumnMetadata} from "../metadata/ColumnMetadata";
+import { ObjectLiteral } from "../common/ObjectLiteral";
+import { EntityMetadata } from "../metadata/EntityMetadata";
+import { SubjectChangeMap } from "./SubjectChangeMap";
+import { OrmUtils } from "../util/OrmUtils";
+import { RelationMetadata } from "../metadata/RelationMetadata";
+import { ColumnMetadata } from "../metadata/ColumnMetadata";
 
 /**
  * Subject is a subject of persistence.
@@ -16,7 +16,6 @@ import {ColumnMetadata} from "../metadata/ColumnMetadata";
  * Having this collection of subjects we can perform database queries.
  */
 export class Subject {
-
     // -------------------------------------------------------------------------
     // Properties
     // -------------------------------------------------------------------------
@@ -32,12 +31,12 @@ export class Subject {
      * This can be entity id or ids as well as some unique entity properties, like name or title.
      * Insert / Update / Remove operation will be executed by a given identifier.
      */
-    identifier: ObjectLiteral|undefined = undefined;
+    identifier: ObjectLiteral | undefined = undefined;
 
     /**
      * Copy of entity but with relational ids fulfilled.
      */
-    entityWithFulfilledIds: ObjectLiteral|undefined = undefined;
+    entityWithFulfilledIds: ObjectLiteral | undefined = undefined;
 
     /**
      * If subject was created by cascades this property will contain subject
@@ -115,7 +114,10 @@ export class Subject {
     /**
      * Relations updated by the change maps.
      */
-    updatedRelationMaps: { relation: RelationMetadata, value: ObjectLiteral }[] = [];
+    updatedRelationMaps: {
+        relation: RelationMetadata;
+        value: ObjectLiteral;
+    }[] = [];
 
     /**
      * List of updated columns
@@ -132,16 +134,16 @@ export class Subject {
     // -------------------------------------------------------------------------
 
     constructor(options: {
-        metadata: EntityMetadata,
-        parentSubject?: Subject,
-        entity?: ObjectLiteral,
-        canBeInserted?: boolean,
-        canBeUpdated?: boolean,
-        mustBeRemoved?: boolean,
-        canBeSoftRemoved?: boolean,
-        canBeRecovered?: boolean,
-        identifier?: ObjectLiteral,
-        changeMaps?: SubjectChangeMap[]
+        metadata: EntityMetadata;
+        parentSubject?: Subject;
+        entity?: ObjectLiteral;
+        canBeInserted?: boolean;
+        canBeUpdated?: boolean;
+        mustBeRemoved?: boolean;
+        canBeSoftRemoved?: boolean;
+        canBeRecovered?: boolean;
+        identifier?: ObjectLiteral;
+        changeMaps?: SubjectChangeMap[];
     }) {
         this.metadata = options.metadata;
         this.entity = options.entity;
@@ -183,11 +185,14 @@ export class Subject {
      * and if it does have differentiated columns or relations.
      */
     get mustBeUpdated() {
-        return this.canBeUpdated &&
+        return (
+            this.canBeUpdated &&
             this.identifier &&
-            (this.databaseEntityLoaded === false || (this.databaseEntityLoaded && this.databaseEntity)) &&
+            (this.databaseEntityLoaded === false ||
+                (this.databaseEntityLoaded && this.databaseEntity)) &&
             // ((this.entity && this.databaseEntity) || (!this.entity && !this.databaseEntity)) &&
-            this.changeMaps.length > 0;
+            this.changeMaps.length > 0
+        );
     }
 
     /**
@@ -196,9 +201,12 @@ export class Subject {
      * and if it does have differentiated columns or relations.
      */
     get mustBeSoftRemoved() {
-        return this.canBeSoftRemoved &&
+        return (
+            this.canBeSoftRemoved &&
             this.identifier &&
-            (this.databaseEntityLoaded === false || (this.databaseEntityLoaded && this.databaseEntity));
+            (this.databaseEntityLoaded === false ||
+                (this.databaseEntityLoaded && this.databaseEntity))
+        );
     }
 
     /**
@@ -207,9 +215,12 @@ export class Subject {
      * and if it does have differentiated columns or relations.
      */
     get mustBeRecovered() {
-        return this.canBeRecovered &&
+        return (
+            this.canBeRecovered &&
             this.identifier &&
-            (this.databaseEntityLoaded === false || (this.databaseEntityLoaded && this.databaseEntity));
+            (this.databaseEntityLoaded === false ||
+                (this.databaseEntityLoaded && this.databaseEntity))
+        );
     }
 
     // -------------------------------------------------------------------------
@@ -226,33 +237,34 @@ export class Subject {
         const changeSet = this.changeMaps.reduce((updateMap, changeMap) => {
             let value = changeMap.value;
             if (value instanceof Subject) {
-
                 // referenced columns can refer on values both which were just inserted and which were present in the model
                 // if entity was just inserted valueSets must contain all values from the entity and values just inserted in the database
                 // so, here we check if we have a value set then we simply use it as value to get our reference column values
                 // otherwise simply use an entity which cannot be just inserted at the moment and have all necessary data
-                value = value.insertedValueSet ? value.insertedValueSet : value.entity;
+                value = value.insertedValueSet
+                    ? value.insertedValueSet
+                    : value.entity;
             }
             // value = changeMap.valueFactory ? changeMap.valueFactory(value) : changeMap.column.createValueMap(value);
 
-            let valueMap: ObjectLiteral|undefined;
+            let valueMap: ObjectLiteral | undefined;
             if (this.metadata.isJunction && changeMap.column) {
-                valueMap = changeMap.column.createValueMap(changeMap.column.referencedColumn!.getEntityValue(value));
-
+                valueMap = changeMap.column.createValueMap(
+                    changeMap.column.referencedColumn!.getEntityValue(value)
+                );
             } else if (changeMap.column) {
                 valueMap = changeMap.column.createValueMap(value);
-
             } else if (changeMap.relation) {
-
                 // value can be a related object, for example: post.question = { id: 1 }
                 // or value can be a null or direct relation id, e.g. post.question = 1
                 // if its a direction relation id then we just set it to the valueMap,
                 // however if its an object then we need to extract its relation id map and set it to the valueMap
                 if (value instanceof Object) {
-
                     // get relation id, e.g. referenced column name and its value,
                     // for example: { id: 1 } which then will be set to relation, e.g. post.category = { id: 1 }
-                    const relationId = changeMap.relation!.getRelationIdMap(value);
+                    const relationId = changeMap.relation!.getRelationIdMap(
+                        value
+                    );
 
                     // but relation id can be empty, for example in the case when you insert a new post with category
                     // and both post and category are newly inserted objects (by cascades) and in this case category will not have id
@@ -264,11 +276,17 @@ export class Subject {
                         return updateMap;
                     }
                     valueMap = changeMap.relation!.createValueMap(relationId);
-                    this.updatedRelationMaps.push({ relation: changeMap.relation, value: relationId });
-
-                } else { // value can be "null" or direct relation id here
+                    this.updatedRelationMaps.push({
+                        relation: changeMap.relation,
+                        value: relationId,
+                    });
+                } else {
+                    // value can be "null" or direct relation id here
                     valueMap = changeMap.relation!.createValueMap(value);
-                    this.updatedRelationMaps.push({ relation: changeMap.relation, value: value });
+                    this.updatedRelationMaps.push({
+                        relation: changeMap.relation,
+                        value: value,
+                    });
                 }
             }
 
@@ -283,21 +301,27 @@ export class Subject {
      * Recomputes entityWithFulfilledIds and identifier when entity changes.
      */
     recompute(): void {
-
         if (this.entity) {
             this.entityWithFulfilledIds = Object.assign({}, this.entity);
             if (this.parentSubject) {
-                this.metadata.primaryColumns.forEach(primaryColumn => {
-                    if (primaryColumn.relationMetadata && primaryColumn.relationMetadata.inverseEntityMetadata === this.parentSubject!.metadata) {
-                        primaryColumn.setEntityValue(this.entityWithFulfilledIds!, this.parentSubject!.entity);
+                this.metadata.primaryColumns.forEach((primaryColumn) => {
+                    if (
+                        primaryColumn.relationMetadata &&
+                        primaryColumn.relationMetadata.inverseEntityMetadata ===
+                            this.parentSubject!.metadata
+                    ) {
+                        primaryColumn.setEntityValue(
+                            this.entityWithFulfilledIds!,
+                            this.parentSubject!.entity
+                        );
                     }
                 });
             }
-            this.identifier = this.metadata.getEntityIdMap(this.entityWithFulfilledIds);
-
+            this.identifier = this.metadata.getEntityIdMap(
+                this.entityWithFulfilledIds
+            );
         } else if (this.databaseEntity) {
             this.identifier = this.metadata.getEntityIdMap(this.databaseEntity);
         }
     }
-
 }

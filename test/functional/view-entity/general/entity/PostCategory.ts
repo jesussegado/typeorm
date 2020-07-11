@@ -1,19 +1,20 @@
-import {Connection} from "../../../../../src";
-import {ViewColumn} from "../../../../../src/decorator/columns/ViewColumn";
-import {ViewEntity} from "../../../../../src/decorator/entity-view/ViewEntity";
-import {Category} from "./Category";
-import {Post} from "./Post";
+import { Connection } from "../../../../../src";
+import { ViewColumn } from "../../../../../src/decorator/columns/ViewColumn";
+import { ViewEntity } from "../../../../../src/decorator/entity-view/ViewEntity";
+import { Category } from "./Category";
+import { Post } from "./Post";
 
 @ViewEntity({
-    expression: (connection: Connection) => connection.createQueryBuilder()
-        .select("post.id", "id")
-        .addSelect("post.name", "name")
-        .addSelect("category.name", "categoryName")
-        .from(Post, "post")
-        .leftJoin(Category, "category", "category.id = post.categoryId")
+    expression: (connection: Connection) =>
+        connection
+            .createQueryBuilder()
+            .select("post.id", "id")
+            .addSelect("post.name", "name")
+            .addSelect("category.name", "categoryName")
+            .from(Post, "post")
+            .leftJoin(Category, "category", "category.id = post.categoryId"),
 })
 export class PostCategory {
-
     @ViewColumn()
     id: number;
 
@@ -22,5 +23,4 @@ export class PostCategory {
 
     @ViewColumn()
     categoryName: string;
-
 }

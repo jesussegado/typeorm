@@ -1,13 +1,12 @@
-import {FindOperatorType} from "./FindOperatorType";
-import {Connection} from "../";
-import {OracleDriver} from "../driver/oracle/OracleDriver";
-import {MysqlDriver} from "../driver/mysql/MysqlDriver";
+import { FindOperatorType } from "./FindOperatorType";
+import { Connection } from "../";
+import { OracleDriver } from "../driver/oracle/OracleDriver";
+import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 
 /**
  * Find Operator used in Find Conditions.
  */
 export class FindOperator<T> {
-
     // -------------------------------------------------------------------------
     // Private Properties
     // -------------------------------------------------------------------------
@@ -20,7 +19,7 @@ export class FindOperator<T> {
     /**
      * Parameter value.
      */
-    private _value: T|FindOperator<T>;
+    private _value: T | FindOperator<T>;
 
     /**
      * Indicates if parameter is used or not for this operator.
@@ -36,7 +35,12 @@ export class FindOperator<T> {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(type: FindOperatorType, value: T|FindOperator<T>, useParameter: boolean = true, multipleParameters: boolean = false) {
+    constructor(
+        type: FindOperatorType,
+        value: T | FindOperator<T>,
+        useParameter: boolean = true,
+        multipleParameters: boolean = false
+    ) {
         this._type = type;
         this._value = value;
         this._useParameter = useParameter;
@@ -73,8 +77,7 @@ export class FindOperator<T> {
      * Gets the final value needs to be used as parameter value.
      */
     get value(): T {
-        if (this._value instanceof FindOperator)
-            return this._value.value;
+        if (this._value instanceof FindOperator) return this._value.value;
 
         return this._value;
     }
@@ -86,11 +89,19 @@ export class FindOperator<T> {
     /**
      * Gets SQL needs to be inserted into final query.
      */
-    toSql(connection: Connection, aliasPath: string, parameters: string[]): string {
+    toSql(
+        connection: Connection,
+        aliasPath: string,
+        parameters: string[]
+    ): string {
         switch (this._type) {
             case "not":
                 if (this._value instanceof FindOperator) {
-                    return `NOT(${this._value.toSql(connection, aliasPath, parameters)})`;
+                    return `NOT(${this._value.toSql(
+                        connection,
+                        aliasPath,
+                        parameters
+                    )})`;
                 } else {
                     return `${aliasPath} != ${parameters[0]}`;
                 }
@@ -109,7 +120,11 @@ export class FindOperator<T> {
             case "between":
                 return `${aliasPath} BETWEEN ${parameters[0]} AND ${parameters[1]}`;
             case "in":
-                if ((connection.driver instanceof OracleDriver || connection.driver instanceof MysqlDriver) && parameters.length === 0) {
+                if (
+                    (connection.driver instanceof OracleDriver ||
+                        connection.driver instanceof MysqlDriver) &&
+                    parameters.length === 0
+                ) {
                     return `${aliasPath} IN (null)`;
                 }
                 return `${aliasPath} IN (${parameters.join(", ")})`;
@@ -127,5 +142,4 @@ export class FindOperator<T> {
 
         return "";
     }
-
 }

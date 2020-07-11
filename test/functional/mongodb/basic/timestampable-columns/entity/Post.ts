@@ -7,7 +7,6 @@ import { UpdateDateColumn } from "../../../../../../src/decorator/columns/Update
 
 @Entity()
 export class Post {
-
     @ObjectIdColumn()
     id: ObjectID;
 

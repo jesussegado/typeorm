@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import * as assert from "assert";
-import {createConnection} from "../../../src/index";
+import { createConnection } from "../../../src/index";
 import rimraf from "rimraf";
-import {dirname} from "path";
-import {Connection} from "../../../src/connection/Connection";
+import { dirname } from "path";
+import { Connection } from "../../../src/connection/Connection";
 
 describe("github issues > #799 sqlite: 'database' path should be created", () => {
     let connection: Connection;
@@ -26,12 +26,11 @@ describe("github issues > #799 sqlite: 'database' path should be created", () =>
 
     it("should create the whole path to database file", async function () {
         connection = await createConnection({
-            "name": "sqlite",
-            "type": "sqlite",
-            "database": path
+            name: "sqlite",
+            type: "sqlite",
+            database: path,
         });
 
         assert.strictEqual(connection.isConnected, true);
     });
-
 });

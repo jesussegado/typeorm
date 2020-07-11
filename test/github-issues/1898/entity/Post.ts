@@ -1,9 +1,14 @@
-import {BaseEntity, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "../../../../src";
-import {Column} from "../../../../src/decorator/columns/Column";
+import {
+    BaseEntity,
+    CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from "../../../../src";
+import { Column } from "../../../../src/decorator/columns/Column";
 
 @Entity()
 export class Post extends BaseEntity {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -21,5 +26,4 @@ export class Post extends BaseEntity {
 
     @UpdateDateColumn()
     updatedAt: Date;
-
 }

@@ -1,11 +1,10 @@
-import {ColumnType} from "./ColumnTypes";
+import { ColumnType } from "./ColumnTypes";
 
 /**
  * Orm has special columns and we need to know what database column types should be for those types.
  * Column types are driver dependant.
  */
 export interface MappedColumnTypes {
-
     /**
      * Column type for the create date column.
      */
@@ -136,5 +135,4 @@ export interface MappedColumnTypes {
      * Column type for metadata value column in typeorm metadata table.
      */
     metadataValue: ColumnType;
-
 }

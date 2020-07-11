@@ -1,5 +1,10 @@
-import {Post} from "../entity/Post";
-import {EntitySubscriberInterface, EventSubscriber, InsertEvent, UpdateEvent} from "../../../../src";
+import { Post } from "../entity/Post";
+import {
+    EntitySubscriberInterface,
+    EventSubscriber,
+    InsertEvent,
+    UpdateEvent,
+} from "../../../../src";
 
 @EventSubscriber()
 export class PostSubscriber implements EntitySubscriberInterface<Post> {
@@ -14,5 +19,4 @@ export class PostSubscriber implements EntitySubscriberInterface<Post> {
     async beforeUpdate(event: UpdateEvent<Post>) {
         event.entity.updated = true;
     }
-
 }

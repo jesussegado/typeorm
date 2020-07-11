@@ -4,7 +4,6 @@ import { PrimaryColumn } from "../../../../../src/decorator/columns/PrimaryColum
 
 @Entity()
 export class PostBigInt {
-
     @PrimaryColumn()
     id: number;
 
@@ -12,8 +11,7 @@ export class PostBigInt {
     title: string;
 
     @Column("bigint", {
-        unsigned: true
+        unsigned: true,
     })
     counter: string;
-
 }

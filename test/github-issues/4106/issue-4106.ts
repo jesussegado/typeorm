@@ -1,4 +1,8 @@
-import { closeTestingConnections, createTestingConnections, reloadTestingDatabases } from "../../utils/test-utils";
+import {
+    closeTestingConnections,
+    createTestingConnections,
+    reloadTestingDatabases,
+} from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Human } from "./entity/Human";
 import { Animal } from "./entity/Animal";
@@ -36,7 +40,7 @@ describe("github issues > #4106 Specify enum type name in postgres", () => {
 
     it("should create an enum with the name specified in column options -> enumName", () =>
         Promise.all(
-            connections.map(async connection => {
+            connections.map(async (connection) => {
                 const em = new EntityManager(connection);
                 const types = await em.query(`SELECT typowner, n.nspname as "schema",
                     pg_catalog.format_type(t.oid, NULL) AS "name",
@@ -51,13 +55,14 @@ describe("github issues > #4106 Specify enum type name in postgres", () => {
 
                 // Enum name must be exactly the same as stated
                 // Quoted here since the name contains mixed case
-                expect(types.some((type: any) => type.name === `"genderEnum"`)).to.be.true;
+                expect(types.some((type: any) => type.name === `"genderEnum"`))
+                    .to.be.true;
             })
         ));
 
     it("should insert data with the correct enum", () =>
         Promise.all(
-            connections.map(async connection => {
+            connections.map(async (connection) => {
                 await prepareData(connection);
 
                 const em = new EntityManager(connection);
@@ -76,7 +81,9 @@ describe("github issues > #4106 Specify enum type name in postgres", () => {
                 expect(animalTable[2].udtName).to.equal("genderEnum");
 
                 const HumanRepository = connection.manager.getRepository(Human);
-                const AnimalRepository = connection.manager.getRepository(Animal);
+                const AnimalRepository = connection.manager.getRepository(
+                    Animal
+                );
 
                 const human = await HumanRepository.find();
                 const animal = await AnimalRepository.find();
@@ -85,6 +92,4 @@ describe("github issues > #4106 Specify enum type name in postgres", () => {
                 expect(animal[0].gender).to.equal("male");
             })
         ));
-
-
 });

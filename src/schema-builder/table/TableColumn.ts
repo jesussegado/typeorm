@@ -1,10 +1,9 @@
-import {TableColumnOptions} from "../options/TableColumnOptions";
+import { TableColumnOptions } from "../options/TableColumnOptions";
 
 /**
  * Table's columns in the database represented in this class.
  */
 export class TableColumn {
-
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -43,7 +42,7 @@ export class TableColumn {
      * Specifies generation strategy if this column will use auto increment.
      * `rowid` option supported only in CockroachDB.
      */
-    generationStrategy?: "uuid"|"increment"|"rowid";
+    generationStrategy?: "uuid" | "increment" | "rowid";
 
     /**
      * Indicates if column is a primary key.
@@ -91,7 +90,7 @@ export class TableColumn {
      * The precision for a decimal (exact numeric) column (applies only for decimal column), which is the maximum
      * number of digits that are stored for the values.
      */
-    precision?: number|null;
+    precision?: number | null;
 
     /**
      * The scale for a decimal (exact numeric) column (applies only for decimal column), which represents the number
@@ -128,7 +127,7 @@ export class TableColumn {
     /**
      * Generated column type. Supports only in MySQL.
      */
-    generatedType?: "VIRTUAL"|"STORED";
+    generatedType?: "VIRTUAL" | "STORED";
 
     /**
      * Spatial Feature Type (Geometry, Point, Polygon, etc.)
@@ -155,7 +154,7 @@ export class TableColumn {
             this.precision = options.precision;
             this.scale = options.scale;
             this.zerofill = options.zerofill || false;
-            this.unsigned = this.zerofill ? true : (options.unsigned || false);
+            this.unsigned = this.zerofill ? true : options.unsigned || false;
             this.default = options.default;
             this.onUpdate = options.onUpdate;
             this.isNullable = options.isNullable || false;
@@ -207,8 +206,7 @@ export class TableColumn {
             isArray: this.isArray,
             comment: this.comment,
             spatialFeatureType: this.spatialFeatureType,
-            srid: this.srid
+            srid: this.srid,
         });
     }
-
 }

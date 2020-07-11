@@ -9,8 +9,7 @@ export class Post {
 
     @Column({
         type: "simple-json",
-        nullable: true
+        nullable: true,
     })
     jsonField: any;
-
 }

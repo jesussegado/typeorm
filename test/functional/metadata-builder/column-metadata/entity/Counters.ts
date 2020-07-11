@@ -1,8 +1,7 @@
-import {Column} from "../../../../../src/decorator/columns/Column";
-import {Subcounters} from "./Subcounters";
+import { Column } from "../../../../../src/decorator/columns/Column";
+import { Subcounters } from "./Subcounters";
 
 export class Counters {
-
     @Column()
     code: number;
 
@@ -17,5 +16,4 @@ export class Counters {
 
     @Column(() => Subcounters)
     subcounters: Subcounters;
-
 }

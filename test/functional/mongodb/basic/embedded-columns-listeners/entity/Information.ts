@@ -1,8 +1,7 @@
-import {Column} from "../../../../../../src/decorator/columns/Column";
-import {AfterLoad, BeforeInsert} from "../../../../../../src";
+import { Column } from "../../../../../../src/decorator/columns/Column";
+import { AfterLoad, BeforeInsert } from "../../../../../../src";
 
 export class Information {
-
     @Column()
     description?: string;
 
@@ -18,5 +17,4 @@ export class Information {
     afterLoad() {
         this.comments = 1;
     }
-
 }

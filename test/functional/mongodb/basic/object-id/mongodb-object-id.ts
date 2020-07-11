@@ -1,85 +1,104 @@
 import "reflect-metadata";
 import { Connection } from "../../../../../src/connection/Connection";
-import { closeTestingConnections, createTestingConnections, reloadTestingDatabases } from "../../../../utils/test-utils";
+import {
+    closeTestingConnections,
+    createTestingConnections,
+    reloadTestingDatabases,
+} from "../../../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { PostWithUnderscoreId } from "./entity/PostWithUnderscoreId";
 import { expect } from "chai";
 
-
 describe("mongodb > object id columns", () => {
-
     let connections: Connection[];
-    before(async () => connections = await createTestingConnections({
-        entities: [Post, PostWithUnderscoreId],
-        enabledDrivers: ["mongodb"]
-    }));
+    before(
+        async () =>
+            (connections = await createTestingConnections({
+                entities: [Post, PostWithUnderscoreId],
+                enabledDrivers: ["mongodb"],
+            }))
+    );
     beforeEach(() => reloadTestingDatabases(connections));
     after(() => closeTestingConnections(connections));
 
-    it("should persist ObjectIdColumn property as _id to DB", () => Promise.all(connections.map(async connection => {
-        const postMongoRepository = connection.getMongoRepository(Post);
+    it("should persist ObjectIdColumn property as _id to DB", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                const postMongoRepository = connection.getMongoRepository(Post);
 
-        // save a post
-        const post = new Post();
-        post.title = "Post";
-        await postMongoRepository.save(post);
+                // save a post
+                const post = new Post();
+                post.title = "Post";
+                await postMongoRepository.save(post);
 
-        // little hack to get raw data from mongodb
-        const aggArr = await postMongoRepository.aggregate([]).toArray();
+                // little hack to get raw data from mongodb
+                const aggArr = await postMongoRepository
+                    .aggregate([])
+                    .toArray();
 
-        expect(aggArr[0]._id).to.be.not.undefined;
-        expect(aggArr[0].nonIdNameOfObjectId).to.be.undefined;
-    })));
+                expect(aggArr[0]._id).to.be.not.undefined;
+                expect(aggArr[0].nonIdNameOfObjectId).to.be.undefined;
+            })
+        ));
 
+    it("should map _id to ObjectIdColumn property and remove BD _id property", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                const postMongoRepository = connection.getMongoRepository(Post);
 
-    it("should map _id to ObjectIdColumn property and remove BD _id property", () => Promise.all(connections.map(async connection => {
-        const postMongoRepository = connection.getMongoRepository(Post);
+                // save a post
+                const post = new Post();
+                post.title = "Post";
+                await postMongoRepository.save(post);
 
-        // save a post
-        const post = new Post();
-        post.title = "Post";
-        await postMongoRepository.save(post);
+                expect(post.nonIdNameOfObjectId).to.be.not.undefined;
+                expect((post as any)._id).to.be.undefined;
+            })
+        ));
 
-        expect(post.nonIdNameOfObjectId).to.be.not.undefined;
-        expect((post as any)._id).to.be.undefined;
-    })));
+    it("should save and load properly if objectId property has name _id", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                const postMongoRepository = connection.getMongoRepository(
+                    PostWithUnderscoreId
+                );
 
+                // save a post
+                const post = new PostWithUnderscoreId();
+                post.title = "Post";
+                await postMongoRepository.save(post);
 
-    it("should save and load properly if objectId property has name _id", () => Promise.all(connections.map(async connection => {
-        const postMongoRepository = connection.getMongoRepository(PostWithUnderscoreId);
+                expect(post._id).to.be.not.undefined;
 
-        // save a post
-        const post = new PostWithUnderscoreId();
-        post.title = "Post";
-        await postMongoRepository.save(post);
+                const loadedPost = await postMongoRepository.findOne(post._id);
+                expect(loadedPost!._id).to.be.not.undefined;
+            })
+        ));
 
-        expect(post._id).to.be.not.undefined;
+    it("should not persist entity ObjectIdColumn property in DB on update by save", () =>
+        Promise.all(
+            connections.map(async (connection) => {
+                const postMongoRepository = connection.getMongoRepository(Post);
 
-        const loadedPost = await postMongoRepository.findOne(post._id);
-        expect(loadedPost!._id).to.be.not.undefined;
-    })));
+                // save a post
+                const post = new Post();
+                post.title = "Post";
+                await postMongoRepository.save(post);
 
+                post.title = "Muhaha changed title";
 
-    it("should not persist entity ObjectIdColumn property in DB on update by save", () => Promise.all(connections.map(async connection => {
-        const postMongoRepository = connection.getMongoRepository(Post);
+                await postMongoRepository.save(post);
 
-        // save a post
-        const post = new Post();
-        post.title = "Post";
-        await postMongoRepository.save(post);
+                expect(post.nonIdNameOfObjectId).to.be.not.undefined;
+                expect((post as any)._id).to.be.undefined;
 
-        post.title = "Muhaha changed title";
+                // little hack to get raw data from mongodb
+                const aggArr = await postMongoRepository
+                    .aggregate([])
+                    .toArray();
 
-        await postMongoRepository.save(post);
-
-        expect(post.nonIdNameOfObjectId).to.be.not.undefined;
-        expect((post as any)._id).to.be.undefined;
-
-        // little hack to get raw data from mongodb
-        const aggArr = await postMongoRepository.aggregate([]).toArray();
-
-        expect(aggArr[0]._id).to.be.not.undefined;
-        expect(aggArr[0].nonIdNameOfObjectId).to.be.undefined;
-    })));
-
+                expect(aggArr[0]._id).to.be.not.undefined;
+                expect(aggArr[0].nonIdNameOfObjectId).to.be.undefined;
+            })
+        ));
 });

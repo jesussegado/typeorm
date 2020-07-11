@@ -1,8 +1,8 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "../../../../src";
+import { Entity, PrimaryGeneratedColumn, Column } from "../../../../src";
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column()

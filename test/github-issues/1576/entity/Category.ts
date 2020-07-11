@@ -1,8 +1,7 @@
-import {Column, PrimaryGeneratedColumn, Entity} from "../../../../src";
+import { Column, PrimaryGeneratedColumn, Entity } from "../../../../src";
 
 @Entity()
 export class Category {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -11,5 +10,4 @@ export class Category {
 
     @Column()
     name2: string;
-
 }

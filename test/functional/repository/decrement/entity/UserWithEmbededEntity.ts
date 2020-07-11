@@ -13,10 +13,9 @@ class FriendStats {
 
 @Entity()
 export class UserWithEmbededEntity {
-
     @PrimaryColumn()
     id: number;
 
-    @Column(type => FriendStats)
+    @Column((type) => FriendStats)
     friend: FriendStats;
 }

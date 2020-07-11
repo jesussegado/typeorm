@@ -1,10 +1,9 @@
-import {Column} from "../../../../../src/decorator/columns/Column";
-import {BeforeInsert} from "../../../../../src/decorator/listeners/BeforeInsert";
-import {BeforeUpdate} from "../../../../../src/decorator/listeners/BeforeUpdate";
+import { Column } from "../../../../../src/decorator/columns/Column";
+import { BeforeInsert } from "../../../../../src/decorator/listeners/BeforeInsert";
+import { BeforeUpdate } from "../../../../../src/decorator/listeners/BeforeUpdate";
 
 export class PostCounter {
-
-    @Column({nullable: true})
+    @Column({ nullable: true })
     likes: number;
 
     @BeforeInsert()
@@ -16,5 +15,4 @@ export class PostCounter {
     beforeUpdate() {
         this.likes++;
     }
-
 }

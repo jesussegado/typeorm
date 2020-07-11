@@ -1,9 +1,8 @@
-import {Entity, PrimaryGeneratedColumn} from "../../../../src";
-import {Column} from "../../../../src/decorator/columns/Column";
+import { Entity, PrimaryGeneratedColumn } from "../../../../src";
+import { Column } from "../../../../src/decorator/columns/Column";
 
 @Entity("Error")
 export class Error {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -18,5 +17,4 @@ export class Error {
 
     @Column()
     errorDate: Date;
-    
 }

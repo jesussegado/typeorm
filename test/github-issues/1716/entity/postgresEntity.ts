@@ -2,7 +2,6 @@ import { PrimaryColumn, Entity, Column } from "../../../../src";
 
 @Entity()
 export class PostgresEntity {
-
     @PrimaryColumn()
     id: number;
 
@@ -23,5 +22,4 @@ export class PostgresEntity {
 
     @Column("timestamp with time zone")
     fieldTimestampWithTimeZone: Date;
-
 }

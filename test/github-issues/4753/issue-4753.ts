@@ -14,17 +14,17 @@ describe("github issues > #4753 MySQL Replication Config broken", () => {
                 master: {
                     username: "test",
                     password: "test",
-                    database: "test"
+                    database: "test",
                 },
                 slaves: [
                     {
                         username: "test",
                         password: "test",
-                        database: "test"
-                    }
-                ]
+                        database: "test",
+                    },
+                ],
             },
-            entities: [User]
+            entities: [User],
         });
         connections.push(connection);
         await connection.connect();

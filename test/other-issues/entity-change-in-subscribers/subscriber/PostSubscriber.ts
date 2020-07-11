@@ -1,5 +1,9 @@
-import {Post} from "../entity/Post";
-import {EntitySubscriberInterface, EventSubscriber, UpdateEvent} from "../../../../src";
+import { Post } from "../entity/Post";
+import {
+    EntitySubscriberInterface,
+    EventSubscriber,
+    UpdateEvent,
+} from "../../../../src";
 
 @EventSubscriber()
 export class PostSubscriber implements EntitySubscriberInterface<Post> {
@@ -11,5 +15,4 @@ export class PostSubscriber implements EntitySubscriberInterface<Post> {
         event.entity.updatedColumns = event.updatedColumns.length;
         event.entity.updatedRelations = event.updatedRelations.length;
     }
-
 }
