@@ -11,7 +11,6 @@ const replace = require("gulp-replace");
 const rename = require("gulp-rename");
 const mocha = require("gulp-mocha");
 const chai = require("chai");
-const tslint = require("gulp-tslint");
 const sourcemaps = require("gulp-sourcemaps");
 const istanbul = require("gulp-istanbul");
 const remapIstanbul = require("remap-istanbul/lib/gulpRemapIstanbul");
@@ -270,24 +269,6 @@ export class Gulpfile {
     // -------------------------------------------------------------------------
 
     /**
-     * Runs ts linting to validate source code.
-     */
-    @Task()
-    tslint() {
-        return gulp.src(["./src/**/*.ts", "./test/**/*.ts", "./sample/**/*.ts"])
-            .pipe(
-                tslint({
-                    formatter: "stylish"
-                })
-            )
-            .pipe(tslint.report({
-                emitError: true,
-                sort: true,
-                bell: true
-            }));
-    }
-
-    /**
      * Runs before test coverage, required step to perform a test coverage.
      */
     @Task()
@@ -352,7 +333,6 @@ export class Gulpfile {
         return [
             "clean",
             "compile",
-            "tslint",
             "wait",
             "coveragePre",
             "runTests",

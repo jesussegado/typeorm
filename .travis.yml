@@ -14,7 +14,6 @@ before_script:
   - cp ormconfig.travis.json ormconfig.json
 
 script:
-  - npm run lint
   - npx nyc npm test
 
 after_success:
