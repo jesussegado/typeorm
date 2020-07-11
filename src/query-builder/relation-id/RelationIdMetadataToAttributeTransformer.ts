@@ -59,9 +59,8 @@ export class RelationIdMetadataToAttributeTransformer {
         relationId: RelationIdMetadata
     ): RelationIdAttribute {
         return new RelationIdAttribute(this.expressionMap, {
-            relationName:
-                parentAliasName + "." + relationId.relation.propertyName, // category.images
-            mapToProperty: parentAliasName + "." + relationId.propertyName, // category.imageIds
+            relationName: `${parentAliasName}.${relationId.relation.propertyName}`, // category.images
+            mapToProperty: `${parentAliasName}.${relationId.propertyName}`, // category.imageIds
             alias: relationId.alias,
             queryBuilderFactory: relationId.queryBuilderFactory,
         });

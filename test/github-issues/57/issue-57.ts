@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { User } from "./entity/User";
-import { expect } from "chai";
 import { AccessToken } from "./entity/AccessToken";
 
 describe("github issues > #57 cascade insert not working with OneToOne relationship", () => {
@@ -14,7 +14,7 @@ describe("github issues > #57 cascade insert not working with OneToOne relations
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

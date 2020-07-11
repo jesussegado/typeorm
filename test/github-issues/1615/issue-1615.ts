@@ -9,7 +9,7 @@ describe("github issues > #1615 Datetime2 with any precision result in datetime2
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mssql"],
             schemaCreate: true,
             dropSchema: true,

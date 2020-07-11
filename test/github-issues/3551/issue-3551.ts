@@ -11,7 +11,7 @@ describe("github issues > #3551 array of embedded documents through multiple lev
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mongodb"],
             dropSchema: true,
         });

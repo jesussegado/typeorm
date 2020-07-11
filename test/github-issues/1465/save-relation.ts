@@ -14,7 +14,7 @@ describe("save child and parent entity", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql", "mariadb", "sqlite", "sqljs"],
             }))
     );

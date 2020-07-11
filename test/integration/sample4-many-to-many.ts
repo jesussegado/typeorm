@@ -20,7 +20,7 @@ describe("many-to-many", function () {
     before(async function () {
         const options = setupSingleTestingConnection("mysql", {
             entities: [
-                __dirname + "/../../sample/sample4-many-to-many/entity/*",
+                `${__dirname}/../../sample/sample4-many-to-many/entity/*`,
             ],
         });
 

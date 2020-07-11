@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Settings } from "./entity/Settings";
-import { expect } from "chai";
 
 describe("github issues > #3874 Using an (empty string) enum as the type of a primary key column", () => {
     let connections: Connection[];

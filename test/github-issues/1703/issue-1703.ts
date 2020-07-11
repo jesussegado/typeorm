@@ -14,7 +14,7 @@ describe("github issues > #1703 Many to Many with association table returns odd 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"],
             }))
     );

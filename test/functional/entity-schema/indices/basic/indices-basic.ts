@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { CockroachDriver } from "../../../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
@@ -8,7 +9,6 @@ import {
 import { Connection } from "../../../../../src/connection/Connection";
 import { EntityMetadata } from "../../../../../src/metadata/EntityMetadata";
 import { IndexMetadata } from "../../../../../src/metadata/IndexMetadata";
-import { expect } from "chai";
 import { PersonSchema } from "./entity/Person";
 
 describe("entity-schema > indices > basic", () => {

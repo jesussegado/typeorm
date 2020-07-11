@@ -91,17 +91,13 @@ export class ReturningResultsEntityUpdator {
                             .select(
                                 metadata.primaryColumns.map(
                                     (column) =>
-                                        metadata.targetName +
-                                        "." +
-                                        column.propertyPath
+                                        `${metadata.targetName}.${column.propertyPath}`
                                 )
                             )
                             .addSelect(
                                 this.getUpdationReturningColumns().map(
                                     (column) =>
-                                        metadata.targetName +
-                                        "." +
-                                        column.propertyPath
+                                        `${metadata.targetName}.${column.propertyPath}`
                                 )
                             )
                             .from(metadata.target, metadata.targetName)
@@ -176,9 +172,7 @@ export class ReturningResultsEntityUpdator {
                         if (!uuid)
                             // if it was not defined by a user then InsertQueryBuilder generates it by its own, get this generated uuid value
                             uuid = this.expressionMap.nativeParameters[
-                                "uuid_" +
-                                    generatedColumn.databaseName +
-                                    entityIndex
+                                `uuid_${generatedColumn.databaseName}${entityIndex}`
                             ];
 
                         OrmUtils.mergeDeep(
@@ -219,17 +213,13 @@ export class ReturningResultsEntityUpdator {
                         .select(
                             metadata.primaryColumns.map(
                                 (column) =>
-                                    metadata.targetName +
-                                    "." +
-                                    column.propertyPath
+                                    `${metadata.targetName}.${column.propertyPath}`
                             )
                         )
                         .addSelect(
                             insertionColumns.map(
                                 (column) =>
-                                    metadata.targetName +
-                                    "." +
-                                    column.propertyPath
+                                    `${metadata.targetName}.${column.propertyPath}`
                             )
                         )
                         .from(metadata.target, metadata.targetName)

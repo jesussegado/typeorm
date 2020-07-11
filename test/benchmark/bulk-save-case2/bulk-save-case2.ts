@@ -27,10 +27,10 @@ describe("benchmark > bulk-save > case2", () => {
                     const document = new Document();
 
                     document.id = i.toString();
-                    document.docId = "label/" + i;
+                    document.docId = `label/${i}`;
                     document.context =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel faucibus nunc. Etiam volutpat vel urna in scelerisque. Cras a erat ipsum. ";
-                    document.label = "label/" + i;
+                    document.label = `label/${i}`;
                     document.distributions = [
                         {
                             weight: "0.9",

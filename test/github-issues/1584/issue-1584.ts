@@ -12,7 +12,7 @@ describe("github issues > #1584 Cannot read property 'createValueMap' of undefin
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mongodb"],
             }))
     );

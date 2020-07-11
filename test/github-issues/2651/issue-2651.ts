@@ -13,7 +13,7 @@ describe("github issues > #2651 set shouldn't have update statements twice when 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres"],
             }))
     );

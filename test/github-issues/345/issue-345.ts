@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -7,14 +8,13 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { expect } from "chai";
 
 describe("github issues > Join query on ManyToMany relations not working", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -25,7 +25,7 @@ describe("github issues > Join query on ManyToMany relations not working", () =>
             connections.map(async (connection) => {
                 for (let i = 0; i < 20; i++) {
                     const category = new Category();
-                    category.name = "Category #" + i;
+                    category.name = `Category #${i}`;
                     await connection.manager.save(category);
                 }
 

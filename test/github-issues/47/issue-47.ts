@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 import { Category } from "./entity/Category";
 
 describe("github issues > #47 wrong sql syntax when loading lazy relation", () => {
@@ -14,7 +14,7 @@ describe("github issues > #47 wrong sql syntax when loading lazy relation", () =
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"], // we can properly test lazy-relations only on one platform
             }))
     );

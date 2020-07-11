@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../../src/connection/Connection";
 import {
     closeTestingConnections,
@@ -6,7 +7,6 @@ import {
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 
 describe("mongodb > indices", () => {
     let connections: Connection[];

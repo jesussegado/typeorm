@@ -11,12 +11,12 @@ import { NamingStrategyUnderTest } from "./naming/NamingStrategyUnderTest";
 
 describe("github issues > #3847 FEATURE REQUEST - Naming strategy foreign key override name", () => {
     let connections: Connection[];
-    let namingStrategy = new NamingStrategyUnderTest();
+    const namingStrategy = new NamingStrategyUnderTest();
 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 namingStrategy,
             }))
     );
@@ -30,7 +30,7 @@ describe("github issues > #3847 FEATURE REQUEST - Naming strategy foreign key ov
             connections.map(async (connection) => {
                 await connection.getRepository(Animal).find();
 
-                let metadata = connection.getMetadata(Animal);
+                const metadata = connection.getMetadata(Animal);
 
                 expect(metadata.foreignKeys[0].name).to.eq(
                     "fk_animal_category_categoryId"

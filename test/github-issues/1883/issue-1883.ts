@@ -9,7 +9,7 @@ describe("github issues > #1883 Synchronization error with default value", () =>
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["postgres"],
             schemaCreate: true,
             dropSchema: true,

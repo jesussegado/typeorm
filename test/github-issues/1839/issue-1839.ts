@@ -9,7 +9,7 @@ describe("github issues > #1839 Charset and collation not being carried to JoinT
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mysql"],
             schemaCreate: true,
             dropSchema: true,

@@ -58,7 +58,7 @@ export class CordovaQueryRunner extends AbstractSqliteQueryRunner {
                     if (query.substr(0, 11) === "INSERT INTO") {
                         ok(result.insertId);
                     } else {
-                        let resultSet = [];
+                        const resultSet = [];
                         for (let i = 0; i < result.rows.length; i++) {
                             resultSet.push(result.rows.item(i));
                         }

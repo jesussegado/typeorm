@@ -533,7 +533,7 @@ export class PostgresDriver implements Driver {
                 return Object.keys(value)
                     .map(
                         (key) =>
-                            quoteString(key) + "=>" + quoteString(value[key])
+                            `${quoteString(key)}=>${quoteString(value[key])}`
                     )
                     .join(",");
             }
@@ -553,7 +553,7 @@ export class PostgresDriver implements Driver {
                 columnMetadata.type === "simple-enum") &&
             !columnMetadata.isArray
         ) {
-            return "" + value;
+            return `${value}`;
         }
 
         return value;
@@ -686,7 +686,7 @@ export class PostgresDriver implements Driver {
             return [sql, builtParameters];
 
         const keys = Object.keys(parameters)
-            .map((parameter) => "(:(\\.\\.\\.)?" + parameter + "\\b)")
+            .map((parameter) => `(:(\\.\\.\\.)?${parameter}\\b)`)
             .join("|");
         sql = sql.replace(new RegExp(keys, "g"), (key: string): string => {
             let value: any;
@@ -702,14 +702,14 @@ export class PostgresDriver implements Driver {
                 return value
                     .map((v: any) => {
                         builtParameters.push(v);
-                        return "$" + builtParameters.length;
+                        return `$${builtParameters.length}`;
                     })
                     .join(", ");
             } else if (value instanceof Function) {
                 return value();
             } else {
                 builtParameters.push(value);
-                return "$" + builtParameters.length;
+                return `$${builtParameters.length}`;
             }
         }); // todo: make replace only in value statements, otherwise problems
         return [sql, builtParameters];
@@ -719,7 +719,7 @@ export class PostgresDriver implements Driver {
      * Escapes a column name.
      */
     escape(columnName: string): string {
-        return '"' + columnName + '"';
+        return `"${columnName}"`;
     }
 
     /**
@@ -806,7 +806,7 @@ export class PostgresDriver implements Driver {
         }
 
         if (typeof defaultValue === "number") {
-            return "" + defaultValue;
+            return `${defaultValue}`;
         } else if (typeof defaultValue === "boolean") {
             return defaultValue === true ? "true" : "false";
         } else if (typeof defaultValue === "function") {
@@ -845,47 +845,45 @@ export class PostgresDriver implements Driver {
         let type = column.type;
 
         if (column.length) {
-            type += "(" + column.length + ")";
+            type += `(${column.length})`;
         } else if (
             column.precision !== null &&
             column.precision !== undefined &&
             column.scale !== null &&
             column.scale !== undefined
         ) {
-            type += "(" + column.precision + "," + column.scale + ")";
+            type += `(${column.precision},${column.scale})`;
         } else if (
             column.precision !== null &&
             column.precision !== undefined
         ) {
-            type += "(" + column.precision + ")";
+            type += `(${column.precision})`;
         }
 
         if (column.type === "time without time zone") {
-            type =
-                "TIME" +
-                (column.precision !== null && column.precision !== undefined
-                    ? "(" + column.precision + ")"
-                    : "");
+            type = `TIME${
+                column.precision !== null && column.precision !== undefined
+                    ? `(${column.precision})`
+                    : ""
+            }`;
         } else if (column.type === "time with time zone") {
-            type =
-                "TIME" +
-                (column.precision !== null && column.precision !== undefined
-                    ? "(" + column.precision + ")"
-                    : "") +
-                " WITH TIME ZONE";
+            type = `TIME${
+                column.precision !== null && column.precision !== undefined
+                    ? `(${column.precision})`
+                    : ""
+            } WITH TIME ZONE`;
         } else if (column.type === "timestamp without time zone") {
-            type =
-                "TIMESTAMP" +
-                (column.precision !== null && column.precision !== undefined
-                    ? "(" + column.precision + ")"
-                    : "");
+            type = `TIMESTAMP${
+                column.precision !== null && column.precision !== undefined
+                    ? `(${column.precision})`
+                    : ""
+            }`;
         } else if (column.type === "timestamp with time zone") {
-            type =
-                "TIMESTAMP" +
-                (column.precision !== null && column.precision !== undefined
-                    ? "(" + column.precision + ")"
-                    : "") +
-                " WITH TIME ZONE";
+            type = `TIMESTAMP${
+                column.precision !== null && column.precision !== undefined
+                    ? `(${column.precision})`
+                    : ""
+            } WITH TIME ZONE`;
         } else if (this.spatialTypes.indexOf(column.type as ColumnType) >= 0) {
             if (column.spatialFeatureType != null && column.srid != null) {
                 type = `${column.type}(${column.spatialFeatureType},${column.srid})`;
@@ -986,7 +984,7 @@ export class PostgresDriver implements Driver {
                     columnMetadata.enum &&
                     !OrmUtils.isArraysEqual(
                         tableColumn.enum,
-                        columnMetadata.enum.map((val) => val + "")
+                        columnMetadata.enum.map((val) => `${val}`)
                     )) || // enums in postgres are always strings
                 tableColumn.isGenerated !== columnMetadata.isGenerated ||
                 (tableColumn.spatialFeatureType || "").toLowerCase() !==
@@ -1032,7 +1030,7 @@ export class PostgresDriver implements Driver {
      * Creates an escaped parameter.
      */
     createParameter(parameterName: string, index: number): string {
-        return "$" + (index + 1);
+        return `$${index + 1}`;
     }
 
     // -------------------------------------------------------------------------

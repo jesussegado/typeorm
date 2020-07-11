@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
@@ -7,14 +8,13 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { expect } from "chai";
 
 describe("github issues > #2632 createQueryBuilder relation remove works only if using ID", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
             }))
@@ -72,7 +72,7 @@ describe("github issues > #2632 createQueryBuilder relation remove works only if
                     .of(2)
                     .add(category2);
 
-                let loadedPost2 = await connection.manager.findOne(Post, 2, {
+                const loadedPost2 = await connection.manager.findOne(Post, 2, {
                     relations: ["categories"],
                 });
                 expect(loadedPost2!.categories).to.deep.include({

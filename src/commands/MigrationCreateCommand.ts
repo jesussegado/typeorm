@@ -1,7 +1,7 @@
+import * as yargs from "yargs";
 import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
 import { CommandUtils } from "./CommandUtils";
 import { camelCase } from "../util/StringUtils";
-import * as yargs from "yargs";
 const chalk = require("chalk");
 
 /**
@@ -48,7 +48,7 @@ export class MigrationCreateCommand implements yargs.CommandModule {
                 args.name as any,
                 timestamp
             );
-            const filename = timestamp + "-" + args.name + ".ts";
+            const filename = `${timestamp}-${args.name}.ts`;
             let directory = args.dir;
 
             // if directory is not set then try to open tsconfig and find default path there
@@ -69,11 +69,9 @@ export class MigrationCreateCommand implements yargs.CommandModule {
                 } catch (err) {}
             }
 
-            const path =
-                process.cwd() +
-                "/" +
-                (directory ? directory + "/" : "") +
-                filename;
+            const path = `${process.cwd()}/${
+                directory ? `${directory}/` : ""
+            }${filename}`;
             await CommandUtils.createFile(path, fileContent);
             console.log(
                 `Migration ${chalk.blue(path)} has been generated successfully.`

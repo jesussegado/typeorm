@@ -19,7 +19,7 @@ export class DriverUtils {
     ): any {
         if (options.url) {
             const parsedUrl = this.parseConnectionUrl(options.url);
-            let urlDriverOptions: any = {
+            const urlDriverOptions: any = {
                 type: parsedUrl.type,
                 host: parsedUrl.host,
                 username: parsedUrl.username,
@@ -52,7 +52,7 @@ export class DriverUtils {
         alias: string,
         column: string
     ): string {
-        const columnAliasName = alias + "_" + column;
+        const columnAliasName = `${alias}_${column}`;
 
         if (
             maxAliasLength &&

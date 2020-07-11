@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,7 +10,6 @@ import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
 import { ConnectionMetadataBuilder } from "../../../../src/connection/ConnectionMetadataBuilder";
 import { EntityMetadataValidator } from "../../../../src/metadata-builder/EntityMetadataValidator";
-import { expect } from "chai";
 
 describe("persistence > order of persistence execution operations", () => {
     describe("should throw exception when non-resolvable circular relations found", function () {
@@ -21,13 +21,13 @@ describe("persistence > order of persistence execution operations", () => {
                 username: "test",
                 password: "test",
                 database: "test",
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             });
             const connectionMetadataBuilder = new ConnectionMetadataBuilder(
                 connection
             );
             const entityMetadatas = connectionMetadataBuilder.buildEntityMetadatas(
-                [__dirname + "/entity/*{.js,.ts}"]
+                [`${__dirname}/entity/*{.js,.ts}`]
             );
             const entityMetadataValidator = new EntityMetadataValidator();
             expect(() =>
@@ -44,7 +44,7 @@ describe("persistence > order of persistence execution operations", () => {
         before(
             async () =>
                 (connections = await createTestingConnections({
-                    entities: [__dirname + "/entity/*{.js,.ts}"],
+                    entities: [`${__dirname}/entity/*{.js,.ts}`],
                 }))
         );
         beforeEach(() => reloadTestingDatabases(connections));

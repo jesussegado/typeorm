@@ -23,7 +23,7 @@ describe("github issues > #3118 shorten alias names (for RDBMS with a limit) whe
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

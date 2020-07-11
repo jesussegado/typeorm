@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { Race } from "./entity/Race";
 import { Duration } from "./entity/Duration";
 
@@ -14,7 +14,7 @@ describe("github issues > embeddeds with custom column name don't work", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

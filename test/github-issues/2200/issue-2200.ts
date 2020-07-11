@@ -10,12 +10,12 @@ import { NamingStrategyUnderTest } from "./naming/NamingStrategyUnderTest";
 
 describe("github issue > #2200 Bug - Issue with snake_case naming strategy", () => {
     let connections: Connection[];
-    let namingStrategy = new NamingStrategyUnderTest();
+    const namingStrategy = new NamingStrategyUnderTest();
 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 namingStrategy,
             }))
     );

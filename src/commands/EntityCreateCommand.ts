@@ -1,6 +1,6 @@
+import * as yargs from "yargs";
 import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
 import { CommandUtils } from "./CommandUtils";
-import * as yargs from "yargs";
 const chalk = require("chalk");
 
 /**
@@ -38,7 +38,7 @@ export class EntityCreateCommand implements yargs.CommandModule {
             const fileContent = EntityCreateCommand.getTemplate(
                 args.name as any
             );
-            const filename = args.name + ".ts";
+            const filename = `${args.name}.ts`;
             let directory = args.dir;
 
             // if directory is not set then try to open tsconfig and find default path there
@@ -59,11 +59,9 @@ export class EntityCreateCommand implements yargs.CommandModule {
                 } catch (err) {}
             }
 
-            const path =
-                process.cwd() +
-                "/" +
-                (directory ? directory + "/" : "") +
-                filename;
+            const path = `${process.cwd()}/${
+                directory ? `${directory}/` : ""
+            }${filename}`;
             const fileExists = await CommandUtils.fileExists(path);
             if (fileExists) {
                 throw `File ${chalk.blue(path)} already exists`;

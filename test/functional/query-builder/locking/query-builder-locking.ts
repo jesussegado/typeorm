@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { CockroachDriver } from "../../../../src/driver/cockroachdb/CockroachDriver";
 import { SapDriver } from "../../../../src/driver/sap/SapDriver";
 import {
@@ -8,7 +9,6 @@ import {
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
 import { PostWithVersion } from "./entity/PostWithVersion";
-import { expect } from "chai";
 import { PostWithoutVersionAndUpdateDate } from "./entity/PostWithoutVersionAndUpdateDate";
 import { PostWithUpdateDate } from "./entity/PostWithUpdateDate";
 import { PostWithVersionAndUpdatedDate } from "./entity/PostWithVersionAndUpdatedDate";
@@ -28,7 +28,7 @@ describe("query builder > locking", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

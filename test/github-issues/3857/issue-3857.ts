@@ -15,7 +15,7 @@ describe("github issues > #3857 Schema inheritance when STI pattern is used", ()
         async () =>
             (connections = await createTestingConnections({
                 enabledDrivers: ["postgres", "mariadb", "mysql"],
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schema: "custom",
                 schemaCreate: true,
             }))

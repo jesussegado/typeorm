@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { Dummy } from "./entity/dummy";
 import { Dummy2 } from "./entity/dummy2";
 
@@ -14,7 +14,7 @@ describe("github issues > #2364 should generate id value if @Column generated:tr
 
     it("should generate id value", async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
         });
@@ -23,8 +23,8 @@ describe("github issues > #2364 should generate id value if @Column generated:tr
             connections.map(async (connection) => {
                 const repository1 = connection.getRepository(Dummy);
                 const repository2 = connection.getRepository(Dummy2);
-                let dummyObj1 = new Dummy();
-                let dummyObj2 = new Dummy2();
+                const dummyObj1 = new Dummy();
+                const dummyObj2 = new Dummy2();
                 await repository1.insert(dummyObj1);
                 await repository2.insert(dummyObj2);
 

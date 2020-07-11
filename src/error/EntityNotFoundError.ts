@@ -29,6 +29,6 @@ export class EntityNotFoundError extends Error {
         try {
             return JSON.stringify(criteria, null, 4);
         } catch (e) {}
-        return "" + criteria;
+        return `${criteria}`;
     }
 }

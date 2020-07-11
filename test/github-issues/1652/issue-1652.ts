@@ -9,7 +9,7 @@ describe("github issues > #1652 Multiple primary key defined", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mysql"],
             schemaCreate: true,
             dropSchema: true,

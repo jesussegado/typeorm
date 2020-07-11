@@ -24,7 +24,7 @@ describe("jsonb type", () => {
             connections.map(async (connection) => {
                 await connection.synchronize(true);
                 const queryRunner = connection.createQueryRunner();
-                let schema = await queryRunner.getTable("record");
+                const schema = await queryRunner.getTable("record");
                 await queryRunner.release();
                 expect(schema).not.to.be.undefined;
                 expect(
@@ -48,11 +48,13 @@ describe("jsonb type", () => {
         Promise.all(
             connections.map(async (connection) => {
                 await connection.synchronize(true);
-                let recordRepo = connection.getRepository(Record);
-                let record = new Record();
+                const recordRepo = connection.getRepository(Record);
+                const record = new Record();
                 record.data = { foo: "bar" };
-                let persistedRecord = await recordRepo.save(record);
-                let foundRecord = await recordRepo.findOne(persistedRecord.id);
+                const persistedRecord = await recordRepo.save(record);
+                const foundRecord = await recordRepo.findOne(
+                    persistedRecord.id
+                );
                 expect(foundRecord).to.be.not.undefined;
                 expect(foundRecord!.data.foo).to.eq("bar");
             })
@@ -61,11 +63,13 @@ describe("jsonb type", () => {
     it("should persist jsonb string correctly", () =>
         Promise.all(
             connections.map(async (connection) => {
-                let recordRepo = connection.getRepository(Record);
-                let record = new Record();
+                const recordRepo = connection.getRepository(Record);
+                const record = new Record();
                 record.data = "foo";
-                let persistedRecord = await recordRepo.save(record);
-                let foundRecord = await recordRepo.findOne(persistedRecord.id);
+                const persistedRecord = await recordRepo.save(record);
+                const foundRecord = await recordRepo.findOne(
+                    persistedRecord.id
+                );
                 expect(foundRecord).to.be.not.undefined;
                 expect(foundRecord!.data).to.be.a("string");
                 expect(foundRecord!.data).to.eq("foo");
@@ -75,11 +79,13 @@ describe("jsonb type", () => {
     it("should persist jsonb array correctly", () =>
         Promise.all(
             connections.map(async (connection) => {
-                let recordRepo = connection.getRepository(Record);
-                let record = new Record();
+                const recordRepo = connection.getRepository(Record);
+                const record = new Record();
                 record.data = [1, "2", { a: 3 }];
-                let persistedRecord = await recordRepo.save(record);
-                let foundRecord = await recordRepo.findOne(persistedRecord.id);
+                const persistedRecord = await recordRepo.save(record);
+                const foundRecord = await recordRepo.findOne(
+                    persistedRecord.id
+                );
                 expect(foundRecord).to.be.not.undefined;
                 expect(foundRecord!.data).to.deep.include.members([
                     1,

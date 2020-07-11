@@ -32,7 +32,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
      * Gets generated sql query without parameters being replaced.
      */
     getQuery(): string {
-        let sql = this.createInsertExpression();
+        const sql = this.createInsertExpression();
         return sql.trim();
     }
 
@@ -401,7 +401,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
             }`;
             query += `${
                 this.expressionMap.onConflict
-                    ? " ON CONFLICT " + this.expressionMap.onConflict
+                    ? ` ON CONFLICT ${this.expressionMap.onConflict}`
                     : ""
             }`;
             if (this.expressionMap.onUpdate) {
@@ -412,18 +412,12 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                 } = this.expressionMap.onUpdate;
                 query += `${
                     columns
-                        ? " ON CONFLICT " +
-                          conflict +
-                          " DO UPDATE SET " +
-                          columns
+                        ? ` ON CONFLICT ${conflict} DO UPDATE SET ${columns}`
                         : ""
                 }`;
                 query += `${
                     overwrite
-                        ? " ON CONFLICT " +
-                          conflict +
-                          " DO UPDATE SET " +
-                          overwrite
+                        ? ` ON CONFLICT ${conflict} DO UPDATE SET ${overwrite}`
                         : ""
                 }`;
             }
@@ -434,10 +428,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
             if (this.expressionMap.onUpdate) {
                 const { overwrite, columns } = this.expressionMap.onUpdate;
                 query += `${
-                    columns ? " ON DUPLICATE KEY UPDATE " + columns : ""
+                    columns ? ` ON DUPLICATE KEY UPDATE ${columns}` : ""
                 }`;
                 query += `${
-                    overwrite ? " ON DUPLICATE KEY UPDATE " + overwrite : ""
+                    overwrite ? ` ON DUPLICATE KEY UPDATE ${overwrite}` : ""
                 }`;
             }
         }
@@ -540,8 +534,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                     if (columnIndex === 0) {
                         expression += "(";
                     }
-                    const paramName =
-                        "i" + valueSetIndex + "_" + column.databaseName;
+                    const paramName = `i${valueSetIndex}_${column.databaseName}`;
 
                     // extract real value from the entity
                     let value = column.getEntityValue(valueSet);
@@ -579,10 +572,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                         //     expression += subQuery;
                     } else if (column.isDiscriminator) {
                         this.expressionMap.nativeParameters[
-                            "discriminator_value_" + parametersCount
+                            `discriminator_value_${parametersCount}`
                         ] = this.expressionMap.mainAlias!.metadata.discriminatorValue;
                         expression += this.connection.driver.createParameter(
-                            "discriminator_value_" + parametersCount,
+                            `discriminator_value_${parametersCount}`,
                             parametersCount
                         );
                         parametersCount++;
@@ -601,8 +594,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                         !this.connection.driver.isUUIDGenerationSupported() &&
                         value === undefined
                     ) {
-                        const paramName =
-                            "uuid_" + column.databaseName + valueSetIndex;
+                        const paramName = `uuid_${column.databaseName}${valueSetIndex}`;
                         value = RandomGenerator.uuid4();
                         this.expressionMap.nativeParameters[paramName] = value;
                         expression += this.connection.driver.createParameter(
@@ -695,16 +687,12 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                                 column.type
                             ) !== -1
                         ) {
-                            expression +=
-                                column.type +
-                                "::STGeomFromText(" +
-                                this.connection.driver.createParameter(
-                                    paramName,
-                                    parametersCount
-                                ) +
-                                ", " +
-                                (column.srid || "0") +
-                                ")";
+                            expression += `${
+                                column.type
+                            }::STGeomFromText(${this.connection.driver.createParameter(
+                                paramName,
+                                parametersCount
+                            )}, ${column.srid || "0"})`;
                         } else {
                             expression += this.connection.driver.createParameter(
                                 paramName,
@@ -742,7 +730,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                     if (columnIndex === 0) {
                         expression += "(";
                     }
-                    const paramName = "i" + insertionIndex + "_" + columnName;
+                    const paramName = `i${insertionIndex}_${columnName}`;
                     const value = valueSet[columnName];
 
                     // support for SQL expressions in queries

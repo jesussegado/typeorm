@@ -1,6 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "../../../../src/index";
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    OneToMany,
+} from "../../../../src/index";
 import { EventRole } from "./EventRole";
-import { OneToMany } from "../../../../src";
 
 @Entity()
 export class Role {

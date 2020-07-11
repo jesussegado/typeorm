@@ -14,7 +14,7 @@ describe("github issues > #1545 Typeorm runs insert query instead of update quer
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres"],
             }))
     );

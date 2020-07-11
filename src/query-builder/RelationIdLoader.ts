@@ -177,9 +177,9 @@ export class RelationIdLoader {
                     return (
                         column.getEntityValue(entity) ===
                         relationId[
-                            column.entityMetadata.name +
-                                "_" +
-                                column.propertyPath.replace(".", "_")
+                            `${
+                                column.entityMetadata.name
+                            }_${column.propertyPath.replace(".", "_")}`
                         ]
                     );
                 });
@@ -189,14 +189,12 @@ export class RelationIdLoader {
                             return (
                                 column.getEntityValue(relatedEntity) ===
                                 relationId[
-                                    column.entityMetadata.name +
-                                        "_" +
-                                        relation.propertyPath.replace(
-                                            ".",
-                                            "_"
-                                        ) +
-                                        "_" +
-                                        column.propertyPath.replace(".", "_")
+                                    `${
+                                        column.entityMetadata.name
+                                    }_${relation.propertyPath.replace(
+                                        ".",
+                                        "_"
+                                    )}_${column.propertyPath.replace(".", "_")}`
                                 ]
                             );
                         });
@@ -277,20 +275,19 @@ export class RelationIdLoader {
 
         // select all columns from junction table
         junctionMetadata.ownerColumns.forEach((column) => {
-            const columnName =
-                column.referencedColumn!.entityMetadata.name +
-                "_" +
-                column.referencedColumn!.propertyPath.replace(".", "_");
-            qb.addSelect(mainAlias + "." + column.propertyPath, columnName);
+            const columnName = `${
+                column.referencedColumn!.entityMetadata.name
+            }_${column.referencedColumn!.propertyPath.replace(".", "_")}`;
+            qb.addSelect(`${mainAlias}.${column.propertyPath}`, columnName);
         });
         junctionMetadata.inverseColumns.forEach((column) => {
-            const columnName =
-                column.referencedColumn!.entityMetadata.name +
-                "_" +
-                relation.propertyPath.replace(".", "_") +
-                "_" +
-                column.referencedColumn!.propertyPath.replace(".", "_");
-            qb.addSelect(mainAlias + "." + column.propertyPath, columnName);
+            const columnName = `${
+                column.referencedColumn!.entityMetadata.name
+            }_${relation.propertyPath.replace(
+                ".",
+                "_"
+            )}_${column.referencedColumn!.propertyPath.replace(".", "_")}`;
+            qb.addSelect(`${mainAlias}.${column.propertyPath}`, columnName);
         });
 
         // add conditions for the given entities
@@ -302,39 +299,23 @@ export class RelationIdLoader {
                     columns[0].referencedColumn!.getEntityValue(entity)
                 )
             );
-            condition1 =
-                mainAlias + "." + columns[0].propertyPath + " IN (:...values1)"; // todo: use ANY for postgres
+            condition1 = `${mainAlias}.${columns[0].propertyPath} IN (:...values1)`; // todo: use ANY for postgres
         } else {
-            condition1 =
-                "(" +
-                entities
-                    .map((entity, entityIndex) => {
-                        return columns
-                            .map((column) => {
-                                const paramName =
-                                    "entity1_" +
-                                    entityIndex +
-                                    "_" +
-                                    column.propertyName;
-                                qb.setParameter(
-                                    paramName,
-                                    column.referencedColumn!.getEntityValue(
-                                        entity
-                                    )
-                                );
-                                return (
-                                    mainAlias +
-                                    "." +
-                                    column.propertyPath +
-                                    " = :" +
-                                    paramName
-                                );
-                            })
-                            .join(" AND ");
-                    })
-                    .map((condition) => "(" + condition + ")")
-                    .join(" OR ") +
-                ")";
+            condition1 = `(${entities
+                .map((entity, entityIndex) => {
+                    return columns
+                        .map((column) => {
+                            const paramName = `entity1_${entityIndex}_${column.propertyName}`;
+                            qb.setParameter(
+                                paramName,
+                                column.referencedColumn!.getEntityValue(entity)
+                            );
+                            return `${mainAlias}.${column.propertyPath} = :${paramName}`;
+                        })
+                        .join(" AND ");
+                })
+                .map((condition) => `(${condition})`)
+                .join(" OR ")})`;
         }
 
         // add conditions for the given inverse entities
@@ -349,49 +330,32 @@ export class RelationIdLoader {
                         )
                     )
                 );
-                condition2 =
-                    mainAlias +
-                    "." +
-                    inverseColumns[0].propertyPath +
-                    " IN (:...values2)"; // todo: use ANY for postgres
+                condition2 = `${mainAlias}.${inverseColumns[0].propertyPath} IN (:...values2)`; // todo: use ANY for postgres
             } else {
-                condition2 =
-                    "(" +
-                    relatedEntities
-                        .map((entity, entityIndex) => {
-                            return inverseColumns
-                                .map((column) => {
-                                    const paramName =
-                                        "entity2_" +
-                                        entityIndex +
-                                        "_" +
-                                        column.propertyName;
-                                    qb.setParameter(
-                                        paramName,
-                                        column.referencedColumn!.getEntityValue(
-                                            entity
-                                        )
-                                    );
-                                    return (
-                                        mainAlias +
-                                        "." +
-                                        column.propertyPath +
-                                        " = :" +
-                                        paramName
-                                    );
-                                })
-                                .join(" AND ");
-                        })
-                        .map((condition) => "(" + condition + ")")
-                        .join(" OR ") +
-                    ")";
+                condition2 = `(${relatedEntities
+                    .map((entity, entityIndex) => {
+                        return inverseColumns
+                            .map((column) => {
+                                const paramName = `entity2_${entityIndex}_${column.propertyName}`;
+                                qb.setParameter(
+                                    paramName,
+                                    column.referencedColumn!.getEntityValue(
+                                        entity
+                                    )
+                                );
+                                return `${mainAlias}.${column.propertyPath} = :${paramName}`;
+                            })
+                            .join(" AND ");
+                    })
+                    .map((condition) => `(${condition})`)
+                    .join(" OR ")})`;
             }
         }
 
         // execute query
         return qb
             .from(junctionMetadata.target, mainAlias)
-            .where(condition1 + (condition2 ? " AND " + condition2 : ""))
+            .where(condition1 + (condition2 ? ` AND ${condition2}` : ""))
             .getRawMany();
     }
 
@@ -408,23 +372,22 @@ export class RelationIdLoader {
         // select all columns we need
         const qb = this.connection.createQueryBuilder();
         relation.entityMetadata.primaryColumns.forEach((primaryColumn) => {
-            const columnName =
-                primaryColumn.entityMetadata.name +
-                "_" +
-                primaryColumn.propertyPath.replace(".", "_");
+            const columnName = `${
+                primaryColumn.entityMetadata.name
+            }_${primaryColumn.propertyPath.replace(".", "_")}`;
             qb.addSelect(
-                mainAlias + "." + primaryColumn.propertyPath,
+                `${mainAlias}.${primaryColumn.propertyPath}`,
                 columnName
             );
         });
         relation.joinColumns.forEach((column) => {
-            const columnName =
-                column.referencedColumn!.entityMetadata.name +
-                "_" +
-                relation.propertyPath.replace(".", "_") +
-                "_" +
-                column.referencedColumn!.propertyPath.replace(".", "_");
-            qb.addSelect(mainAlias + "." + column.propertyPath, columnName);
+            const columnName = `${
+                column.referencedColumn!.entityMetadata.name
+            }_${relation.propertyPath.replace(
+                ".",
+                "_"
+            )}_${column.referencedColumn!.propertyPath.replace(".", "_")}`;
+            qb.addSelect(`${mainAlias}.${column.propertyPath}`, columnName);
         });
 
         // add condition for entities
@@ -438,33 +401,22 @@ export class RelationIdLoader {
                     )
                 )
             );
-            condition =
-                mainAlias +
-                "." +
-                relation.entityMetadata.primaryColumns[0].propertyPath +
-                " IN (:...values)";
+            condition = `${mainAlias}.${relation.entityMetadata.primaryColumns[0].propertyPath} IN (:...values)`;
         } else {
             condition = entities
                 .map((entity, entityIndex) => {
                     return relation.entityMetadata.primaryColumns
                         .map((column, columnIndex) => {
-                            const paramName =
-                                "entity" + entityIndex + "_" + columnIndex;
+                            const paramName = `entity${entityIndex}_${columnIndex}`;
                             qb.setParameter(
                                 paramName,
                                 column.getEntityValue(entity)
                             );
-                            return (
-                                mainAlias +
-                                "." +
-                                column.propertyPath +
-                                " = :" +
-                                paramName
-                            );
+                            return `${mainAlias}.${column.propertyPath} = :${paramName}`;
                         })
                         .join(" AND ");
                 })
-                .map((condition) => "(" + condition + ")")
+                .map((condition) => `(${condition})`)
                 .join(" OR ");
         }
 
@@ -489,23 +441,22 @@ export class RelationIdLoader {
         // select all columns we need
         const qb = this.connection.createQueryBuilder();
         relation.entityMetadata.primaryColumns.forEach((primaryColumn) => {
-            const columnName =
-                primaryColumn.entityMetadata.name +
-                "_" +
-                relation.inverseRelation!.propertyPath.replace(".", "_") +
-                "_" +
-                primaryColumn.propertyPath.replace(".", "_");
+            const columnName = `${
+                primaryColumn.entityMetadata.name
+            }_${relation.inverseRelation!.propertyPath.replace(
+                ".",
+                "_"
+            )}_${primaryColumn.propertyPath.replace(".", "_")}`;
             qb.addSelect(
-                mainAlias + "." + primaryColumn.propertyPath,
+                `${mainAlias}.${primaryColumn.propertyPath}`,
                 columnName
             );
         });
         relation.joinColumns.forEach((column) => {
-            const columnName =
-                column.referencedColumn!.entityMetadata.name +
-                "_" +
-                column.referencedColumn!.propertyPath.replace(".", "_");
-            qb.addSelect(mainAlias + "." + column.propertyPath, columnName);
+            const columnName = `${
+                column.referencedColumn!.entityMetadata.name
+            }_${column.referencedColumn!.propertyPath.replace(".", "_")}`;
+            qb.addSelect(`${mainAlias}.${column.propertyPath}`, columnName);
         });
 
         // add condition for entities
@@ -519,35 +470,24 @@ export class RelationIdLoader {
                     )
                 )
             );
-            condition =
-                mainAlias +
-                "." +
-                relation.joinColumns[0].propertyPath +
-                " IN (:...values)";
+            condition = `${mainAlias}.${relation.joinColumns[0].propertyPath} IN (:...values)`;
         } else {
             condition = entities
                 .map((entity, entityIndex) => {
                     return relation.joinColumns
                         .map((joinColumn, joinColumnIndex) => {
-                            const paramName =
-                                "entity" + entityIndex + "_" + joinColumnIndex;
+                            const paramName = `entity${entityIndex}_${joinColumnIndex}`;
                             qb.setParameter(
                                 paramName,
                                 joinColumn.referencedColumn!.getEntityValue(
                                     entity
                                 )
                             );
-                            return (
-                                mainAlias +
-                                "." +
-                                joinColumn.propertyPath +
-                                " = :" +
-                                paramName
-                            );
+                            return `${mainAlias}.${joinColumn.propertyPath} = :${paramName}`;
                         })
                         .join(" AND ");
                 })
-                .map((condition) => "(" + condition + ")")
+                .map((condition) => `(${condition})`)
                 .join(" OR ");
         }
 

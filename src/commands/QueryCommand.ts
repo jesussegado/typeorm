@@ -1,9 +1,9 @@
+import * as yargs from "yargs";
 import { createConnection } from "../index";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
 import { Connection } from "../connection/Connection";
 import { PlatformTools } from "../platform/PlatformTools";
-import * as yargs from "yargs";
 const chalk = require("chalk");
 
 /**

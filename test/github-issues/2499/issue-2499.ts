@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
@@ -6,14 +7,13 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Foo } from "./entity/Foo";
-import { expect } from "chai";
 
 describe("github issues > #2499 Postgres DELETE query result is useless", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
             }))

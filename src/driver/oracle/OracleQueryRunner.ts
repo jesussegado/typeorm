@@ -129,7 +129,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
                 `Oracle only supports SERIALIZABLE and READ COMMITTED isolation`
             );
         }
-        await this.query("SET TRANSACTION ISOLATION LEVEL " + isolationLevel);
+        await this.query(`SET TRANSACTION ISOLATION LEVEL ${isolationLevel}`);
         this.isTransactionActive = true;
     }
 
@@ -1798,9 +1798,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
         );
         if (!hasTable) return Promise.resolve([]);
 
-        const viewNamesString = viewNames
-            .map((name) => "'" + name + "'")
-            .join(", ");
+        const viewNamesString = viewNames.map((name) => `'${name}'`).join(", ");
         let query = `SELECT "T".* FROM "${this.getTypeormMetadataTableName()}" "T" INNER JOIN "USER_VIEWS" "V" ON "V"."VIEW_NAME" = "T"."name" WHERE "T"."type" = 'VIEW'`;
         if (viewNamesString.length > 0)
             query += ` AND "T"."name" IN (${viewNamesString})`;
@@ -1822,7 +1820,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
 
         // load tables, columns, indices and foreign keys
         const tableNamesString = tableNames
-            .map((name) => "'" + name + "'")
+            .map((name) => `'${name}'`)
             .join(", ");
         const tablesSql = `SELECT * FROM "USER_TABLES" WHERE "TABLE_NAME" IN (${tableNamesString})`;
         const columnsSql = `SELECT * FROM "USER_TAB_COLS" WHERE "TABLE_NAME" IN (${tableNamesString})`;
@@ -2287,7 +2285,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
      * Builds drop index sql.
      */
     protected dropIndexSql(indexOrName: TableIndex | string): Query {
-        let indexName =
+        const indexName =
             indexOrName instanceof TableIndex ? indexOrName.name : indexOrName;
         return new Query(`DROP INDEX "${indexName}"`);
     }
@@ -2330,7 +2328,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
         uniqueConstraint: TableUnique
     ): Query {
         const columnNames = uniqueConstraint.columnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(", ");
         return new Query(
             `ALTER TABLE "${table.name}" ADD CONSTRAINT "${uniqueConstraint.name}" UNIQUE (${columnNames})`
@@ -2387,10 +2385,10 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
         foreignKey: TableForeignKey
     ): Query {
         const columnNames = foreignKey.columnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(", ");
         const referencedColumnNames = foreignKey.referencedColumnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(",");
         let sql =
             `ALTER TABLE "${table.name}" ADD CONSTRAINT "${foreignKey.name}" FOREIGN KEY (${columnNames}) ` +
@@ -2422,13 +2420,14 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
      * Builds a query for create column.
      */
     protected buildCreateColumnSql(column: TableColumn) {
-        let c =
-            `"${column.name}" ` + this.connection.driver.createFullType(column);
-        if (column.charset) c += " CHARACTER SET " + column.charset;
-        if (column.collation) c += " COLLATE " + column.collation;
+        let c = `"${column.name}" ${this.connection.driver.createFullType(
+            column
+        )}`;
+        if (column.charset) c += ` CHARACTER SET ${column.charset}`;
+        if (column.collation) c += ` COLLATE ${column.collation}`;
         if (column.default !== undefined && column.default !== null)
             // DEFAULT must be placed before NOT NULL
-            c += " DEFAULT " + column.default;
+            c += ` DEFAULT ${column.default}`;
         if (column.isNullable !== true && !column.isGenerated)
             // NOT NULL is not supported with GENERATED
             c += " NOT NULL";

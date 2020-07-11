@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { User, UserInfo } from "./entity/user";
 
 describe("github issues > #966 Inheritance in embeddables", () => {
@@ -13,7 +13,7 @@ describe("github issues > #966 Inheritance in embeddables", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

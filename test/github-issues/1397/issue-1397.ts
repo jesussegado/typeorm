@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { Post } from "./entity/Post";
 
 describe("github issue > #1397 Spaces at the end of values are removed when inserting", () => {
@@ -13,7 +13,7 @@ describe("github issue > #1397 Spaces at the end of values are removed when inse
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"],
             }))
     );

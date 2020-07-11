@@ -12,7 +12,7 @@ describe("github issues > #1600 Postgres: QueryBuilder insert with Postgres arra
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres"],
             }))
     );
@@ -25,7 +25,7 @@ describe("github issues > #1600 Postgres: QueryBuilder insert with Postgres arra
                 const users: User[] = [];
                 for (let i = 0; i < 10; i++) {
                     const user = new User();
-                    user.names = ["user #" + i];
+                    user.names = [`user #${i}`];
                     users.push(user);
                 }
                 await connection.manager.save(users);
@@ -58,7 +58,7 @@ describe("github issues > #1600 Postgres: QueryBuilder insert with Postgres arra
                 const users: User[] = [];
                 for (let i = 0; i < 10; i++) {
                     const user = new User();
-                    user.names = ["user #" + i];
+                    user.names = [`user #${i}`];
                     users.push(user);
                 }
 

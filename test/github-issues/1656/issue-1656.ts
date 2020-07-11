@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { Controller } from "./controller/Controller";
 import { A } from "./entity/A";
 import { B } from "./entity/B";
@@ -16,7 +16,7 @@ describe("github issues > #1656 Wrong repository order with multiple Transaction
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"],
                 schemaCreate: true,
                 dropSchema: true,

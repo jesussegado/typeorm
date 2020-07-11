@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { Connection } from "../../../../src/connection/Connection";
 import { expect } from "chai";
+import { Connection } from "../../../../src/connection/Connection";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -12,7 +12,7 @@ describe("database schema > mssql-parameters", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mssql"],
         });
     });

@@ -1,8 +1,8 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../src/connection/Connection";
 import { ConnectionMetadataBuilder } from "../../../../src/connection/ConnectionMetadataBuilder";
 import { EntityMetadataValidator } from "../../../../src/metadata-builder/EntityMetadataValidator";
-import { expect } from "chai";
 
 describe("entity-metadata-validator", () => {
     it("should throw error if relation count decorator used with ManyToOne or OneToOne relations", () => {
@@ -13,13 +13,13 @@ describe("entity-metadata-validator", () => {
             username: "test",
             password: "test",
             database: "test",
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
         });
         const connectionMetadataBuilder = new ConnectionMetadataBuilder(
             connection
         );
         const entityMetadatas = connectionMetadataBuilder.buildEntityMetadatas([
-            __dirname + "/entity/*{.js,.ts}",
+            `${__dirname}/entity/*{.js,.ts}`,
         ]);
         const entityMetadataValidator = new EntityMetadataValidator();
         expect(() =>

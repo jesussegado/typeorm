@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
-import { expect } from "chai";
 
 import { Person } from "./entity/Person";
 

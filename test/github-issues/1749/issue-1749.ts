@@ -12,7 +12,7 @@ describe("github issues > #1749 Can't delete tables in non-default schema", () =
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres"],
             }))
     );

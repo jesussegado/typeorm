@@ -1057,9 +1057,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
         );
         if (!hasTable) return Promise.resolve([]);
 
-        const viewNamesString = viewNames
-            .map((name) => "'" + name + "'")
-            .join(", ");
+        const viewNamesString = viewNames.map((name) => `'${name}'`).join(", ");
         let query = `SELECT "t".* FROM "${this.getTypeormMetadataTableName()}" "t" INNER JOIN "sqlite_master" s ON "s"."name" = "t"."name" AND "s"."type" = 'view' WHERE "t"."type" = 'VIEW'`;
         if (viewNamesString.length > 0)
             query += ` AND "t"."name" IN (${viewNamesString})`;
@@ -1116,7 +1114,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                 // find column name with auto increment
                 let autoIncrementColumnName: string | undefined = undefined;
                 const tableSql: string = dbTable["sql"];
-                let autoIncrementIndex = tableSql
+                const autoIncrementIndex = tableSql
                     .toUpperCase()
                     .indexOf("AUTOINCREMENT");
                 if (autoIncrementIndex !== -1) {
@@ -1175,9 +1173,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                         // Check if this is an enum
                         const enumMatch = sql.match(
                             new RegExp(
-                                '"(' +
-                                    tableColumn.name +
-                                    ")\" varchar CHECK\\s*\\(\\s*\\1\\s+IN\\s*\\(('[^']+'(?:\\s*,\\s*'[^']+')+)\\s*\\)\\s*\\)"
+                                `"(${tableColumn.name})" varchar CHECK\\s*\\(\\s*\\1\\s+IN\\s*\\(('[^']+'(?:\\s*,\\s*'[^']+')+)\\s*\\)\\s*\\)`
                             )
                         );
                         if (enumMatch) {
@@ -1190,15 +1186,15 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                     }
 
                     // parse datatype and attempt to retrieve length
-                    let pos = tableColumn.type.indexOf("(");
+                    const pos = tableColumn.type.indexOf("(");
                     if (pos !== -1) {
-                        let dataType = tableColumn.type.substr(0, pos);
+                        const dataType = tableColumn.type.substr(0, pos);
                         if (
                             !!this.driver.withLengthColumnTypes.find(
                                 (col) => col === dataType
                             )
                         ) {
-                            let len = parseInt(
+                            const len = parseInt(
                                 tableColumn.type.substring(
                                     pos + 1,
                                     tableColumn.type.length - 1
@@ -1563,7 +1559,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
             `CREATE ${index.isUnique ? "UNIQUE " : ""}INDEX "${
                 index.name
             }" ON "${table.name}" (${columns}) ${
-                index.where ? "WHERE " + index.where : ""
+                index.where ? `WHERE ${index.where}` : ""
             }`
         );
     }
@@ -1572,7 +1568,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
      * Builds drop index sql.
      */
     protected dropIndexSql(indexOrName: TableIndex | string): Query {
-        let indexName =
+        const indexName =
             indexOrName instanceof TableIndex ? indexOrName.name : indexOrName;
         return new Query(`DROP INDEX "${indexName}"`);
     }
@@ -1584,20 +1580,17 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
         column: TableColumn,
         skipPrimary?: boolean
     ): string {
-        let c = '"' + column.name + '"';
+        let c = `"${column.name}"`;
         if (column instanceof ColumnMetadata) {
-            c += " " + this.driver.normalizeType(column);
+            c += ` ${this.driver.normalizeType(column)}`;
         } else {
-            c += " " + this.connection.driver.createFullType(column);
+            c += ` ${this.connection.driver.createFullType(column)}`;
         }
 
         if (column.enum)
-            c +=
-                " CHECK( " +
-                column.name +
-                " IN (" +
-                column.enum.map((val) => "'" + val + "'").join(",") +
-                ") )";
+            c += ` CHECK( ${column.name} IN (${column.enum
+                .map((val) => `'${val}'`)
+                .join(",")}) )`;
         if (column.isPrimary && !skipPrimary) c += " PRIMARY KEY";
         if (
             column.isGenerated === true &&
@@ -1605,10 +1598,10 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
         )
             // don't use skipPrimary here since updates can update already exist primary without auto inc.
             c += " AUTOINCREMENT";
-        if (column.collation) c += " COLLATE " + column.collation;
+        if (column.collation) c += ` COLLATE ${column.collation}`;
         if (column.isNullable !== true) c += " NOT NULL";
         if (column.default !== undefined && column.default !== null)
-            c += " DEFAULT (" + column.default + ")";
+            c += ` DEFAULT (${column.default})`;
 
         return c;
     }
@@ -1628,7 +1621,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
         });
 
         // change table name into 'temporary_table'
-        newTable.name = "temporary_" + newTable.name;
+        newTable.name = `temporary_${newTable.name}`;
 
         // create new table
         upQueries.push(this.createTableSql(newTable, true));

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -7,7 +8,6 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { Parent } from "./entity/Parent";
 import { Child } from "./entity/Child";
-import { expect } from "chai";
 import { PromiseUtils } from "../../../src/util/PromiseUtils";
 
 describe("github issues > #1055 ind with relations not working, correct syntax causes type error", () => {
@@ -15,7 +15,7 @@ describe("github issues > #1055 ind with relations not working, correct syntax c
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"], // only one driver is enabled because this example uses lazy relations
             }))
     );

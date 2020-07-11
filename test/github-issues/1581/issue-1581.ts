@@ -16,7 +16,7 @@ describe.skip("github issues > #1581 Composite key breaks OneToMany relation", (
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"],
             }))
     );

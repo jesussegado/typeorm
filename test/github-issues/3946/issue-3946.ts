@@ -15,7 +15,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -56,7 +56,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 post2.categories = [category4, category5];
                 await connection.manager.save(post2);
 
-                let loadedPosts = await connection.manager
+                const loadedPosts = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .loadRelationCountAndMap(
                         "post.categoryCount",
@@ -67,7 +67,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 expect(loadedPosts![0].categoryCount).to.be.equal(3);
                 expect(loadedPosts![1].categoryCount).to.be.equal(2);
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .loadRelationCountAndMap(
                         "post.categoryCount",
@@ -130,7 +130,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 post4.title = "about Airbus";
                 await connection.manager.save(post4);
 
-                let loadedPosts = await connection.manager
+                const loadedPosts = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .loadRelationCountAndMap(
                         "post.categoryCount",
@@ -205,7 +205,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 post2.categories = [category4, category5];
                 await connection.manager.save(post2);
 
-                let loadedPosts = await connection.manager
+                const loadedPosts = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .leftJoinAndSelect("post.categories", "categories")
                     .loadRelationCountAndMap(
@@ -250,7 +250,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 expect(loadedPosts![1].categoryCount).to.be.equal(2);
                 expect(loadedPosts![1].categories[0].imageCount).to.be.equal(1);
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .leftJoinAndSelect("post.categories", "categories")
                     .loadRelationCountAndMap(
@@ -324,7 +324,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 post2.categories = [category1, category3];
                 await connection.manager.save(post2);
 
-                let loadedPosts = await connection.manager
+                const loadedPosts = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .leftJoinAndSelect("post.categories", "categories")
                     .loadRelationCountAndMap(
@@ -346,7 +346,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 expect(loadedPosts![1].categories[0].postCount).to.be.equal(2);
                 expect(loadedPosts![1].categories[1].postCount).to.be.equal(2);
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .leftJoinAndSelect("post.categories", "categories")
                     .loadRelationCountAndMap(
@@ -411,7 +411,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 post5.categories = [category2];
                 await connection.manager.save(post5);
 
-                let loadedCategories = await connection.manager
+                const loadedCategories = await connection.manager
                     .createQueryBuilder(Category, "category")
                     .loadRelationCountAndMap(
                         "category.postCount",
@@ -422,7 +422,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 expect(loadedCategories![0].postCount).to.be.equal(3);
                 expect(loadedCategories![1].postCount).to.be.equal(2);
 
-                let loadedCategory = await connection.manager
+                const loadedCategory = await connection.manager
                     .createQueryBuilder(Category, "category")
                     .loadRelationCountAndMap(
                         "category.postCount",
@@ -488,7 +488,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 post5.categories = [category2];
                 await connection.manager.save(post5);
 
-                let loadedCategories = await connection.manager
+                const loadedCategories = await connection.manager
                     .createQueryBuilder(Category, "category")
                     .loadRelationCountAndMap(
                         "category.postCount",
@@ -549,7 +549,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 post5.categories = [category2];
                 await connection.manager.save(post5);
 
-                let loadedCategories = await connection.manager
+                const loadedCategories = await connection.manager
                     .createQueryBuilder(Category, "category")
                     .loadRelationCountAndMap(
                         "category.postCount",
@@ -570,7 +570,7 @@ describe("github issues > #3946 loadRelationCountAndMap fails cause made a wrong
                 expect(loadedCategories![0].removedPostCount).to.be.equal(2);
                 expect(loadedCategories![1].postCount).to.be.equal(2);
 
-                let loadedCategory = await connection.manager
+                const loadedCategory = await connection.manager
                     .createQueryBuilder(Category, "category")
                     .loadRelationCountAndMap(
                         "category.postCount",

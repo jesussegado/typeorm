@@ -1925,13 +1925,9 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                 return `(\`TABLE_SCHEMA\` = '${database}' AND \`TABLE_NAME\` = '${name}')`;
             })
             .join(" OR ");
-        const tablesSql =
-            `SELECT * FROM \`INFORMATION_SCHEMA\`.\`TABLES\` WHERE ` +
-            tablesCondition;
+        const tablesSql = `SELECT * FROM \`INFORMATION_SCHEMA\`.\`TABLES\` WHERE ${tablesCondition}`;
 
-        const columnsSql =
-            `SELECT * FROM \`INFORMATION_SCHEMA\`.\`COLUMNS\` WHERE ` +
-            tablesCondition;
+        const columnsSql = `SELECT * FROM \`INFORMATION_SCHEMA\`.\`COLUMNS\` WHERE ${tablesCondition}`;
 
         const primaryKeySql = `SELECT * FROM \`INFORMATION_SCHEMA\`.\`KEY_COLUMN_USAGE\` WHERE \`CONSTRAINT_NAME\` = 'PRIMARY' AND (${tablesCondition})`;
 
@@ -1962,13 +1958,13 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                 return `(\`kcu\`.\`TABLE_SCHEMA\` = '${database}' AND \`kcu\`.\`TABLE_NAME\` = '${name}')`;
             })
             .join(" OR ");
-        const foreignKeysSql =
+        const foreignKeysSql = `${
             `SELECT \`kcu\`.\`TABLE_SCHEMA\`, \`kcu\`.\`TABLE_NAME\`, \`kcu\`.\`CONSTRAINT_NAME\`, \`kcu\`.\`COLUMN_NAME\`, \`kcu\`.\`REFERENCED_TABLE_SCHEMA\`, ` +
             `\`kcu\`.\`REFERENCED_TABLE_NAME\`, \`kcu\`.\`REFERENCED_COLUMN_NAME\`, \`rc\`.\`DELETE_RULE\` \`ON_DELETE\`, \`rc\`.\`UPDATE_RULE\` \`ON_UPDATE\` ` +
             `FROM \`INFORMATION_SCHEMA\`.\`KEY_COLUMN_USAGE\` \`kcu\` ` +
             `INNER JOIN \`INFORMATION_SCHEMA\`.\`REFERENTIAL_CONSTRAINTS\` \`rc\` ON \`rc\`.\`constraint_name\` = \`kcu\`.\`constraint_name\` ` +
-            `WHERE ` +
-            foreignKeysCondition;
+            `WHERE `
+        }${foreignKeysCondition}`;
         const [
             dbTables,
             dbColumns,
@@ -2500,10 +2496,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
             typeof view.expression === "string"
                 ? view.expression.trim()
                 : view.expression(this.connection).getQuery();
-        const [
-            query,
-            parameters,
-        ] = this.connection
+        const [query, parameters] = this.connection
             .createQueryBuilder()
             .insert()
             .into(this.getTypeormMetadataTableName())
@@ -2573,7 +2566,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
         table: Table,
         indexOrName: TableIndex | string
     ): Query {
-        let indexName =
+        const indexName =
             indexOrName instanceof TableIndex ? indexOrName.name : indexOrName;
         return new Query(
             `DROP INDEX \`${indexName}\` ON ${this.escapePath(table)}`
@@ -2706,9 +2699,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
             c += " UNSIGNED";
         }
         if (column.enum)
-            c += ` (${column.enum
-                .map((value) => "'" + value + "'")
-                .join(", ")})`;
+            c += ` (${column.enum.map((value) => `'${value}'`).join(", ")})`;
         if (column.charset) c += ` CHARACTER SET "${column.charset}"`;
         if (column.collation) c += ` COLLATE "${column.collation}"`;
         if (!column.isNullable) c += " NOT NULL";

@@ -1,16 +1,16 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../src";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../../utils/test-utils";
-import { expect } from "chai";
 
 describe("indices > conditional index", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mssql", "postgres", "sqlite"], // only these drivers supports conditional indices
             schemaCreate: true,
             dropSchema: true,
@@ -22,7 +22,7 @@ describe("indices > conditional index", () => {
         Promise.all(
             connections.map(async (connection) => {
                 const queryRunner = connection.createQueryRunner();
-                let table = await queryRunner.getTable("post");
+                const table = await queryRunner.getTable("post");
 
                 table!.indices.length.should.be.equal(2);
                 expect(table!.indices[0].where).to.be.not.empty;

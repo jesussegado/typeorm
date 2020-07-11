@@ -15,7 +15,7 @@ describe.skip("github issues > #1685 JoinColumn from JoinColum is not considered
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
                 enabledDrivers: ["mysql"],

@@ -1,10 +1,10 @@
+import * as yargs from "yargs";
 import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
 import { CommandUtils } from "./CommandUtils";
 import { Connection } from "../connection/Connection";
 import { createConnection } from "../index";
 import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { camelCase } from "../util/StringUtils";
-import * as yargs from "yargs";
 import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
 const chalk = require("chalk");
 
@@ -48,7 +48,7 @@ export class MigrationGenerateCommand implements yargs.CommandModule {
         }
 
         const timestamp = new Date().getTime();
-        const filename = timestamp + "-" + args.name + ".ts";
+        const filename = `${timestamp}-${args.name}.ts`;
         let directory = args.dir;
 
         // if directory is not set then try to open tsconfig and find default path there
@@ -97,53 +97,43 @@ export class MigrationGenerateCommand implements yargs.CommandModule {
             ) {
                 sqlInMemory.upQueries.forEach((upQuery) => {
                     upSqls.push(
-                        '        await queryRunner.query("' +
-                            upQuery.query.replace(new RegExp(`"`, "g"), `\\"`) +
-                            '"' +
-                            MigrationGenerateCommand.queryParams(
-                                upQuery.parameters
-                            ) +
-                            ");"
+                        `        await queryRunner.query("${upQuery.query.replace(
+                            new RegExp(`"`, "g"),
+                            `\\"`
+                        )}"${MigrationGenerateCommand.queryParams(
+                            upQuery.parameters
+                        )});`
                     );
                 });
                 sqlInMemory.downQueries.forEach((downQuery) => {
                     downSqls.push(
-                        '        await queryRunner.query("' +
-                            downQuery.query.replace(
-                                new RegExp(`"`, "g"),
-                                `\\"`
-                            ) +
-                            '"' +
-                            MigrationGenerateCommand.queryParams(
-                                downQuery.parameters
-                            ) +
-                            ");"
+                        `        await queryRunner.query("${downQuery.query.replace(
+                            new RegExp(`"`, "g"),
+                            `\\"`
+                        )}"${MigrationGenerateCommand.queryParams(
+                            downQuery.parameters
+                        )});`
                     );
                 });
             } else {
                 sqlInMemory.upQueries.forEach((upQuery) => {
                     upSqls.push(
-                        "        await queryRunner.query(`" +
-                            upQuery.query.replace(new RegExp("`", "g"), "\\`") +
-                            "`" +
-                            MigrationGenerateCommand.queryParams(
-                                upQuery.parameters
-                            ) +
-                            ");"
+                        `        await queryRunner.query(\`${upQuery.query.replace(
+                            new RegExp("`", "g"),
+                            "\\`"
+                        )}\`${MigrationGenerateCommand.queryParams(
+                            upQuery.parameters
+                        )});`
                     );
                 });
                 sqlInMemory.downQueries.forEach((downQuery) => {
                     downSqls.push(
-                        "        await queryRunner.query(`" +
-                            downQuery.query.replace(
-                                new RegExp("`", "g"),
-                                "\\`"
-                            ) +
-                            "`" +
-                            MigrationGenerateCommand.queryParams(
-                                downQuery.parameters
-                            ) +
-                            ");"
+                        `        await queryRunner.query(\`${downQuery.query.replace(
+                            new RegExp("`", "g"),
+                            "\\`"
+                        )}\`${MigrationGenerateCommand.queryParams(
+                            downQuery.parameters
+                        )});`
                     );
                 });
             }
@@ -156,11 +146,9 @@ export class MigrationGenerateCommand implements yargs.CommandModule {
                         upSqls,
                         downSqls.reverse()
                     );
-                    const path =
-                        process.cwd() +
-                        "/" +
-                        (directory ? directory + "/" : "") +
-                        filename;
+                    const path = `${process.cwd()}/${
+                        directory ? `${directory}/` : ""
+                    }${filename}`;
                     await CommandUtils.createFile(path, fileContent);
 
                     console.log(

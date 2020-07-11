@@ -10,7 +10,7 @@ describe("github issues > #1733 Postgresql driver does not detect/support varyin
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["postgres"],
             schemaCreate: true,
             dropSchema: true,

@@ -16,7 +16,7 @@ describe("other issues > using take with multiple primary keys", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -36,7 +36,7 @@ describe("other issues > using take with multiple primary keys", () => {
 
                     for (let i = 1; i <= 5; i++) {
                         const role = new Role();
-                        role.name = "role #" + i;
+                        role.name = `role #${i}`;
                         user.roles.push(role);
                     }
                     promises.push(connection.manager.save(user));

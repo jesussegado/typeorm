@@ -131,7 +131,7 @@ export class RawSqlResultsToEntityTransformer {
             );
             if (discriminatorMetadata) metadata = discriminatorMetadata;
         }
-        let entity: any =
+        const entity: any =
             this.expressionMap.options.indexOf("create-pojo") !== -1
                 ? {}
                 : metadata.create(this.queryRunner);
@@ -216,7 +216,7 @@ export class RawSqlResultsToEntityTransformer {
                     (select) =>
                         select.selection === alias.name ||
                         select.selection ===
-                            alias.name + "." + column.propertyPath
+                            `${alias.name}.${column.propertyPath}`
                 )
             )
                 return;

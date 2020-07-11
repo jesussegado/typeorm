@@ -14,7 +14,7 @@ describe("github issues > #2259 Missing type for generated columns", () => {
         async () =>
             (connections = await createTestingConnections({
                 enabledDrivers: ["postgres"],
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
             }))

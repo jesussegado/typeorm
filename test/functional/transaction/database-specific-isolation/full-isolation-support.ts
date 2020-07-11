@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { SapDriver } from "../../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
@@ -8,14 +9,13 @@ import {
 import { Connection } from "../../../../src/connection/Connection";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { expect } from "chai";
 
 describe("transaction > transaction with full isolation support", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql", "mssql", "postgres", "sap"], // todo: for some reasons mariadb tests are not passing here
             }))
     );

@@ -10,7 +10,7 @@ describe("entity-listeners", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 dropSchema: true,
                 schemaCreate: true,
             }))

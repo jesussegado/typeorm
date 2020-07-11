@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,14 +7,13 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 
 describe("github issues > #134 Error TIME is converted to 'HH-mm' instead of 'HH:mm", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: [
                     "mysql",
                     "mariadb",
@@ -45,13 +45,13 @@ describe("github issues > #134 Error TIME is converted to 'HH-mm' instead of 'HH
                 let hours = String(currentDate.getHours());
                 let minutes = String(currentDate.getMinutes());
                 let seconds = String(currentDate.getSeconds());
-                hours = hours.length === 1 ? "0" + hours : hours;
-                minutes = minutes.length === 1 ? "0" + minutes : minutes;
-                seconds = seconds.length === 1 ? "0" + seconds : seconds;
+                hours = hours.length === 1 ? `0${hours}` : hours;
+                minutes = minutes.length === 1 ? `0${minutes}` : minutes;
+                seconds = seconds.length === 1 ? `0${seconds}` : seconds;
 
                 expect(loadedPost).not.to.be.undefined;
                 loadedPost!.creationDate.should.be.equal(
-                    hours + ":" + minutes + ":" + seconds
+                    `${hours}:${minutes}:${seconds}`
                 );
             })
         ));

@@ -1,11 +1,11 @@
 import "reflect-metadata";
-import { Connection } from "../../../src";
+import { Connection, Table } from "../../../src";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Table } from "../../../src";
+
 import { TableCheck } from "../../../src/schema-builder/table/TableCheck";
 import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
 
@@ -13,7 +13,7 @@ describe("query runner > create check constraint", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
         });

@@ -1,17 +1,17 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
 import { User } from "./entity/User";
-import { expect } from "chai";
 
 describe("github issues > #1680 Delete & Update applies to all entities in table if criteria is undefined or empty", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
         });

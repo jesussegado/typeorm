@@ -19,7 +19,7 @@ describe("query builder > sub-query", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -82,13 +82,12 @@ describe("query builder > sub-query", () => {
                     .createQueryBuilder("post");
                 const posts = await qb
                     .where(
-                        "post.title IN " +
-                            qb
-                                .subQuery()
-                                .select("usr.name")
-                                .from(User, "usr")
-                                .where("usr.registered = :registered")
-                                .getQuery()
+                        `post.title IN ${qb
+                            .subQuery()
+                            .select("usr.name")
+                            .from(User, "usr")
+                            .where("usr.registered = :registered")
+                            .getQuery()}`
                     )
                     .setParameter("registered", true)
                     .orderBy("post.id")
@@ -116,7 +115,7 @@ describe("query builder > sub-query", () => {
                             .from(User, "usr")
                             .where("usr.registered = :registered")
                             .getQuery();
-                        return "post.title IN " + subQuery;
+                        return `post.title IN ${subQuery}`;
                     })
                     .setParameter("registered", true)
                     .orderBy("post.id")
@@ -144,7 +143,7 @@ describe("query builder > sub-query", () => {
                             .from(User, "usr")
                             .where("usr.registered = :registered")
                             .getQuery();
-                        return "post.title IN " + subQuery;
+                        return `post.title IN ${subQuery}`;
                     })
                     .setParameter("registered", true)
                     .orderBy("post.id")
@@ -173,7 +172,7 @@ describe("query builder > sub-query", () => {
                 const posts = await connection
                     .getRepository(Post)
                     .createQueryBuilder("post")
-                    .where("post.title IN (" + userQb.getQuery() + ")")
+                    .where(`post.title IN (${userQb.getQuery()})`)
                     .setParameters(userQb.getParameters())
                     .orderBy("post.id")
                     .getMany();
@@ -206,7 +205,7 @@ describe("query builder > sub-query", () => {
                         )}.${connection.driver.escape("name")}`,
                         "name"
                     )
-                    .from("(" + userQb.getQuery() + ")", "usr")
+                    .from(`(${userQb.getQuery()})`, "usr")
                     .setParameters(userQb.getParameters())
                     .getRawMany();
 
@@ -495,7 +494,7 @@ describe("query builder > sub-query", () => {
                     .getRepository(Post)
                     .createQueryBuilder("post")
                     .innerJoin(
-                        "(" + joinSubQuery + ")",
+                        `(${joinSubQuery})`,
                         "category",
                         `${connection.driver.escape(
                             "category"

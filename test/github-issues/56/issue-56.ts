@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { User } from "./entity/User";
-import { expect } from "chai";
 import { AccessToken } from "./entity/AccessToken";
 
 describe.skip("github issues > #56 relationships only work when both primary keys have the same name", () => {
@@ -16,7 +16,7 @@ describe.skip("github issues > #56 relationships only work when both primary key
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

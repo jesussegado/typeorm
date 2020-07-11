@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { User } from "./entity/User";
 
 // TODO: wrong test
@@ -14,7 +14,7 @@ describe.skip("github issues > #2147 Lazy load JoinColumn with multiple columns 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
             }))

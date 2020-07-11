@@ -26,7 +26,7 @@ describe("repository > clear method", () => {
                 for (let i = 0; i < 100; i++) {
                     const post = new Post();
                     post.id = i;
-                    post.title = "post #" + i;
+                    post.title = `post #${i}`;
                     promises.push(connection.manager.save(post));
                 }
                 await Promise.all(promises);
@@ -55,7 +55,7 @@ describe("repository > clear method", () => {
                 for (let i = 0; i < 100; i++) {
                     const post = new Post();
                     post.id = i;
-                    post.title = "post #" + i;
+                    post.title = `post #${i}`;
                     promises.push(connection.manager.save(post));
                 }
                 await Promise.all(promises);

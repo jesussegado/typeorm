@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -7,14 +8,13 @@ import {
 import { User } from "./entity/User";
 import { SpecificUser } from "./entity/SpecificUser";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 
 describe("github issue > #1326 Wrong behavior w/ the same table names in different databases", () => {
     let connections: Connection[] = [];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"],
             }))
     );
@@ -26,12 +26,12 @@ describe("github issue > #1326 Wrong behavior w/ the same table names in differe
             connections.map(async (connection) => {
                 for (let i = 1; i <= 10; i++) {
                     const user = new User();
-                    user.name = "user #" + i;
+                    user.name = `user #${i}`;
                     await connection.manager.save(user);
                 }
                 for (let i = 1; i <= 10; i++) {
                     const user = new SpecificUser();
-                    user.name = "specific user #" + i;
+                    user.name = `specific user #${i}`;
                     await connection.manager.save(user);
                 }
 

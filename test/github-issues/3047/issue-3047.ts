@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { User } from "./entity/User";
 import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
 import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
@@ -25,12 +25,12 @@ describe("github issues > #3047 Mysqsl on duplicate key update use current value
 
     after(() => closeTestingConnections(connections));
 
-    let user1 = new User();
+    const user1 = new User();
     user1.first_name = "John";
     user1.last_name = "Lenon";
     user1.is_updated = "no";
 
-    let user2 = new User();
+    const user2 = new User();
     user2.first_name = "John";
     user2.last_name = "Lenon";
     user2.is_updated = "yes";
@@ -57,7 +57,7 @@ describe("github issues > #3047 Mysqsl on duplicate key update use current value
                             .orUpdate({ overwrite: ["is_updated"] })
                             .execute();
 
-                        let loadedUser = await UserRepository.find();
+                        const loadedUser = await UserRepository.find();
                         expect(loadedUser).not.to.be.undefined;
                         expect(loadedUser).to.have.lengthOf(1);
                         expect(loadedUser[0]).to.includes({
@@ -95,7 +95,7 @@ describe("github issues > #3047 Mysqsl on duplicate key update use current value
                             })
                             .execute();
 
-                        let loadedUser = await UserRepository.find();
+                        const loadedUser = await UserRepository.find();
                         expect(loadedUser).not.to.be.undefined;
                         expect(loadedUser).to.have.lengthOf(1);
                         expect(loadedUser[0]).to.includes({

@@ -113,7 +113,7 @@ export class FindOptionsUtils {
                         `${select} column was not found in the ${metadata.name} entity.`
                     );
 
-                qb.addSelect(qb.alias + "." + select);
+                qb.addSelect(`${qb.alias}.${select}`);
             });
         }
 
@@ -138,16 +138,16 @@ export class FindOptionsUtils {
 
                 switch (order) {
                     case 1:
-                        qb.addOrderBy(qb.alias + "." + key, "ASC");
+                        qb.addOrderBy(`${qb.alias}.${key}`, "ASC");
                         break;
                     case -1:
-                        qb.addOrderBy(qb.alias + "." + key, "DESC");
+                        qb.addOrderBy(`${qb.alias}.${key}`, "DESC");
                         break;
                     case "ASC":
-                        qb.addOrderBy(qb.alias + "." + key, "ASC");
+                        qb.addOrderBy(`${qb.alias}.${key}`, "ASC");
                         break;
                     case "DESC":
-                        qb.addOrderBy(qb.alias + "." + key, "DESC");
+                        qb.addOrderBy(`${qb.alias}.${key}`, "DESC");
                         break;
                 }
             });
@@ -252,7 +252,7 @@ export class FindOptionsUtils {
         // find all relations that match given prefix
         let matchedBaseRelations: string[] = [];
         if (prefix) {
-            const regexp = new RegExp("^" + prefix.replace(".", "\\.") + "\\.");
+            const regexp = new RegExp(`^${prefix.replace(".", "\\.")}\\.`);
             matchedBaseRelations = allRelations
                 .filter((relation) => relation.match(regexp))
                 .map((relation) => relation.replace(regexp, ""))
@@ -268,7 +268,7 @@ export class FindOptionsUtils {
         // go through all matched relations and add join for them
         matchedBaseRelations.forEach((relation) => {
             // generate a relation alias
-            let relationAlias: string = alias + "__" + relation;
+            let relationAlias: string = `${alias}__${relation}`;
             // shorten it if needed by the driver
             if (
                 qb.connection.driver.maxAliasLength &&
@@ -278,7 +278,7 @@ export class FindOptionsUtils {
             }
 
             // add a join for the found relation
-            const selection = alias + "." + relation;
+            const selection = `${alias}.${relation}`;
             qb.leftJoinAndSelect(selection, relationAlias);
 
             // join the eager relations of the found relation
@@ -296,7 +296,7 @@ export class FindOptionsUtils {
             // remove added relations from the allRelations array, this is needed to find all not found relations at the end
             allRelations.splice(
                 allRelations.indexOf(
-                    prefix ? prefix + "." + relation : relation
+                    prefix ? `${prefix}.${relation}` : relation
                 ),
                 1
             );
@@ -310,7 +310,7 @@ export class FindOptionsUtils {
                 allRelations,
                 join!.alias.name,
                 join!.metadata!,
-                prefix ? prefix + "." + relation : relation
+                prefix ? `${prefix}.${relation}` : relation
             );
         });
     }
@@ -326,7 +326,7 @@ export class FindOptionsUtils {
                 relation.propertyPath
             );
             qb.leftJoinAndSelect(
-                alias + "." + relation.propertyPath,
+                `${alias}.${relation.propertyPath}`,
                 relationAlias
             );
             this.joinEagerRelations(

@@ -11,7 +11,7 @@ describe("github issues > #3422 cannot save to nested-tree table if schema is us
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["postgres"],
             dropSchema: true,
         });

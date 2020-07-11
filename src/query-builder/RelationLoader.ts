@@ -97,12 +97,12 @@ export class RelationLoader {
 
         if (columns.length === 1) {
             qb.where(
-                `${joinAliasName}.${columns[0].propertyPath} IN (:...${
-                    joinAliasName + "_" + columns[0].propertyName
-                })`
+                `${joinAliasName}.${
+                    columns[0].propertyPath
+                } IN (:...${`${joinAliasName}_${columns[0].propertyName}`})`
             );
             qb.setParameter(
-                joinAliasName + "_" + columns[0].propertyName,
+                `${joinAliasName}_${columns[0].propertyName}`,
                 entities.map((entity) => columns[0].getEntityValue(entity))
             );
         } else {
@@ -110,27 +110,16 @@ export class RelationLoader {
                 .map((entity, entityIndex) => {
                     return columns
                         .map((column, columnIndex) => {
-                            const paramName =
-                                joinAliasName +
-                                "_entity_" +
-                                entityIndex +
-                                "_" +
-                                columnIndex;
+                            const paramName = `${joinAliasName}_entity_${entityIndex}_${columnIndex}`;
                             qb.setParameter(
                                 paramName,
                                 column.getEntityValue(entity)
                             );
-                            return (
-                                joinAliasName +
-                                "." +
-                                column.propertyPath +
-                                " = :" +
-                                paramName
-                            );
+                            return `${joinAliasName}.${column.propertyPath} = :${paramName}`;
                         })
                         .join(" AND ");
                 })
-                .map((condition) => "(" + condition + ")")
+                .map((condition) => `(${condition})`)
                 .join(" OR ");
             qb.where(condition);
         }
@@ -163,12 +152,12 @@ export class RelationLoader {
 
         if (columns.length === 1) {
             qb.where(
-                `${aliasName}.${columns[0].propertyPath} IN (:...${
-                    aliasName + "_" + columns[0].propertyName
-                })`
+                `${aliasName}.${
+                    columns[0].propertyPath
+                } IN (:...${`${aliasName}_${columns[0].propertyName}`})`
             );
             qb.setParameter(
-                aliasName + "_" + columns[0].propertyName,
+                `${aliasName}_${columns[0].propertyName}`,
                 entities.map((entity) =>
                     columns[0].referencedColumn!.getEntityValue(entity)
                 )
@@ -178,27 +167,16 @@ export class RelationLoader {
                 .map((entity, entityIndex) => {
                     return columns
                         .map((column, columnIndex) => {
-                            const paramName =
-                                aliasName +
-                                "_entity_" +
-                                entityIndex +
-                                "_" +
-                                columnIndex;
+                            const paramName = `${aliasName}_entity_${entityIndex}_${columnIndex}`;
                             qb.setParameter(
                                 paramName,
                                 column.referencedColumn!.getEntityValue(entity)
                             );
-                            return (
-                                aliasName +
-                                "." +
-                                column.propertyPath +
-                                " = :" +
-                                paramName
-                            );
+                            return `${aliasName}.${column.propertyPath} = :${paramName}`;
                         })
                         .join(" AND ");
                 })
-                .map((condition) => "(" + condition + ")")
+                .map((condition) => `(${condition})`)
                 .join(" OR ");
             qb.where(condition);
         }
@@ -328,9 +306,9 @@ export class RelationLoader {
         queryRunner?: QueryRunner
     ) {
         const relationLoader = this;
-        const dataIndex = "__" + relation.propertyName + "__"; // in what property of the entity loaded data will be stored
-        const promiseIndex = "__promise_" + relation.propertyName + "__"; // in what property of the entity loading promise will be stored
-        const resolveIndex = "__has_" + relation.propertyName + "__"; // indicates if relation data already was loaded or not, we need this flag if loaded data is empty
+        const dataIndex = `__${relation.propertyName}__`; // in what property of the entity loaded data will be stored
+        const promiseIndex = `__promise_${relation.propertyName}__`; // in what property of the entity loading promise will be stored
+        const resolveIndex = `__has_${relation.propertyName}__`; // indicates if relation data already was loaded or not, we need this flag if loaded data is empty
 
         const setData = (entity: ObjectLiteral, value: any) => {
             entity[dataIndex] = value;

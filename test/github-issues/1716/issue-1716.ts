@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
 import { ConnectionOptions } from "../../../src/connection/ConnectionOptions";
 import {
@@ -7,7 +8,6 @@ import {
     reloadTestingDatabases,
     getTypeOrmConfig,
 } from "../../utils/test-utils";
-import { expect } from "chai";
 
 import { PgEntity } from "./entity/pgEntity";
 import { MysqlEntity } from "./entity/mysqlEntity";

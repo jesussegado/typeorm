@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
 import {
     closeTestingConnections,
@@ -6,13 +7,12 @@ import {
 } from "../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { IndexMetadata } from "../../../src/metadata/IndexMetadata";
-import { expect } from "chai";
 
 describe("github issues > #750 Need option for Mysql's full text search", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mysql"],
             schemaCreate: true,
             dropSchema: true,

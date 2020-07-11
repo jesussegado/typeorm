@@ -11,7 +11,7 @@ describe("github issues > #423 Cannot use Group as Table name && cannot autoSche
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: false,
                 dropSchema: true,
             }))

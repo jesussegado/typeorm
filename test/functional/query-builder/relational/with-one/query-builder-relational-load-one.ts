@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
 import {
@@ -6,7 +7,6 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
-import { expect } from "chai";
 import { Connection } from "../../../../../src/connection/Connection";
 
 describe("query builder > relational query builder > load operation > many-to-one and one-to-one relations", () => {
@@ -14,7 +14,7 @@ describe("query builder > relational query builder > load operation > many-to-on
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

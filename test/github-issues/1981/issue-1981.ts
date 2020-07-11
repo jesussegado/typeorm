@@ -11,7 +11,7 @@ describe("github issues > #1981 Boolean values not casted properly when used in 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["sqlite"],
             }))
     );

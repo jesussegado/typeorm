@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { EntitySchema, InsertResult } from "../../../src";
 
 describe("github issues > #1510 entity schema does not support mode=objectId", () => {
@@ -44,7 +44,7 @@ describe("github issues > #1510 entity schema does not support mode=objectId", (
     before(async () => {
         return (connections = await createTestingConnections({
             entities: [
-                __dirname + "/entity/*{.js,.ts}",
+                `${__dirname}/entity/*{.js,.ts}`,
                 UserEntity,
                 UserWithoutObjectIDEntity,
             ],

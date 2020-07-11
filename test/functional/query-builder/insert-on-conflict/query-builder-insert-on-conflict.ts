@@ -12,7 +12,7 @@ describe("query builder > insertion > on conflict", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres", "sqlite"], // since on conflict statement is only supported in postgres and sqlite >= 3.24.0
             }))
     );

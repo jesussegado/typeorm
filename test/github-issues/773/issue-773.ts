@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
 
@@ -13,7 +13,7 @@ describe("github issues > #773 @PrimaryGeneratedColumn not returning auto genera
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["oracle"],
             }))
     );

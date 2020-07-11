@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import * as assert from "assert";
-import { createConnection } from "../../../src/index";
 import rimraf from "rimraf";
 import { dirname } from "path";
+import { createConnection } from "../../../src/index";
 import { Connection } from "../../../src/connection/Connection";
 
 describe("github issues > #799 sqlite: 'database' path should be created", () => {

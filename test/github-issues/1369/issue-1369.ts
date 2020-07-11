@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { ConcreteEntity } from "./entity/ConcreteEntity";
 
 describe("github issues > #1369 EntitySubscriber not firing events on abstract class entity", () => {
@@ -13,8 +13,8 @@ describe("github issues > #1369 EntitySubscriber not firing events on abstract c
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
-                subscribers: [__dirname + "/subscriber/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
+                subscribers: [`${__dirname}/subscriber/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
             }))

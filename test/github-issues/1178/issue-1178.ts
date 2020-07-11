@@ -13,7 +13,7 @@ describe("github issues > #1178 subqueries must work in insert statements", () =
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres"],
             }))
     );

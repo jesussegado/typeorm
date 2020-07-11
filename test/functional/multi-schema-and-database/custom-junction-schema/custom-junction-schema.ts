@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../src/connection/Connection";
 import {
     closeTestingConnections,
@@ -7,7 +8,6 @@ import {
 } from "../../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { expect } from "chai";
 
 describe("multi-schema-and-database > custom-junction-schema", () => {
     let connections: Connection[];
@@ -33,7 +33,7 @@ describe("multi-schema-and-database > custom-junction-schema", () => {
                     "categories"
                 )!;
                 const junctionTable = await queryRunner.getTable(
-                    "yoman." + junctionMetadata.tableName
+                    `yoman.${junctionMetadata.tableName}`
                 );
                 await queryRunner.release();
                 expect(postTable).not.to.be.undefined;
@@ -42,7 +42,7 @@ describe("multi-schema-and-database > custom-junction-schema", () => {
                 categoryTable!.name!.should.be.equal("yoman.category");
                 expect(junctionTable).not.to.be.undefined;
                 junctionTable!.name!.should.be.equal(
-                    "yoman." + junctionMetadata.tableName
+                    `yoman.${junctionMetadata.tableName}`
                 );
             })
         ));

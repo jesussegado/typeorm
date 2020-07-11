@@ -19,6 +19,6 @@ export class AbstractEntitySubscriber
         this.updateFullName(event.entity);
     }
     updateFullName(o: AbstractEntity) {
-        o.fullname = o.firstname + " " + o.lastname;
+        o.fullname = `${o.firstname} ${o.lastname}`;
     }
 }

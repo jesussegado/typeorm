@@ -10,7 +10,7 @@ describe("github issues > #1898 Simple JSON breaking in @next", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["sqlite"],
             schemaCreate: true,
             dropSchema: true,

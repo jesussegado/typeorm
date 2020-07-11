@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { File } from "./entity/file.entity";
 import { TreeRepository } from "../../../src";
 
@@ -14,7 +14,7 @@ describe("github issues > #2518 TreeRepository.findDescendantsTree does not load
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 // data type text isn't compatible with oracle
                 enabledDrivers: [
                     "postgres",

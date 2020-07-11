@@ -31,11 +31,11 @@ import { QueryResultCache } from "../cache/QueryResultCache";
 import { SqljsEntityManager } from "../entity-manager/SqljsEntityManager";
 import { RelationLoader } from "../query-builder/RelationLoader";
 import { RelationIdLoader } from "../query-builder/RelationIdLoader";
-import { EntitySchema } from "../";
+import { EntitySchema, PromiseUtils } from "../";
 import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
 import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { ObjectUtils } from "../util/ObjectUtils";
-import { PromiseUtils } from "../";
+
 import { IsolationLevel } from "../driver/types/IsolationLevel";
 import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
 import { DriverUtils } from "../driver/DriverUtils";

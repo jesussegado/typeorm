@@ -12,8 +12,8 @@ describe("github issues > #3256 wrong subscriber methods being called", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
-                subscribers: [__dirname + "/subscriber/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
+                subscribers: [`${__dirname}/subscriber/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

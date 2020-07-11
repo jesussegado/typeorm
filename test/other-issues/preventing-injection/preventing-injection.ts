@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 import { EntityColumnNotFound } from "../../../src/error/EntityColumnNotFound";
 
 describe("other issues > preventing-injection", () => {
@@ -14,7 +14,7 @@ describe("other issues > preventing-injection", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

@@ -417,11 +417,8 @@ export class RelationMetadata {
             );
 
             if (this.isLazy) {
-                if (
-                    embeddedObject["__" + this.propertyName + "__"] !==
-                    undefined
-                )
-                    return embeddedObject["__" + this.propertyName + "__"];
+                if (embeddedObject[`__${this.propertyName}__`] !== undefined)
+                    return embeddedObject[`__${this.propertyName}__`];
 
                 if (getLazyRelationsPromiseValue === true)
                     return embeddedObject[this.propertyName];
@@ -431,15 +428,15 @@ export class RelationMetadata {
             return embeddedObject
                 ? embeddedObject[
                       this.isLazy
-                          ? "__" + this.propertyName + "__"
+                          ? `__${this.propertyName}__`
                           : this.propertyName
                   ]
                 : undefined;
         } else {
             // no embeds - no problems. Simply return column name by property name of the entity
             if (this.isLazy) {
-                if (entity["__" + this.propertyName + "__"] !== undefined)
-                    return entity["__" + this.propertyName + "__"];
+                if (entity[`__${this.propertyName}__`] !== undefined)
+                    return entity[`__${this.propertyName}__`];
 
                 if (getLazyRelationsPromiseValue === true)
                     return entity[this.propertyName];
@@ -458,7 +455,7 @@ export class RelationMetadata {
      */
     setEntityValue(entity: ObjectLiteral, value: any): void {
         const propertyName = this.isLazy
-            ? "__" + this.propertyName + "__"
+            ? `__${this.propertyName}__`
             : this.propertyName;
 
         if (this.embeddedMetadata) {
@@ -626,10 +623,8 @@ export class RelationMetadata {
         )
             return this.propertyName;
 
-        return (
-            this.embeddedMetadata.parentPropertyNames.join(".") +
-            "." +
+        return `${this.embeddedMetadata.parentPropertyNames.join(".")}.${
             this.propertyName
-        );
+        }`;
     }
 }

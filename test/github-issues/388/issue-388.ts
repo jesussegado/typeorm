@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { Post } from "./entity/Post";
 
 describe("github issues > #388 skip and take with string ID don't work", () => {
@@ -13,7 +13,7 @@ describe("github issues > #388 skip and take with string ID don't work", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -25,7 +25,7 @@ describe("github issues > #388 skip and take with string ID don't work", () => {
                 const posts: Post[] = [];
                 for (let i = 1; i <= 25; i++) {
                     const post = new Post();
-                    post.lala_id = "post #" + i;
+                    post.lala_id = `post #${i}`;
                     post.title = "hello post";
                     post.index = i;
                     posts.push(post);

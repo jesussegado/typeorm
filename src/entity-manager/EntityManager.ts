@@ -1764,9 +1764,9 @@ export class EntityManager {
             .reduceRight(
                 (value, key) => ({ [key]: value } as any),
                 () =>
-                    this.connection.driver.escape(column.databaseName) +
-                    " + " +
-                    value
+                    `${this.connection.driver.escape(
+                        column.databaseName
+                    )} + ${value}`
             );
 
         return this.createQueryBuilder<Entity>(entityClass as any, "entity")
@@ -1801,9 +1801,9 @@ export class EntityManager {
             .reduceRight(
                 (value, key) => ({ [key]: value } as any),
                 () =>
-                    this.connection.driver.escape(column.databaseName) +
-                    " - " +
-                    value
+                    `${this.connection.driver.escape(
+                        column.databaseName
+                    )} - ${value}`
             );
 
         return this.createQueryBuilder<Entity>(entityClass as any, "entity")

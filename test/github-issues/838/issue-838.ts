@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
 import {
     createTestingConnections,
@@ -7,7 +8,6 @@ import {
 } from "../../utils/test-utils";
 import { Flight } from "./entity/Flight";
 import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
-import { expect } from "chai";
 
 describe.skip("github issues > #838 Time zones for timestamp columns are incorrectly fetched and persisted in PostgreSQL", () => {
     let connections: Connection[];
@@ -16,7 +16,7 @@ describe.skip("github issues > #838 Time zones for timestamp columns are incorre
 
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["postgres"],
         });
         postgresConnection = connections.find(

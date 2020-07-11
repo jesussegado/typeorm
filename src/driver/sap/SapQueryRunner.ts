@@ -2275,7 +2275,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         schemas.push(this.driver.options.schema || "current_schema");
         const schemaNamesString = schemas
             .map((name) => {
-                return name === "current_schema" ? name : "'" + name + "'";
+                return name === "current_schema" ? name : `'${name}'`;
             })
             .join(", ");
 
@@ -2385,12 +2385,8 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                 return `("SCHEMA_NAME" = '${schema}' AND "TABLE_NAME" = '${name}')`;
             })
             .join(" OR ");
-        const tablesSql =
-            `SELECT * FROM "SYS"."TABLES" WHERE ` + tablesCondition;
-        const columnsSql =
-            `SELECT * FROM "SYS"."TABLE_COLUMNS" WHERE ` +
-            tablesCondition +
-            ` ORDER BY "POSITION"`;
+        const tablesSql = `SELECT * FROM "SYS"."TABLES" WHERE ${tablesCondition}`;
+        const columnsSql = `SELECT * FROM "SYS"."TABLE_COLUMNS" WHERE ${tablesCondition} ORDER BY "POSITION"`;
 
         const constraintsCondition = tableNames
             .map((tableName) => {
@@ -2974,10 +2970,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             typeof view.expression === "string"
                 ? view.expression.trim()
                 : view.expression(this.connection).getQuery();
-        const [
-            query,
-            parameters,
-        ] = this.connection
+        const [query, parameters] = this.connection
             .createQueryBuilder()
             .insert()
             .into(this.getTypeormMetadataTableName())
@@ -3056,7 +3049,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         return new Query(
             `CREATE ${indexType}INDEX "${index.name}" ON ${this.escapePath(
                 table
-            )} (${columns}) ${index.where ? "WHERE " + index.where : ""}`
+            )} (${columns}) ${index.where ? `WHERE ${index.where}` : ""}`
         );
     }
 
@@ -3067,7 +3060,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         table: Table,
         indexOrName: TableIndex | string
     ): Query {
-        let indexName =
+        const indexName =
             indexOrName instanceof TableIndex ? indexOrName.name : indexOrName;
         const parsedTableName = this.parseTableName(table);
         if (parsedTableName.schema === "current_schema") {
@@ -3154,10 +3147,10 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         foreignKey: TableForeignKey
     ): Query {
         const columnNames = foreignKey.columnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(", ");
         const referencedColumnNames = foreignKey.referencedColumnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(",");
         let sql =
             `ALTER TABLE ${this.escapePath(tableOrName)} ADD CONSTRAINT "${
@@ -3258,8 +3251,8 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         dbName: string | undefined
     ): string {
         let joinedFkName = fkName;
-        if (schemaName) joinedFkName = schemaName + "." + joinedFkName;
-        if (dbName) joinedFkName = dbName + "." + joinedFkName;
+        if (schemaName) joinedFkName = `${schemaName}.${joinedFkName}`;
+        if (dbName) joinedFkName = `${dbName}.${joinedFkName}`;
 
         return joinedFkName;
     }
@@ -3284,13 +3277,14 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
      * Builds a query for create column.
      */
     protected buildCreateColumnSql(column: TableColumn) {
-        let c =
-            `"${column.name}" ` + this.connection.driver.createFullType(column);
-        if (column.charset) c += " CHARACTER SET " + column.charset;
-        if (column.collation) c += " COLLATE " + column.collation;
+        let c = `"${column.name}" ${this.connection.driver.createFullType(
+            column
+        )}`;
+        if (column.charset) c += ` CHARACTER SET ${column.charset}`;
+        if (column.collation) c += ` COLLATE ${column.collation}`;
         if (column.default !== undefined && column.default !== null)
             // DEFAULT must be placed before NOT NULL
-            c += " DEFAULT " + column.default;
+            c += ` DEFAULT ${column.default}`;
         if (column.isNullable !== true && !column.isGenerated)
             // NOT NULL is not supported with GENERATED
             c += " NOT NULL";

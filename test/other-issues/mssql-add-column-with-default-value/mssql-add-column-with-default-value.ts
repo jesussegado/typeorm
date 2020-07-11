@@ -11,7 +11,7 @@ describe("mssql -> add column to existing table", () => {
     beforeEach(async () => {
         connections = await createTestingConnections({
             enabledDrivers: ["mssql"],
-            entities: [__dirname + "/entity/Post{.js,.ts}"],
+            entities: [`${__dirname}/entity/Post{.js,.ts}`],
         });
         await Promise.all(
             connections.map(async (connection) => {
@@ -31,7 +31,7 @@ describe("mssql -> add column to existing table", () => {
     it("should fail to add column", async () => {
         connections = await createTestingConnections({
             enabledDrivers: ["mssql"],
-            entities: [__dirname + "/entity/Post-Fail{.js,.ts}"],
+            entities: [`${__dirname}/entity/Post-Fail{.js,.ts}`],
         });
         await Promise.all(
             connections.map(async (connection) => {
@@ -47,7 +47,7 @@ describe("mssql -> add column to existing table", () => {
     it("should succeed to add column", async () => {
         connections = await createTestingConnections({
             enabledDrivers: ["mssql"],
-            entities: [__dirname + "/entity/Post-Succeed{.js,.ts}"],
+            entities: [`${__dirname}/entity/Post-Succeed{.js,.ts}`],
         });
 
         await Promise.all(

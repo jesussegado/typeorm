@@ -16,7 +16,7 @@ describe("github issues > #1099 BUG - QueryBuilder MySQL skip sql is wrong", () 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -25,8 +25,8 @@ describe("github issues > #1099 BUG - QueryBuilder MySQL skip sql is wrong", () 
     it("drivers which does not support offset without limit should throw an exception, other drivers must work fine", () =>
         Promise.all(
             connections.map(async (connection) => {
-                let animals = ["cat", "dog", "bear", "snake"];
-                for (let animal of animals) {
+                const animals = ["cat", "dog", "bear", "snake"];
+                for (const animal of animals) {
                     await connection
                         .getRepository(Animal)
                         .save({ name: animal });

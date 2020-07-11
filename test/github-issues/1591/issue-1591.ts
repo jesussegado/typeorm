@@ -13,7 +13,7 @@ describe.skip("github issues > #1591 Define order of relation data when querying
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"],
             }))
     );
@@ -25,17 +25,17 @@ describe.skip("github issues > #1591 Define order of relation data when querying
             connections.map(async (connection) => {
                 for (let i = 0; i < 30; i++) {
                     const photo1 = new Photo();
-                    photo1.name = "Photo #" + i + "_1";
+                    photo1.name = `Photo #${i}_1`;
                     photo1.date = new Date(2018, 0, i);
                     await connection.manager.save(photo1);
 
                     const photo2 = new Photo();
-                    photo2.name = "Photo #" + i + "_1";
+                    photo2.name = `Photo #${i}_1`;
                     photo2.date = new Date(2016, 0, i);
                     await connection.manager.save(photo2);
 
                     const user = new User();
-                    user.name = "User #" + i;
+                    user.name = `User #${i}`;
                     user.photos = [photo1, photo2];
                     await connection.manager.save(user);
                 }

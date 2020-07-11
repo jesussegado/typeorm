@@ -183,7 +183,7 @@ export class MigrationExecutor {
         );
 
         // get the time when last migration was executed
-        let lastTimeExecutedMigration = this.getLatestTimestampMigration(
+        const lastTimeExecutedMigration = this.getLatestTimestampMigration(
             executedMigrations
         );
 
@@ -317,7 +317,7 @@ export class MigrationExecutor {
         );
 
         // get the time when last migration was executed
-        let lastTimeExecutedMigration = this.getLatestExecutedMigration(
+        const lastTimeExecutedMigration = this.getLatestExecutedMigration(
             executedMigrations
         );
 

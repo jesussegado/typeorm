@@ -13,7 +13,7 @@ describe("github issues > #1261 onDelete property on foreign key is not modified
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     after(() => closeTestingConnections(connections));

@@ -1,18 +1,18 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../src";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import { expect } from "chai";
 import { Post } from "./entity/Post";
 
 describe("indices > fulltext index", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mysql"],
             schemaCreate: true,
             dropSchema: true,

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 import { Category } from "./entity/Category";
 import { Tag } from "./entity/Tag";
 
@@ -15,7 +15,7 @@ describe("github issues > #234 and #223 lazy loading does not work correctly fro
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"], // we can properly test lazy-relations only on one platform
             }))
     );
@@ -29,7 +29,7 @@ describe("github issues > #234 and #223 lazy loading does not work correctly fro
                 const promises: Promise<any>[] = [];
                 for (let i = 1; i <= 10; i++) {
                     const post = new Post();
-                    post.title = "fake post # " + i;
+                    post.title = `fake post # ${i}`;
                     if (i > 5) {
                         const category = new Category();
                         category.name = "fake category!";
@@ -95,7 +95,7 @@ describe("github issues > #234 and #223 lazy loading does not work correctly fro
                 const promises: Promise<any>[] = [];
                 for (let i = 1; i <= 10; i++) {
                     const post = new Post();
-                    post.title = "fake post # " + i;
+                    post.title = `fake post # ${i}`;
                     for (let j = 1; j <= i; j++) {
                         const tag = new Tag();
                         tag.name = "fake tag!";

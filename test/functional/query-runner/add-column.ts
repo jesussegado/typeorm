@@ -14,7 +14,7 @@ describe("query runner > add column", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
         });

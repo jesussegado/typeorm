@@ -11,7 +11,7 @@ describe("github issues > #3949 sqlite date hydration is susceptible to corrupti
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
             enabledDrivers: ["sqlite", "sqljs"],

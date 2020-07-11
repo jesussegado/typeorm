@@ -9,7 +9,7 @@ describe("github issues > #609 Custom precision on CreateDateColumn and UpdateDa
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mysql"],
             schemaCreate: true,
             dropSchema: true,
@@ -21,7 +21,7 @@ describe("github issues > #609 Custom precision on CreateDateColumn and UpdateDa
         Promise.all(
             connections.map(async (connection) => {
                 const queryRunner = connection.createQueryRunner();
-                let table = await queryRunner.getTable("post");
+                const table = await queryRunner.getTable("post");
                 await queryRunner.release();
 
                 table!

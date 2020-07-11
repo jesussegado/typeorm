@@ -306,7 +306,7 @@ export class QueryExpressionMap {
         ) {
             const entityOrderBy = this.mainAlias!.metadata.orderBy || {};
             return Object.keys(entityOrderBy).reduce((orderBy, key) => {
-                orderBy[this.mainAlias!.name + "." + key] = entityOrderBy[key];
+                orderBy[`${this.mainAlias!.name}.${key}`] = entityOrderBy[key];
                 return orderBy;
             }, {} as OrderByCondition);
         }

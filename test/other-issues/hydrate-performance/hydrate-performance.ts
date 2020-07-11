@@ -12,7 +12,7 @@ describe("other issues > hydration performance", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"],
             }))
     );
@@ -25,7 +25,7 @@ describe("other issues > hydration performance", () => {
                 // insert few posts first
                 const posts: Post[] = [];
                 for (let i = 1; i <= 100000; i++) {
-                    posts.push(new Post("Post #" + i));
+                    posts.push(new Post(`Post #${i}`));
                 }
                 await connection.manager.insert(Post, posts);
 

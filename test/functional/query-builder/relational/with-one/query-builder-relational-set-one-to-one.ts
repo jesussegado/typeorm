@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Post } from "./entity/Post";
 import { Image } from "./entity/Image";
 import {
@@ -6,7 +7,6 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
-import { expect } from "chai";
 import { Connection } from "../../../../../src/connection/Connection";
 
 describe("query builder > relational query builder > set operation > one-to-one relation", () => {
@@ -14,7 +14,7 @@ describe("query builder > relational query builder > set operation > one-to-one 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -282,17 +282,17 @@ describe("query builder > relational query builder > set operation > one-to-one 
 
                 expect(error).to.be.instanceof(Error);
 
-                let loadedPost1 = await connection.manager.findOne(Post, 1, {
+                const loadedPost1 = await connection.manager.findOne(Post, 1, {
                     relations: ["image"],
                 });
                 expect(loadedPost1!.image).to.be.null;
 
-                let loadedPost2 = await connection.manager.findOne(Post, 2, {
+                const loadedPost2 = await connection.manager.findOne(Post, 2, {
                     relations: ["image"],
                 });
                 expect(loadedPost2!.image).to.be.null;
 
-                let loadedPost3 = await connection.manager.findOne(Post, 3, {
+                const loadedPost3 = await connection.manager.findOne(Post, 3, {
                     relations: ["image"],
                 });
                 expect(loadedPost3!.image).to.be.null;

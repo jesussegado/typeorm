@@ -10,7 +10,7 @@ describe("github issues > #1887 Having problems with UNIQUEIDENTIFIERS", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mssql"],
             schemaCreate: true,
             dropSchema: true,

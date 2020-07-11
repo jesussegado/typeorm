@@ -367,7 +367,7 @@ export abstract class AbstractSqliteDriver implements Driver {
             return [sql, builtParameters];
 
         const keys = Object.keys(parameters)
-            .map((parameter) => "(:(\\.\\.\\.)?" + parameter + "\\b)")
+            .map((parameter) => `(:(\\.\\.\\.)?${parameter}\\b)`)
             .join("|");
         sql = sql.replace(new RegExp(keys, "g"), (key: string): string => {
             let value: any;
@@ -402,7 +402,7 @@ export abstract class AbstractSqliteDriver implements Driver {
      * Escapes a column name.
      */
     escape(columnName: string): string {
-        return '"' + columnName + '"';
+        return `"${columnName}"`;
     }
 
     /**
@@ -456,7 +456,7 @@ export abstract class AbstractSqliteDriver implements Driver {
         const defaultValue = columnMetadata.default;
 
         if (typeof defaultValue === "number") {
-            return "" + defaultValue;
+            return `${defaultValue}`;
         } else if (typeof defaultValue === "boolean") {
             return defaultValue === true ? "1" : "0";
         } else if (typeof defaultValue === "function") {
@@ -493,19 +493,19 @@ export abstract class AbstractSqliteDriver implements Driver {
             return "varchar";
         }
         if (column.length) {
-            type += "(" + column.length + ")";
+            type += `(${column.length})`;
         } else if (
             column.precision !== null &&
             column.precision !== undefined &&
             column.scale !== null &&
             column.scale !== undefined
         ) {
-            type += "(" + column.precision + "," + column.scale + ")";
+            type += `(${column.precision},${column.scale})`;
         } else if (
             column.precision !== null &&
             column.precision !== undefined
         ) {
-            type += "(" + column.precision + ")";
+            type += `(${column.precision})`;
         }
 
         if (column.isArray) type += " array";

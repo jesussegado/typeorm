@@ -315,7 +315,7 @@ export class SapDriver implements Driver {
             return [sql, builtParameters];
 
         const keys = Object.keys(parameters)
-            .map((parameter) => "(:(\\.\\.\\.)?" + parameter + "\\b)")
+            .map((parameter) => `(:(\\.\\.\\.)?${parameter}\\b)`)
             .join("|");
         sql = sql.replace(new RegExp(keys, "g"), (key: string): string => {
             let value: any;
@@ -482,7 +482,7 @@ export class SapDriver implements Driver {
         const defaultValue = columnMetadata.default;
 
         if (typeof defaultValue === "number") {
-            return "" + defaultValue;
+            return `${defaultValue}`;
         } else if (typeof defaultValue === "boolean") {
             return defaultValue === true ? "true" : "false";
         } else if (typeof defaultValue === "function") {

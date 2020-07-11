@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 import { PostCategory } from "./entity/PostCategory";
 
 describe("other issues > entity change in subscribers should affect persistence", () => {
@@ -14,8 +14,8 @@ describe("other issues > entity change in subscribers should affect persistence"
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
-                subscribers: [__dirname + "/subscriber/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
+                subscribers: [`${__dirname}/subscriber/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

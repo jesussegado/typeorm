@@ -1,10 +1,10 @@
-import { PromiseUtils } from "../../";
+import { PromiseUtils, ColumnType } from "../../";
 import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { QueryFailedError } from "../../error/QueryFailedError";
 import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
 import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
-import { ColumnType } from "../../index";
+
 import { ReadStream } from "../../platform/PlatformTools";
 import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";
 import { QueryRunner } from "../../query-runner/QueryRunner";
@@ -127,7 +127,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         await this.query("START TRANSACTION");
         if (isolationLevel) {
             await this.query(
-                "SET TRANSACTION ISOLATION LEVEL " + isolationLevel
+                `SET TRANSACTION ISOLATION LEVEL ${isolationLevel}`
             );
         }
     }
@@ -639,7 +639,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const enumColumns = newTable.columns.filter(
             (column) => column.type === "enum" || column.type === "simple-enum"
         );
-        for (let column of enumColumns) {
+        for (const column of enumColumns) {
             const oldEnumType = await this.getEnumTypeName(oldTable, column);
             upQueries.push(
                 new Query(
@@ -2365,7 +2365,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         schemas.push(this.driver.options.schema || "current_schema()");
         const schemaNamesString = schemas
             .map((name) => {
-                return name === "current_schema()" ? name : "'" + name + "'";
+                return name === "current_schema()" ? name : `'${name}'`;
             })
             .join(", ");
 
@@ -2471,12 +2471,8 @@ export class PostgresQueryRunner extends BaseQueryRunner
                 return `("table_schema" = '${schema}' AND "table_name" = '${name}')`;
             })
             .join(" OR ");
-        const tablesSql =
-            `SELECT * FROM "information_schema"."tables" WHERE ` +
-            tablesCondition;
-        const columnsSql =
-            `SELECT *, ('"' || "udt_schema" || '"."' || "udt_name" || '"')::"regtype" AS "regtype" FROM "information_schema"."columns" WHERE ` +
-            tablesCondition;
+        const tablesSql = `SELECT * FROM "information_schema"."tables" WHERE ${tablesCondition}`;
+        const columnsSql = `SELECT *, ('"' || "udt_schema" || '"."' || "udt_name" || '"')::"regtype" AS "regtype" FROM "information_schema"."columns" WHERE ${tablesCondition}`;
 
         const constraintsCondition = tableNames
             .map((tableName) => {
@@ -3186,10 +3182,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
             typeof view.expression === "string"
                 ? view.expression.trim()
                 : view.expression(this.connection).getQuery();
-        const [
-            query,
-            parameters,
-        ] = this.connection
+        const [query, parameters] = this.connection
             .createQueryBuilder()
             .insert()
             .into(this.getTypeormMetadataTableName())
@@ -3322,7 +3315,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
                 index.name
             }" ON ${this.escapePath(table)} ${
                 index.isSpatial ? "USING GiST " : ""
-            }(${columns}) ${index.where ? "WHERE " + index.where : ""}`
+            }(${columns}) ${index.where ? `WHERE ${index.where}` : ""}`
         );
     }
 
@@ -3333,7 +3326,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         table: Table,
         indexOrName: TableIndex | string
     ): Query {
-        let indexName =
+        const indexName =
             indexOrName instanceof TableIndex ? indexOrName.name : indexOrName;
         const schema = this.extractSchema(table);
         return schema
@@ -3383,7 +3376,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         uniqueConstraint: TableUnique
     ): Query {
         const columnNames = uniqueConstraint.columnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(", ");
         return new Query(
             `ALTER TABLE ${this.escapePath(table)} ADD CONSTRAINT "${
@@ -3480,10 +3473,10 @@ export class PostgresQueryRunner extends BaseQueryRunner
         foreignKey: TableForeignKey
     ): Query {
         const columnNames = foreignKey.columnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(", ");
         const referencedColumnNames = foreignKey.referencedColumnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(",");
         let sql =
             `ALTER TABLE ${this.escapePath(table)} ADD CONSTRAINT "${
@@ -3568,7 +3561,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
          */
         if (columnOrName instanceof TableColumn && columnOrName.enumName) {
             let enumName = columnOrName.enumName;
-            if (toOld) enumName = enumName + "_old";
+            if (toOld) enumName = `${enumName}_old`;
             return disableEscape ? enumName : `"${enumName}"`;
         }
         const columnName =
@@ -3587,7 +3580,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
             schema && withSchema
                 ? `${schema}.${tableName}_${columnName.toLowerCase()}_enum`
                 : `${tableName}_${columnName.toLowerCase()}_enum`;
-        if (toOld) enumName = enumName + "_old";
+        if (toOld) enumName = `${enumName}_old`;
         return enumName
             .split(".")
             .map((i) => {
@@ -3664,7 +3657,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
      * Builds a query for create column.
      */
     protected buildCreateColumnSql(table: Table, column: TableColumn) {
-        let c = '"' + column.name + '"';
+        let c = `"${column.name}"`;
         if (
             column.isGenerated === true &&
             column.generationStrategy !== "uuid"
@@ -3681,16 +3674,16 @@ export class PostgresQueryRunner extends BaseQueryRunner
                 c += " BIGSERIAL";
         }
         if (column.type === "enum" || column.type === "simple-enum") {
-            c += " " + this.buildEnumName(table, column);
+            c += ` ${this.buildEnumName(table, column)}`;
             if (column.isArray) c += " array";
         } else if (!column.isGenerated || column.type === "uuid") {
-            c += " " + this.connection.driver.createFullType(column);
+            c += ` ${this.connection.driver.createFullType(column)}`;
         }
-        if (column.charset) c += ' CHARACTER SET "' + column.charset + '"';
-        if (column.collation) c += ' COLLATE "' + column.collation + '"';
+        if (column.charset) c += ` CHARACTER SET "${column.charset}"`;
+        if (column.collation) c += ` COLLATE "${column.collation}"`;
         if (column.isNullable !== true) c += " NOT NULL";
         if (column.default !== undefined && column.default !== null)
-            c += " DEFAULT " + column.default;
+            c += ` DEFAULT ${column.default}`;
         if (
             column.isGenerated &&
             column.generationStrategy === "uuid" &&

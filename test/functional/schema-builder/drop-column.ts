@@ -1,17 +1,17 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
 import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
-import { expect } from "chai";
 
 describe("schema builder > drop column", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
         });

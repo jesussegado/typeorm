@@ -13,7 +13,7 @@ describe("github issues > #2096 [mysql] Database name isn't read from url", () =
             const connection = await createConnection({
                 name: "#2096",
                 url: "mysql://root:admin@localhost:3306/test",
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 synchronize: true,
                 type: "mysql",
             });

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
 import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
 import {
@@ -11,13 +12,12 @@ import { IndexMetadata } from "../../../src/metadata/IndexMetadata";
 import { Teacher } from "./entity/Teacher";
 import { Student } from "./entity/Student";
 import { TableIndex } from "../../../src/schema-builder/table/TableIndex";
-import { expect } from "chai";
 
 describe("schema builder > change index", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
         });

@@ -35,9 +35,9 @@ export class MaterializedPathSubjectExecutor {
             parentPath = await this.queryRunner.manager
                 .createQueryBuilder()
                 .select(
-                    subject.metadata.targetName +
-                        "." +
-                        subject.metadata.materializedPathColumn!.propertyPath,
+                    `${subject.metadata.targetName}.${
+                        subject.metadata.materializedPathColumn!.propertyPath
+                    }`,
                     "path"
                 )
                 .from(subject.metadata.target, subject.metadata.targetName)
@@ -58,8 +58,9 @@ export class MaterializedPathSubjectExecutor {
             .createQueryBuilder()
             .update(subject.metadata.target)
             .set({
-                [subject.metadata.materializedPathColumn!.propertyPath]:
-                    parentPath + insertedEntityId + ".",
+                [subject.metadata.materializedPathColumn!.propertyPath]: `${
+                    parentPath + insertedEntityId
+                }.`,
             } as any)
             .where(subject.identifier!)
             .execute();

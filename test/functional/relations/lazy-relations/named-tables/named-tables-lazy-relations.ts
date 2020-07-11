@@ -134,8 +134,8 @@ describe("named-tables-lazy-relations", () => {
                 const fakePosts: Post[] = [];
                 for (let i = 0; i < 30; i++) {
                     const fakePost = new Post();
-                    fakePost.title = "post #" + i;
-                    fakePost.text = "post #" + i;
+                    fakePost.title = `post #${i}`;
+                    fakePost.text = `post #${i}`;
                     fakePosts.push(fakePost);
                 }
                 await connection.manager.save(fakePosts);
@@ -143,7 +143,7 @@ describe("named-tables-lazy-relations", () => {
                 const fakeCategories: Category[] = [];
                 for (let i = 0; i < 8; i++) {
                     const fakeCategory = new Category();
-                    fakeCategory.name = "category #" + i;
+                    fakeCategory.name = `category #${i}`;
                     fakeCategories.push(fakeCategory);
                 }
                 await connection.manager.save(fakeCategories);
@@ -175,8 +175,8 @@ describe("named-tables-lazy-relations", () => {
                 const fakePosts: Post[] = [];
                 for (let i = 0; i < 8; i++) {
                     const fakePost = new Post();
-                    fakePost.title = "post #" + i;
-                    fakePost.text = "post #" + i;
+                    fakePost.title = `post #${i}`;
+                    fakePost.text = `post #${i}`;
                     fakePosts.push(fakePost);
                 }
                 await connection.manager.save(fakePosts);
@@ -184,7 +184,7 @@ describe("named-tables-lazy-relations", () => {
                 const fakeCategories: Category[] = [];
                 for (let i = 0; i < 30; i++) {
                     const fakeCategory = new Category();
-                    fakeCategory.name = "category #" + i;
+                    fakeCategory.name = `category #${i}`;
                     fakeCategories.push(fakeCategory);
                 }
                 await connection.manager.save(fakeCategories);
@@ -216,8 +216,8 @@ describe("named-tables-lazy-relations", () => {
                 const fakePosts: Post[] = [];
                 for (let i = 0; i < 8; i++) {
                     const fakePost = new Post();
-                    fakePost.title = "post #" + i;
-                    fakePost.text = "post #" + i;
+                    fakePost.title = `post #${i}`;
+                    fakePost.text = `post #${i}`;
                     fakePosts.push(fakePost);
                 }
                 await connection.manager.save(fakePosts);
@@ -225,7 +225,7 @@ describe("named-tables-lazy-relations", () => {
                 const fakeCategories: Category[] = [];
                 for (let i = 0; i < 30; i++) {
                     const fakeCategory = new Category();
-                    fakeCategory.name = "category #" + i;
+                    fakeCategory.name = `category #${i}`;
                     fakeCategories.push(fakeCategory);
                 }
                 await connection.manager.save(fakeCategories);
@@ -257,8 +257,8 @@ describe("named-tables-lazy-relations", () => {
                 const fakePosts: Post[] = [];
                 for (let i = 0; i < 8; i++) {
                     const fakePost = new Post();
-                    fakePost.title = "post #" + i;
-                    fakePost.text = "post #" + i;
+                    fakePost.title = `post #${i}`;
+                    fakePost.text = `post #${i}`;
                     fakePosts.push(fakePost);
                 }
                 await connection.manager.save(fakePosts);
@@ -266,7 +266,7 @@ describe("named-tables-lazy-relations", () => {
                 const fakeCategories: Category[] = [];
                 for (let i = 0; i < 30; i++) {
                     const fakeCategory = new Category();
-                    fakeCategory.name = "category #" + i;
+                    fakeCategory.name = `category #${i}`;
                     fakeCategories.push(fakeCategory);
                 }
                 await connection.manager.save(fakeCategories);
@@ -297,8 +297,8 @@ describe("named-tables-lazy-relations", () => {
                 const fakePosts: Post[] = [];
                 for (let i = 0; i < 8; i++) {
                     const fakePost = new Post();
-                    fakePost.title = "post #" + i;
-                    fakePost.text = "post #" + i;
+                    fakePost.title = `post #${i}`;
+                    fakePost.text = `post #${i}`;
                     fakePosts.push(fakePost);
                 }
                 await connection.manager.save(fakePosts);
@@ -306,7 +306,7 @@ describe("named-tables-lazy-relations", () => {
                 const fakeCategories: Category[] = [];
                 for (let i = 0; i < 30; i++) {
                     const fakeCategory = new Category();
-                    fakeCategory.name = "category #" + i;
+                    fakeCategory.name = `category #${i}`;
                     fakeCategories.push(fakeCategory);
                 }
                 await connection.manager.save(fakeCategories);

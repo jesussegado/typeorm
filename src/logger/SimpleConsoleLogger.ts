@@ -30,9 +30,9 @@ export class SimpleConsoleLogger implements Logger {
             const sql =
                 query +
                 (parameters && parameters.length
-                    ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+                    ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                     : "");
-            console.log("query" + ": " + sql);
+            console.log(`${"query" + ": "}${sql}`);
         }
     }
 
@@ -54,9 +54,9 @@ export class SimpleConsoleLogger implements Logger {
             const sql =
                 query +
                 (parameters && parameters.length
-                    ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+                    ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                     : "");
-            console.log(`query failed: ` + sql);
+            console.log(`query failed: ${sql}`);
             console.log(`error:`, error);
         }
     }
@@ -73,10 +73,10 @@ export class SimpleConsoleLogger implements Logger {
         const sql =
             query +
             (parameters && parameters.length
-                ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+                ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                 : "");
-        console.log(`query is slow: ` + sql);
-        console.log(`execution time: ` + time);
+        console.log(`query is slow: ${sql}`);
+        console.log(`execution time: ${time}`);
     }
 
     /**

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../src/connection/Connection";
 import {
     closeTestingConnections,
@@ -7,7 +8,6 @@ import {
 } from "../../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { expect } from "chai";
 import { SqlServerDriver } from "../../../../src/driver/sqlserver/SqlServerDriver";
 
 describe("multi-schema-and-database > custom-junction-database", () => {
@@ -35,7 +35,7 @@ describe("multi-schema-and-database > custom-junction-database", () => {
                         "categories"
                     )!;
                     const junctionTable = await queryRunner.getTable(
-                        "yoman.." + junctionMetadata.tableName
+                        `yoman..${junctionMetadata.tableName}`
                     );
                     expect(postTable).not.to.be.undefined;
                     postTable!.name!.should.be.equal("yoman..post");
@@ -43,7 +43,7 @@ describe("multi-schema-and-database > custom-junction-database", () => {
                     categoryTable!.name!.should.be.equal("yoman..category");
                     expect(junctionTable).not.to.be.undefined;
                     junctionTable!.name!.should.be.equal(
-                        "yoman.." + junctionMetadata.tableName
+                        `yoman..${junctionMetadata.tableName}`
                     );
                 } else {
                     // mysql
@@ -56,7 +56,7 @@ describe("multi-schema-and-database > custom-junction-database", () => {
                         "categories"
                     )!;
                     const junctionTable = await queryRunner.getTable(
-                        "yoman." + junctionMetadata.tableName
+                        `yoman.${junctionMetadata.tableName}`
                     );
                     expect(postTable).not.to.be.undefined;
                     postTable!.name!.should.be.equal("yoman.post");
@@ -64,7 +64,7 @@ describe("multi-schema-and-database > custom-junction-database", () => {
                     categoryTable!.name!.should.be.equal("yoman.category");
                     expect(junctionTable).not.to.be.undefined;
                     junctionTable!.name!.should.be.equal(
-                        "yoman." + junctionMetadata.tableName
+                        `yoman.${junctionMetadata.tableName}`
                     );
                 }
                 await queryRunner.release();

@@ -5,15 +5,14 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { Realm } from "./entity/User";
-import { User } from "./entity/User";
+import { Realm, User } from "./entity/User";
 
 describe("github issues > #4630 Enum string not escaping resulting in broken migrations.", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
                 enabledDrivers: ["mysql", "postgres"],

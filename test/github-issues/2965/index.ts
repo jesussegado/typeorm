@@ -15,7 +15,7 @@ describe("github issues > #2965 Reuse preloaded lazy relations", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 // use for manual validation
                 // logging: true,
             }))

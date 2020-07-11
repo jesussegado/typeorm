@@ -1,7 +1,7 @@
-import { CommandUtils } from "./CommandUtils";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import * as path from "path";
 import * as yargs from "yargs";
+import { CommandUtils } from "./CommandUtils";
+import { ObjectLiteral } from "../common/ObjectLiteral";
 const chalk = require("chalk");
 
 /**
@@ -44,65 +44,65 @@ export class InitCommand implements yargs.CommandModule {
             const database: string = (args.database as any) || "mysql";
             const isExpress = args.express !== undefined ? true : false;
             const isDocker = args.docker !== undefined ? true : false;
-            const basePath = process.cwd() + (args.name ? "/" + args.name : "");
+            const basePath = process.cwd() + (args.name ? `/${args.name}` : "");
             const projectName = args.name
                 ? path.basename(args.name as any)
                 : undefined;
             await CommandUtils.createFile(
-                basePath + "/package.json",
+                `${basePath}/package.json`,
                 InitCommand.getPackageJsonTemplate(projectName),
                 false
             );
             if (isDocker)
                 await CommandUtils.createFile(
-                    basePath + "/docker-compose.yml",
+                    `${basePath}/docker-compose.yml`,
                     InitCommand.getDockerComposeTemplate(database),
                     false
                 );
             await CommandUtils.createFile(
-                basePath + "/.gitignore",
+                `${basePath}/.gitignore`,
                 InitCommand.getGitIgnoreFile()
             );
             await CommandUtils.createFile(
-                basePath + "/README.md",
+                `${basePath}/README.md`,
                 InitCommand.getReadmeTemplate({ docker: isDocker }),
                 false
             );
             await CommandUtils.createFile(
-                basePath + "/tsconfig.json",
+                `${basePath}/tsconfig.json`,
                 InitCommand.getTsConfigTemplate()
             );
             await CommandUtils.createFile(
-                basePath + "/ormconfig.json",
+                `${basePath}/ormconfig.json`,
                 InitCommand.getOrmConfigTemplate(database)
             );
             await CommandUtils.createFile(
-                basePath + "/src/entity/User.ts",
+                `${basePath}/src/entity/User.ts`,
                 InitCommand.getUserEntityTemplate(database)
             );
             await CommandUtils.createFile(
-                basePath + "/src/index.ts",
+                `${basePath}/src/index.ts`,
                 InitCommand.getAppIndexTemplate(isExpress)
             );
-            await CommandUtils.createDirectories(basePath + "/src/migration");
+            await CommandUtils.createDirectories(`${basePath}/src/migration`);
 
             // generate extra files for express application
             if (isExpress) {
                 await CommandUtils.createFile(
-                    basePath + "/src/routes.ts",
+                    `${basePath}/src/routes.ts`,
                     InitCommand.getRoutesTemplate()
                 );
                 await CommandUtils.createFile(
-                    basePath + "/src/controller/UserController.ts",
+                    `${basePath}/src/controller/UserController.ts`,
                     InitCommand.getControllerTemplate()
                 );
             }
 
             const packageJsonContents = await CommandUtils.readFile(
-                basePath + "/package.json"
+                `${basePath}/package.json`
             );
             await CommandUtils.createFile(
-                basePath + "/package.json",
+                `${basePath}/package.json`,
                 InitCommand.appendPackageJson(
                     packageJsonContents,
                     database,

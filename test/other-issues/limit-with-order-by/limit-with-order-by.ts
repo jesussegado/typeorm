@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 import { Category } from "./entity/Category";
 
 describe("other issues > using limit in conjunction with order by", () => {
@@ -14,7 +14,7 @@ describe("other issues > using limit in conjunction with order by", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -26,12 +26,12 @@ describe("other issues > using limit in conjunction with order by", () => {
                 // generate bulk array of posts with categories
                 for (let i = 1; i <= 100; i++) {
                     const post = new Post();
-                    post.title = "Hello Post #" + i;
+                    post.title = `Hello Post #${i}`;
                     post.categories = [];
 
                     for (let i = 1; i <= 5; i++) {
                         const category = new Category();
-                        category.name = "category #" + i;
+                        category.name = `category #${i}`;
                         post.categories.push(category);
                     }
                     await connection.manager.save(post);

@@ -16,7 +16,7 @@ describe("github issues > #1476 subqueries", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql", "mariadb", "sqlite", "sqljs"],
             }))
     );

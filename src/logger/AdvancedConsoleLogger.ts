@@ -31,7 +31,7 @@ export class AdvancedConsoleLogger implements Logger {
             const sql =
                 query +
                 (parameters && parameters.length
-                    ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+                    ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                     : "");
             PlatformTools.logInfo("query:", PlatformTools.highlightSql(sql));
         }
@@ -55,7 +55,7 @@ export class AdvancedConsoleLogger implements Logger {
             const sql =
                 query +
                 (parameters && parameters.length
-                    ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+                    ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                     : "");
             PlatformTools.logError(
                 `query failed:`,
@@ -77,7 +77,7 @@ export class AdvancedConsoleLogger implements Logger {
         const sql =
             query +
             (parameters && parameters.length
-                ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+                ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                 : "");
         PlatformTools.logWarn(
             `query is slow:`,

@@ -19,6 +19,12 @@ module.exports = {
     "no-use-before-define": ["error", "nofunc"],
     "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
 
+    "import/extensions": ["off"],
+    "@typescript-eslint/no-explicit-any": ["off"],
+    "import/prefer-default-export":["off"],
+    "eslint@typescript-eslint/no-non-null-assertion":["off"],
+    "func-names":["off"],
+
   },
   settings: {
     "import/resolver": {

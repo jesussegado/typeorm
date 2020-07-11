@@ -17,9 +17,9 @@ import { TableIndexOptions } from "../../schema-builder/options/TableIndexOption
 import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";
 import { OrmUtils } from "../../util/OrmUtils";
-import { PromiseUtils } from "../../";
+import { PromiseUtils, ColumnType } from "../../";
 import { TableCheck } from "../../schema-builder/table/TableCheck";
-import { ColumnType } from "../../index";
+
 import { IsolationLevel } from "../types/IsolationLevel";
 import { TableExclusion } from "../../schema-builder/table/TableExclusion";
 
@@ -138,7 +138,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
         await this.query("SAVEPOINT cockroach_restart");
         if (isolationLevel) {
             await this.query(
-                "SET TRANSACTION ISOLATION LEVEL " + isolationLevel
+                `SET TRANSACTION ISOLATION LEVEL ${isolationLevel}`
             );
         }
         this.storeQueries = true;
@@ -2122,7 +2122,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
         schemas.push(this.driver.options.schema || "current_schema()");
         const schemaNamesString = schemas
             .map((name) => {
-                return name === "current_schema()" ? name : "'" + name + "'";
+                return name === "current_schema()" ? name : `'${name}'`;
             })
             .join(", ");
 
@@ -2231,12 +2231,8 @@ export class CockroachQueryRunner extends BaseQueryRunner
                 return `("table_schema" = '${schema}' AND "table_name" = '${name}')`;
             })
             .join(" OR ");
-        const tablesSql =
-            `SELECT * FROM "information_schema"."tables" WHERE ` +
-            tablesCondition;
-        const columnsSql =
-            `SELECT * FROM "information_schema"."columns" WHERE "is_hidden" = 'NO' AND ` +
-            tablesCondition;
+        const tablesSql = `SELECT * FROM "information_schema"."tables" WHERE ${tablesCondition}`;
+        const columnsSql = `SELECT * FROM "information_schema"."columns" WHERE "is_hidden" = 'NO' AND ${tablesCondition}`;
 
         const constraintsCondition = tableNames
             .map((tableName) => {
@@ -2884,10 +2880,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
             typeof view.expression === "string"
                 ? view.expression.trim()
                 : view.expression(this.connection).getQuery();
-        const [
-            query,
-            parameters,
-        ] = this.connection
+        const [query, parameters] = this.connection
             .createQueryBuilder()
             .insert()
             .into(this.getTypeormMetadataTableName())
@@ -2952,7 +2945,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
         return new Query(
             `CREATE INDEX "${index.name}" ON ${this.escapePath(
                 table
-            )} (${columns}) ${index.where ? "WHERE " + index.where : ""}`
+            )} (${columns}) ${index.where ? `WHERE ${index.where}` : ""}`
         );
     }
 
@@ -2963,7 +2956,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
         table: Table,
         indexOrName: TableIndex | TableUnique | string
     ): Query {
-        let indexName =
+        const indexName =
             indexOrName instanceof TableIndex ||
             indexOrName instanceof TableUnique
                 ? indexOrName.name
@@ -3015,7 +3008,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
         uniqueConstraint: TableUnique | TableIndex
     ): Query {
         const columnNames = uniqueConstraint.columnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(", ");
         return new Query(
             `ALTER TABLE ${this.escapePath(table)} ADD CONSTRAINT "${
@@ -3080,10 +3073,10 @@ export class CockroachQueryRunner extends BaseQueryRunner
         foreignKey: TableForeignKey
     ): Query {
         const columnNames = foreignKey.columnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(", ");
         const referencedColumnNames = foreignKey.referencedColumnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(",");
         let sql =
             `ALTER TABLE ${this.escapePath(table)} ADD CONSTRAINT "${
@@ -3181,7 +3174,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
      * Builds a query for create column.
      */
     protected buildCreateColumnSql(table: Table, column: TableColumn) {
-        let c = '"' + column.name + '"';
+        let c = `"${column.name}"`;
 
         if (column.isGenerated) {
             if (column.generationStrategy === "increment") {
@@ -3196,16 +3189,16 @@ export class CockroachQueryRunner extends BaseQueryRunner
             }
         }
         if (!column.isGenerated)
-            c += " " + this.connection.driver.createFullType(column);
-        if (column.charset) c += ' CHARACTER SET "' + column.charset + '"';
-        if (column.collation) c += ' COLLATE "' + column.collation + '"';
+            c += ` ${this.connection.driver.createFullType(column)}`;
+        if (column.charset) c += ` CHARACTER SET "${column.charset}"`;
+        if (column.collation) c += ` COLLATE "${column.collation}"`;
         if (!column.isNullable) c += " NOT NULL";
         if (
             !column.isGenerated &&
             column.default !== undefined &&
             column.default !== null
         )
-            c += " DEFAULT " + column.default;
+            c += ` DEFAULT ${column.default}`;
 
         return c;
     }

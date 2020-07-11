@@ -16,14 +16,12 @@ import { EntitySchema } from "../../../../../src";
 describe("basic-lazy-relations", () => {
     let UserSchema: any, ProfileSchema: any;
     const appRoot = require("app-root-path");
-    const resourceDir =
-        appRoot +
-        "/test/functional/relations/lazy-relations/basic-lazy-relation/";
+    const resourceDir = `${appRoot}/test/functional/relations/lazy-relations/basic-lazy-relation/`;
     UserSchema = new EntitySchema<any>(
-        require(resourceDir + "schema/user.json")
+        require(`${resourceDir}schema/user.json`)
     );
     ProfileSchema = new EntitySchema<any>(
-        require(resourceDir + "schema/profile.json")
+        require(`${resourceDir}schema/profile.json`)
     );
 
     let connections: Connection[];
@@ -175,8 +173,8 @@ describe("basic-lazy-relations", () => {
                 const fakePosts: Post[] = [];
                 for (let i = 0; i < 30; i++) {
                     const fakePost = new Post();
-                    fakePost.title = "post #" + i;
-                    fakePost.text = "post #" + i;
+                    fakePost.title = `post #${i}`;
+                    fakePost.text = `post #${i}`;
                     fakePosts.push(fakePost);
                 }
                 await connection.manager.save(fakePosts);
@@ -184,7 +182,7 @@ describe("basic-lazy-relations", () => {
                 const fakeCategories: Category[] = [];
                 for (let i = 0; i < 8; i++) {
                     const fakeCategory = new Category();
-                    fakeCategory.name = "category #" + i;
+                    fakeCategory.name = `category #${i}`;
                     fakeCategories.push(fakeCategory);
                 }
                 await connection.manager.save(fakeCategories);
@@ -216,8 +214,8 @@ describe("basic-lazy-relations", () => {
                 const fakePosts: Post[] = [];
                 for (let i = 0; i < 8; i++) {
                     const fakePost = new Post();
-                    fakePost.title = "post #" + i;
-                    fakePost.text = "post #" + i;
+                    fakePost.title = `post #${i}`;
+                    fakePost.text = `post #${i}`;
                     fakePosts.push(fakePost);
                 }
                 await connection.manager.save(fakePosts);
@@ -225,7 +223,7 @@ describe("basic-lazy-relations", () => {
                 const fakeCategories: Category[] = [];
                 for (let i = 0; i < 30; i++) {
                     const fakeCategory = new Category();
-                    fakeCategory.name = "category #" + i;
+                    fakeCategory.name = `category #${i}`;
                     fakeCategories.push(fakeCategory);
                 }
                 await connection.manager.save(fakeCategories);
@@ -257,8 +255,8 @@ describe("basic-lazy-relations", () => {
                 const fakePosts: Post[] = [];
                 for (let i = 0; i < 8; i++) {
                     const fakePost = new Post();
-                    fakePost.title = "post #" + i;
-                    fakePost.text = "post #" + i;
+                    fakePost.title = `post #${i}`;
+                    fakePost.text = `post #${i}`;
                     fakePosts.push(fakePost);
                 }
                 await connection.manager.save(fakePosts);
@@ -266,7 +264,7 @@ describe("basic-lazy-relations", () => {
                 const fakeCategories: Category[] = [];
                 for (let i = 0; i < 30; i++) {
                     const fakeCategory = new Category();
-                    fakeCategory.name = "category #" + i;
+                    fakeCategory.name = `category #${i}`;
                     fakeCategories.push(fakeCategory);
                 }
                 await connection.manager.save(fakeCategories);
@@ -298,8 +296,8 @@ describe("basic-lazy-relations", () => {
                 const fakePosts: Post[] = [];
                 for (let i = 0; i < 8; i++) {
                     const fakePost = new Post();
-                    fakePost.title = "post #" + i;
-                    fakePost.text = "post #" + i;
+                    fakePost.title = `post #${i}`;
+                    fakePost.text = `post #${i}`;
                     fakePosts.push(fakePost);
                 }
                 await connection.manager.save(fakePosts);
@@ -307,7 +305,7 @@ describe("basic-lazy-relations", () => {
                 const fakeCategories: Category[] = [];
                 for (let i = 0; i < 30; i++) {
                     const fakeCategory = new Category();
-                    fakeCategory.name = "category #" + i;
+                    fakeCategory.name = `category #${i}`;
                     fakeCategories.push(fakeCategory);
                 }
                 await connection.manager.save(fakeCategories);
@@ -338,8 +336,8 @@ describe("basic-lazy-relations", () => {
                 const fakePosts: Post[] = [];
                 for (let i = 0; i < 8; i++) {
                     const fakePost = new Post();
-                    fakePost.title = "post #" + i;
-                    fakePost.text = "post #" + i;
+                    fakePost.title = `post #${i}`;
+                    fakePost.text = `post #${i}`;
                     fakePosts.push(fakePost);
                 }
                 await connection.manager.save(fakePosts);
@@ -347,7 +345,7 @@ describe("basic-lazy-relations", () => {
                 const fakeCategories: Category[] = [];
                 for (let i = 0; i < 30; i++) {
                     const fakeCategory = new Category();
-                    fakeCategory.name = "category #" + i;
+                    fakeCategory.name = `category #${i}`;
                     fakeCategories.push(fakeCategory);
                 }
                 await connection.manager.save(fakeCategories);

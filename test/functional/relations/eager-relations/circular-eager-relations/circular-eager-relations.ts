@@ -1,8 +1,8 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../../src/connection/Connection";
 import { EntityMetadataValidator } from "../../../../../src/metadata-builder/EntityMetadataValidator";
 import { ConnectionMetadataBuilder } from "../../../../../src/connection/ConnectionMetadataBuilder";
-import { expect } from "chai";
 
 describe("relations > eager relations > circular eager relations", () => {
     it("should throw error if eager: true is set on both sides of relationship", () => {
@@ -13,13 +13,13 @@ describe("relations > eager relations > circular eager relations", () => {
             username: "test",
             password: "test",
             database: "test",
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
         });
         const connectionMetadataBuilder = new ConnectionMetadataBuilder(
             connection
         );
         const entityMetadatas = connectionMetadataBuilder.buildEntityMetadatas([
-            __dirname + "/entity/*{.js,.ts}",
+            `${__dirname}/entity/*{.js,.ts}`,
         ]);
         const entityMetadataValidator = new EntityMetadataValidator();
         expect(() =>

@@ -12,8 +12,8 @@ describe("github issues > #5734 insert([]) should not crash", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
-                subscribers: [__dirname + "/subscriber/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
+                subscribers: [`${__dirname}/subscriber/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
             }))

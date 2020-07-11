@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -7,14 +8,13 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { User } from "./entity/User";
 import { Circle } from "./entity/Circle";
-import { expect } from "chai";
 
 describe("github issues > #1034 Issue using setter with promises", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"], // we are using lazy relations that's why we are using a single driver
             }))
     );

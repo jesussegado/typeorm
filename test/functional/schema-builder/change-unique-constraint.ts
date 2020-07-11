@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { PromiseUtils } from "../../../src";
-import { Connection } from "../../../src";
+import { PromiseUtils, Connection } from "../../../src";
+
 import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
 import { SapDriver } from "../../../src/driver/sap/SapDriver";
 import { AbstractSqliteDriver } from "../../../src/driver/sqlite-abstract/AbstractSqliteDriver";
@@ -18,7 +18,7 @@ describe("schema builder > change unique constraint", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
         });

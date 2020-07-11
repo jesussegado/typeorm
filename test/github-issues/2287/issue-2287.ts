@@ -12,7 +12,7 @@ describe("github issues > #2287 - QueryBuilder IN and ANY Fail with .where - Pos
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres"],
             }))
     );

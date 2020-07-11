@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../../src/connection/Connection";
 import {
     closeTestingConnections,
@@ -7,7 +8,6 @@ import {
 } from "../../../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { PostWithUnderscoreId } from "./entity/PostWithUnderscoreId";
-import { expect } from "chai";
 
 describe("mongodb > object id columns", () => {
     let connections: Connection[];

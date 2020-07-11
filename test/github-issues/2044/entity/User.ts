@@ -1,6 +1,6 @@
+import { StringDecoder } from "string_decoder";
 import { Column, Entity, OneToMany, PrimaryColumn } from "../../../../src";
 import { Photo } from "./Photo";
-import { StringDecoder } from "string_decoder";
 
 @Entity()
 export class User {

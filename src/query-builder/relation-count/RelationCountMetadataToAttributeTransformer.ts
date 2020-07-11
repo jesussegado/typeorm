@@ -59,9 +59,8 @@ export class RelationCountMetadataToAttributeTransformer {
         relationCount: RelationCountMetadata
     ): RelationCountAttribute {
         return new RelationCountAttribute(this.expressionMap, {
-            relationName:
-                parentAliasName + "." + relationCount.relation.propertyName, // category.images
-            mapToProperty: parentAliasName + "." + relationCount.propertyName, // category.imageIds
+            relationName: `${parentAliasName}.${relationCount.relation.propertyName}`, // category.images
+            mapToProperty: `${parentAliasName}.${relationCount.propertyName}`, // category.imageIds
             alias: relationCount.alias,
             queryBuilderFactory: relationCount.queryBuilderFactory,
         });

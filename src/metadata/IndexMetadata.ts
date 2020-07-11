@@ -166,11 +166,7 @@ export class IndexMetadata {
                 columnPropertyPaths = this.givenColumnNames.map(
                     (columnName) => {
                         if (this.embeddedMetadata)
-                            return (
-                                this.embeddedMetadata.propertyPath +
-                                "." +
-                                columnName
-                            );
+                            return `${this.embeddedMetadata.propertyPath}.${columnName}`;
 
                         return columnName;
                     }
@@ -217,12 +213,11 @@ export class IndexMetadata {
                         return relationWithSameName.joinColumns;
                     }
                     const indexName = this.givenName
-                        ? '"' + this.givenName + '" '
+                        ? `"${this.givenName}" `
                         : "";
                     const entityName = this.entityMetadata.targetName;
                     throw new Error(
-                        `Index ${indexName}contains column that is missing in the entity (${entityName}): ` +
-                            propertyPath
+                        `Index ${indexName}contains column that is missing in the entity (${entityName}): ${propertyPath}`
                     );
                 })
                 .reduce((a, b) => a.concat(b));

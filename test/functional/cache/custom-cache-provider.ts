@@ -15,7 +15,7 @@ describe("custom cache provider", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 cache: {
                     provider(connection) {
                         return new MockQueryResultCache(connection);

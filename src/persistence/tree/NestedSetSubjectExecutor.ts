@@ -45,9 +45,9 @@ export class NestedSetSubjectExecutor {
             parentNsRight = await this.queryRunner.manager
                 .createQueryBuilder()
                 .select(
-                    subject.metadata.targetName +
-                        "." +
-                        subject.metadata.nestedSetRightColumn!.propertyPath,
+                    `${subject.metadata.targetName}.${
+                        subject.metadata.nestedSetRightColumn!.propertyPath
+                    }`,
                     "right"
                 )
                 .from(subject.metadata.target, subject.metadata.targetName)

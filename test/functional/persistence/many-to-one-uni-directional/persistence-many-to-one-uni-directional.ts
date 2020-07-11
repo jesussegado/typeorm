@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../src/connection/Connection";
 import {
     closeTestingConnections,
@@ -7,13 +8,12 @@ import {
 } from "../../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { expect } from "chai";
 
 describe("persistence > many-to-one uni-directional relation", function () {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
         });
     });
     beforeEach(() => reloadTestingDatabases(connections));

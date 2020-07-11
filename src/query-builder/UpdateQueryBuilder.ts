@@ -489,7 +489,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                         }
                         updatedColumns.push(column);
 
-                        const paramName = "upd_" + column.databaseName;
+                        const paramName = `upd_${column.databaseName}`;
 
                         //
                         let value = column.getEntityValue(valuesSet);
@@ -511,16 +511,16 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                         if (value instanceof Function) {
                             // support for SQL expressions in update query
                             updateColumnAndValues.push(
-                                this.escape(column.databaseName) +
-                                    " = " +
-                                    value()
+                                `${this.escape(
+                                    column.databaseName
+                                )} = ${value()}`
                             );
                         } else if (
                             this.connection.driver instanceof SapDriver &&
                             value === null
                         ) {
                             updateColumnAndValues.push(
-                                this.escape(column.databaseName) + " = NULL"
+                                `${this.escape(column.databaseName)} = NULL`
                             );
                         } else {
                             if (
@@ -604,16 +604,12 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                                     column.type
                                 ) !== -1
                             ) {
-                                expression =
-                                    column.type +
-                                    "::STGeomFromText(" +
-                                    this.connection.driver.createParameter(
-                                        paramName,
-                                        parametersCount
-                                    ) +
-                                    ", " +
-                                    (column.srid || "0") +
-                                    ")";
+                                expression = `${
+                                    column.type
+                                }::STGeomFromText(${this.connection.driver.createParameter(
+                                    paramName,
+                                    parametersCount
+                                )}, ${column.srid || "0"})`;
                             } else {
                                 expression = this.connection.driver.createParameter(
                                     paramName,
@@ -621,9 +617,9 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                                 );
                             }
                             updateColumnAndValues.push(
-                                this.escape(column.databaseName) +
-                                    " = " +
-                                    expression
+                                `${this.escape(
+                                    column.databaseName
+                                )} = ${expression}`
                             );
                             parametersCount++;
                         }
@@ -636,34 +632,36 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                 updatedColumns.indexOf(metadata.versionColumn) === -1
             )
                 updateColumnAndValues.push(
-                    this.escape(metadata.versionColumn.databaseName) +
-                        " = " +
-                        this.escape(metadata.versionColumn.databaseName) +
-                        " + 1"
+                    `${this.escape(
+                        metadata.versionColumn.databaseName
+                    )} = ${this.escape(
+                        metadata.versionColumn.databaseName
+                    )} + 1`
                 );
             if (
                 metadata.updateDateColumn &&
                 updatedColumns.indexOf(metadata.updateDateColumn) === -1
             )
                 updateColumnAndValues.push(
-                    this.escape(metadata.updateDateColumn.databaseName) +
-                        " = CURRENT_TIMESTAMP"
+                    `${this.escape(
+                        metadata.updateDateColumn.databaseName
+                    )} = CURRENT_TIMESTAMP`
                 ); // todo: fix issue with CURRENT_TIMESTAMP(6) being used, can "DEFAULT" be used?!
         } else {
             Object.keys(valuesSet).map((key) => {
-                let value = valuesSet[key];
+                const value = valuesSet[key];
 
                 // todo: duplication zone
                 if (value instanceof Function) {
                     // support for SQL expressions in update query
                     updateColumnAndValues.push(
-                        this.escape(key) + " = " + value()
+                        `${this.escape(key)} = ${value()}`
                     );
                 } else if (
                     this.connection.driver instanceof SapDriver &&
                     value === null
                 ) {
-                    updateColumnAndValues.push(this.escape(key) + " = NULL");
+                    updateColumnAndValues.push(`${this.escape(key)} = NULL`);
                 } else {
                     // we need to store array values in a special class to make sure parameter replacement will work correctly
                     // if (value instanceof Array)
@@ -683,12 +681,12 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                     }
 
                     updateColumnAndValues.push(
-                        this.escape(key) +
-                            " = " +
-                            this.connection.driver.createParameter(
-                                key,
-                                parametersCount
-                            )
+                        `${this.escape(
+                            key
+                        )} = ${this.connection.driver.createParameter(
+                            key,
+                            parametersCount
+                        )}`
                     );
                     parametersCount++;
                 }
@@ -752,28 +750,19 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
     protected createOrderByExpression() {
         const orderBys = this.expressionMap.orderBys;
         if (Object.keys(orderBys).length > 0)
-            return (
-                " ORDER BY " +
-                Object.keys(orderBys)
-                    .map((columnName) => {
-                        if (typeof orderBys[columnName] === "string") {
-                            return (
-                                this.replacePropertyNames(columnName) +
-                                " " +
-                                orderBys[columnName]
-                            );
-                        } else {
-                            return (
-                                this.replacePropertyNames(columnName) +
-                                " " +
-                                (orderBys[columnName] as any).order +
-                                " " +
-                                (orderBys[columnName] as any).nulls
-                            );
-                        }
-                    })
-                    .join(", ")
-            );
+            return ` ORDER BY ${Object.keys(orderBys)
+                .map((columnName) => {
+                    if (typeof orderBys[columnName] === "string") {
+                        return `${this.replacePropertyNames(columnName)} ${
+                            orderBys[columnName]
+                        }`;
+                    } else {
+                        return `${this.replacePropertyNames(columnName)} ${
+                            (orderBys[columnName] as any).order
+                        } ${(orderBys[columnName] as any).nulls}`;
+                    }
+                })
+                .join(", ")}`;
 
         return "";
     }
@@ -782,14 +771,14 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
      * Creates "LIMIT" parts of SQL query.
      */
     protected createLimitExpression(): string {
-        let limit: number | undefined = this.expressionMap.limit;
+        const limit: number | undefined = this.expressionMap.limit;
 
         if (limit) {
             if (
                 this.connection.driver instanceof MysqlDriver ||
                 this.connection.driver instanceof AuroraDataApiDriver
             ) {
-                return " LIMIT " + limit;
+                return ` LIMIT ${limit}`;
             } else {
                 throw new LimitOnUpdateNotSupportedError();
             }

@@ -12,7 +12,7 @@ describe("github issues > #3534: store regexp", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
         });
     });
     beforeEach(() => reloadTestingDatabases(connections));

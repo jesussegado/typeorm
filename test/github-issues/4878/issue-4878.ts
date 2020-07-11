@@ -1,5 +1,5 @@
-import { DriverUtils } from "../../../src/driver/DriverUtils";
 import { expect } from "chai";
+import { DriverUtils } from "../../../src/driver/DriverUtils";
 
 describe("github issues > #4878 URL Connection string not overridden by supplied options", () => {
     it("should override url-built options with user-supplied options", () => {

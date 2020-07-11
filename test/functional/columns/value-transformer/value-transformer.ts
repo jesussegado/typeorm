@@ -1,5 +1,6 @@
 import "reflect-metadata";
 
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -12,7 +13,6 @@ import { Post } from "./entity/Post";
 import { User } from "./entity/User";
 import { Category } from "./entity/Category";
 import { View } from "./entity/View";
-import { expect } from "chai";
 
 describe("columns > value-transformer functionality", () => {
     let connections: Connection[];

@@ -11,7 +11,7 @@ describe("github issues > #1089 UUID in ClosureEntity", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: false,
                 dropSchema: true,
             }))

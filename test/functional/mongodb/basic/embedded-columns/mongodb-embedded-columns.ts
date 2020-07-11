@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../../src/connection/Connection";
 import {
     closeTestingConnections,
@@ -10,7 +11,6 @@ import { Counters } from "./entity/Counters";
 import { Information } from "./entity/Information";
 import { ExtraInformation } from "./entity/ExtraInformation";
 import { EditHistory } from "./entity/EditHistory";
-import { expect } from "chai";
 
 describe("mongodb > embedded columns", () => {
     let connections: Connection[];

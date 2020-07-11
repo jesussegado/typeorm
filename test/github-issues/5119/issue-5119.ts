@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { fail } from "assert";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,14 +7,13 @@ import {
     setupSingleTestingConnection,
 } from "../../utils/test-utils";
 import { Connection, createConnection } from "../../../src";
-import { fail } from "assert";
 
 describe("github issues > #5119 migration with foreign key that changes target", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/v1/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/v1/*{.js,.ts}`],
                 enabledDrivers: ["postgres"],
             }))
     );
@@ -27,7 +27,7 @@ describe("github issues > #5119 migration with foreign key that changes target",
                     _connection.options.type,
                     {
                         name: `${_connection.name}-v2`,
-                        entities: [__dirname + "/entity/v2/*{.js,.ts}"],
+                        entities: [`${__dirname}/entity/v2/*{.js,.ts}`],
                         dropSchema: false,
                         schemaCreate: false,
                     }

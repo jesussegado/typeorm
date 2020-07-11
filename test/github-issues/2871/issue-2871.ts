@@ -18,7 +18,7 @@ describe("github issues > #2871 Empty enum array is returned as array with singl
 
     before(async () => {
         const options = setupSingleTestingConnection("postgres", {
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
         });

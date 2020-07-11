@@ -50,13 +50,7 @@ export class RelationRemover {
                         return [
                             ...relation.inverseRelation!.joinColumns.map(
                                 (column, columnIndex) => {
-                                    const parameterName =
-                                        "joinColumn_" +
-                                        ofIndex +
-                                        "_" +
-                                        valueIndex +
-                                        "_" +
-                                        columnIndex;
+                                    const parameterName = `joinColumn_${ofIndex}_${valueIndex}_${columnIndex}`;
                                     parameters[parameterName] =
                                         of instanceof Object
                                             ? column.referencedColumn!.getEntityValue(
@@ -68,13 +62,7 @@ export class RelationRemover {
                             ),
                             ...relation.inverseRelation!.entityMetadata.primaryColumns.map(
                                 (column, columnIndex) => {
-                                    const parameterName =
-                                        "primaryColumn_" +
-                                        valueIndex +
-                                        "_" +
-                                        valueIndex +
-                                        "_" +
-                                        columnIndex;
+                                    const parameterName = `primaryColumn_${valueIndex}_${valueIndex}_${columnIndex}`;
                                     parameters[parameterName] =
                                         value instanceof Object
                                             ? column.getEntityValue(value)
@@ -86,9 +74,7 @@ export class RelationRemover {
                     })
                 );
             });
-            const condition = conditions
-                .map((str) => "(" + str + ")")
-                .join(" OR ");
+            const condition = conditions.map((str) => `(${str})`).join(" OR ");
             if (!condition) return;
 
             await this.queryBuilder
@@ -120,13 +106,7 @@ export class RelationRemover {
                             return [
                                 ...junctionMetadata.ownerColumns.map(
                                     (column, columnIndex) => {
-                                        const parameterName =
-                                            "firstValue_" +
-                                            firstColumnValIndex +
-                                            "_" +
-                                            secondColumnValIndex +
-                                            "_" +
-                                            columnIndex;
+                                        const parameterName = `firstValue_${firstColumnValIndex}_${secondColumnValIndex}_${columnIndex}`;
                                         parameters[parameterName] =
                                             firstColumnVal instanceof Object
                                                 ? column.referencedColumn!.getEntityValue(
@@ -138,13 +118,7 @@ export class RelationRemover {
                                 ),
                                 ...junctionMetadata.inverseColumns.map(
                                     (column, columnIndex) => {
-                                        const parameterName =
-                                            "secondValue_" +
-                                            firstColumnValIndex +
-                                            "_" +
-                                            secondColumnValIndex +
-                                            "_" +
-                                            columnIndex;
+                                        const parameterName = `secondValue_${firstColumnValIndex}_${secondColumnValIndex}_${columnIndex}`;
                                         parameters[parameterName] =
                                             secondColumnVal instanceof Object
                                                 ? column.referencedColumn!.getEntityValue(
@@ -159,9 +133,7 @@ export class RelationRemover {
                     )
                 );
             });
-            const condition = conditions
-                .map((str) => "(" + str + ")")
-                .join(" OR ");
+            const condition = conditions.map((str) => `(${str})`).join(" OR ");
 
             await this.queryBuilder
                 .createQueryBuilder()

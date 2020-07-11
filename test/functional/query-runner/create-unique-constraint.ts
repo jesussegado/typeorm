@@ -12,7 +12,7 @@ describe("query runner > create unique constraint", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: [
                 "mssql",
                 "postgres",

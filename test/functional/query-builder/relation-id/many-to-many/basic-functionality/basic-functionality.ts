@@ -16,7 +16,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -53,7 +53,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                 post2.tag = tag;
                 await connection.manager.save(post2);
 
-                let loadedPosts = await connection.manager
+                const loadedPosts = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .leftJoinAndSelect("post.tag", "tag")
                     .leftJoinAndSelect("post.categories", "categories")
@@ -69,7 +69,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                 expect(loadedPosts![1].categories).to.not.be.eql([]);
                 expect(loadedPosts![1].categoryIds).to.be.undefined;
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .leftJoinAndSelect("post.tag", "tag")
                     .leftJoinAndSelect("post.categories", "categories")
@@ -105,7 +105,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                 post2.categories = [category1, category2];
                 await connection.manager.save(post2);
 
-                let loadedPosts = await connection.manager
+                const loadedPosts = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .loadRelationIdAndMap("post.categoryIds", "post.categories")
                     .getMany();
@@ -117,7 +117,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                 expect(loadedPosts![1].categoryIds[0]).to.be.equal(1);
                 expect(loadedPosts![1].categoryIds[1]).to.be.equal(2);
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .loadRelationIdAndMap("post.categoryIds", "post.categories")
                     .where("post.id = :id", { id: post.id })
@@ -148,7 +148,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                 post.subcategories = [category1, category2];
                 await connection.manager.save(post);
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .loadRelationIdAndMap(
                         "post.categoryIds",
@@ -183,7 +183,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                     connection.manager.save(post2),
                 ]);
 
-                let loadedCategory = await connection.manager
+                const loadedCategory = await connection.manager
                     .createQueryBuilder(Category, "category")
                     .loadRelationIdAndMap("category.postIds", "category.posts")
                     .where("category.id = :id", { id: category.id })
@@ -214,7 +214,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                 post.categories = [category1, category2];
                 await connection.manager.save(post);
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .loadRelationIdAndMap(
                         "post.categoryIds",
@@ -252,7 +252,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                 post.subcategories = [category1, category2];
                 await connection.manager.save(post);
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .loadRelationIdAndMap(
                         "post.categoryIds",
@@ -291,7 +291,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                     connection.manager.save(post2),
                 ]);
 
-                let loadedCategory = await connection.manager
+                const loadedCategory = await connection.manager
                     .createQueryBuilder(Category, "category")
                     .loadRelationIdAndMap(
                         "category.postIds",
@@ -336,7 +336,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                 post.categories = [category1, category2];
                 await connection.manager.save(post);
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .leftJoinAndSelect("post.categories", "categories")
                     .loadRelationIdAndMap("post.categoryIds", "post.categories")
@@ -390,7 +390,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                 post.categories = [category1, category2];
                 await connection.manager.save(post);
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .leftJoinAndSelect("post.categories", "categories")
                     .loadRelationIdAndMap(
@@ -449,7 +449,7 @@ describe("query builder > relation-id > many-to-many > basic-functionality", () 
                 post.categories = [category1];
                 await connection.manager.save(post);
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .leftJoinAndSelect(
                         "post.categories",

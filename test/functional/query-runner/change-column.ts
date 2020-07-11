@@ -12,7 +12,7 @@ describe("query runner > change column", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
         });
@@ -72,8 +72,8 @@ describe("query runner > change column", () => {
                     .true;
                 table!.findColumnByName("description")!.default!.should.exist;
 
-                let idColumn = table!.findColumnByName("id")!;
-                let changedIdColumn = idColumn.clone();
+                const idColumn = table!.findColumnByName("id")!;
+                const changedIdColumn = idColumn.clone();
                 changedIdColumn!.isPrimary = false;
                 await queryRunner.changeColumn(
                     table!,

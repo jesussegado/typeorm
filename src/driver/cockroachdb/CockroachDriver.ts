@@ -391,7 +391,7 @@ export class CockroachDriver implements Driver {
             return [sql, builtParameters];
 
         const keys = Object.keys(parameters)
-            .map((parameter) => "(:(\\.\\.\\.)?" + parameter + "\\b)")
+            .map((parameter) => `(:(\\.\\.\\.)?${parameter}\\b)`)
             .join("|");
         sql = sql.replace(new RegExp(keys, "g"), (key: string): string => {
             let value: any;
@@ -407,14 +407,14 @@ export class CockroachDriver implements Driver {
                 return value
                     .map((v: any) => {
                         builtParameters.push(v);
-                        return "$" + builtParameters.length;
+                        return `$${builtParameters.length}`;
                     })
                     .join(", ");
             } else if (value instanceof Function) {
                 return value();
             } else {
                 builtParameters.push(value);
-                return "$" + builtParameters.length;
+                return `$${builtParameters.length}`;
             }
         }); // todo: make replace only in value statements, otherwise problems
         return [sql, builtParameters];
@@ -424,7 +424,7 @@ export class CockroachDriver implements Driver {
      * Escapes a column name.
      */
     escape(columnName: string): string {
-        return '"' + columnName + '"';
+        return `"${columnName}"`;
     }
 
     /**
@@ -510,7 +510,7 @@ export class CockroachDriver implements Driver {
             : "";
 
         if (typeof defaultValue === "number") {
-            return "" + defaultValue;
+            return `${defaultValue}`;
         } else if (typeof defaultValue === "boolean") {
             return defaultValue === true ? "true" : "false";
         } else if (typeof defaultValue === "function") {
@@ -549,19 +549,19 @@ export class CockroachDriver implements Driver {
         let type = column.type;
 
         if (column.length) {
-            type += "(" + column.length + ")";
+            type += `(${column.length})`;
         } else if (
             column.precision !== null &&
             column.precision !== undefined &&
             column.scale !== null &&
             column.scale !== undefined
         ) {
-            type += "(" + column.precision + "," + column.scale + ")";
+            type += `(${column.precision},${column.scale})`;
         } else if (
             column.precision !== null &&
             column.precision !== undefined
         ) {
-            type += "(" + column.precision + ")";
+            type += `(${column.precision})`;
         }
 
         if (column.isArray) type += " array";
@@ -701,7 +701,7 @@ export class CockroachDriver implements Driver {
      * Creates an escaped parameter.
      */
     createParameter(parameterName: string, index: number): string {
-        return "$" + (index + 1);
+        return `$${index + 1}`;
     }
 
     // -------------------------------------------------------------------------

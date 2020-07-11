@@ -1,8 +1,8 @@
+import { highlight } from "cli-highlight";
+import * as yargs from "yargs";
 import { createConnection } from "../index";
 import { Connection } from "../connection/Connection";
 import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
-import { highlight } from "cli-highlight";
-import * as yargs from "yargs";
 
 const chalk = require("chalk");
 
@@ -63,8 +63,7 @@ export class SchemaLogCommand implements yargs.CommandModule {
                     .join("");
                 console.log(
                     chalk.yellow(
-                        "---------------------------------------------------------------" +
-                            lengthSeparators
+                        `---------------------------------------------------------------${lengthSeparators}`
                     )
                 );
                 console.log(
@@ -76,8 +75,7 @@ export class SchemaLogCommand implements yargs.CommandModule {
                 );
                 console.log(
                     chalk.yellow(
-                        "---------------------------------------------------------------" +
-                            lengthSeparators
+                        `---------------------------------------------------------------${lengthSeparators}`
                     )
                 );
 
@@ -87,7 +85,7 @@ export class SchemaLogCommand implements yargs.CommandModule {
                     sqlString =
                         sqlString.substr(-1) === ";"
                             ? sqlString
-                            : sqlString + ";";
+                            : `${sqlString};`;
                     console.log(highlight(sqlString));
                 });
             }

@@ -12,7 +12,7 @@ describe("github issues > #219 FindOptions should be able to resolve null values
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -24,7 +24,7 @@ describe("github issues > #219 FindOptions should be able to resolve null values
                 const promises: Promise<any>[] = [];
                 for (let i = 1; i <= 10; i++) {
                     const post1 = new Post();
-                    post1.title = "post #" + i;
+                    post1.title = `post #${i}`;
                     post1.text = i > 5 ? "about post" : null;
                     promises.push(connection.manager.save(post1));
                 }

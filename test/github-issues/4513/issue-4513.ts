@@ -12,7 +12,7 @@ describe("github issues > #4513 CockroachDB support for onConflict", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
                 enabledDrivers: ["cockroachdb"],

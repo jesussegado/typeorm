@@ -15,7 +15,7 @@ describe("schema builder > custom-db-and-schema-sync", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mysql", "mssql", "postgres", "sap"],
             dropSchema: true,
         });
@@ -92,7 +92,7 @@ describe("schema builder > custom-db-and-schema-sync", () => {
                 await connection.synchronize();
 
                 // create foreign key
-                let albumTable = await queryRunner.getTable(
+                const albumTable = await queryRunner.getTable(
                     albumMetadata.tablePath
                 );
                 let photoTable = await queryRunner.getTable(

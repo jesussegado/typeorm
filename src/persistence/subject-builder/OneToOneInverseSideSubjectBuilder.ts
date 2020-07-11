@@ -69,7 +69,7 @@ export class OneToOneInverseSideSubjectBuilder {
 
         // get related entities of persisted entity
         // by example: get category from the passed to persist post entity
-        let relatedEntity: ObjectLiteral | null = relation.getEntityValue(
+        const relatedEntity: ObjectLiteral | null = relation.getEntityValue(
             subject.entity!
         ); // by example: relatedEntity is a category here
         if (relatedEntity === undefined)

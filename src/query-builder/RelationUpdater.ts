@@ -74,8 +74,7 @@ export class RelationUpdater {
             ofs.forEach((of, ofIndex) => {
                 relation.inverseRelation!.joinColumns.map(
                     (column, columnIndex) => {
-                        const parameterName =
-                            "joinColumn_" + ofIndex + "_" + columnIndex;
+                        const parameterName = `joinColumn_${ofIndex}_${columnIndex}`;
                         parameters[parameterName] =
                             of instanceof Object
                                 ? column.referencedColumn!.getEntityValue(of)
@@ -86,9 +85,7 @@ export class RelationUpdater {
                     }
                 );
             });
-            const condition = conditions
-                .map((str) => "(" + str + ")")
-                .join(" OR ");
+            const condition = conditions.map((str) => `(${str})`).join(" OR ");
             if (!condition) return;
 
             await this.queryBuilder

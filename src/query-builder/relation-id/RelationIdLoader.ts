@@ -110,17 +110,11 @@ export class RelationIdLoader {
                                                     .databaseName
                                             )
                                         ];
-                                    return (
-                                        tableAlias +
-                                        "." +
-                                        joinColumn.propertyPath +
-                                        " = :" +
-                                        parameterName
-                                    );
+                                    return `${tableAlias}.${joinColumn.propertyPath} = :${parameterName}`;
                                 })
                                 .join(" AND ");
                         })
-                        .map((condition) => "(" + condition + ")")
+                        .map((condition) => `(${condition})`)
                         .join(" OR ");
 
                     // ensure we won't perform redundant queries for joined data which was not found in selection
@@ -139,7 +133,7 @@ export class RelationIdLoader {
 
                     joinColumns.forEach((joinColumn) => {
                         qb.addSelect(
-                            tableAlias + "." + joinColumn.propertyPath,
+                            `${tableAlias}.${joinColumn.propertyPath}`,
                             joinColumn.databaseName
                         );
                     });
@@ -147,14 +141,14 @@ export class RelationIdLoader {
                     relation.inverseRelation!.entityMetadata.primaryColumns.forEach(
                         (primaryColumn) => {
                             qb.addSelect(
-                                tableAlias + "." + primaryColumn.propertyPath,
+                                `${tableAlias}.${primaryColumn.propertyPath}`,
                                 primaryColumn.databaseName
                             );
                         }
                     );
 
                     qb.from(table, tableAlias)
-                        .where("(" + condition + ")") // need brackets because if we have additional condition and no brackets, it looks like (a = 1) OR (a = 2) AND b = 1, that is incorrect
+                        .where(`(${condition})`) // need brackets because if we have additional condition and no brackets, it looks like (a = 1) OR (a = 2) AND b = 1, that is incorrect
                         .setParameters(parameters);
 
                     // apply condition (custom query builder factory)
@@ -242,13 +236,7 @@ export class RelationIdLoader {
                                     const parameterName = key + index;
                                     parameters[parameterName] =
                                         mappedColumn[key];
-                                    return (
-                                        junctionAlias +
-                                        "." +
-                                        key +
-                                        " = :" +
-                                        parameterName
-                                    );
+                                    return `${junctionAlias}.${key} = :${parameterName}`;
                                 })
                                 .join(" AND ");
                         }
@@ -256,27 +244,17 @@ export class RelationIdLoader {
 
                     const inverseJoinColumnCondition = inverseJoinColumns
                         .map((joinColumn) => {
-                            return (
-                                junctionAlias +
-                                "." +
-                                joinColumn.propertyPath +
-                                " = " +
-                                inverseSideTableAlias +
-                                "." +
+                            return `${junctionAlias}.${
+                                joinColumn.propertyPath
+                            } = ${inverseSideTableAlias}.${
                                 joinColumn.referencedColumn!.propertyPath
-                            );
+                            }`;
                         })
                         .join(" AND ");
 
                     const condition = joinColumnConditions
                         .map((condition) => {
-                            return (
-                                "(" +
-                                condition +
-                                " AND " +
-                                inverseJoinColumnCondition +
-                                ")"
-                            );
+                            return `(${condition} AND ${inverseJoinColumnCondition})`;
                         })
                         .join(" OR ");
 
@@ -286,19 +264,19 @@ export class RelationIdLoader {
 
                     inverseJoinColumns.forEach((joinColumn) => {
                         qb.addSelect(
-                            junctionAlias + "." + joinColumn.propertyPath,
+                            `${junctionAlias}.${joinColumn.propertyPath}`,
                             joinColumn.databaseName
                         ).addOrderBy(
-                            junctionAlias + "." + joinColumn.propertyPath
+                            `${junctionAlias}.${joinColumn.propertyPath}`
                         );
                     });
 
                     joinColumns.forEach((joinColumn) => {
                         qb.addSelect(
-                            junctionAlias + "." + joinColumn.propertyPath,
+                            `${junctionAlias}.${joinColumn.propertyPath}`,
                             joinColumn.databaseName
                         ).addOrderBy(
-                            junctionAlias + "." + joinColumn.propertyPath
+                            `${junctionAlias}.${joinColumn.propertyPath}`
                         );
                     });
 

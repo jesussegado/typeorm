@@ -23,7 +23,7 @@ export class DebugLogger implements Logger {
      */
     logQuery(query: string, parameters?: any[], queryRunner?: QueryRunner) {
         if (this.debugQueryLog.enabled) {
-            this.debugQueryLog(PlatformTools.highlightSql(query) + ";");
+            this.debugQueryLog(`${PlatformTools.highlightSql(query)};`);
             if (parameters && parameters.length) {
                 this.debugQueryLog("parameters:", parameters);
             }
@@ -40,7 +40,7 @@ export class DebugLogger implements Logger {
         queryRunner?: QueryRunner
     ) {
         if (this.debugQueryError.enabled) {
-            this.debugQueryError(PlatformTools.highlightSql(query) + ";");
+            this.debugQueryError(`${PlatformTools.highlightSql(query)};`);
             if (parameters && parameters.length) {
                 this.debugQueryError("parameters:", parameters);
             }
@@ -58,7 +58,7 @@ export class DebugLogger implements Logger {
         queryRunner?: QueryRunner
     ) {
         if (this.debugQuerySlow.enabled) {
-            this.debugQuerySlow(PlatformTools.highlightSql(query) + ";");
+            this.debugQuerySlow(`${PlatformTools.highlightSql(query)};`);
             if (parameters && parameters.length) {
                 this.debugQuerySlow("parameters:", parameters);
             }

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -8,14 +9,13 @@ import { Author } from "./entity/Author";
 import { Photo } from "./entity/Photo";
 import { Connection } from "../../../src/connection/Connection";
 import { PhotoMetadata } from "./entity/PhotoMetadata";
-import { expect } from "chai";
 
 describe("github issue > #1416 Wrong behavior when fetching an entity that has a relation with its own eager relations", () => {
     let connections: Connection[] = [];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql"],
             }))
     );
@@ -41,7 +41,7 @@ describe("github issue > #1416 Wrong behavior when fetching an entity that has a
                 photo.metadata = metadata;
                 await connection.manager.save(photo);
 
-                let photoAuthor = new Author();
+                const photoAuthor = new Author();
                 photoAuthor.name = "John Doe";
                 photoAuthor.photos = [photo];
                 await connection.manager.save(photoAuthor);

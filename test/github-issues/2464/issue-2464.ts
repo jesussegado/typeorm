@@ -1,5 +1,6 @@
 import "reflect-metadata";
 
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,14 +10,13 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { Foo } from "./entity/Foo";
 import { QueryFailedError } from "../../../src";
-import { expect } from "chai";
 
 describe("github issues > #2464 - ManyToMany onDelete option not working", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
 

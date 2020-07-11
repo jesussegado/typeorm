@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../src/connection/Connection";
 import { CockroachDriver } from "../../../../src/driver/cockroachdb/CockroachDriver";
 import {
@@ -10,7 +11,6 @@ import { PostIncrement } from "./entity/PostIncrement";
 import { PostUuid } from "./entity/PostUuid";
 import { PostDefaultValues } from "./entity/PostDefaultValues";
 import { PostSpecialColumns } from "./entity/PostSpecialColumns";
-import { expect } from "chai";
 import { PostMultiplePrimaryKeys } from "./entity/PostMultiplePrimaryKeys";
 import { PostComplex } from "./entity/PostComplex";
 import { PostEmbedded } from "./entity/PostEmbedded";

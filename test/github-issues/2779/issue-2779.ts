@@ -1,18 +1,18 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 import { Role } from "./set";
 
 describe("github issues > #2779 Could we add support for the MySQL/MariaDB SET data type?", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["mariadb", "mysql"],
             schemaCreate: true,
             dropSchema: true,

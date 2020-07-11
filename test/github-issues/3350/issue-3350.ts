@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -7,15 +8,14 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { Category } from "./entity/Category";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 
 describe("github issues > #3350 ER_DUP_FIELDNAME with simple find", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
-                subscribers: [__dirname + "/subscriber/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
+                subscribers: [`${__dirname}/subscriber/*{.js,.ts}`],
                 enabledDrivers: ["mysql"],
             }))
     );

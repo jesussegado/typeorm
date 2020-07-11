@@ -1,7 +1,10 @@
-import { Column } from "../../../../src";
-import { PrimaryGeneratedColumn } from "../../../../src";
-import { Entity } from "../../../../src";
-import { ManyToMany } from "../../../../src";
+import {
+    Column,
+    PrimaryGeneratedColumn,
+    Entity,
+    ManyToMany,
+} from "../../../../src";
+
 import { Note } from "./Note";
 
 @Entity()

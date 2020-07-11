@@ -12,7 +12,7 @@ describe("github issues > #493 pagination should work with string primary keys",
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -23,8 +23,8 @@ describe("github issues > #493 pagination should work with string primary keys",
             connections.map(async (connection) => {
                 for (let i = 0; i < 10; i++) {
                     const post = new Post();
-                    post.id = "post #" + i;
-                    post.title = "Hello Post #" + i;
+                    post.id = `post #${i}`;
+                    post.title = `Hello Post #${i}`;
                     await connection.manager.save(post);
                 }
 

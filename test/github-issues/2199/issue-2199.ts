@@ -13,7 +13,7 @@ describe("github issues > #2199 - Inserting value for @PrimaryGeneratedColumn() 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql", "mariadb", "sqlite"],
                 schemaCreate: true,
                 dropSchema: true,

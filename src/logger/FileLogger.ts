@@ -31,9 +31,9 @@ export class FileLogger implements Logger {
             const sql =
                 query +
                 (parameters && parameters.length
-                    ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+                    ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                     : "");
-            this.write("[QUERY]: " + sql);
+            this.write(`[QUERY]: ${sql}`);
         }
     }
 
@@ -55,7 +55,7 @@ export class FileLogger implements Logger {
             const sql =
                 query +
                 (parameters && parameters.length
-                    ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+                    ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                     : "");
             this.write([`[FAILED QUERY]: ${sql}`, `[QUERY ERROR]: ${error}`]);
         }
@@ -73,9 +73,9 @@ export class FileLogger implements Logger {
         const sql =
             query +
             (parameters && parameters.length
-                ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+                ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                 : "");
-        this.write(`[SLOW QUERY: ${time} ms]: ` + sql);
+        this.write(`[SLOW QUERY: ${time} ms]: ${sql}`);
     }
 
     /**
@@ -114,7 +114,7 @@ export class FileLogger implements Logger {
                     (Array.isArray(this.options) &&
                         this.options.indexOf("log") !== -1)
                 )
-                    this.write("[LOG]: " + message);
+                    this.write(`[LOG]: ${message}`);
                 break;
             case "info":
                 if (
@@ -122,7 +122,7 @@ export class FileLogger implements Logger {
                     (Array.isArray(this.options) &&
                         this.options.indexOf("info") !== -1)
                 )
-                    this.write("[INFO]: " + message);
+                    this.write(`[INFO]: ${message}`);
                 break;
             case "warn":
                 if (
@@ -130,7 +130,7 @@ export class FileLogger implements Logger {
                     (Array.isArray(this.options) &&
                         this.options.indexOf("warn") !== -1)
                 )
-                    this.write("[WARN]: " + message);
+                    this.write(`[WARN]: ${message}`);
                 break;
         }
     }
@@ -146,11 +146,11 @@ export class FileLogger implements Logger {
         strings = Array.isArray(strings) ? strings : [strings];
         const basePath = PlatformTools.load("app-root-path").path;
         strings = (strings as string[]).map(
-            (str) => "[" + new Date().toISOString() + "]" + str
+            (str) => `[${new Date().toISOString()}]${str}`
         );
         PlatformTools.appendFileSync(
-            basePath + "/ormlogs.log",
-            strings.join("\r\n") + "\r\n"
+            `${basePath}/ormlogs.log`,
+            `${strings.join("\r\n")}\r\n`
         ); // todo: use async or implement promises?
     }
 

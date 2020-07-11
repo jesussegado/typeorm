@@ -1,5 +1,5 @@
-import { DriverUtils } from "../../../src/driver/DriverUtils";
 import { expect } from "chai";
+import { DriverUtils } from "../../../src/driver/DriverUtils";
 // import {exec} from "child_process";
 
 describe("github issues > #1493 Error parsing pg connection string", () => {

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -10,14 +11,13 @@ import { Teacher } from "./entity/Teacher";
 import { Accountant } from "./entity/Accountant";
 import { Employee } from "./entity/Employee";
 import { Person } from "./entity/Person";
-import { expect } from "chai";
 
 describe("table-inheritance > single-table > basic-functionality", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

@@ -12,7 +12,7 @@ describe("github issues > #211 where in query issue", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -23,7 +23,7 @@ describe("github issues > #211 where in query issue", () => {
             connections.map(async (connection) => {
                 for (let i = 0; i < 10; i++) {
                     const post1 = new Post();
-                    post1.title = "post #" + i;
+                    post1.title = `post #${i}`;
                     post1.text = "about post";
                     await connection.manager.save(post1);
                 }

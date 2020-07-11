@@ -96,11 +96,7 @@ export class UniqueMetadata {
                 columnPropertyPaths = this.givenColumnNames.map(
                     (columnName) => {
                         if (this.embeddedMetadata)
-                            return (
-                                this.embeddedMetadata.propertyPath +
-                                "." +
-                                columnName
-                            );
+                            return `${this.embeddedMetadata.propertyPath}.${columnName}`;
 
                         return columnName;
                     }
@@ -146,12 +142,11 @@ export class UniqueMetadata {
                         return relationWithSameName.joinColumns;
                     }
                     const indexName = this.givenName
-                        ? '"' + this.givenName + '" '
+                        ? `"${this.givenName}" `
                         : "";
                     const entityName = this.entityMetadata.targetName;
                     throw new Error(
-                        `Unique constraint ${indexName}contains column that is missing in the entity (${entityName}): ` +
-                            propertyName
+                        `Unique constraint ${indexName}contains column that is missing in the entity (${entityName}): ${propertyName}`
                     );
                 })
                 .reduce((a, b) => a.concat(b));

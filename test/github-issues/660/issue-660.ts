@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -8,7 +9,6 @@ import { Connection } from "../../../src/connection/Connection";
 import { User } from "./entity/User";
 import { SqlServerDriver } from "../../../src/driver/sqlserver/SqlServerDriver";
 import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
-import { expect } from "chai";
 import { ReturningStatementNotSupportedError } from "../../../src/error/ReturningStatementNotSupportedError";
 
 describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with QueryBuilder", () => {
@@ -16,7 +16,7 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

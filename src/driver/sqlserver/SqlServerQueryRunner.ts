@@ -109,7 +109,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                 this.connection.logger.logQuery("BEGIN TRANSACTION");
                 if (isolationLevel) {
                     this.connection.logger.logQuery(
-                        "SET TRANSACTION ISOLATION LEVEL " + isolationLevel
+                        `SET TRANSACTION ISOLATION LEVEL ${isolationLevel}`
                     );
                 }
             };
@@ -663,7 +663,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
             oldTableOrName instanceof Table
                 ? oldTableOrName
                 : await this.getCachedTable(oldTableOrName);
-        let newTable = oldTable.clone();
+        const newTable = oldTable.clone();
 
         // we need database name and schema name to rename FK constraints
         let dbName: string | undefined = undefined;
@@ -2303,7 +2303,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
 
         await this.startTransaction();
         try {
-            let allViewsSql = database
+            const allViewsSql = database
                 ? `SELECT * FROM "${database}"."INFORMATION_SCHEMA"."VIEWS"`
                 : `SELECT * FROM "INFORMATION_SCHEMA"."VIEWS"`;
             const allViewsResults: ObjectLiteral[] = await this.query(
@@ -2318,7 +2318,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                 })
             );
 
-            let allTablesSql = database
+            const allTablesSql = database
                 ? `SELECT * FROM "${database}"."INFORMATION_SCHEMA"."TABLES" WHERE "TABLE_TYPE" = 'BASE TABLE'`
                 : `SELECT * FROM "INFORMATION_SCHEMA"."TABLES" WHERE "TABLE_TYPE" = 'BASE TABLE'`;
             const allTablesResults: ObjectLiteral[] = await this.query(
@@ -2516,7 +2516,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
 
         // load tables, columns, indices and foreign keys
         const schemaNamesString = schemaNames
-            .map((name) => "'" + name + "'")
+            .map((name) => `'${name}'`)
             .join(", ");
 
         const tablesCondition = tableNames
@@ -2528,19 +2528,13 @@ export class SqlServerQueryRunner extends BaseQueryRunner
 
         const tablesSql = dbNames
             .map((dbName) => {
-                return (
-                    `SELECT * FROM "${dbName}"."INFORMATION_SCHEMA"."TABLES" WHERE ` +
-                    tablesCondition
-                );
+                return `SELECT * FROM "${dbName}"."INFORMATION_SCHEMA"."TABLES" WHERE ${tablesCondition}`;
             })
             .join(" UNION ALL ");
 
         const columnsSql = dbNames
             .map((dbName) => {
-                return (
-                    `SELECT * FROM "${dbName}"."INFORMATION_SCHEMA"."COLUMNS" WHERE ` +
-                    tablesCondition
-                );
+                return `SELECT * FROM "${dbName}"."INFORMATION_SCHEMA"."COLUMNS" WHERE ${tablesCondition}`;
             })
             .join(" UNION ALL ");
 
@@ -2782,11 +2776,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                             );
                             if (columnCheckConstraints.length) {
                                 const isEnumRegexp = new RegExp(
-                                    "^\\(\\[" +
-                                        tableColumn.name +
-                                        "\\]='[^']+'(?: OR \\[" +
-                                        tableColumn.name +
-                                        "\\]='[^']+')*\\)$"
+                                    `^\\(\\[${tableColumn.name}\\]='[^']+'(?: OR \\[${tableColumn.name}\\]='[^']+')*\\)$`
                                 );
                                 for (const checkConstraint of columnCheckConstraints) {
                                     if (
@@ -2798,9 +2788,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                                         tableColumn.type = "simple-enum";
                                         tableColumn.enum = [];
                                         const enumValueRegexp = new RegExp(
-                                            "\\[" +
-                                                tableColumn.name +
-                                                "\\]='([^']+)'",
+                                            `\\[${tableColumn.name}\\]='([^']+)'`,
                                             "g"
                                         );
                                         let result;
@@ -3169,10 +3157,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
             typeof view.expression === "string"
                 ? view.expression.trim()
                 : view.expression(this.connection).getQuery();
-        const [
-            query,
-            parameters,
-        ] = this.connection
+        const [query, parameters] = this.connection
             .createQueryBuilder()
             .insert()
             .into(this.getTypeormMetadataTableName())
@@ -3234,7 +3219,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
             `CREATE ${index.isUnique ? "UNIQUE " : ""}INDEX "${
                 index.name
             }" ON ${this.escapePath(table)} (${columns}) ${
-                index.where ? "WHERE " + index.where : ""
+                index.where ? `WHERE ${index.where}` : ""
             }`
         );
     }
@@ -3246,7 +3231,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         table: Table,
         indexOrName: TableIndex | string
     ): Query {
-        let indexName =
+        const indexName =
             indexOrName instanceof TableIndex ? indexOrName.name : indexOrName;
         return new Query(
             `DROP INDEX "${indexName}" ON ${this.escapePath(table)}`
@@ -3295,7 +3280,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         uniqueConstraint: TableUnique
     ): Query {
         const columnNames = uniqueConstraint.columnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(", ");
         return new Query(
             `ALTER TABLE ${this.escapePath(table)} ADD CONSTRAINT "${
@@ -3360,10 +3345,10 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         foreignKey: TableForeignKey
     ): Query {
         const columnNames = foreignKey.columnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(", ");
         const referencedColumnNames = foreignKey.referencedColumnNames
-            .map((column) => `"` + column + `"`)
+            .map((column) => `"${column}"`)
             .join(",");
         let sql =
             `ALTER TABLE ${this.escapePath(table)} ADD CONSTRAINT "${
@@ -3469,8 +3454,8 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         dbName: string | undefined
     ): string {
         let joinedFkName = fkName;
-        if (schemaName) joinedFkName = schemaName + "." + joinedFkName;
-        if (dbName) joinedFkName = dbName + "." + joinedFkName;
+        if (schemaName) joinedFkName = `${schemaName}.${joinedFkName}`;
+        if (dbName) joinedFkName = `${dbName}.${joinedFkName}`;
 
         return joinedFkName;
     }
@@ -3505,14 +3490,11 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         )}`;
 
         if (column.enum)
-            c +=
-                " CHECK( " +
-                column.name +
-                " IN (" +
-                column.enum.map((val) => "'" + val + "'").join(",") +
-                ") )";
+            c += ` CHECK( ${column.name} IN (${column.enum
+                .map((val) => `'${val}'`)
+                .join(",")}) )`;
 
-        if (column.collation) c += " COLLATE " + column.collation;
+        if (column.collation) c += ` COLLATE ${column.collation}`;
 
         if (column.isNullable !== true) c += " NOT NULL";
 

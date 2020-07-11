@@ -80,7 +80,7 @@ export class RelationCountAttribute {
 
     get junctionAlias(): string {
         const [parentAlias, relationProperty] = this.relationName.split(".");
-        return parentAlias + "_" + relationProperty + "_rc";
+        return `${parentAlias}_${relationProperty}_rc`;
     }
 
     /**

@@ -1,8 +1,8 @@
+import * as process from "process";
+import * as yargs from "yargs";
 import { createConnection } from "../index";
 import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
 import { Connection } from "../connection/Connection";
-import * as process from "process";
-import * as yargs from "yargs";
 const chalk = require("chalk");
 
 /**

@@ -13,8 +13,8 @@ describe("github issues > #4947 beforeUpdate subscriber entity argument is undef
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
-                subscribers: [__dirname + "/subscriber/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
+                subscribers: [`${__dirname}/subscriber/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -23,7 +23,7 @@ describe("github issues > #4947 beforeUpdate subscriber entity argument is undef
     it("if entity has been updated via repository update(), subscriber should get passed entity to change", () =>
         Promise.all(
             connections.map(async function (connection) {
-                let repo = connection.getRepository(Post);
+                const repo = connection.getRepository(Post);
 
                 await repo.save(new Post());
 

@@ -4,8 +4,8 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "../../../src";
-import { EntityMetadata } from "../../../src";
+import { Connection, EntityMetadata } from "../../../src";
+
 import { Person } from "./entity/person";
 
 describe("github issues > #197 Fails to drop indexes when removing fields", () => {
@@ -13,7 +13,7 @@ describe("github issues > #197 Fails to drop indexes when removing fields", () =
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: false,
             }))
     );
@@ -23,10 +23,10 @@ describe("github issues > #197 Fails to drop indexes when removing fields", () =
     it("it should drop the column and the referenced index", () =>
         Promise.all(
             connections.map(async (connection) => {
-                let entityMetadata: EntityMetadata = connection.getMetadata(
+                const entityMetadata: EntityMetadata = connection.getMetadata(
                     Person
                 );
-                let idx: number = entityMetadata.columns.findIndex(
+                const idx: number = entityMetadata.columns.findIndex(
                     (x) => x.databaseName === "firstname"
                 );
                 entityMetadata.columns.splice(idx, 1);

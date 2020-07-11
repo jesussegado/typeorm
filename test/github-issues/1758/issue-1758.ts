@@ -9,7 +9,7 @@ describe("github issues > #1758 Synchronization bug in PostgreSQL bug occurs whe
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["postgres"],
             schema: "public",
             schemaCreate: true,

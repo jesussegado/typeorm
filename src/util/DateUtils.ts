@@ -26,13 +26,11 @@ export class DateUtils {
      */
     static mixedDateToDateString(value: Date | any): string | any {
         if (value instanceof Date)
-            return (
-                this.formatZerolessValue(value.getFullYear()) +
-                "-" +
-                this.formatZerolessValue(value.getMonth() + 1) +
-                "-" +
-                this.formatZerolessValue(value.getDate())
-            );
+            return `${this.formatZerolessValue(
+                value.getFullYear()
+            )}-${this.formatZerolessValue(
+                value.getMonth() + 1
+            )}-${this.formatZerolessValue(value.getDate())}`;
 
         return value;
     }
@@ -72,14 +70,13 @@ export class DateUtils {
         skipSeconds: boolean = false
     ): string | any {
         if (value instanceof Date)
-            return (
-                this.formatZerolessValue(value.getHours()) +
-                ":" +
-                this.formatZerolessValue(value.getMinutes()) +
-                (!skipSeconds
-                    ? ":" + this.formatZerolessValue(value.getSeconds())
-                    : "")
-            );
+            return `${this.formatZerolessValue(
+                value.getHours()
+            )}:${this.formatZerolessValue(value.getMinutes())}${
+                !skipSeconds
+                    ? `:${this.formatZerolessValue(value.getSeconds())}`
+                    : ""
+            }`;
 
         return value;
     }
@@ -109,15 +106,14 @@ export class DateUtils {
     ): string | any {
         value =
             value instanceof Date
-                ? value.getHours() +
-                  ":" +
-                  value.getMinutes() +
-                  (!skipSeconds ? ":" + value.getSeconds() : "")
+                ? `${value.getHours()}:${value.getMinutes()}${
+                      !skipSeconds ? `:${value.getSeconds()}` : ""
+                  }`
                 : value;
         if (typeof value === "string") {
             return value
                 .split(":")
-                .map((v) => (v.length === 1 ? "0" + v : v)) // append zero at beginning if we have a first-zero-less number
+                .map((v) => (v.length === 1 ? `0${v}` : v)) // append zero at beginning if we have a first-zero-less number
                 .join(":");
         }
 
@@ -135,18 +131,17 @@ export class DateUtils {
             value = new Date(value);
         }
         if (value instanceof Date) {
-            let finalValue =
-                this.formatZerolessValue(value.getFullYear()) +
-                "-" +
-                this.formatZerolessValue(value.getMonth() + 1) +
-                "-" +
-                this.formatZerolessValue(value.getDate()) +
-                " " +
-                this.formatZerolessValue(value.getHours()) +
-                ":" +
-                this.formatZerolessValue(value.getMinutes()) +
-                ":" +
-                this.formatZerolessValue(value.getSeconds());
+            let finalValue = `${this.formatZerolessValue(
+                value.getFullYear()
+            )}-${this.formatZerolessValue(
+                value.getMonth() + 1
+            )}-${this.formatZerolessValue(
+                value.getDate()
+            )} ${this.formatZerolessValue(
+                value.getHours()
+            )}:${this.formatZerolessValue(
+                value.getMinutes()
+            )}:${this.formatZerolessValue(value.getSeconds())}`;
 
             if (useMilliseconds)
                 finalValue += `.${this.formatMilliseconds(
@@ -167,21 +162,19 @@ export class DateUtils {
             value = new Date(value);
         }
         if (value instanceof Date) {
-            return (
-                this.formatZerolessValue(value.getUTCFullYear()) +
-                "-" +
-                this.formatZerolessValue(value.getUTCMonth() + 1) +
-                "-" +
-                this.formatZerolessValue(value.getUTCDate()) +
-                " " +
-                this.formatZerolessValue(value.getUTCHours()) +
-                ":" +
-                this.formatZerolessValue(value.getUTCMinutes()) +
-                ":" +
-                this.formatZerolessValue(value.getUTCSeconds()) +
-                "." +
-                this.formatMilliseconds(value.getUTCMilliseconds())
-            );
+            return `${this.formatZerolessValue(
+                value.getUTCFullYear()
+            )}-${this.formatZerolessValue(
+                value.getUTCMonth() + 1
+            )}-${this.formatZerolessValue(
+                value.getUTCDate()
+            )} ${this.formatZerolessValue(
+                value.getUTCHours()
+            )}:${this.formatZerolessValue(
+                value.getUTCMinutes()
+            )}:${this.formatZerolessValue(
+                value.getUTCSeconds()
+            )}.${this.formatMilliseconds(value.getUTCMilliseconds())}`;
         }
 
         return value;
@@ -227,7 +220,7 @@ export class DateUtils {
     }
 
     static simpleEnumToString(value: any) {
-        return "" + value;
+        return `${value}`;
     }
 
     static stringToSimpleEnum(value: any, columnMetadata: ColumnMetadata) {
@@ -251,7 +244,7 @@ export class DateUtils {
      * Formats given number to "0x" format, e.g. if it is 1 then it will return "01".
      */
     private static formatZerolessValue(value: number): string {
-        if (value < 10) return "0" + value;
+        if (value < 10) return `0${value}`;
 
         return String(value);
     }
@@ -261,9 +254,9 @@ export class DateUtils {
      */
     private static formatMilliseconds(value: number): string {
         if (value < 10) {
-            return "00" + value;
+            return `00${value}`;
         } else if (value < 100) {
-            return "0" + value;
+            return `0${value}`;
         } else {
             return String(value);
         }

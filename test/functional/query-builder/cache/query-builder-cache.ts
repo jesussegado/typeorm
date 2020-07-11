@@ -14,7 +14,7 @@ describe("query builder > cache", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 cache: true,
                 // cache: {
                 //     type: "redis",

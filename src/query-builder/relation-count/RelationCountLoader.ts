@@ -49,9 +49,7 @@ export class RelationCountLoader {
                         .map(
                             (rawEntity) =>
                                 rawEntity[
-                                    relationCountAttr.parentAlias +
-                                        "_" +
-                                        referenceColumnName
+                                    `${relationCountAttr.parentAlias}_${referenceColumnName}`
                                 ]
                         )
                         .filter((value) => !!value);
@@ -73,21 +71,16 @@ export class RelationCountLoader {
                         this.queryRunner
                     );
                     qb.select(
-                        inverseSideTableAlias + "." + inverseSidePropertyName,
+                        `${inverseSideTableAlias}.${inverseSidePropertyName}`,
                         "parentId"
                     )
                         .addSelect("COUNT(*)", "cnt")
                         .from(inverseSideTable, inverseSideTableAlias)
                         .where(
-                            inverseSideTableAlias +
-                                "." +
-                                inverseSidePropertyName +
-                                " IN (:...ids)"
+                            `${inverseSideTableAlias}.${inverseSidePropertyName} IN (:...ids)`
                         )
                         .addGroupBy(
-                            inverseSideTableAlias +
-                                "." +
-                                inverseSidePropertyName
+                            `${inverseSideTableAlias}.${inverseSidePropertyName}`
                         )
                         .setParameter("ids", referenceColumnValues);
 
@@ -138,9 +131,7 @@ export class RelationCountLoader {
                         .map(
                             (rawEntity) =>
                                 rawEntity[
-                                    relationCountAttr.parentAlias +
-                                        "_" +
-                                        joinTableColumnName
+                                    `${relationCountAttr.parentAlias}_${joinTableColumnName}`
                                 ]
                         )
                         .filter((value) => !!value);
@@ -165,44 +156,30 @@ export class RelationCountLoader {
                         .junctionEntityMetadata!.tableName;
 
                     const condition =
-                        junctionAlias +
-                        "." +
-                        firstJunctionColumn.propertyName +
-                        " IN (" +
-                        referenceColumnValues.map((vals) =>
-                            isNaN(vals) ? "'" + vals + "'" : vals
-                        ) +
-                        ")" +
-                        " AND " +
-                        junctionAlias +
-                        "." +
-                        secondJunctionColumn.propertyName +
-                        " = " +
-                        inverseSideTableAlias +
-                        "." +
-                        inverseJoinColumnName;
+                        `${junctionAlias}.${
+                            firstJunctionColumn.propertyName
+                        } IN (${referenceColumnValues.map((vals) =>
+                            isNaN(vals) ? `'${vals}'` : vals
+                        )})` +
+                        ` AND ${junctionAlias}.${secondJunctionColumn.propertyName} = ${inverseSideTableAlias}.${inverseJoinColumnName}`;
 
                     const qb = this.connection.createQueryBuilder(
                         this.queryRunner
                     );
                     qb.select(
-                        junctionAlias + "." + firstJunctionColumn.propertyName,
+                        `${junctionAlias}.${firstJunctionColumn.propertyName}`,
                         "parentId"
                     )
                         .addSelect(
-                            "COUNT(" +
-                                qb.escape(inverseSideTableAlias) +
-                                "." +
-                                qb.escape(inverseJoinColumnName) +
-                                ")",
+                            `COUNT(${qb.escape(
+                                inverseSideTableAlias
+                            )}.${qb.escape(inverseJoinColumnName)})`,
                             "cnt"
                         )
                         .from(inverseSideTableName, inverseSideTableAlias)
                         .innerJoin(junctionTableName, junctionAlias, condition)
                         .addGroupBy(
-                            junctionAlias +
-                                "." +
-                                firstJunctionColumn.propertyName
+                            `${junctionAlias}.${firstJunctionColumn.propertyName}`
                         );
 
                     // apply condition (custom query builder factory)

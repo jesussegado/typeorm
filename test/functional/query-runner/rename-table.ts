@@ -17,7 +17,7 @@ describe("query runner > rename table", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             schemaCreate: true,
             dropSchema: true,
         });
@@ -78,7 +78,7 @@ describe("query runner > rename table", () => {
                         table!,
                         ["text", "tag"]
                     );
-                    let tableUnique = table!.uniques.find((unique) => {
+                    const tableUnique = table!.uniques.find((unique) => {
                         return !!unique.columnNames.find(
                             (columnName) => columnName === "tag"
                         );

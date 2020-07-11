@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { User } from "./entity/User";
 
 describe("github issues > #4220 Fix the bug when using buffer as the key.", () => {
@@ -13,7 +13,7 @@ describe("github issues > #4220 Fix the bug when using buffer as the key.", () =
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
                 enabledDrivers: ["mysql", "mssql"],

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
 import { PromiseUtils } from "../../../src/util/PromiseUtils";
 import {
@@ -7,7 +8,6 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 import { EntityNotFoundError } from "../../../src/error/EntityNotFoundError";
 
 describe("github issues > #2313 - BaseEntity has no findOneOrFail() method", () => {
@@ -15,7 +15,7 @@ describe("github issues > #2313 - BaseEntity has no findOneOrFail() method", () 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
 

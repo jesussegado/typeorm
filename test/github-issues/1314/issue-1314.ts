@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { expect } from "chai";
 import { Record } from "./entity/Record";
 
 describe("github issues > #1314 UPDATE on json column stores string type", () => {
@@ -13,7 +13,7 @@ describe("github issues > #1314 UPDATE on json column stores string type", () =>
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres"], // because only postgres supports jsonb type
             }))
     );
@@ -23,12 +23,12 @@ describe("github issues > #1314 UPDATE on json column stores string type", () =>
     it("should not store json type as string on update", () =>
         Promise.all(
             connections.map(async (connection) => {
-                let recordRepo = connection.getRepository(Record);
+                const recordRepo = connection.getRepository(Record);
 
-                let record = new Record();
+                const record = new Record();
                 record.data = { foo: "bar" };
 
-                let persistedRecord = await recordRepo.save(record);
+                const persistedRecord = await recordRepo.save(record);
                 record.data.should.be.eql({ foo: "bar" });
 
                 let foundRecord = await recordRepo.findOne(persistedRecord.id);

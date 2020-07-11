@@ -4,7 +4,7 @@ import { closeTestingConnections } from "../../utils/test-utils";
 import { User } from "./entity/User";
 
 describe("github issues > #4753 MySQL Replication Config broken", () => {
-    let connections: Connection[] = [];
+    const connections: Connection[] = [];
     after(() => closeTestingConnections(connections));
 
     it("should connect without error when using replication", async () => {

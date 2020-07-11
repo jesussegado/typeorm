@@ -11,7 +11,7 @@ describe("migrations > show command", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                migrations: [__dirname + "/migration/*.js"],
+                migrations: [`${__dirname}/migration/*.js`],
                 enabledDrivers: ["postgres"],
                 schemaCreate: true,
                 dropSchema: true,

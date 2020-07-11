@@ -1021,11 +1021,7 @@ export class EntityMetadataBuilder {
             );
             if (!inverseEntityMetadata)
                 throw new Error(
-                    "Entity metadata for " +
-                        entityMetadata.name +
-                        "#" +
-                        relation.propertyPath +
-                        " was not found. Check if you specified a correct entity object and if it's connected in the connection options."
+                    `Entity metadata for ${entityMetadata.name}#${relation.propertyPath} was not found. Check if you specified a correct entity object and if it's connected in the connection options.`
                 );
 
             relation.inverseEntityMetadata = inverseEntityMetadata;

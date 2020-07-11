@@ -139,7 +139,7 @@ export class PlatformTools {
                 name.substr(0, 3) !== "../"
             ) {
                 return require(path.resolve(
-                    process.cwd() + "/node_modules/" + name
+                    `${process.cwd()}/node_modules/${name}`
                 ));
             }
 

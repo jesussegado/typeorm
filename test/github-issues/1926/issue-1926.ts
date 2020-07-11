@@ -15,7 +15,7 @@ describe.skip("github issues > #1926 Update fails for entity with compound relat
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres"],
             }))
     );
@@ -33,7 +33,7 @@ describe.skip("github issues > #1926 Update fails for entity with compound relat
                 let event = new Event();
                 event.title = "The Big Event";
 
-                let eventRole = new EventRole();
+                const eventRole = new EventRole();
                 eventRole.description = "Be the boss";
                 eventRole.compensation = "All the money!";
                 eventRole.roleId = role.id;

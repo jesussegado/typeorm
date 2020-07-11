@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
@@ -7,7 +8,6 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
 import { User } from "./entity/User";
-import { expect } from "chai";
 
 describe("github issues > #2067 Unhandled promise rejection warning on postgres connection issues", () => {
     let connections: Connection[];
@@ -15,7 +15,7 @@ describe("github issues > #2067 Unhandled promise rejection warning on postgres 
         async () =>
             (connections = await createTestingConnections({
                 enabledDrivers: ["postgres"],
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
             }))

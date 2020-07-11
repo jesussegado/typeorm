@@ -26,7 +26,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
      * @param originalClosureTableName Name of the closure table which owns this junction table.
      */
     closureJunctionTableName(originalClosureTableName: string): string {
-        return originalClosureTableName + "_closure";
+        return `${originalClosureTableName}_closure`;
     }
 
     columnName(
@@ -54,7 +54,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
             tableOrName instanceof Table ? tableOrName.name : tableOrName;
         const replacedTableName = tableName.replace(".", "_");
         const key = `${replacedTableName}_${clonedColumnNames.join("_")}`;
-        return "PK_" + RandomGenerator.sha1(key).substr(0, 27);
+        return `PK_${RandomGenerator.sha1(key).substr(0, 27)}`;
     }
 
     uniqueConstraintName(
@@ -68,7 +68,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
             tableOrName instanceof Table ? tableOrName.name : tableOrName;
         const replacedTableName = tableName.replace(".", "_");
         const key = `${replacedTableName}_${clonedColumnNames.join("_")}`;
-        return "UQ_" + RandomGenerator.sha1(key).substr(0, 27);
+        return `UQ_${RandomGenerator.sha1(key).substr(0, 27)}`;
     }
 
     relationConstraintName(
@@ -85,7 +85,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
         let key = `${replacedTableName}_${clonedColumnNames.join("_")}`;
         if (where) key += `_${where}`;
 
-        return "REL_" + RandomGenerator.sha1(key).substr(0, 26);
+        return `REL_${RandomGenerator.sha1(key).substr(0, 26)}`;
     }
 
     defaultConstraintName(
@@ -96,7 +96,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
             tableOrName instanceof Table ? tableOrName.name : tableOrName;
         const replacedTableName = tableName.replace(".", "_");
         const key = `${replacedTableName}_${columnName}`;
-        return "DF_" + RandomGenerator.sha1(key).substr(0, 27);
+        return `DF_${RandomGenerator.sha1(key).substr(0, 27)}`;
     }
 
     foreignKeyName(
@@ -112,7 +112,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
             tableOrName instanceof Table ? tableOrName.name : tableOrName;
         const replacedTableName = tableName.replace(".", "_");
         const key = `${replacedTableName}_${clonedColumnNames.join("_")}`;
-        return "FK_" + RandomGenerator.sha1(key).substr(0, 27);
+        return `FK_${RandomGenerator.sha1(key).substr(0, 27)}`;
     }
 
     indexName(
@@ -129,7 +129,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
         let key = `${replacedTableName}_${clonedColumnNames.join("_")}`;
         if (where) key += `_${where}`;
 
-        return "IDX_" + RandomGenerator.sha1(key).substr(0, 26);
+        return `IDX_${RandomGenerator.sha1(key).substr(0, 26)}`;
     }
 
     checkConstraintName(
@@ -140,7 +140,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
             tableOrName instanceof Table ? tableOrName.name : tableOrName;
         const replacedTableName = tableName.replace(".", "_");
         const key = `${replacedTableName}_${expression}`;
-        return "CHK_" + RandomGenerator.sha1(key).substr(0, 26);
+        return `CHK_${RandomGenerator.sha1(key).substr(0, 26)}`;
     }
 
     exclusionConstraintName(
@@ -151,11 +151,11 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
             tableOrName instanceof Table ? tableOrName.name : tableOrName;
         const replacedTableName = tableName.replace(".", "_");
         const key = `${replacedTableName}_${expression}`;
-        return "XCL_" + RandomGenerator.sha1(key).substr(0, 26);
+        return `XCL_${RandomGenerator.sha1(key).substr(0, 26)}`;
     }
 
     joinColumnName(relationName: string, referencedColumnName: string): string {
-        return camelCase(relationName + "_" + referencedColumnName);
+        return camelCase(`${relationName}_${referencedColumnName}`);
     }
 
     joinTableName(
@@ -165,11 +165,10 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
         secondPropertyName: string
     ): string {
         return snakeCase(
-            firstTableName +
-                "_" +
-                firstPropertyName.replace(/\./gi, "_") +
-                "_" +
-                secondTableName
+            `${firstTableName}_${firstPropertyName.replace(
+                /\./gi,
+                "_"
+            )}_${secondTableName}`
         );
     }
 
@@ -177,7 +176,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
         columnName: string,
         index: number
     ): string {
-        return columnName + "_" + index;
+        return `${columnName}_${index}`;
     }
 
     joinTableColumnName(
@@ -186,7 +185,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
         columnName?: string
     ): string {
         return camelCase(
-            tableName + "_" + (columnName ? columnName : propertyName)
+            `${tableName}_${columnName ? columnName : propertyName}`
         );
     }
 
@@ -209,7 +208,7 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
     }
 
     eagerJoinRelationAlias(alias: string, propertyPath: string): string {
-        return alias + "_" + propertyPath.replace(".", "_");
+        return `${alias}_${propertyPath.replace(".", "_")}`;
     }
 
     nestedSetColumnNames = { left: "nsleft", right: "nsright" };

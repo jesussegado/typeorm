@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Participant } from "./entity/Participant";
-import { expect } from "chai";
 import { Message } from "./entity/Message";
 import { Translation } from "./entity/Translation";
 import { Locale } from "./entity/Locale";
@@ -16,7 +16,7 @@ describe("github issues > #720 `.save()` not updating composite key with Postgre
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres"],
             }))
     );

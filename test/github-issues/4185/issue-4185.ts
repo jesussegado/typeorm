@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { assert } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,15 +7,14 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { assert } from "chai";
 
 describe("github issues > #4185 afterLoad() subscriber interface missing additional info available on other events", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
-                subscribers: [__dirname + "/subscriber/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
+                subscribers: [`${__dirname}/subscriber/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
             }))

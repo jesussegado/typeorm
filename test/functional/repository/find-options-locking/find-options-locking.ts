@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { CockroachDriver } from "../../../../src/driver/cockroachdb/CockroachDriver";
 import { SapDriver } from "../../../../src/driver/sap/SapDriver";
 import {
@@ -8,7 +9,6 @@ import {
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src";
 import { PostWithVersion } from "./entity/PostWithVersion";
-import { expect } from "chai";
 import { PostWithoutVersionAndUpdateDate } from "./entity/PostWithoutVersionAndUpdateDate";
 import { PostWithUpdateDate } from "./entity/PostWithUpdateDate";
 import { PostWithVersionAndUpdatedDate } from "./entity/PostWithVersionAndUpdatedDate";
@@ -28,7 +28,7 @@ describe("repository > find options > locking", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -293,11 +293,9 @@ describe("repository > find options > locking", () => {
                 post.title = "New post";
                 await connection.manager.save(post);
 
-                return connection
-                    .getRepository(PostWithUpdateDate)
-                    .findOne(1, {
-                        lock: { mode: "optimistic", version: post.updateDate },
-                    }).should.not.be.rejected;
+                return connection.getRepository(PostWithUpdateDate).findOne(1, {
+                    lock: { mode: "optimistic", version: post.updateDate },
+                }).should.not.be.rejected;
             })
         ));
 

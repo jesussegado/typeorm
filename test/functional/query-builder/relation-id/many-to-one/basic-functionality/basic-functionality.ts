@@ -16,7 +16,7 @@ describe("query builder > relation-id > many-to-one > basic-functionality", () =
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -53,7 +53,7 @@ describe("query builder > relation-id > many-to-one > basic-functionality", () =
                 post2.categoryByName = categoryByName2;
                 await connection.manager.save(post2);
 
-                let loadedPosts = await connection.manager
+                const loadedPosts = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .loadRelationIdAndMap("post.categoryId", "post.category")
                     .loadRelationIdAndMap(
@@ -71,7 +71,7 @@ describe("query builder > relation-id > many-to-one > basic-functionality", () =
                 expect(loadedPosts![1].categoryName).to.not.be.undefined;
                 expect(loadedPosts![1].categoryName).to.be.equal("Boeing");
 
-                let loadedPost = await connection.manager
+                const loadedPost = await connection.manager
                     .createQueryBuilder(Post, "post")
                     .loadRelationIdAndMap("post.categoryId", "post.category")
                     .loadRelationIdAndMap(
@@ -104,7 +104,7 @@ describe("query builder > relation-id > many-to-one > basic-functionality", () =
                 postCategory.post = post;
                 await connection.manager.save(postCategory);
 
-                let loadedPostCategory = await connection.manager
+                const loadedPostCategory = await connection.manager
                     .createQueryBuilder(PostCategory, "postCategory")
                     .loadRelationIdAndMap(
                         "postCategory.postId",
@@ -144,7 +144,7 @@ describe("query builder > relation-id > many-to-one > basic-functionality", () =
                 postCategory.image = image;
                 await connection.manager.save(postCategory);
 
-                let loadedPostCategory = await connection.manager
+                const loadedPostCategory = await connection.manager
                     .createQueryBuilder(PostCategory, "postCategory")
                     .loadRelationIdAndMap(
                         "postCategory.imageId",

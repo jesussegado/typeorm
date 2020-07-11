@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 
 describe("query builder > entity updation", () => {
     let connections: Connection[];

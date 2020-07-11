@@ -91,7 +91,7 @@ export class ClosureSubjectExecutor {
                 (column, index) => {
                     firstQueryParameters.push(childEntityIdValues[index]);
                     return this.queryRunner.connection.driver.createParameter(
-                        "child_entity_" + column.databaseName,
+                        `child_entity_${column.databaseName}`,
                         firstQueryParameters.length - 1
                     );
                 }
@@ -99,7 +99,7 @@ export class ClosureSubjectExecutor {
             const whereCondition = subject.metadata.primaryColumns
                 .map((column) => {
                     const columnName = escape(
-                        column.databaseName + "_descendant"
+                        `${column.databaseName}_descendant`
                     );
                     const parentId = column.getEntityValue(parent);
                     if (!parentId)
@@ -109,10 +109,10 @@ export class ClosureSubjectExecutor {
 
                     firstQueryParameters.push(parentId);
                     const parameterName = this.queryRunner.connection.driver.createParameter(
-                        "parent_entity_" + column.databaseName,
+                        `parent_entity_${column.databaseName}`,
                         firstQueryParameters.length - 1
                     );
-                    return columnName + " = " + parameterName;
+                    return `${columnName} = ${parameterName}`;
                 })
                 .join(", ");
 

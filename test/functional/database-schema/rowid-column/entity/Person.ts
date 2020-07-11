@@ -1,8 +1,10 @@
-import { Generated } from "../../../../../src";
-import { PrimaryColumn } from "../../../../../src";
-import { PrimaryGeneratedColumn } from "../../../../../src";
-import { Entity } from "../../../../../src";
-import { Column } from "../../../../../src";
+import {
+    Generated,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+    Entity,
+    Column,
+} from "../../../../../src";
 
 @Entity()
 export class Person {

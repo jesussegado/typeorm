@@ -109,15 +109,11 @@ export class TreeRepository<Entity> extends Repository<Entity> {
         if (this.metadata.treeType === "closure-table") {
             const joinCondition = this.metadata.closureJunctionTable.descendantColumns
                 .map((column) => {
-                    return (
-                        escape(closureTableAlias) +
-                        "." +
-                        escape(column.propertyPath) +
-                        " = " +
-                        escape(alias) +
-                        "." +
-                        escape(column.referencedColumn!.propertyPath)
-                    );
+                    return `${escape(closureTableAlias)}.${escape(
+                        column.propertyPath
+                    )} = ${escape(alias)}.${escape(
+                        column.referencedColumn!.propertyPath
+                    )}`;
                 })
                 .join(" AND ");
 
@@ -127,13 +123,9 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                     parameters[
                         column.referencedColumn!.propertyName
                     ] = column.referencedColumn!.getEntityValue(entity);
-                    return (
-                        escape(closureTableAlias) +
-                        "." +
-                        escape(column.propertyPath) +
-                        " = :" +
-                        column.referencedColumn!.propertyName
-                    );
+                    return `${escape(closureTableAlias)}.${escape(
+                        column.propertyPath
+                    )} = :${column.referencedColumn!.propertyName}`;
                 })
                 .join(" AND ");
 
@@ -147,14 +139,14 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                 .setParameters(parameters);
         } else if (this.metadata.treeType === "nested-set") {
             const whereCondition =
-                alias +
-                "." +
-                this.metadata.nestedSetLeftColumn!.propertyPath +
-                " BETWEEN " +
-                "joined." +
-                this.metadata.nestedSetLeftColumn!.propertyPath +
-                " AND joined." +
-                this.metadata.nestedSetRightColumn!.propertyPath;
+                `${alias}.${
+                    this.metadata.nestedSetLeftColumn!.propertyPath
+                } BETWEEN ` +
+                `joined.${
+                    this.metadata.nestedSetLeftColumn!.propertyPath
+                } AND joined.${
+                    this.metadata.nestedSetRightColumn!.propertyPath
+                }`;
             const parameters: ObjectLiteral = {};
             const joinCondition = this.metadata
                 .treeParentRelation!.joinColumns.map((joinColumn) => {
@@ -165,12 +157,9 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                     parameters[
                         parameterName
                     ] = joinColumn.referencedColumn!.getEntityValue(entity);
-                    return (
-                        "joined." +
-                        joinColumn.referencedColumn!.propertyPath +
-                        " = :" +
-                        parameterName
-                    );
+                    return `joined.${
+                        joinColumn.referencedColumn!.propertyPath
+                    } = :${parameterName}`;
                 })
                 .join(" AND ");
 
@@ -270,15 +259,9 @@ export class TreeRepository<Entity> extends Repository<Entity> {
         if (this.metadata.treeType === "closure-table") {
             const joinCondition = this.metadata.closureJunctionTable.ancestorColumns
                 .map((column) => {
-                    return (
-                        closureTableAlias +
-                        "." +
-                        column.propertyPath +
-                        " = " +
-                        alias +
-                        "." +
-                        column.referencedColumn!.propertyPath
-                    );
+                    return `${closureTableAlias}.${
+                        column.propertyPath
+                    } = ${alias}.${column.referencedColumn!.propertyPath}`;
                 })
                 .join(" AND ");
 
@@ -288,13 +271,9 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                     parameters[
                         column.referencedColumn!.propertyName
                     ] = column.referencedColumn!.getEntityValue(entity);
-                    return (
-                        closureTableAlias +
-                        "." +
-                        column.propertyPath +
-                        " = :" +
+                    return `${closureTableAlias}.${column.propertyPath} = :${
                         column.referencedColumn!.propertyName
-                    );
+                    }`;
                 })
                 .join(" AND ");
 
@@ -307,17 +286,11 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                 .where(whereCondition)
                 .setParameters(parameters);
         } else if (this.metadata.treeType === "nested-set") {
-            const joinCondition =
-                "joined." +
-                this.metadata.nestedSetLeftColumn!.propertyPath +
-                " BETWEEN " +
-                alias +
-                "." +
-                this.metadata.nestedSetLeftColumn!.propertyPath +
-                " AND " +
-                alias +
-                "." +
-                this.metadata.nestedSetRightColumn!.propertyPath;
+            const joinCondition = `joined.${
+                this.metadata.nestedSetLeftColumn!.propertyPath
+            } BETWEEN ${alias}.${
+                this.metadata.nestedSetLeftColumn!.propertyPath
+            } AND ${alias}.${this.metadata.nestedSetRightColumn!.propertyPath}`;
             const parameters: ObjectLiteral = {};
             const whereCondition = this.metadata
                 .treeParentRelation!.joinColumns.map((joinColumn) => {
@@ -328,12 +301,9 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                     parameters[
                         parameterName
                     ] = joinColumn.referencedColumn!.getEntityValue(entity);
-                    return (
-                        "joined." +
-                        joinColumn.referencedColumn!.propertyPath +
-                        " = :" +
-                        parameterName
-                    );
+                    return `joined.${
+                        joinColumn.referencedColumn!.propertyPath
+                    } = :${parameterName}`;
                 })
                 .join(" AND ");
 
@@ -395,9 +365,9 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                 joinColumn.givenDatabaseName || joinColumn.databaseName;
             const id =
                 rawResult[
-                    alias + "_" + this.metadata.primaryColumns[0].databaseName
+                    `${alias}_${this.metadata.primaryColumns[0].databaseName}`
                 ];
-            const parentId = rawResult[alias + "_" + joinColumnName];
+            const parentId = rawResult[`${alias}_${joinColumnName}`];
             return {
                 id: this.manager.connection.driver.prepareHydratedValue(
                     id,

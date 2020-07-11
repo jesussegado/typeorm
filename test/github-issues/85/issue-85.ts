@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import { Connection } from "../../../src";
 import {
     closeTestingConnections,
@@ -5,7 +6,6 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Document } from "./entity/Document";
-import { expect } from "chai";
 
 describe("github issues > #85 - Column option insert: false, update: false", () => {
     let connections: Connection[];
@@ -13,7 +13,7 @@ describe("github issues > #85 - Column option insert: false, update: false", () 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 schemaCreate: true,
                 dropSchema: true,
             }))

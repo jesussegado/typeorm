@@ -18,13 +18,11 @@ import { EntitySchema } from "../../../../src";
 describe("repository > basic methods", () => {
     let userSchema: any;
     try {
-        const resourceDir =
-            __dirname +
-            "/../../../../../../test/functional/repository/basic-methods/";
-        userSchema = require(resourceDir + "schema/user.json");
+        const resourceDir = `${__dirname}/../../../../../../test/functional/repository/basic-methods/`;
+        userSchema = require(`${resourceDir}schema/user.json`);
     } catch (err) {
-        const resourceDir = __dirname + "/";
-        userSchema = require(resourceDir + "schema/user.json");
+        const resourceDir = `${__dirname}/`;
+        userSchema = require(`${resourceDir}schema/user.json`);
     }
     const UserEntity = new EntitySchema<any>(userSchema);
     const QuestionEntity = new EntitySchema<any>(questionSchema as any);
@@ -483,7 +481,7 @@ describe("repository > basic methods", () => {
                         // todo: should pass with 50 items. find the problem
                         const blog = new Blog();
                         blog.title = "hello blog";
-                        blog.text = "hello blog #" + i;
+                        blog.text = `hello blog #${i}`;
                         blog.counter = i * 100;
                         promises.push(repository.save(blog));
                     }

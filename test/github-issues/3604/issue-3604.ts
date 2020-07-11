@@ -11,8 +11,8 @@ describe("github issues > #3604 FK columns have wrong length when PrimaryGenerat
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
-                subscribers: [__dirname + "/subscriber/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
+                subscribers: [`${__dirname}/subscriber/*{.js,.ts}`],
                 enabledDrivers: ["mysql"],
             }))
     );

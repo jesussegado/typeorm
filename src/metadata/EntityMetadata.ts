@@ -780,7 +780,7 @@ export class EntityMetadata {
         Object.keys(entity).forEach((key) => {
             // check for function is needed in the cases when createPropertyPath used on values containg a function as a value
             // example: .update().set({ name: () => `SUBSTR('', 1, 2)` })
-            const parentPath = prefix ? prefix + "." + key : key;
+            const parentPath = prefix ? `${prefix}.${key}` : key;
             if (metadata.hasEmbeddedWithPropertyPath(parentPath)) {
                 const subPaths = this.createPropertyPath(
                     metadata,
@@ -789,7 +789,7 @@ export class EntityMetadata {
                 );
                 paths.push(...subPaths);
             } else {
-                const path = prefix ? prefix + "." + key : key;
+                const path = prefix ? `${prefix}.${key}` : key;
                 paths.push(path);
             }
         });
@@ -982,7 +982,7 @@ export class EntityMetadata {
                 this.connection.driver instanceof SqlServerDriver ||
                 this.connection.driver instanceof SapDriver)
         ) {
-            tablePath = this.schema + "." + tablePath;
+            tablePath = `${this.schema}.${tablePath}`;
         }
 
         if (
@@ -993,9 +993,9 @@ export class EntityMetadata {
                 !this.schema &&
                 this.connection.driver instanceof SqlServerDriver
             ) {
-                tablePath = this.database + ".." + tablePath;
+                tablePath = `${this.database}..${tablePath}`;
             } else {
-                tablePath = this.database + "." + tablePath;
+                tablePath = `${this.database}.${tablePath}`;
             }
         }
 
@@ -1010,7 +1010,7 @@ export class EntityMetadata {
 
         return this.database &&
             !(this.connection.driver instanceof PostgresDriver)
-            ? this.database + "." + this.schema
+            ? `${this.database}.${this.schema}`
             : this.schema;
     }
 }

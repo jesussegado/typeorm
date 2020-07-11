@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { expect } from "chai";
 import { PostInformation } from "./entity/PostInformation";
 import { PostCounter } from "./entity/PostCounter";
 
@@ -15,7 +15,7 @@ describe("other issues > entity listeners must work in optional embeddeds as wel
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["postgres"],
             }))
     );

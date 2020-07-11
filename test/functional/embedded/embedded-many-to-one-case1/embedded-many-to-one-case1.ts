@@ -1,8 +1,8 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Post } from "./entity/Post";
 import { Counters } from "./entity/Counters";
 import { Connection } from "../../../../src/connection/Connection";
-import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -16,7 +16,7 @@ describe("embedded > embedded-many-to-one-case1", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -238,7 +238,7 @@ describe("embedded > embedded-many-to-one-case1", () => {
                     user2.likedPosts = [post3];
                     await connection.getRepository(User).save(user2);
 
-                    let loadedUsers = await connection.manager
+                    const loadedUsers = await connection.manager
                         .createQueryBuilder(User, "user")
                         .leftJoinAndSelect("user.likedPosts", "likedPost")
                         .orderBy("user.id, likedPost.id")

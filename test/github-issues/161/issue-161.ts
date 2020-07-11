@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -7,14 +8,13 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { Ticket } from "./entity/Ticket";
 import { Request } from "./entity/Request";
-import { expect } from "chai";
 
 describe("github issues > #161 joinAndSelect can't find entity from inverse side of relation", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

@@ -1094,7 +1094,7 @@ export class SubjectExecutor {
             const key =
                 groupingAllowed || subject.metadata.isJunction
                     ? subject.metadata.name
-                    : subject.metadata.name + "_" + index;
+                    : `${subject.metadata.name}_${index}`;
             if (!group[key]) {
                 group[key] = [subject];
                 keys.push(key);

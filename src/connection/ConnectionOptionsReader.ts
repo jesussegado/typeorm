@@ -116,7 +116,7 @@ export class ConnectionOptionsReader {
             fileExtension ||
             fileFormats.find((format) => {
                 return PlatformTools.fileExist(
-                    this.baseFilePath + "." + format
+                    `${this.baseFilePath}.${format}`
                 );
             });
 
@@ -132,7 +132,7 @@ export class ConnectionOptionsReader {
         // Determine config file name
         const configFile = fileExtension
             ? this.baseFilePath
-            : this.baseFilePath + "." + foundFileFormat;
+            : `${this.baseFilePath}.${foundFileFormat}`;
 
         // try to find connection options from any of available sources of configuration
         if (
@@ -184,7 +184,7 @@ export class ConnectionOptionsReader {
                         typeof entity === "string" &&
                         entity.substr(0, 1) !== "/"
                     )
-                        return this.baseDirectory + "/" + entity;
+                        return `${this.baseDirectory}/${entity}`;
 
                     return entity;
                 });
@@ -197,7 +197,7 @@ export class ConnectionOptionsReader {
                             typeof subscriber === "string" &&
                             subscriber.substr(0, 1) !== "/"
                         )
-                            return this.baseDirectory + "/" + subscriber;
+                            return `${this.baseDirectory}/${subscriber}`;
 
                         return subscriber;
                     }
@@ -211,7 +211,7 @@ export class ConnectionOptionsReader {
                             typeof migration === "string" &&
                             migration.substr(0, 1) !== "/"
                         )
-                            return this.baseDirectory + "/" + migration;
+                            return `${this.baseDirectory}/${migration}`;
 
                         return migration;
                     }
@@ -228,7 +228,7 @@ export class ConnectionOptionsReader {
                     options.database !== ":memory:"
                 ) {
                     Object.assign(options, {
-                        database: this.baseDirectory + "/" + options.database,
+                        database: `${this.baseDirectory}/${options.database}`,
                     });
                 }
             }
@@ -241,7 +241,7 @@ export class ConnectionOptionsReader {
      * Gets directory where configuration file should be located and configuration file name.
      */
     protected get baseFilePath(): string {
-        return this.baseDirectory + "/" + this.baseConfigName;
+        return `${this.baseDirectory}/${this.baseConfigName}`;
     }
 
     /**

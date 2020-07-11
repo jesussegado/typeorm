@@ -14,7 +14,7 @@ describe("github issues > #3694 Sync enums on schema sync", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["mysql", "postgres"],
             }))
     );

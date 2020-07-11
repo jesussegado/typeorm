@@ -1,5 +1,5 @@
-import { Connection, Driver, SelectQueryBuilder } from "../..";
-import { EntityMetadata } from "../..";
+import { Connection, Driver, SelectQueryBuilder, EntityMetadata } from "../..";
+
 import { ViewOptions } from "../options/ViewOptions";
 
 /**

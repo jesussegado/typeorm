@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     createTestingConnections,
     closeTestingConnections,
@@ -7,14 +8,13 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { Category } from "./entity/Category";
 import { In } from "../../../src";
-import { expect } from "chai";
 
 describe("github issues > #3349 Multiple where conditions with parameters", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

@@ -1,5 +1,5 @@
-import { DriverUtils } from "../../../src/driver/DriverUtils";
 import { expect } from "chai";
+import { DriverUtils } from "../../../src/driver/DriverUtils";
 
 describe("github issues > #3737 Should URL-decode the user info of a data source URI", () => {
     it("should parse URL with percent-encoded username", () => {

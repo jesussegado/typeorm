@@ -1,8 +1,8 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { Connection } from "../../../../src/connection/Connection";
 import { ConnectionMetadataBuilder } from "../../../../src/connection/ConnectionMetadataBuilder";
 import { EntityMetadataValidator } from "../../../../src/metadata-builder/EntityMetadataValidator";
-import { expect } from "chai";
 import { InitializedRelationError } from "../../../../src/error/InitializedRelationError";
 import { Category } from "./entity/Category";
 import { Post } from "./entity/Post";

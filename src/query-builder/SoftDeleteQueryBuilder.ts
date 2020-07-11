@@ -457,14 +457,16 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         switch (this.expressionMap.queryType) {
             case "soft-delete":
                 updateColumnAndValues.push(
-                    this.escape(metadata.deleteDateColumn.databaseName) +
-                        " = CURRENT_TIMESTAMP"
+                    `${this.escape(
+                        metadata.deleteDateColumn.databaseName
+                    )} = CURRENT_TIMESTAMP`
                 );
                 break;
             case "restore":
                 updateColumnAndValues.push(
-                    this.escape(metadata.deleteDateColumn.databaseName) +
-                        " = NULL"
+                    `${this.escape(
+                        metadata.deleteDateColumn.databaseName
+                    )} = NULL`
                 );
                 break;
             default:
@@ -474,15 +476,15 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         }
         if (metadata.versionColumn)
             updateColumnAndValues.push(
-                this.escape(metadata.versionColumn.databaseName) +
-                    " = " +
-                    this.escape(metadata.versionColumn.databaseName) +
-                    " + 1"
+                `${this.escape(
+                    metadata.versionColumn.databaseName
+                )} = ${this.escape(metadata.versionColumn.databaseName)} + 1`
             );
         if (metadata.updateDateColumn)
             updateColumnAndValues.push(
-                this.escape(metadata.updateDateColumn.databaseName) +
-                    " = CURRENT_TIMESTAMP"
+                `${this.escape(
+                    metadata.updateDateColumn.databaseName
+                )} = CURRENT_TIMESTAMP`
             ); // todo: fix issue with CURRENT_TIMESTAMP(6) being used, can "DEFAULT" be used?!
 
         if (updateColumnAndValues.length <= 0) {
@@ -540,28 +542,19 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
     protected createOrderByExpression() {
         const orderBys = this.expressionMap.orderBys;
         if (Object.keys(orderBys).length > 0)
-            return (
-                " ORDER BY " +
-                Object.keys(orderBys)
-                    .map((columnName) => {
-                        if (typeof orderBys[columnName] === "string") {
-                            return (
-                                this.replacePropertyNames(columnName) +
-                                " " +
-                                orderBys[columnName]
-                            );
-                        } else {
-                            return (
-                                this.replacePropertyNames(columnName) +
-                                " " +
-                                (orderBys[columnName] as any).order +
-                                " " +
-                                (orderBys[columnName] as any).nulls
-                            );
-                        }
-                    })
-                    .join(", ")
-            );
+            return ` ORDER BY ${Object.keys(orderBys)
+                .map((columnName) => {
+                    if (typeof orderBys[columnName] === "string") {
+                        return `${this.replacePropertyNames(columnName)} ${
+                            orderBys[columnName]
+                        }`;
+                    } else {
+                        return `${this.replacePropertyNames(columnName)} ${
+                            (orderBys[columnName] as any).order
+                        } ${(orderBys[columnName] as any).nulls}`;
+                    }
+                })
+                .join(", ")}`;
 
         return "";
     }
@@ -570,11 +563,11 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
      * Creates "LIMIT" parts of SQL query.
      */
     protected createLimitExpression(): string {
-        let limit: number | undefined = this.expressionMap.limit;
+        const limit: number | undefined = this.expressionMap.limit;
 
         if (limit) {
             if (this.connection.driver instanceof MysqlDriver) {
-                return " LIMIT " + limit;
+                return ` LIMIT ${limit}`;
             } else {
                 throw new LimitOnUpdateNotSupportedError();
             }

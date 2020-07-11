@@ -667,10 +667,11 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                 if (droppedTableColumns.length === 0) return;
 
                 this.connection.logger.logSchemaBuild(
-                    `columns dropped in ${table.name}: ` +
-                        droppedTableColumns
-                            .map((column) => column.name)
-                            .join(", ")
+                    `columns dropped in ${
+                        table.name
+                    }: ${droppedTableColumns
+                        .map((column) => column.name)
+                        .join(", ")}`
                 );
 
                 // drop columns from the database
@@ -714,10 +715,9 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                 if (newTableColumns.length === 0) return;
 
                 this.connection.logger.logSchemaBuild(
-                    `new columns added: ` +
-                        newColumnMetadatas
-                            .map((column) => column.databaseName)
-                            .join(", ")
+                    `new columns added: ${newColumnMetadatas
+                        .map((column) => column.databaseName)
+                        .join(", ")}`
                 );
                 await this.queryRunner.addColumns(table, newTableColumns);
             }
@@ -848,10 +848,11 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                 if (newAndOldTableColumns.length === 0) return;
 
                 this.connection.logger.logSchemaBuild(
-                    `columns changed in "${table.name}". updating: ` +
-                        changedColumns
-                            .map((column) => column.databaseName)
-                            .join(", ")
+                    `columns changed in "${
+                        table.name
+                    }". updating: ${changedColumns
+                        .map((column) => column.databaseName)
+                        .join(", ")}`
                 );
                 await this.queryRunner.changeColumns(
                     table,

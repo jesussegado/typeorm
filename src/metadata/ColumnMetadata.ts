@@ -822,7 +822,7 @@ export class ColumnMetadata {
             this.embeddedMetadata &&
             this.embeddedMetadata.parentPropertyNames.length
         )
-            path = this.embeddedMetadata.parentPropertyNames.join(".") + ".";
+            path = `${this.embeddedMetadata.parentPropertyNames.join(".")}.`;
 
         path += this.propertyName;
 
@@ -835,7 +835,7 @@ export class ColumnMetadata {
             this.referencedColumn &&
             this.referencedColumn.propertyName !== this.propertyName
         )
-            path += "." + this.referencedColumn.propertyName;
+            path += `.${this.referencedColumn.propertyName}`;
 
         return path;
     }
@@ -846,7 +846,7 @@ export class ColumnMetadata {
             this.embeddedMetadata &&
             this.embeddedMetadata.parentPropertyNames.length
         )
-            path = this.embeddedMetadata.parentPropertyNames.join(".") + ".";
+            path = `${this.embeddedMetadata.parentPropertyNames.join(".")}.`;
 
         path += this.databaseName;
 
@@ -859,7 +859,7 @@ export class ColumnMetadata {
             this.referencedColumn &&
             this.referencedColumn.databaseName !== this.databaseName
         )
-            path += "." + this.referencedColumn.databaseName;
+            path += `.${this.referencedColumn.databaseName}`;
 
         return path;
     }

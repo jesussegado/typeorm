@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { ObjectLiteral } from "../../../src/common/ObjectLiteral";
-import { expect } from "chai";
 import { Post } from "./entity/Post";
 import { DateUtils } from "../../../src/util/DateUtils";
 
@@ -15,7 +15,7 @@ describe("github issues > #513 Incorrect time/datetime types for SQLite", () => 
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
                 enabledDrivers: ["sqlite"],
             }))
     );
@@ -104,11 +104,7 @@ describe("github issues > #513 Incorrect time/datetime types for SQLite", () => 
                 expect(storedPost).to.not.be.null;
 
                 const expectedTimeString = DateUtils.mixedTimeToString(
-                    now.getHours() +
-                        ":" +
-                        now.getMinutes() +
-                        ":" +
-                        now.getSeconds()
+                    `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`
                 );
                 storedPost!.timeColumn
                     .toString()

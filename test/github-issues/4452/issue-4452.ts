@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { User } from "./entity/User";
-import { expect } from "chai";
 import { OracleDriver } from "../../../src/driver/oracle/OracleDriver";
 
 describe("github issues > #4452 InsertQueryBuilder fails on some SQL Expressions values", () => {

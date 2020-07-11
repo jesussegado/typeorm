@@ -1,17 +1,16 @@
 import "reflect-metadata";
-import { Connection } from "../../../src";
+import { Connection, PromiseUtils } from "../../../src";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
 import { Post } from "./entity/Post";
-import { PromiseUtils } from "../../../src";
 
 describe("github issues > #3496 jsonb comparison doesn't work", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["postgres"],
             dropSchema: true,
         });

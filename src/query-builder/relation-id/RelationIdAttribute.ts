@@ -119,7 +119,7 @@ export class RelationIdAttribute {
      */
     get junctionAlias(): string {
         const [parentAlias, relationProperty] = this.relationName.split(".");
-        return parentAlias + "_" + relationProperty + "_rid";
+        return `${parentAlias}_${relationProperty}_rid`;
     }
 
     /**

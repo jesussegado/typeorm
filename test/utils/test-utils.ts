@@ -178,9 +178,9 @@ export function setupSingleTestingConnection(
 export function getTypeOrmConfig(): TestingConnectionOptions[] {
     try {
         try {
-            return require(__dirname + "/../../../../ormconfig.json");
+            return require(`${__dirname}/../../../../ormconfig.json`);
         } catch (err) {
-            return require(__dirname + "/../../ormconfig.json");
+            return require(`${__dirname}/../../ormconfig.json`);
         }
     } catch (err) {
         throw new Error(
@@ -263,11 +263,11 @@ export function setupTestingConnections(
                 newOptions.logger = options.createLogger();
             if (options && options.__dirname)
                 newOptions.entities = [
-                    options.__dirname + "/entity/*{.js,.ts}",
+                    `${options.__dirname}/entity/*{.js,.ts}`,
                 ];
             if (options && options.__dirname)
                 newOptions.migrations = [
-                    options.__dirname + "/migration/*{.js,.ts}",
+                    `${options.__dirname}/migration/*{.js,.ts}`,
                 ];
             if (options && options.namingStrategy)
                 newOptions.namingStrategy = options.namingStrategy;

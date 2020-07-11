@@ -132,8 +132,8 @@ describe("mongodb > basic repository actions", () => {
                 const posts: Post[] = [];
                 for (let i = 0; i < 50; i++) {
                     const post = new Post();
-                    post.title = "Post #" + i;
-                    post.text = "Everything about post #" + i;
+                    post.title = `Post #${i}`;
+                    post.text = `Everything about post #${i}`;
                     posts.push(post);
                 }
                 await postRepository.save(posts);
@@ -213,15 +213,15 @@ describe("mongodb > basic repository actions", () => {
                 const posts: Post[] = [];
                 for (let i = 0; i < 10; i++) {
                     const post = new Post();
-                    post.title = "Post #" + i;
-                    post.text = "Everything about post #" + i;
+                    post.title = `Post #${i}`;
+                    post.text = `Everything about post #${i}`;
                     post.index = i;
                     posts.push(post);
                 }
                 await postRepository.save(posts);
 
                 // ASCENDANT SORTING
-                let queryPostsAsc = await postRepository.find({
+                const queryPostsAsc = await postRepository.find({
                     order: { index: "ASC" },
                 });
 
@@ -231,7 +231,7 @@ describe("mongodb > basic repository actions", () => {
                 }
 
                 // DESCENDANT SORTING
-                let queryPostsDesc = await postRepository.find({
+                const queryPostsDesc = await postRepository.find({
                     order: { index: "DESC" },
                 });
 
@@ -251,8 +251,8 @@ describe("mongodb > basic repository actions", () => {
                 const posts: Post[] = [];
                 for (let i = 0; i < 50; i++) {
                     const post = new Post();
-                    post.title = "Post #" + i;
-                    post.text = "Everything about post #" + i;
+                    post.title = `Post #${i}`;
+                    post.text = `Everything about post #${i}`;
                     posts.push(post);
                 }
                 await postRepository.save(posts);
@@ -312,8 +312,8 @@ describe("mongodb > basic repository actions", () => {
                 const posts: Post[] = [];
                 for (let i = 0; i < 50; i++) {
                     const post = new Post();
-                    post.title = "Post #" + i;
-                    post.text = "Everything about post #" + i;
+                    post.title = `Post #${i}`;
+                    post.text = `Everything about post #${i}`;
                     posts.push(post);
                 }
                 await postRepository.save(posts);

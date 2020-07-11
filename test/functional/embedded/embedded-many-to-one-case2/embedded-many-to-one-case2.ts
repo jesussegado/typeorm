@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { Connection } from "../../../../src/connection/Connection";
 import { expect } from "chai";
+import { Connection } from "../../../../src/connection/Connection";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -16,7 +16,7 @@ describe("embedded > embedded-many-to-one-case2", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

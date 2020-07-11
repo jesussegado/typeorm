@@ -14,7 +14,7 @@ describe("pgcrypto", () => {
     let connections: Connection[];
     before(async () => {
         connections = await createTestingConnections({
-            entities: [__dirname + "/entity/*{.js,.ts}"],
+            entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["postgres"],
             driverSpecific: {
                 uuidExtension: "pgcrypto",

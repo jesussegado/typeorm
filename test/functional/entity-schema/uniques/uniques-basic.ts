@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import { SapDriver } from "../../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
@@ -6,7 +7,6 @@ import {
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
-import { expect } from "chai";
 import { PersonSchema } from "./entity/Person";
 import { MysqlDriver } from "../../../../src/driver/mysql/MysqlDriver";
 import { AbstractSqliteDriver } from "../../../../src/driver/sqlite-abstract/AbstractSqliteDriver";

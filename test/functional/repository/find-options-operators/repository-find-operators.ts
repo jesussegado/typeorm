@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { expect } from "chai";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -23,14 +24,13 @@ import { Post } from "./entity/Post";
 import { PostgresDriver } from "../../../../src/driver/postgres/PostgresDriver";
 import { Raw } from "../../../../src/find-options/operator/Raw";
 import { PersonAR } from "./entity/PersonAR";
-import { expect } from "chai";
 
 describe("repository > find options > operators", () => {
     let connections: Connection[];
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [__dirname + "/entity/*{.js,.ts}"],
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -605,7 +605,7 @@ describe("repository > find options > operators", () => {
 
                 // check operator
                 const loadedPosts = await connection.getRepository(Post).find({
-                    likes: Raw((columnAlias) => "1 + " + columnAlias + " = 4"),
+                    likes: Raw((columnAlias) => `1 + ${columnAlias} = 4`),
                 });
                 loadedPosts.should.be.eql([
                     { id: 2, likes: 3, title: "About #2" },

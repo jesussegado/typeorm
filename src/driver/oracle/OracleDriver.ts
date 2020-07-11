@@ -312,7 +312,7 @@ export class OracleDriver implements Driver {
             return [sql, escapedParameters];
 
         const keys = Object.keys(parameters)
-            .map((parameter) => "(:(\\.\\.\\.)?" + parameter + "\\b)")
+            .map((parameter) => `(:(\\.\\.\\.)?${parameter}\\b)`)
             .join("|");
         sql = sql.replace(new RegExp(keys, "g"), (key: string) => {
             let value: any;
@@ -491,7 +491,7 @@ export class OracleDriver implements Driver {
         const defaultValue = columnMetadata.default;
 
         if (typeof defaultValue === "number") {
-            return "" + defaultValue;
+            return `${defaultValue}`;
         } else if (typeof defaultValue === "boolean") {
             return defaultValue === true ? "1" : "0";
         } else if (typeof defaultValue === "function") {
@@ -545,28 +545,26 @@ export class OracleDriver implements Driver {
             column.scale !== null &&
             column.scale !== undefined
         ) {
-            type += "(" + column.precision + "," + column.scale + ")";
+            type += `(${column.precision},${column.scale})`;
         } else if (
             column.precision !== null &&
             column.precision !== undefined
         ) {
-            type += "(" + column.precision + ")";
+            type += `(${column.precision})`;
         }
 
         if (column.type === "timestamp with time zone") {
-            type =
-                "TIMESTAMP" +
-                (column.precision !== null && column.precision !== undefined
-                    ? "(" + column.precision + ")"
-                    : "") +
-                " WITH TIME ZONE";
+            type = `TIMESTAMP${
+                column.precision !== null && column.precision !== undefined
+                    ? `(${column.precision})`
+                    : ""
+            } WITH TIME ZONE`;
         } else if (column.type === "timestamp with local time zone") {
-            type =
-                "TIMESTAMP" +
-                (column.precision !== null && column.precision !== undefined
-                    ? "(" + column.precision + ")"
-                    : "") +
-                " WITH LOCAL TIME ZONE";
+            type = `TIMESTAMP${
+                column.precision !== null && column.precision !== undefined
+                    ? `(${column.precision})`
+                    : ""
+            } WITH LOCAL TIME ZONE`;
         }
 
         if (column.isArray) type += " array";
@@ -678,7 +676,7 @@ export class OracleDriver implements Driver {
      * Creates an escaped parameter.
      */
     createParameter(parameterName: string, index: number): string {
-        return ":" + parameterName;
+        return `:${parameterName}`;
     }
 
     /**
@@ -747,11 +745,7 @@ export class OracleDriver implements Driver {
                 password: credentials.password,
                 connectString: credentials.connectString
                     ? credentials.connectString
-                    : credentials.host +
-                      ":" +
-                      credentials.port +
-                      "/" +
-                      credentials.sid,
+                    : `${credentials.host}:${credentials.port}/${credentials.sid}`,
             },
             options.extra || {}
         );

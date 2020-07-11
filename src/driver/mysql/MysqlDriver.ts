@@ -337,7 +337,7 @@ export class MysqlDriver implements Driver {
             );
             this.options.replication.slaves.forEach((slave, index) => {
                 this.poolCluster.add(
-                    "SLAVE" + index,
+                    `SLAVE${index}`,
                     this.createConnectionOptions(this.options, slave)
                 );
             });
@@ -416,7 +416,7 @@ export class MysqlDriver implements Driver {
             return [sql, escapedParameters];
 
         const keys = Object.keys(parameters)
-            .map((parameter) => "(:(\\.\\.\\.)?" + parameter + "\\b)")
+            .map((parameter) => `(:(\\.\\.\\.)?${parameter}\\b)`)
             .join("|");
         sql = sql.replace(new RegExp(keys, "g"), (key: string) => {
             let value: any;
@@ -440,7 +440,7 @@ export class MysqlDriver implements Driver {
      * Escapes a column name.
      */
     escape(columnName: string): string {
-        return "`" + columnName + "`";
+        return `\`${columnName}\``;
     }
 
     /**
@@ -489,7 +489,7 @@ export class MysqlDriver implements Driver {
             columnMetadata.type === "enum" ||
             columnMetadata.type === "simple-enum"
         ) {
-            return "" + value;
+            return `${value}`;
         } else if (columnMetadata.type === "set") {
             return DateUtils.simpleArrayToString(value);
         }
@@ -632,7 +632,7 @@ export class MysqlDriver implements Driver {
         }
 
         if (typeof defaultValue === "number") {
-            return "" + defaultValue;
+            return `${defaultValue}`;
         } else if (typeof defaultValue === "boolean") {
             return defaultValue === true ? "1" : "0";
         } else if (typeof defaultValue === "function") {
@@ -856,7 +856,7 @@ export class MysqlDriver implements Driver {
                     columnMetadata.enum &&
                     !OrmUtils.isArraysEqual(
                         tableColumn.enum,
-                        columnMetadata.enum.map((val) => val + "")
+                        columnMetadata.enum.map((val) => `${val}`)
                     )) ||
                 tableColumn.onUpdate !== columnMetadata.onUpdate ||
                 tableColumn.isPrimary !== columnMetadata.isPrimary ||
