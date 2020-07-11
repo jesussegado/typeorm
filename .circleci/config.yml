@@ -118,5 +118,5 @@ workflows:
   test:
     jobs:
       - common
-      # - cockroachdb
-      # - oracle
+      - cockroachdb
+      - oracle
