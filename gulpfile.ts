@@ -97,7 +97,11 @@ export class Gulpfile {
             "lib": ["es5", "es6", "dom"],
             typescript: require("typescript")
         });
-        const tsResult = gulp.src(["./build/browser/src/**/*.ts", "./node_modules/reflect-metadata/**/*.d.ts", "./node_modules/@types/**/*.ts"])
+        const tsResult = gulp.src([
+                "./build/browser/src/**/*.ts",
+                // "./node_modules/reflect-metadata/**/*.d.ts",
+                // "./node_modules/@types/**/*.ts"
+            ])
             .pipe(sourcemaps.init())
             .pipe(tsProject());
 
@@ -152,7 +156,7 @@ export class Gulpfile {
         });
         const tsResult = gulp.src([
             "./src/**/*.ts",
-            "./node_modules/@types/**/*.ts",
+            // "./node_modules/@types/**/*.ts",
         ])
             .pipe(sourcemaps.init())
             .pipe(tsProject());
