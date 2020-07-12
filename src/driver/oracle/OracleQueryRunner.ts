@@ -168,8 +168,9 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
 
                 const handler = (err: any, result: any) => {
                     // log slow queries if maxQueryExecution time is set
-                    const maxQueryExecutionTime = this.driver.connection.options
-                        .maxQueryExecutionTime;
+                    const {
+                        maxQueryExecutionTime,
+                    } = this.driver.connection.options;
                     const queryEndTime = +new Date();
                     const queryExecutionTime = queryEndTime - queryStartTime;
                     if (
@@ -605,7 +606,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
 
         // create or update primary key constraint
         if (column.isPrimary) {
-            const primaryColumns = clonedTable.primaryColumns;
+            const { primaryColumns } = clonedTable;
             // if table already have primary key, me must drop it and recreate again
             if (primaryColumns.length > 0) {
                 const pkName = this.connection.namingStrategy.primaryKeyName(
@@ -790,7 +791,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
 
                 // rename column primary key constraint
                 if (oldColumn.isPrimary === true) {
-                    const primaryColumns = clonedTable.primaryColumns;
+                    const { primaryColumns } = clonedTable;
 
                     // build old primary constraint name
                     const columnNames = primaryColumns.map(
@@ -986,7 +987,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
             }
 
             if (newColumn.isPrimary !== oldColumn.isPrimary) {
-                const primaryColumns = clonedTable.primaryColumns;
+                const { primaryColumns } = clonedTable;
 
                 // if primary column state changed, we must always drop existed constraint.
                 if (primaryColumns.length > 0) {
@@ -1333,7 +1334,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
         const downQueries: Query[] = [];
 
         // if table already have primary columns, we must drop them.
-        const primaryColumns = clonedTable.primaryColumns;
+        const { primaryColumns } = clonedTable;
         if (primaryColumns.length > 0) {
             const pkName = this.connection.namingStrategy.primaryKeyName(
                 clonedTable.name,

@@ -87,12 +87,12 @@ export class RelationIdLoader {
                     // loadRelationIdAndMap("post.categoryIds", "post.categories")
                     // we expect it to load array of category ids
 
-                    const relation = relationIdAttr.relation; // "post.categories"
+                    const { relation } = relationIdAttr; // "post.categories"
                     const joinColumns = relation.isOwning
                         ? relation.joinColumns
                         : relation.inverseRelation!.joinColumns;
                     const table = relation.inverseEntityMetadata.target; // category
-                    const tableName = relation.inverseEntityMetadata.tableName; // category
+                    const { tableName } = relation.inverseEntityMetadata; // category
                     const tableAlias = relationIdAttr.alias || tableName; // if condition (custom query builder factory) is set then relationIdAttr.alias defined
 
                     const parameters: ObjectLiteral = {};
@@ -189,14 +189,14 @@ export class RelationIdLoader {
                 // inverse side: loadRelationIdAndMap("category.postIds", "category.posts")
                 // we expect it to load array of post ids
 
-                const relation = relationIdAttr.relation;
+                const { relation } = relationIdAttr;
                 const joinColumns = relation.isOwning
                     ? relation.joinColumns
                     : relation.inverseRelation!.inverseJoinColumns;
                 const inverseJoinColumns = relation.isOwning
                     ? relation.inverseJoinColumns
                     : relation.inverseRelation!.joinColumns;
-                const junctionAlias = relationIdAttr.junctionAlias;
+                const { junctionAlias } = relationIdAttr;
                 const inverseSideTableName =
                     relationIdAttr.joinInverseSideMetadata.tableName;
                 const inverseSideTableAlias =

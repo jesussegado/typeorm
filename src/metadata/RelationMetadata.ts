@@ -271,7 +271,7 @@ export class RelationMetadata {
     }) {
         this.entityMetadata = options.entityMetadata;
         this.embeddedMetadata = options.embeddedMetadata!;
-        const args = options.args;
+        const { args } = options;
         this.target = args.target;
         this.propertyName = args.propertyName;
         this.relationType = args.relationType;

@@ -32,7 +32,7 @@ export class RelationCountLoader {
                     // we expect it to load array of post ids
 
                     // todo(dima): fix issues wit multiple primary keys and remove joinColumns[0]
-                    const relation = relationCountAttr.relation; // "category.posts"
+                    const { relation } = relationCountAttr; // "category.posts"
                     const inverseRelation = relation.inverseRelation!; // "post.category"
                     const referenceColumnName = inverseRelation.joinColumns[0]
                         .referencedColumn!.propertyName; // post id
@@ -109,10 +109,10 @@ export class RelationCountLoader {
                         .joinColumns[0].referencedColumn!.databaseName;
                     inverseJoinColumnName = relationCountAttr.relation
                         .inverseJoinColumns[0].referencedColumn!.databaseName;
-                    firstJunctionColumn = relationCountAttr.relation
-                        .junctionEntityMetadata!.columns[0];
-                    secondJunctionColumn = relationCountAttr.relation
-                        .junctionEntityMetadata!.columns[1];
+                    [
+                        firstJunctionColumn,
+                        secondJunctionColumn,
+                    ] = relationCountAttr.relation.junctionEntityMetadata!.columns;
                 } else {
                     joinTableColumnName = relationCountAttr.relation
                         .inverseRelation!.inverseJoinColumns[0]
@@ -120,10 +120,10 @@ export class RelationCountLoader {
                     inverseJoinColumnName = relationCountAttr.relation
                         .inverseRelation!.joinColumns[0].referencedColumn!
                         .databaseName;
-                    firstJunctionColumn = relationCountAttr.relation
-                        .junctionEntityMetadata!.columns[1];
-                    secondJunctionColumn = relationCountAttr.relation
-                        .junctionEntityMetadata!.columns[0];
+                    [
+                        secondJunctionColumn,
+                        firstJunctionColumn,
+                    ] = relationCountAttr.relation.junctionEntityMetadata!.columns;
                 }
 
                 let referenceColumnValues = rawEntities
@@ -146,7 +146,7 @@ export class RelationCountLoader {
                         results: [],
                     };
 
-                const junctionAlias = relationCountAttr.junctionAlias;
+                const { junctionAlias } = relationCountAttr;
                 const inverseSideTableName =
                     relationCountAttr.joinInverseSideMetadata.tableName;
                 const inverseSideTableAlias =

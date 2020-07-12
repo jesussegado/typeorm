@@ -1747,7 +1747,7 @@ export class EntityManager {
                 `Column ${propertyPath} was not found in ${metadata.targetName} entity.`
             );
 
-        if (isNaN(Number(value)))
+        if (Number.isNaN(Number(value)))
             throw new Error(`Value "${value}" is not a number.`);
 
         // convert possible embeded path "social.likes" into object { social: { like: () => value } }
@@ -1784,7 +1784,7 @@ export class EntityManager {
                 `Column ${propertyPath} was not found in ${metadata.targetName} entity.`
             );
 
-        if (isNaN(Number(value)))
+        if (Number.isNaN(Number(value)))
             throw new Error(`Value "${value}" is not a number.`);
 
         // convert possible embeded path "social.likes" into object { social: { like: () => value } }

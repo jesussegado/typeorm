@@ -18,7 +18,7 @@ export class ValidEntityCheckSubscriber
     }
 
     beforeInsert(event: InsertEvent<Post>) {
-        const entity = event.entity;
+        const { entity } = event;
         if (Array.isArray(entity) || !entity.id) {
             throw new Error(
                 `Subscriber saw invalid entity: ${JSON.stringify(entity)}`

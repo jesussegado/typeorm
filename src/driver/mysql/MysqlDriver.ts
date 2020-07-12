@@ -541,7 +541,7 @@ export class MysqlDriver implements Driver {
             (columnMetadata.type === "enum" ||
                 columnMetadata.type === "simple-enum") &&
             columnMetadata.enum &&
-            !isNaN(value) &&
+            !Number.isNaN(value) &&
             columnMetadata.enum.indexOf(parseInt(value)) >= 0
         ) {
             // convert to number if that exists in possible enum options
@@ -699,7 +699,7 @@ export class MysqlDriver implements Driver {
      * Creates column type definition including length, precision and scale
      */
     createFullType(column: TableColumn): string {
-        let type = column.type;
+        let { type } = column;
 
         // used 'getColumnLength()' method, because MySQL requires column length for `varchar`, `nvarchar` and `varbinary` data types
         if (this.getColumnLength(column)) {

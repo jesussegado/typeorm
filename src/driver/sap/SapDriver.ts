@@ -547,7 +547,7 @@ export class SapDriver implements Driver {
      * Creates column type definition including length, precision and scale
      */
     createFullType(column: TableColumn): string {
-        let type = column.type;
+        let { type } = column;
 
         // used 'getColumnLength()' method, because SqlServer sets `varchar` and `nvarchar` length to 1 by default.
         if (this.getColumnLength(column)) {

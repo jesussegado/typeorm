@@ -484,7 +484,7 @@ export class MigrationExecutor {
                 migrationClassName.substr(-13),
                 10
             );
-            if (!migrationTimestamp || isNaN(migrationTimestamp)) {
+            if (!migrationTimestamp || Number.isNaN(migrationTimestamp)) {
                 throw new Error(
                     `${migrationClassName} migration name is wrong. Migration class name should have a JavaScript timestamp appended.`
                 );

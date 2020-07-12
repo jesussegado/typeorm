@@ -211,8 +211,9 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                 const queryStartTime = +new Date();
                 request.query(query, (err: any, result: any) => {
                     // log slow queries if maxQueryExecution time is set
-                    const maxQueryExecutionTime = this.driver.connection.options
-                        .maxQueryExecutionTime;
+                    const {
+                        maxQueryExecutionTime,
+                    } = this.driver.connection.options;
                     const queryEndTime = +new Date();
                     const queryExecutionTime = queryEndTime - queryStartTime;
                     if (
@@ -671,12 +672,10 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         let oldTableName: string = oldTable.name;
         const splittedName = oldTable.name.split(".");
         if (splittedName.length === 3) {
-            dbName = splittedName[0];
-            oldTableName = splittedName[2];
-            if (splittedName[1] !== "") schemaName = splittedName[1];
+            [dbName, schemaName, oldTableName] = splittedName;
+            if (schemaName === "") schemaName = undefined;
         } else if (splittedName.length === 2) {
-            schemaName = splittedName[0];
-            oldTableName = splittedName[1];
+            [schemaName, oldTableName] = splittedName;
         }
 
         newTable.name = this.driver.buildTableName(
@@ -883,7 +882,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
 
         // create or update primary key constraint
         if (column.isPrimary) {
-            const primaryColumns = clonedTable.primaryColumns;
+            const { primaryColumns } = clonedTable;
             // if table already have primary key, me must drop it and recreate again
             if (primaryColumns.length > 0) {
                 const pkName = this.connection.namingStrategy.primaryKeyName(
@@ -1082,10 +1081,10 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                 let schemaName: string | undefined;
                 const splittedName = table.name.split(".");
                 if (splittedName.length === 3) {
-                    dbName = splittedName[0];
-                    if (splittedName[1] !== "") schemaName = splittedName[1];
+                    [dbName, schemaName] = splittedName;
+                    if (schemaName === "") schemaName = undefined;
                 } else if (splittedName.length === 2) {
-                    schemaName = splittedName[0];
+                    [schemaName] = splittedName;
                 }
 
                 // if we have tables with database which differs from database specified in config, we must change currently used database.
@@ -1113,7 +1112,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                 );
 
                 if (oldColumn.isPrimary === true) {
-                    const primaryColumns = clonedTable.primaryColumns;
+                    const { primaryColumns } = clonedTable;
 
                     // build old primary constraint name
                     const columnNames = primaryColumns.map(
@@ -1393,7 +1392,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
             }
 
             if (newColumn.isPrimary !== oldColumn.isPrimary) {
-                const primaryColumns = clonedTable.primaryColumns;
+                const { primaryColumns } = clonedTable;
 
                 // if primary column state changed, we must always drop existed constraint.
                 if (primaryColumns.length > 0) {
@@ -1858,7 +1857,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         const downQueries: Query[] = [];
 
         // if table already have primary columns, we must drop them.
-        const primaryColumns = clonedTable.primaryColumns;
+        const { primaryColumns } = clonedTable;
         if (primaryColumns.length > 0) {
             const pkName = this.connection.namingStrategy.primaryKeyName(
                 clonedTable.name,
@@ -3610,7 +3609,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
      * The underlying mssql driver requires an enum for the isolation level.
      */
     convertIsolationLevel(isolation: IsolationLevel) {
-        const ISOLATION_LEVEL = this.driver.mssql.ISOLATION_LEVEL;
+        const { ISOLATION_LEVEL } = this.driver.mssql;
         switch (isolation) {
             case "READ UNCOMMITTED":
                 return ISOLATION_LEVEL.READ_UNCOMMITTED;

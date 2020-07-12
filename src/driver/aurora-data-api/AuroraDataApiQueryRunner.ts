@@ -545,7 +545,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                 );
             }
 
-            const primaryColumns = clonedTable.primaryColumns;
+            const { primaryColumns } = clonedTable;
             let columnNames = primaryColumns
                 .map((column) => `\`${column.name}\``)
                 .join(", ");
@@ -922,7 +922,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                     );
                 }
 
-                const primaryColumns = clonedTable.primaryColumns;
+                const { primaryColumns } = clonedTable;
 
                 // if primary column state changed, we must always drop existed constraint.
                 if (primaryColumns.length > 0) {
@@ -1413,7 +1413,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
         }
 
         // if table already have primary columns, we must drop them.
-        const primaryColumns = clonedTable.primaryColumns;
+        const { primaryColumns } = clonedTable;
         if (primaryColumns.length > 0) {
             const columnNames = primaryColumns
                 .map((column) => `\`${column.name}\``)

@@ -651,7 +651,7 @@ export class PostgresDriver implements Driver {
                         : [];
                 // convert to number if that exists in poosible enum options
                 value = value.map((val: string) => {
-                    return !isNaN(+val) &&
+                    return !Number.isNaN(+val) &&
                         columnMetadata.enum!.indexOf(parseInt(val)) >= 0
                         ? parseInt(val)
                         : val;
@@ -659,7 +659,7 @@ export class PostgresDriver implements Driver {
             } else {
                 // convert to number if that exists in poosible enum options
                 value =
-                    !isNaN(+value) &&
+                    !Number.isNaN(+value) &&
                     columnMetadata.enum!.indexOf(parseInt(value)) >= 0
                         ? parseInt(value)
                         : value;
@@ -866,7 +866,7 @@ export class PostgresDriver implements Driver {
      * Creates column type definition including length, precision and scale
      */
     createFullType(column: TableColumn): string {
-        let type = column.type;
+        let { type } = column;
 
         if (column.length) {
             type += `(${column.length})`;

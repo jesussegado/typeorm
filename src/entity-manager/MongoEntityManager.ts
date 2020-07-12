@@ -1037,7 +1037,7 @@ export class MongoEntityManager extends EntityManager {
         cursor: Cursor<Entity> | AggregationCursor<Entity>
     ) {
         const ParentCursor = PlatformTools.load("mongodb").Cursor;
-        const queryRunner = this.queryRunner;
+        const { queryRunner } = this;
         cursor.toArray = function (callback?: MongoCallback<Entity[]>) {
             if (callback) {
                 ParentCursor.prototype.toArray.call(

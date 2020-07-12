@@ -15,9 +15,9 @@ describe("github issues > #798 sqlite: 'database' path in ormconfig.json is not 
         process.chdir(oldCwd);
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         if (connection && connection.isConnected) {
-            connection.close();
+            await connection.close();
         }
     });
 

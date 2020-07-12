@@ -51,7 +51,7 @@ describe("github issues > #1716 send timestamp to database without converting it
         after(() => closeTestingConnections(connections));
 
         it("should persist dates and times correctly", async () => {
-            const manager = connections[0].manager;
+            const { manager } = connections[0];
 
             await manager.save(PgEntity, {
                 id: 1,
@@ -129,7 +129,7 @@ describe("github issues > #1716 send timestamp to database without converting it
         after(() => closeTestingConnections(connections));
 
         it("should persist dates and times correctly", async () => {
-            const manager = connections[0].manager;
+            const { manager } = connections[0];
 
             await manager.save(MysqlEntity, {
                 id: 1,
@@ -193,7 +193,7 @@ describe("github issues > #1716 send timestamp to database without converting it
         after(() => closeTestingConnections(connections));
 
         it("should persist dates and times correctly", async () => {
-            const manager = connections[0].manager;
+            const { manager } = connections[0];
 
             await manager.save(MariadbEntity, {
                 id: 1,
@@ -257,7 +257,7 @@ describe("github issues > #1716 send timestamp to database without converting it
         after(() => closeTestingConnections(connections));
 
         it("should persist dates and times correctly", async () => {
-            const manager = connections[0].manager;
+            const { manager } = connections[0];
 
             await manager.save(MssqlEntity, {
                 id: 1,

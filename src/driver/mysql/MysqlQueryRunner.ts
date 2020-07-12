@@ -158,8 +158,9 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
                     parameters,
                     (err: any, result: any) => {
                         // log slow queries if maxQueryExecution time is set
-                        const maxQueryExecutionTime = this.driver.connection
-                            .options.maxQueryExecutionTime;
+                        const {
+                            maxQueryExecutionTime,
+                        } = this.driver.connection.options;
                         const queryEndTime = +new Date();
                         const queryExecutionTime =
                             queryEndTime - queryStartTime;
@@ -625,7 +626,7 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
                 );
             }
 
-            const primaryColumns = clonedTable.primaryColumns;
+            const { primaryColumns } = clonedTable;
             let columnNames = primaryColumns
                 .map((column) => `\`${column.name}\``)
                 .join(", ");
@@ -1009,7 +1010,7 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
                     );
                 }
 
-                const primaryColumns = clonedTable.primaryColumns;
+                const { primaryColumns } = clonedTable;
 
                 // if primary column state changed, we must always drop existed constraint.
                 if (primaryColumns.length > 0) {
@@ -1500,7 +1501,7 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
         }
 
         // if table already have primary columns, we must drop them.
-        const primaryColumns = clonedTable.primaryColumns;
+        const { primaryColumns } = clonedTable;
         if (primaryColumns.length > 0) {
             const columnNames = primaryColumns
                 .map((column) => `\`${column.name}\``)

@@ -745,7 +745,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
      * Creates "ORDER BY" part of SQL query.
      */
     protected createOrderByExpression() {
-        const orderBys = this.expressionMap.orderBys;
+        const { orderBys } = this.expressionMap;
         if (Object.keys(orderBys).length > 0)
             return ` ORDER BY ${Object.keys(orderBys)
                 .map((columnName) => {
@@ -767,7 +767,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
      * Creates "LIMIT" parts of SQL query.
      */
     protected createLimitExpression(): string {
-        const limit: number | undefined = this.expressionMap.limit;
+        const { limit } = this.expressionMap;
 
         if (limit) {
             if (

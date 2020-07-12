@@ -379,7 +379,7 @@ export class ColumnMetadata {
                 !Array.isArray(options.args.options.enum)
             ) {
                 this.enum = Object.keys(options.args.options.enum)
-                    .filter((key) => isNaN(+key)) // remove numeric keys - typescript numeric enum types generate them
+                    .filter((key) => Number.isNaN(+key)) // remove numeric keys - typescript numeric enum types generate them
                     .map(
                         (key) =>
                             (options.args.options.enum as ObjectLiteral)[key]
@@ -712,40 +712,35 @@ export class ColumnMetadata {
                     );
                 }
             }
-        } else {
-            // no embeds - no problems. Simply return column name by property name of the entity
-            if (this.relationMetadata && this.referencedColumn) {
-                const relatedEntity = this.relationMetadata.getEntityValue(
-                    entity
+        } else if (this.relationMetadata && this.referencedColumn) {
+            const relatedEntity = this.relationMetadata.getEntityValue(entity);
+            if (
+                relatedEntity &&
+                relatedEntity instanceof Object &&
+                !(relatedEntity instanceof FindOperator) &&
+                !(relatedEntity instanceof Function)
+            ) {
+                value = this.referencedColumn.getEntityValue(
+                    PromiseUtils.extractValue(relatedEntity)
                 );
-                if (
-                    relatedEntity &&
-                    relatedEntity instanceof Object &&
-                    !(relatedEntity instanceof FindOperator) &&
-                    !(relatedEntity instanceof Function)
-                ) {
-                    value = this.referencedColumn.getEntityValue(
-                        PromiseUtils.extractValue(relatedEntity)
-                    );
-                } else if (
-                    entity[this.propertyName] &&
-                    entity[this.propertyName] instanceof Object &&
-                    !(entity[this.propertyName] instanceof FindOperator) &&
-                    !(entity[this.propertyName] instanceof Function)
-                ) {
-                    value = this.referencedColumn.getEntityValue(
-                        PromiseUtils.extractValue(entity[this.propertyName])
-                    );
-                } else {
-                    value = entity[this.propertyName];
-                }
-            } else if (this.referencedColumn) {
+            } else if (
+                entity[this.propertyName] &&
+                entity[this.propertyName] instanceof Object &&
+                !(entity[this.propertyName] instanceof FindOperator) &&
+                !(entity[this.propertyName] instanceof Function)
+            ) {
                 value = this.referencedColumn.getEntityValue(
                     PromiseUtils.extractValue(entity[this.propertyName])
                 );
             } else {
                 value = entity[this.propertyName];
             }
+        } else if (this.referencedColumn) {
+            value = this.referencedColumn.getEntityValue(
+                PromiseUtils.extractValue(entity[this.propertyName])
+            );
+        } else {
+            value = entity[this.propertyName];
         }
 
         if (transform && this.transformer)

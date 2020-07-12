@@ -171,8 +171,9 @@ export class PostgresQueryRunner extends BaseQueryRunner
                     parameters,
                     (err: any, result: any) => {
                         // log slow queries if maxQueryExecution time is set
-                        const maxQueryExecutionTime = this.driver.connection
-                            .options.maxQueryExecutionTime;
+                        const {
+                            maxQueryExecutionTime,
+                        } = this.driver.connection.options;
                         const queryEndTime = +new Date();
                         const queryExecutionTime =
                             queryEndTime - queryStartTime;
@@ -700,7 +701,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
 
         // create or update primary key constraint
         if (column.isPrimary) {
-            const primaryColumns = clonedTable.primaryColumns;
+            const { primaryColumns } = clonedTable;
             // if table already have primary key, me must drop it and recreate again
             if (primaryColumns.length > 0) {
                 const pkName = this.connection.namingStrategy.primaryKeyName(
@@ -924,7 +925,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
 
                 // rename column primary key constraint
                 if (oldColumn.isPrimary === true) {
-                    const primaryColumns = clonedTable.primaryColumns;
+                    const { primaryColumns } = clonedTable;
 
                     // build old primary constraint name
                     const columnNames = primaryColumns.map(
@@ -1303,7 +1304,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
             }
 
             if (newColumn.isPrimary !== oldColumn.isPrimary) {
-                const primaryColumns = clonedTable.primaryColumns;
+                const { primaryColumns } = clonedTable;
 
                 // if primary column state changed, we must always drop existed constraint.
                 if (primaryColumns.length > 0) {
@@ -1871,7 +1872,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const downQueries: Query[] = [];
 
         // if table already have primary columns, we must drop them.
-        const primaryColumns = clonedTable.primaryColumns;
+        const { primaryColumns } = clonedTable;
         if (primaryColumns.length > 0) {
             const pkName = this.connection.namingStrategy.primaryKeyName(
                 clonedTable.name,
@@ -3171,10 +3172,9 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const currentSchema = currentSchemaQuery[0]["current_schema"];
         const splittedName = view.name.split(".");
         let schema = this.driver.options.schema || currentSchema;
-        let name = view.name;
+        let { name } = view;
         if (splittedName.length === 2) {
-            schema = splittedName[0];
-            name = splittedName[1];
+            [schema, name] = splittedName;
         }
 
         const expression =
@@ -3219,8 +3219,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         let schema = this.driver.options.schema || currentSchema;
         let name = viewName;
         if (splittedName.length === 2) {
-            schema = splittedName[0];
-            name = splittedName[1];
+            [schema, name] = splittedName;
         }
 
         const qb = this.connection.createQueryBuilder();
@@ -3265,7 +3264,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         table: Table,
         column: TableColumn
     ): Promise<boolean> {
-        const schema = this.parseTableName(table).schema;
+        const { schema } = this.parseTableName(table);
         const enumName = this.buildEnumName(table, column, false, true);
         const sql =
             `SELECT "n"."nspname", "t"."typname" FROM "pg_type" "t" ` +
@@ -3530,8 +3529,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         if (table.name.indexOf(".") === -1) {
             tableName = table.name;
         } else {
-            schema = table.name.split(".")[0];
-            tableName = table.name.split(".")[1];
+            [schema, tableName] = table.name.split(".");
         }
 
         if (schema && schema !== currentSchema && !skipSchema) {
@@ -3558,7 +3556,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
          * If enumName is specified in column options then use it instead
          */
         if (columnOrName instanceof TableColumn && columnOrName.enumName) {
-            let enumName = columnOrName.enumName;
+            let { enumName } = columnOrName;
             if (toOld) enumName = `${enumName}_old`;
             return disableEscape ? enumName : `"${enumName}"`;
         }

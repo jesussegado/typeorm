@@ -107,7 +107,7 @@ describe("columns > embedded columns", () => {
         Promise.all(
             connections.map(async (connection) => {
                 const postRepository = connection.getRepository(Post);
-                const columns = postRepository.metadata.columns;
+                const { columns } = postRepository.metadata;
                 const databaseColumns = columns.map((c) => c.databaseName);
 
                 expect(databaseColumns).to.have.members([

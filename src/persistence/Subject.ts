@@ -235,7 +235,7 @@ export class Subject {
     createValueSetAndPopChangeMap(): ObjectLiteral {
         const changeMapsWithoutValues: SubjectChangeMap[] = [];
         const changeSet = this.changeMaps.reduce((updateMap, changeMap) => {
-            let value = changeMap.value;
+            let { value } = changeMap;
             if (value instanceof Subject) {
                 // referenced columns can refer on values both which were just inserted and which were present in the model
                 // if entity was just inserted valueSets must contain all values from the entity and values just inserted in the database

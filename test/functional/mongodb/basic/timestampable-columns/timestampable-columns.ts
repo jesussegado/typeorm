@@ -33,10 +33,10 @@ describe("mongodb > timestampable columns", () => {
                 await commentMongoRepository.save(post);
                 expect(post.id).to.be.not.undefined;
                 post.createdAt.should.be.instanceof(Date);
-                const createdAt = post.createdAt;
+                const { createdAt } = post;
 
                 post.updatedAt.should.be.instanceof(Date);
-                const updatedAt = post.updatedAt;
+                const { updatedAt } = post;
 
                 // test has +/- delta range of 5 milliseconds, because earlier this test fell due to the difference of 1 millisecond
                 expect(

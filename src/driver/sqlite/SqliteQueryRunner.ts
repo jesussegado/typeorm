@@ -33,13 +33,12 @@ export class SqliteQueryRunner extends AbstractSqliteQueryRunner {
     query(query: string, parameters?: any[]): Promise<any> {
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError();
 
-        const connection = this.driver.connection;
+        const { connection } = this.driver;
 
         return new Promise<any[]>(async (ok, fail) => {
             const handler = function (err: any, result: any) {
                 // log slow queries if maxQueryExecution time is set
-                const maxQueryExecutionTime =
-                    connection.options.maxQueryExecutionTime;
+                const { maxQueryExecutionTime } = connection.options;
                 const queryEndTime = +new Date();
                 const queryExecutionTime = queryEndTime - queryStartTime;
                 if (

@@ -565,7 +565,7 @@ export class CockroachDriver implements Driver {
      * Creates column type definition including length, precision and scale
      */
     createFullType(column: TableColumn): string {
-        let type = column.type;
+        let { type } = column;
 
         if (column.length) {
             type += `(${column.length})`;

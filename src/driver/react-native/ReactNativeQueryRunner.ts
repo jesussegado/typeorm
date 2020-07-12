@@ -40,8 +40,9 @@ export class ReactNativeQueryRunner extends AbstractSqliteQueryRunner {
                 parameters,
                 (result: any) => {
                     // log slow queries if maxQueryExecution time is set
-                    const maxQueryExecutionTime = this.driver.connection.options
-                        .maxQueryExecutionTime;
+                    const {
+                        maxQueryExecutionTime,
+                    } = this.driver.connection.options;
                     const queryEndTime = +new Date();
                     const queryExecutionTime = queryEndTime - queryStartTime;
                     if (

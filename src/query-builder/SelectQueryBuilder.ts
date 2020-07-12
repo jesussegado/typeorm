@@ -1343,7 +1343,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.limit = this.normalizeNumber(limit);
         if (
             this.expressionMap.limit !== undefined &&
-            isNaN(this.expressionMap.limit)
+            Number.isNaN(this.expressionMap.limit)
         )
             throw new Error(
                 `Provided "limit" value is not a number. Please provide a numeric value.`
@@ -1362,7 +1362,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.offset = this.normalizeNumber(offset);
         if (
             this.expressionMap.offset !== undefined &&
-            isNaN(this.expressionMap.offset)
+            Number.isNaN(this.expressionMap.offset)
         )
             throw new Error(
                 `Provided "offset" value is not a number. Please provide a numeric value.`
@@ -1378,7 +1378,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.take = this.normalizeNumber(take);
         if (
             this.expressionMap.take !== undefined &&
-            isNaN(this.expressionMap.take)
+            Number.isNaN(this.expressionMap.take)
         )
             throw new Error(
                 `Provided "take" value is not a number. Please provide a numeric value.`
@@ -1394,7 +1394,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.skip = this.normalizeNumber(skip);
         if (
             this.expressionMap.skip !== undefined &&
-            isNaN(this.expressionMap.skip)
+            Number.isNaN(this.expressionMap.skip)
         )
             throw new Error(
                 `Provided "skip" value is not a number. Please provide a numeric value.`
@@ -1561,7 +1561,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
             this.expressionMap.lockMode === "optimistic" &&
             this.expressionMap.lockVersion
         ) {
-            const metadata = this.expressionMap.mainAlias!.metadata;
+            const { metadata } = this.expressionMap.mainAlias!;
 
             if (this.expressionMap.lockVersion instanceof Date) {
                 const actualVersion = metadata.updateDateColumn!.getEntityValue(
@@ -1891,7 +1891,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         const excludedSelects: SelectQuery[] = [];
 
         if (this.expressionMap.mainAlias.hasMetadata) {
-            const metadata = this.expressionMap.mainAlias.metadata;
+            const { metadata } = this.expressionMap.mainAlias;
             allSelects.push(
                 ...this.buildEscapedEntityColumnSelects(
                     this.expressionMap.mainAlias.name,
@@ -2028,13 +2028,13 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         //     .leftJoinAndSelect("category.post", "post");
 
         const joins = this.expressionMap.joinAttributes.map((joinAttr) => {
-            const relation = joinAttr.relation;
+            const { relation } = joinAttr;
             const destinationTableName = joinAttr.tablePath;
             const destinationTableAlias = joinAttr.alias.name;
             const appendedCondition = joinAttr.condition
                 ? ` AND (${joinAttr.condition})`
                 : "";
-            const parentAlias = joinAttr.parentAlias;
+            const { parentAlias } = joinAttr;
 
             // if join was build without relation (e.g. without "post.category") then it means that we have direct
             // table to join, without junction table involved. This means we simply join direct table.
@@ -2100,7 +2100,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
             const junctionTableName = relation.junctionEntityMetadata!
                 .tablePath;
 
-            const junctionAlias = joinAttr.junctionAlias;
+            const { junctionAlias } = joinAttr;
             let junctionCondition = "";
             let destinationCondition = "";
 
@@ -2201,8 +2201,8 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
     protected createLimitOffsetExpression(): string {
         // in the case if nothing is joined in the query builder we don't need to make two requests to get paginated results
         // we can use regular limit / offset, that's why we add offset and limit construction here based on skip and take values
-        let offset: number | undefined = this.expressionMap.offset;
-        let limit: number | undefined = this.expressionMap.limit;
+        let { offset } = this.expressionMap;
+        let { limit } = this.expressionMap;
         if (
             !offset &&
             !limit &&
@@ -2261,7 +2261,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
      * Creates "LOCK" part of SQL query.
      */
     protected createLockExpression(): string {
-        const driver = this.connection.driver;
+        const { driver } = this.connection;
         switch (this.expressionMap.lockMode) {
             case "pessimistic_read":
                 if (
@@ -2450,7 +2450,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         queryRunner: QueryRunner
     ): Promise<number> {
         const mainAlias = this.expressionMap.mainAlias!.name; // todo: will this work with "fromTableName"?
-        const metadata = this.expressionMap.mainAlias!.metadata;
+        const { metadata } = this.expressionMap.mainAlias!;
 
         const distinctAlias = this.escape(mainAlias);
         let countSql: string = "";
@@ -2523,7 +2523,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
             throw new PessimisticLockTransactionRequiredError();
 
         if (this.expressionMap.lockMode === "optimistic") {
-            const metadata = this.expressionMap.mainAlias.metadata;
+            const { metadata } = this.expressionMap.mainAlias;
             if (!metadata.versionColumn && !metadata.updateDateColumn)
                 throw new NoVersionOrUpdateDateColumnError(metadata.name);
         }
@@ -2564,7 +2564,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                 selects,
                 orderBys,
             ] = this.createOrderByCombinedWithSelectExpression("distinctAlias");
-            const metadata = this.expressionMap.mainAlias.metadata;
+            const { metadata } = this.expressionMap.mainAlias;
             const mainAliasName = this.expressionMap.mainAlias.name;
 
             const querySelects = metadata.primaryColumns.map(

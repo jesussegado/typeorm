@@ -54,7 +54,7 @@ describe("query runner > create exclusion constraint", () => {
                 // clear sqls in memory to avoid removing tables when down queries executed.
                 queryRunner.clearSqlMemory();
 
-                const driver = connection.driver;
+                const { driver } = connection;
                 const exclusion1 = new TableExclusion({
                     expression: `USING gist (${driver.escape("name")} WITH =)`,
                 });

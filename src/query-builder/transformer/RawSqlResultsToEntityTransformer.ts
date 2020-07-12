@@ -108,7 +108,7 @@ export class RawSqlResultsToEntityTransformer {
         alias: Alias
     ): ObjectLiteral | undefined {
         // let hasColumns = false; // , hasEmbeddedColumns = false, hasParentColumns = false, hasParentEmbeddedColumns = false;
-        let metadata = alias.metadata;
+        let { metadata } = alias;
 
         if (metadata.discriminatorColumn) {
             const discriminatorValues = rawResults.map(
@@ -311,7 +311,7 @@ export class RawSqlResultsToEntityTransformer {
             )
                 return;
 
-            const relation = rawRelationIdResult.relationIdAttribute.relation;
+            const { relation } = rawRelationIdResult.relationIdAttribute;
             const valueMap = this.createValueMapFromJoinColumns(
                 relation,
                 rawRelationIdResult.relationIdAttribute.parentAlias,
@@ -343,18 +343,14 @@ export class RawSqlResultsToEntityTransformer {
                         columns = relation.inverseEntityMetadata.primaryColumns.map(
                             (joinColumn) => joinColumn
                         );
-                        // columns = relation.inverseRelation!.joinColumns.map(joinColumn => joinColumn.referencedColumn!); //.inverseEntityMetadata.primaryColumns.map(joinColumn => joinColumn);
+                    } else if (relation.isOwning) {
+                        columns = relation.inverseJoinColumns.map(
+                            (joinColumn) => joinColumn
+                        );
                     } else {
-                        // ManyToMany
-                        if (relation.isOwning) {
-                            columns = relation.inverseJoinColumns.map(
-                                (joinColumn) => joinColumn
-                            );
-                        } else {
-                            columns = relation.inverseRelation!.joinColumns.map(
-                                (joinColumn) => joinColumn
-                            );
-                        }
+                        columns = relation.inverseRelation!.joinColumns.map(
+                            (joinColumn) => joinColumn
+                        );
                     }
 
                     const idMap = columns.reduce((idMap, column) => {
@@ -453,8 +449,9 @@ export class RawSqlResultsToEntityTransformer {
                         .parentAlias === alias.name
             )
             .forEach((rawRelationCountResult) => {
-                const relation =
-                    rawRelationCountResult.relationCountAttribute.relation;
+                const {
+                    relation,
+                } = rawRelationCountResult.relationCountAttribute;
                 let referenceColumnName: string;
 
                 if (relation.isOneToMany) {

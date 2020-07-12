@@ -102,7 +102,7 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
             const updateResult = new UpdateResult();
             const result = await queryRunner.query(sql, parameters);
 
-            const driver = queryRunner.connection.driver;
+            const { driver } = queryRunner.connection;
             if (driver instanceof PostgresDriver) {
                 updateResult.raw = result[0];
                 updateResult.affected = result[1];
@@ -537,7 +537,7 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
      * Creates "ORDER BY" part of SQL query.
      */
     protected createOrderByExpression() {
-        const orderBys = this.expressionMap.orderBys;
+        const { orderBys } = this.expressionMap;
         if (Object.keys(orderBys).length > 0)
             return ` ORDER BY ${Object.keys(orderBys)
                 .map((columnName) => {
@@ -559,7 +559,7 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
      * Creates "LIMIT" parts of SQL query.
      */
     protected createLimitExpression(): string {
-        const limit: number | undefined = this.expressionMap.limit;
+        const { limit } = this.expressionMap;
 
         if (limit) {
             if (this.connection.driver instanceof MysqlDriver) {

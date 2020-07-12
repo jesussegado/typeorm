@@ -602,7 +602,7 @@ export class Connection {
 
     // This database name property is nested for replication configs.
     protected getDatabaseName(): string {
-        const options = this.options;
+        const { options } = this;
         switch (options.type) {
             case "mysql":
             case "mariadb":

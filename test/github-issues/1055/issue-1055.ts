@@ -25,7 +25,7 @@ describe("github issues > #1055 ind with relations not working, correct syntax c
     it("should be able to find by object reference", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const manager = connection.manager;
+                const { manager } = connection;
 
                 const parent = new Parent();
                 parent.name = "Parent";
@@ -53,7 +53,7 @@ describe("github issues > #1055 ind with relations not working, correct syntax c
     it("should be able to lookup from promise as well", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const manager = connection.manager;
+                const { manager } = connection;
 
                 const parent = new Parent();
                 parent.name = "Parent";
@@ -79,7 +79,7 @@ describe("github issues > #1055 ind with relations not working, correct syntax c
     it("should not have type errors with the primary key type", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const manager = connection.manager;
+                const { manager } = connection;
 
                 const parent = new Parent();
                 parent.name = "Parent";

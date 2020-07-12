@@ -82,7 +82,7 @@ export class DeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
             const deleteResult = new DeleteResult();
             const result = await queryRunner.query(sql, parameters);
 
-            const driver = queryRunner.connection.driver;
+            const { driver } = queryRunner.connection;
             if (
                 driver instanceof MysqlDriver ||
                 driver instanceof AuroraDataApiDriver

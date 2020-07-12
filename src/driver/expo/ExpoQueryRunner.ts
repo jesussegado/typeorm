@@ -127,8 +127,9 @@ export class ExpoQueryRunner extends AbstractSqliteQueryRunner {
                         parameters,
                         (t: ITransaction, result: IResultSet) => {
                             // log slow queries if maxQueryExecution time is set
-                            const maxQueryExecutionTime = this.driver.connection
-                                .options.maxQueryExecutionTime;
+                            const {
+                                maxQueryExecutionTime,
+                            } = this.driver.connection.options;
                             const queryEndTime = +new Date();
                             const queryExecutionTime =
                                 queryEndTime - queryStartTime;

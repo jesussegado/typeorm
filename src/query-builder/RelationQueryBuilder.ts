@@ -165,9 +165,9 @@ export class RelationQueryBuilder<Entity> extends QueryBuilder<Entity> {
      * You can also provide ids of relational entities to filter by.
      */
     async loadMany<T = any>(): Promise<T[]> {
-        let of = this.expressionMap.of;
+        let { of } = this.expressionMap;
         if (!(of instanceof Object)) {
-            const metadata = this.expressionMap.mainAlias!.metadata;
+            const { metadata } = this.expressionMap.mainAlias!;
             if (metadata.hasMultiplePrimaryKeys)
                 throw new Error(
                     `Cannot load entity because only one primary key was specified, however entity contains multiple primary keys`

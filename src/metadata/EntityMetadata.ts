@@ -839,8 +839,8 @@ export class EntityMetadata {
     // ---------------------------------------------------------------------
 
     build() {
-        const namingStrategy = this.connection.namingStrategy;
-        const entityPrefix = this.connection.options.entityPrefix;
+        const { namingStrategy } = this.connection;
+        const { entityPrefix } = this.connection.options;
         this.engine = this.tableMetadataArgs.engine;
         this.database =
             this.tableMetadataArgs.type === "entity-child" &&

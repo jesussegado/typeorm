@@ -101,7 +101,7 @@ export class RelationUpdater {
                     `You cannot update relations of multiple entities with the same related object. Provide a single entity into .of method.`
                 );
 
-            const of = this.expressionMap.of;
+            const { of } = this.expressionMap;
             const updateSet = relation.inverseRelation!.joinColumns.reduce(
                 (updateSet, joinColumn) => {
                     const relationValue =

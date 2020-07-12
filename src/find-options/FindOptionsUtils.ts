@@ -102,7 +102,7 @@ export class FindOptionsUtils {
         )
             return qb;
 
-        const metadata = qb.expressionMap.mainAlias!.metadata;
+        const { metadata } = qb.expressionMap.mainAlias!;
 
         // apply all options from FindOptions
         if (options.select) {

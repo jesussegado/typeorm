@@ -57,7 +57,7 @@ describe("query runner > create check constraint", () => {
                 // clear sqls in memory to avoid removing tables when down queries executed.
                 queryRunner.clearSqlMemory();
 
-                const driver = connection.driver;
+                const { driver } = connection;
                 const check1 = new TableCheck({
                     expression: `${driver.escape(
                         "name"

@@ -544,7 +544,7 @@ export class OracleDriver implements Driver {
     }
 
     createFullType(column: TableColumn): string {
-        let type = column.type;
+        let { type } = column;
 
         // used 'getColumnLength()' method, because in Oracle column length is required for some data types.
         if (this.getColumnLength(column)) {

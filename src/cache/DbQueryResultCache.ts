@@ -60,7 +60,7 @@ export class DbQueryResultCache implements QueryResultCache {
      */
     async synchronize(queryRunner?: QueryRunner): Promise<void> {
         queryRunner = this.getQueryRunner(queryRunner);
-        const driver = this.connection.driver;
+        const { driver } = this.connection;
         const tableExist = await queryRunner.hasTable(
             this.queryResultCacheTable
         ); // todo: table name should be configurable

@@ -30,7 +30,7 @@ export class EntitySchemaTransformer {
         const metadataArgsStorage = new MetadataArgsStorage();
 
         schemas.forEach((entitySchema) => {
-            const options = entitySchema.options;
+            const { options } = entitySchema;
 
             // add table metadata args from the schema
             const tableMetadata: TableMetadataArgs = {

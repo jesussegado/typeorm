@@ -18,9 +18,9 @@ describe("github issues > #799 sqlite: 'database' path should be created", () =>
     before(cleanup);
     after(cleanup);
 
-    afterEach(() => {
+    afterEach(async () => {
         if (connection && connection.isConnected) {
-            connection.close();
+            await connection.close();
         }
     });
 

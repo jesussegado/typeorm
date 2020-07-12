@@ -225,7 +225,7 @@ export class DateUtils {
     static stringToSimpleEnum(value: any, columnMetadata: ColumnMetadata) {
         if (
             columnMetadata.enum &&
-            !isNaN(value) &&
+            !Number.isNaN(value) &&
             columnMetadata.enum.indexOf(parseInt(value)) >= 0
         ) {
             // convert to number if that exists in poosible enum options

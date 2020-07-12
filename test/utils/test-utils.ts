@@ -311,7 +311,7 @@ export async function createTestingConnections(
                             schemaPaths.push(entityMetadata.schemaPath!);
                     });
 
-                const schema = connection.driver.options.schema;
+                const { schema } = connection.driver.options;
                 if (schema && schemaPaths.indexOf(schema) === -1)
                     schemaPaths.push(schema);
 

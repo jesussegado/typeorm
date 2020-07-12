@@ -161,8 +161,9 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                 const statement = databaseConnection.prepare(query);
                 statement.exec(parameters, (err: any, result: any) => {
                     // log slow queries if maxQueryExecution time is set
-                    const maxQueryExecutionTime = this.driver.connection.options
-                        .maxQueryExecutionTime;
+                    const {
+                        maxQueryExecutionTime,
+                    } = this.driver.connection.options;
                     const queryEndTime = +new Date();
                     const queryExecutionTime = queryEndTime - queryStartTime;
                     if (
@@ -743,7 +744,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
 
         // create or update primary key constraint
         if (column.isPrimary) {
-            const primaryColumns = clonedTable.primaryColumns;
+            const { primaryColumns } = clonedTable;
             // if table already have primary key, me must drop it and recreate again
             if (primaryColumns.length > 0) {
                 // SAP HANA does not allow to drop PK's which is referenced by foreign keys.
@@ -1008,7 +1009,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                 );
 
                 if (oldColumn.isPrimary === true) {
-                    const primaryColumns = clonedTable.primaryColumns;
+                    const { primaryColumns } = clonedTable;
 
                     // build old primary constraint name
                     const columnNames = primaryColumns.map(
@@ -1186,7 +1187,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             }
 
             if (newColumn.isPrimary !== oldColumn.isPrimary) {
-                const primaryColumns = clonedTable.primaryColumns;
+                const { primaryColumns } = clonedTable;
 
                 // if primary column state changed, we must always drop existed constraint.
                 if (primaryColumns.length > 0) {
@@ -1764,7 +1765,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         }
 
         // if table already have primary columns, we must drop them.
-        const primaryColumns = clonedTable.primaryColumns;
+        const { primaryColumns } = clonedTable;
         if (primaryColumns.length > 0) {
             const pkName = this.connection.namingStrategy.primaryKeyName(
                 clonedTable.name,
@@ -2955,10 +2956,9 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         const currentSchema = await this.getCurrentSchema();
         const splittedName = view.name.split(".");
         let schema = this.driver.options.schema || currentSchema;
-        let name = view.name;
+        let { name } = view;
         if (splittedName.length === 2) {
-            schema = splittedName[0];
-            name = splittedName[1];
+            [schema, name] = splittedName;
         }
 
         const expression =
@@ -3000,8 +3000,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         let schema = this.driver.options.schema || currentSchema;
         let name = viewName;
         if (splittedName.length === 2) {
-            schema = splittedName[0];
-            name = splittedName[1];
+            [schema, name] = splittedName;
         }
 
         const qb = this.connection.createQueryBuilder();

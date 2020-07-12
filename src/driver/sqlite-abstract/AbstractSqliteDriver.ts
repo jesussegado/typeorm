@@ -502,7 +502,7 @@ export abstract class AbstractSqliteDriver implements Driver {
      * Normalizes "default" value of the column.
      */
     createFullType(column: TableColumn): string {
-        let type = column.type;
+        let { type } = column;
         if (column.enum) {
             return "varchar";
         }

@@ -31,7 +31,7 @@ export class ReturningResultsEntityUpdator {
         updateResult: UpdateResult,
         entities: ObjectLiteral[]
     ): Promise<void> {
-        const metadata = this.expressionMap.mainAlias!.metadata;
+        const { metadata } = this.expressionMap.mainAlias!;
 
         await Promise.all(
             entities.map(async (entity, entityIndex) => {
@@ -128,7 +128,7 @@ export class ReturningResultsEntityUpdator {
         insertResult: InsertResult,
         entities: ObjectLiteral[]
     ): Promise<void> {
-        const metadata = this.expressionMap.mainAlias!.metadata;
+        const { metadata } = this.expressionMap.mainAlias!;
         const insertionColumns = this.getInsertionReturningColumns();
 
         const generatedMaps = entities.map((entity, entityIndex) => {
