@@ -520,7 +520,8 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
             )} SET ${updateColumnAndValues.join(
                 ", "
             )}${whereExpression} RETURNING ${returningExpression}`;
-        } else if (
+        }
+        if (
             returningExpression &&
             this.connection.driver instanceof SqlServerDriver
         ) {
@@ -529,11 +530,10 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
             )} SET ${updateColumnAndValues.join(
                 ", "
             )} OUTPUT ${returningExpression}${whereExpression}`;
-        } else {
-            return `UPDATE ${this.getTableName(
-                this.getMainTableName()
-            )} SET ${updateColumnAndValues.join(", ")}${whereExpression}`; // todo: how do we replace aliases in where to nothing?
         }
+        return `UPDATE ${this.getTableName(
+            this.getMainTableName()
+        )} SET ${updateColumnAndValues.join(", ")}${whereExpression}`; // todo: how do we replace aliases in where to nothing?
     }
 
     /**
@@ -548,11 +548,10 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
                         return `${this.replacePropertyNames(columnName)} ${
                             orderBys[columnName]
                         }`;
-                    } else {
-                        return `${this.replacePropertyNames(columnName)} ${
-                            (orderBys[columnName] as any).order
-                        } ${(orderBys[columnName] as any).nulls}`;
                     }
+                    return `${this.replacePropertyNames(columnName)} ${
+                        (orderBys[columnName] as any).order
+                    } ${(orderBys[columnName] as any).nulls}`;
                 })
                 .join(", ")}`;
 
@@ -568,9 +567,8 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         if (limit) {
             if (this.connection.driver instanceof MysqlDriver) {
                 return ` LIMIT ${limit}`;
-            } else {
-                throw new LimitOnUpdateNotSupportedError();
             }
+            throw new LimitOnUpdateNotSupportedError();
         }
 
         return "";

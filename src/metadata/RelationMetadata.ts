@@ -306,14 +306,12 @@ export class RelationMetadata {
             (Array.isArray(args.options.cascade) &&
                 args.options.cascade.indexOf("recover") !== -1);
         this.isPrimary = args.options.primary || false;
-        this.isNullable =
-            args.options.nullable === false || this.isPrimary ? false : true;
+        this.isNullable = !(args.options.nullable === false || this.isPrimary);
         this.onDelete = args.options.onDelete;
         this.onUpdate = args.options.onUpdate;
         this.deferrable = args.options.deferrable;
         this.isEager = args.options.eager || false;
-        this.persistenceEnabled =
-            args.options.persistence === false ? false : true;
+        this.persistenceEnabled = args.options.persistence !== false;
         this.isTreeParent = args.isTreeParent || false;
         this.isTreeChildren = args.isTreeChildren || false;
         this.type =
@@ -325,8 +323,8 @@ export class RelationMetadata {
         this.isOneToMany = this.relationType === "one-to-many";
         this.isManyToOne = this.relationType === "many-to-one";
         this.isManyToMany = this.relationType === "many-to-many";
-        this.isOneToOneNotOwner = this.isOneToOne ? true : false;
-        this.isManyToManyNotOwner = this.isManyToMany ? true : false;
+        this.isOneToOneNotOwner = !!this.isOneToOne;
+        this.isManyToManyNotOwner = !!this.isManyToMany;
     }
 
     // ---------------------------------------------------------------------
@@ -432,19 +430,18 @@ export class RelationMetadata {
                           : this.propertyName
                   ]
                 : undefined;
-        } else {
-            // no embeds - no problems. Simply return column name by property name of the entity
-            if (this.isLazy) {
-                if (entity[`__${this.propertyName}__`] !== undefined)
-                    return entity[`__${this.propertyName}__`];
-
-                if (getLazyRelationsPromiseValue === true)
-                    return entity[this.propertyName];
-
-                return undefined;
-            }
-            return entity[this.propertyName];
         }
+        // no embeds - no problems. Simply return column name by property name of the entity
+        if (this.isLazy) {
+            if (entity[`__${this.propertyName}__`] !== undefined)
+                return entity[`__${this.propertyName}__`];
+
+            if (getLazyRelationsPromiseValue === true)
+                return entity[this.propertyName];
+
+            return undefined;
+        }
+        return entity[this.propertyName];
     }
 
     /**
@@ -487,9 +484,8 @@ export class RelationMetadata {
                 [...this.embeddedMetadata.embeddedMetadataTree],
                 entity
             );
-        } else {
-            entity[propertyName] = value;
         }
+        entity[propertyName] = value;
     }
 
     /**
@@ -529,10 +525,9 @@ export class RelationMetadata {
                 return map;
             };
             return extractEmbeddedColumnValue(propertyNames, {});
-        } else {
-            // no embeds - no problems. Simply return column property name and its value of the entity
-            return { [this.propertyName]: value };
         }
+        // no embeds - no problems. Simply return column property name and its value of the entity
+        return { [this.propertyName]: value };
     }
 
     // ---------------------------------------------------------------------

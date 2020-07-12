@@ -45,9 +45,9 @@ export class RelationIdLoader {
         maybeRelatedEntities?: ObjectLiteral | ObjectLiteral[]
     ): Promise<any[]> {
         // normalize arguments
-        let relation: RelationMetadata | undefined,
-            entities: ObjectLiteral[],
-            relatedEntities: ObjectLiteral[] | undefined;
+        let relation: RelationMetadata | undefined;
+        let entities: ObjectLiteral[];
+        let relatedEntities: ObjectLiteral[] | undefined;
         if (relationOrTarget instanceof RelationMetadata) {
             relation = relationOrTarget;
             entities = Array.isArray(relationNameOrEntities)
@@ -83,20 +83,20 @@ export class RelationIdLoader {
         // load relation ids depend of relation type
         if (relation.isManyToMany) {
             return this.loadForManyToMany(relation, entities, relatedEntities);
-        } else if (relation.isManyToOne || relation.isOneToOneOwner) {
+        }
+        if (relation.isManyToOne || relation.isOneToOneOwner) {
             return this.loadForManyToOneAndOneToOneOwner(
                 relation,
                 entities,
                 relatedEntities
             );
-        } else {
-            // if (relation.isOneToMany || relation.isOneToOneNotOwner) {
-            return this.loadForOneToManyAndOneToOneNotOwner(
-                relation,
-                entities,
-                relatedEntities
-            );
         }
+        // if (relation.isOneToMany || relation.isOneToOneNotOwner) {
+        return this.loadForOneToManyAndOneToOneNotOwner(
+            relation,
+            entities,
+            relatedEntities
+        );
     }
 
     /**
@@ -139,7 +139,8 @@ export class RelationIdLoader {
             ? relatedEntityOrEntities
             : [relatedEntityOrEntities!];
 
-        let columns: ColumnMetadata[], inverseColumns: ColumnMetadata[];
+        let columns: ColumnMetadata[];
+        let inverseColumns: ColumnMetadata[];
         if (relation.isManyToManyOwner) {
             columns = relation.junctionEntityMetadata!.inverseColumns.map(
                 (column) => column.referencedColumn!

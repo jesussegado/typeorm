@@ -32,26 +32,27 @@ export class RelationLoader {
                 entityOrEntities,
                 queryRunner
             );
-        } else if (relation.isOneToMany || relation.isOneToOneNotOwner) {
+        }
+        if (relation.isOneToMany || relation.isOneToOneNotOwner) {
             return this.loadOneToManyOrOneToOneNotOwner(
                 relation,
                 entityOrEntities,
                 queryRunner
             );
-        } else if (relation.isManyToManyOwner) {
+        }
+        if (relation.isManyToManyOwner) {
             return this.loadManyToManyOwner(
                 relation,
                 entityOrEntities,
                 queryRunner
             );
-        } else {
-            // many-to-many non owner
-            return this.loadManyToManyNotOwner(
-                relation,
-                entityOrEntities,
-                queryRunner
-            );
         }
+        // many-to-many non owner
+        return this.loadManyToManyNotOwner(
+            relation,
+            entityOrEntities,
+            queryRunner
+        );
     }
 
     /**

@@ -30,14 +30,19 @@ export class RandomGenerator {
         };
 
         let blockstart;
-        let i, j;
+        let i;
+        let j;
         const W = new Array(80);
         let H0 = 0x67452301;
         let H1 = 0xefcdab89;
         let H2 = 0x98badcfe;
         let H3 = 0x10325476;
         let H4 = 0xc3d2e1f0;
-        let A, B, C, D, E;
+        let A;
+        let B;
+        let C;
+        let D;
+        let E;
         let temp;
 
         // utf8_encode
@@ -168,8 +173,8 @@ export class RandomGenerator {
      */
     static uuid4(): string {
         return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-            const r = (Math.random() * 16) | 0,
-                v = c === "x" ? r : (r & 0x3) | 0x8;
+            const r = (Math.random() * 16) | 0;
+            const v = c === "x" ? r : (r & 0x3) | 0x8;
             return v.toString(16);
         });
     }

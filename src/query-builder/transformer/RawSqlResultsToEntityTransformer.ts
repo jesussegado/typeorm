@@ -375,18 +375,17 @@ export class RawSqlResultsToEntityTransformer {
                                 idMap,
                                 column.createValueMap(value)
                             );
-                        } else {
-                            if (column.referencedColumn!.referencedColumn)
-                                // if column is a relation
-                                value = column.referencedColumn!.referencedColumn!.createValueMap(
-                                    value
-                                );
-
-                            return OrmUtils.mergeDeep(
-                                idMap,
-                                column.referencedColumn!.createValueMap(value)
-                            );
                         }
+                        if (column.referencedColumn!.referencedColumn)
+                            // if column is a relation
+                            value = column.referencedColumn!.referencedColumn!.createValueMap(
+                                value
+                            );
+
+                        return OrmUtils.mergeDeep(
+                            idMap,
+                            column.referencedColumn!.createValueMap(value)
+                        );
                     }, {} as ObjectLiteral);
 
                     if (
@@ -399,11 +398,10 @@ export class RawSqlResultsToEntityTransformer {
                             relation.isOneToOneNotOwner
                         ) {
                             return columns[0].getEntityValue(idMap);
-                        } else {
-                            return columns[0].referencedColumn!.getEntityValue(
-                                idMap
-                            );
                         }
+                        return columns[0].referencedColumn!.getEntityValue(
+                            idMap
+                        );
                     }
                     return idMap;
                 })
@@ -421,7 +419,8 @@ export class RawSqlResultsToEntityTransformer {
                 if (property && properties.length === 0) {
                     map[property] = value;
                     return map;
-                } else if (property && properties.length > 0) {
+                }
+                if (property && properties.length > 0) {
                     mapToProperty(properties, map[property], value);
                 } else {
                     return map;

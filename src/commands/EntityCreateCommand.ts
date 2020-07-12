@@ -1,6 +1,7 @@
 import * as yargs from "yargs";
 import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
 import { CommandUtils } from "./CommandUtils";
+
 const chalk = require("chalk");
 
 /**

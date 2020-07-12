@@ -2,6 +2,7 @@ import * as path from "path";
 import * as yargs from "yargs";
 import { CommandUtils } from "./CommandUtils";
 import { ObjectLiteral } from "../common/ObjectLiteral";
+
 const chalk = require("chalk");
 
 /**
@@ -42,8 +43,8 @@ export class InitCommand implements yargs.CommandModule {
     async handler(args: yargs.Arguments) {
         try {
             const database: string = (args.database as any) || "mysql";
-            const isExpress = args.express !== undefined ? true : false;
-            const isDocker = args.docker !== undefined ? true : false;
+            const isExpress = args.express !== undefined;
+            const isDocker = args.docker !== undefined;
             const basePath = process.cwd() + (args.name ? `/${args.name}` : "");
             const projectName = args.name
                 ? path.basename(args.name as any)
@@ -411,8 +412,8 @@ createConnection().then(async connection => {
 
 }).catch(error => console.log(error));
 `;
-        } else {
-            return `import "reflect-metadata";
+        }
+        return `import "reflect-metadata";
 import {createConnection} from "typeorm";
 import {User} from "./entity/User";
 
@@ -434,7 +435,6 @@ createConnection().then(async connection => {
 
 }).catch(error => console.log(error));
 `;
-        }
     }
 
     /**

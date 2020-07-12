@@ -99,9 +99,8 @@ export class DepGraph {
     getNodeData(node: any) {
         if (this.hasNode(node)) {
             return this.nodes[node];
-        } else {
-            throw new Error(`Node does not exist: ${node}`);
         }
+        throw new Error(`Node does not exist: ${node}`);
     }
 
     /**
@@ -173,9 +172,8 @@ export class DepGraph {
                 result.splice(idx, 1);
             }
             return result;
-        } else {
-            throw new Error(`Node does not exist: ${node}`);
         }
+        throw new Error(`Node does not exist: ${node}`);
     }
 
     /**
@@ -195,9 +193,8 @@ export class DepGraph {
                 result.splice(idx, 1);
             }
             return result;
-        } else {
-            throw new Error(`Node does not exist: ${node}`);
         }
+        throw new Error(`Node does not exist: ${node}`);
     }
 
     /**
@@ -213,24 +210,23 @@ export class DepGraph {
         const keys = Object.keys(this.nodes);
         if (keys.length === 0) {
             return result; // Empty graph
-        } else {
-            // Look for cycles - we run the DFS starting at all the nodes in case there
-            // are several disconnected subgraphs inside this dependency graph.
-            const CycleDFS = createDFS(this.outgoingEdges, false, []);
-            keys.forEach(function (n: any) {
-                CycleDFS(n);
-            });
-
-            const DFS = createDFS(this.outgoingEdges, leavesOnly, result);
-            // Find all potential starting points (nodes with nothing depending on them) an
-            // run a DFS starting at these points to get the order
-            keys.filter(function (node) {
-                return self.incomingEdges[node].length === 0;
-            }).forEach(function (n) {
-                DFS(n);
-            });
-
-            return result;
         }
+        // Look for cycles - we run the DFS starting at all the nodes in case there
+        // are several disconnected subgraphs inside this dependency graph.
+        const CycleDFS = createDFS(this.outgoingEdges, false, []);
+        keys.forEach(function (n: any) {
+            CycleDFS(n);
+        });
+
+        const DFS = createDFS(this.outgoingEdges, leavesOnly, result);
+        // Find all potential starting points (nodes with nothing depending on them) an
+        // run a DFS starting at these points to get the order
+        keys.filter(function (node) {
+            return self.incomingEdges[node].length === 0;
+        }).forEach(function (n) {
+            DFS(n);
+        });
+
+        return result;
     }
 }

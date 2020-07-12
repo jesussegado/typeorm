@@ -2077,7 +2077,8 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                 )} ON ${this.replacePropertyNames(
                     condition + appendedCondition
                 )}`;
-            } else if (relation.isOneToMany || relation.isOneToOneNotOwner) {
+            }
+            if (relation.isOneToMany || relation.isOneToOneNotOwner) {
                 // JOIN `post` `post` ON `post`.`categoryId` = `category`.`id`
                 const condition = relation
                     .inverseRelation!.joinColumns.map((joinColumn) => {
@@ -2098,71 +2099,68 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                 )} ON ${this.replacePropertyNames(
                     condition + appendedCondition
                 )}`;
-            } else {
-                // means many-to-many
-                const junctionTableName = relation.junctionEntityMetadata!
-                    .tablePath;
-
-                const junctionAlias = joinAttr.junctionAlias;
-                let junctionCondition = "",
-                    destinationCondition = "";
-
-                if (relation.isOwning) {
-                    junctionCondition = relation.joinColumns
-                        .map((joinColumn) => {
-                            // `post_category`.`postId` = `post`.`id`
-                            return `${junctionAlias}.${
-                                joinColumn.propertyPath
-                            }=${parentAlias}.${
-                                joinColumn.referencedColumn!.propertyPath
-                            }`;
-                        })
-                        .join(" AND ");
-
-                    destinationCondition = relation.inverseJoinColumns
-                        .map((joinColumn) => {
-                            // `category`.`id` = `post_category`.`categoryId`
-                            return `${destinationTableAlias}.${
-                                joinColumn.referencedColumn!.propertyPath
-                            }=${junctionAlias}.${joinColumn.propertyPath}`;
-                        })
-                        .join(" AND ");
-                } else {
-                    junctionCondition = relation
-                        .inverseRelation!.inverseJoinColumns.map(
-                            (joinColumn) => {
-                                // `post_category`.`categoryId` = `category`.`id`
-                                return `${junctionAlias}.${
-                                    joinColumn.propertyPath
-                                }=${parentAlias}.${
-                                    joinColumn.referencedColumn!.propertyPath
-                                }`;
-                            }
-                        )
-                        .join(" AND ");
-
-                    destinationCondition = relation
-                        .inverseRelation!.joinColumns.map((joinColumn) => {
-                            // `post`.`id` = `post_category`.`postId`
-                            return `${destinationTableAlias}.${
-                                joinColumn.referencedColumn!.propertyPath
-                            }=${junctionAlias}.${joinColumn.propertyPath}`;
-                        })
-                        .join(" AND ");
-                }
-
-                return ` ${joinAttr.direction} JOIN ${this.getTableName(
-                    junctionTableName
-                )} ${this.escape(junctionAlias)} ON ${this.replacePropertyNames(
-                    junctionCondition
-                )} ${joinAttr.direction} JOIN ${this.getTableName(
-                    destinationTableName
-                )} ${this.escape(
-                    destinationTableAlias
-                )} ON ${this.replacePropertyNames(
-                    destinationCondition + appendedCondition
-                )}`;
             }
+            // means many-to-many
+            const junctionTableName = relation.junctionEntityMetadata!
+                .tablePath;
+
+            const junctionAlias = joinAttr.junctionAlias;
+            let junctionCondition = "";
+            let destinationCondition = "";
+
+            if (relation.isOwning) {
+                junctionCondition = relation.joinColumns
+                    .map((joinColumn) => {
+                        // `post_category`.`postId` = `post`.`id`
+                        return `${junctionAlias}.${
+                            joinColumn.propertyPath
+                        }=${parentAlias}.${
+                            joinColumn.referencedColumn!.propertyPath
+                        }`;
+                    })
+                    .join(" AND ");
+
+                destinationCondition = relation.inverseJoinColumns
+                    .map((joinColumn) => {
+                        // `category`.`id` = `post_category`.`categoryId`
+                        return `${destinationTableAlias}.${
+                            joinColumn.referencedColumn!.propertyPath
+                        }=${junctionAlias}.${joinColumn.propertyPath}`;
+                    })
+                    .join(" AND ");
+            } else {
+                junctionCondition = relation
+                    .inverseRelation!.inverseJoinColumns.map((joinColumn) => {
+                        // `post_category`.`categoryId` = `category`.`id`
+                        return `${junctionAlias}.${
+                            joinColumn.propertyPath
+                        }=${parentAlias}.${
+                            joinColumn.referencedColumn!.propertyPath
+                        }`;
+                    })
+                    .join(" AND ");
+
+                destinationCondition = relation
+                    .inverseRelation!.joinColumns.map((joinColumn) => {
+                        // `post`.`id` = `post_category`.`postId`
+                        return `${destinationTableAlias}.${
+                            joinColumn.referencedColumn!.propertyPath
+                        }=${junctionAlias}.${joinColumn.propertyPath}`;
+                    })
+                    .join(" AND ");
+            }
+
+            return ` ${joinAttr.direction} JOIN ${this.getTableName(
+                junctionTableName
+            )} ${this.escape(junctionAlias)} ON ${this.replacePropertyNames(
+                junctionCondition
+            )} ${joinAttr.direction} JOIN ${this.getTableName(
+                destinationTableName
+            )} ${this.escape(
+                destinationTableAlias
+            )} ON ${this.replacePropertyNames(
+                destinationCondition + appendedCondition
+            )}`;
         });
 
         return joins.join(" ");
@@ -2191,11 +2189,10 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                         return `${this.replacePropertyNames(columnName)} ${
                             orderBys[columnName]
                         }`;
-                    } else {
-                        return `${this.replacePropertyNames(columnName)} ${
-                            (orderBys[columnName] as any).order
-                        } ${(orderBys[columnName] as any).nulls}`;
                     }
+                    return `${this.replacePropertyNames(columnName)} ${
+                        (orderBys[columnName] as any).order
+                    } ${(orderBys[columnName] as any).nulls}`;
                 })
                 .join(", ")}`;
 
@@ -2208,8 +2205,8 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
     protected createLimitOffsetExpression(): string {
         // in the case if nothing is joined in the query builder we don't need to make two requests to get paginated results
         // we can use regular limit / offset, that's why we add offset and limit construction here based on skip and take values
-        let offset: number | undefined = this.expressionMap.offset,
-            limit: number | undefined = this.expressionMap.limit;
+        let offset: number | undefined = this.expressionMap.offset;
+        let limit: number | undefined = this.expressionMap.limit;
         if (
             !offset &&
             !limit &&
@@ -2276,15 +2273,18 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                     driver instanceof AuroraDataApiDriver
                 ) {
                     return " LOCK IN SHARE MODE";
-                } else if (driver instanceof PostgresDriver) {
-                    return " FOR SHARE";
-                } else if (driver instanceof OracleDriver) {
-                    return " FOR UPDATE";
-                } else if (driver instanceof SqlServerDriver) {
-                    return "";
-                } else {
-                    throw new LockNotSupportedOnGivenDriverError();
                 }
+                if (driver instanceof PostgresDriver) {
+                    return " FOR SHARE";
+                }
+                if (driver instanceof OracleDriver) {
+                    return " FOR UPDATE";
+                }
+                if (driver instanceof SqlServerDriver) {
+                    return "";
+                }
+                throw new LockNotSupportedOnGivenDriverError();
+
             case "pessimistic_write":
                 if (
                     driver instanceof MysqlDriver ||
@@ -2293,30 +2293,30 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                     driver instanceof OracleDriver
                 ) {
                     return " FOR UPDATE";
-                } else if (driver instanceof SqlServerDriver) {
-                    return "";
-                } else {
-                    throw new LockNotSupportedOnGivenDriverError();
                 }
+                if (driver instanceof SqlServerDriver) {
+                    return "";
+                }
+                throw new LockNotSupportedOnGivenDriverError();
+
             case "pessimistic_partial_write":
                 if (driver instanceof PostgresDriver) {
                     return " FOR UPDATE SKIP LOCKED";
-                } else {
-                    throw new LockNotSupportedOnGivenDriverError();
                 }
+                throw new LockNotSupportedOnGivenDriverError();
+
             case "pessimistic_write_or_fail":
                 if (driver instanceof PostgresDriver) {
                     return " FOR UPDATE NOWAIT";
-                } else {
-                    throw new LockNotSupportedOnGivenDriverError();
                 }
+                throw new LockNotSupportedOnGivenDriverError();
 
             case "for_no_key_update":
                 if (driver instanceof PostgresDriver) {
                     return " FOR NO KEY UPDATE";
-                } else {
-                    throw new LockNotSupportedOnGivenDriverError();
                 }
+                throw new LockNotSupportedOnGivenDriverError();
+
             default:
                 return "";
         }
@@ -2428,11 +2428,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                               column.databaseName
                           ),
                 // todo: need to keep in mind that custom selection.aliasName breaks hydrator. fix it later!
-                virtual: selection
-                    ? selection.virtual === true
-                    : hasMainAlias
-                    ? false
-                    : true,
+                virtual: selection ? selection.virtual === true : !hasMainAlias,
             };
         });
     }
@@ -2555,8 +2551,8 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         );
         relationCountMetadataTransformer.transform();
 
-        let rawResults: any[] = [],
-            entities: any[] = [];
+        let rawResults: any[] = [];
+        let entities: any[] = [];
 
         // for pagination enabled (e.g. skip and take) its much more complicated - its a special process
         // where we make two queries to find the data we need
@@ -2731,18 +2727,17 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                             column!.databaseName
                         )
                     )}`;
-                } else {
-                    if (
-                        this.expressionMap.selects.find(
-                            (select) =>
-                                select.selection === orderCriteria ||
-                                select.aliasName === orderCriteria
-                        )
-                    )
-                        return `${this.escape(parentAlias)}.${orderCriteria}`;
-
-                    return "";
                 }
+                if (
+                    this.expressionMap.selects.find(
+                        (select) =>
+                            select.selection === orderCriteria ||
+                            select.aliasName === orderCriteria
+                    )
+                )
+                    return `${this.escape(parentAlias)}.${orderCriteria}`;
+
+                return "";
             })
             .join(", ");
 

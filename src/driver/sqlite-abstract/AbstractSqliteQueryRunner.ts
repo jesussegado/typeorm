@@ -163,7 +163,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
             tableOrName instanceof Table ? tableOrName.name : tableOrName;
         const sql = `SELECT * FROM "sqlite_master" WHERE "type" = 'table' AND "name" = '${tableName}'`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -1495,13 +1495,12 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
             return new Query(
                 `CREATE VIEW "${view.name}" AS ${view.expression}`
             );
-        } else {
-            return new Query(
-                `CREATE VIEW "${view.name}" AS ${view
-                    .expression(this.connection)
-                    .getQuery()}`
-            );
         }
+        return new Query(
+            `CREATE VIEW "${view.name}" AS ${view
+                .expression(this.connection)
+                .getQuery()}`
+        );
     }
 
     protected insertViewDefinitionSql(view: View): Query {

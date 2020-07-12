@@ -40,7 +40,7 @@ export function ViewEntity(
             type: "view",
             database: options.database ? options.database : undefined,
             schema: options.schema ? options.schema : undefined,
-            synchronize: options.synchronize === false ? false : true,
+            synchronize: options.synchronize !== false,
             materialized: !!options.materialized,
         } as TableMetadataArgs);
     };

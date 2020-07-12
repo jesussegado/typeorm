@@ -716,63 +716,61 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
             if (expression === "()") return "";
 
             return expression;
-        } else {
-            // for tables without metadata
-            // get values needs to be inserted
-            let expression = "";
-            let parametersCount = Object.keys(
-                this.expressionMap.nativeParameters
-            ).length;
-
-            valueSets.forEach((valueSet, insertionIndex) => {
-                const columns = Object.keys(valueSet);
-                columns.forEach((columnName, columnIndex) => {
-                    if (columnIndex === 0) {
-                        expression += "(";
-                    }
-                    const paramName = `i${insertionIndex}_${columnName}`;
-                    const value = valueSet[columnName];
-
-                    // support for SQL expressions in queries
-                    if (value instanceof Function) {
-                        expression += value();
-
-                        // if value for this column was not provided then insert default value
-                    } else if (value === undefined) {
-                        if (
-                            this.connection.driver instanceof
-                                AbstractSqliteDriver ||
-                            this.connection.driver instanceof SapDriver
-                        ) {
-                            expression += "NULL";
-                        } else {
-                            expression += "DEFAULT";
-                        }
-
-                        // just any other regular value
-                    } else {
-                        this.expressionMap.nativeParameters[paramName] = value;
-                        expression += this.connection.driver.createParameter(
-                            paramName,
-                            parametersCount
-                        );
-                        parametersCount++;
-                    }
-
-                    if (columnIndex === Object.keys(valueSet).length - 1) {
-                        if (insertionIndex === valueSets.length - 1) {
-                            expression += ")";
-                        } else {
-                            expression += "), ";
-                        }
-                    } else {
-                        expression += ", ";
-                    }
-                });
-            });
-            if (expression === "()") return "";
-            return expression;
         }
+        // for tables without metadata
+        // get values needs to be inserted
+        let expression = "";
+        let parametersCount = Object.keys(this.expressionMap.nativeParameters)
+            .length;
+
+        valueSets.forEach((valueSet, insertionIndex) => {
+            const columns = Object.keys(valueSet);
+            columns.forEach((columnName, columnIndex) => {
+                if (columnIndex === 0) {
+                    expression += "(";
+                }
+                const paramName = `i${insertionIndex}_${columnName}`;
+                const value = valueSet[columnName];
+
+                // support for SQL expressions in queries
+                if (value instanceof Function) {
+                    expression += value();
+
+                    // if value for this column was not provided then insert default value
+                } else if (value === undefined) {
+                    if (
+                        this.connection.driver instanceof
+                            AbstractSqliteDriver ||
+                        this.connection.driver instanceof SapDriver
+                    ) {
+                        expression += "NULL";
+                    } else {
+                        expression += "DEFAULT";
+                    }
+
+                    // just any other regular value
+                } else {
+                    this.expressionMap.nativeParameters[paramName] = value;
+                    expression += this.connection.driver.createParameter(
+                        paramName,
+                        parametersCount
+                    );
+                    parametersCount++;
+                }
+
+                if (columnIndex === Object.keys(valueSet).length - 1) {
+                    if (insertionIndex === valueSets.length - 1) {
+                        expression += ")";
+                    } else {
+                        expression += "), ";
+                    }
+                } else {
+                    expression += ", ";
+                }
+            });
+        });
+        if (expression === "()") return "";
+        return expression;
     }
 
     /**

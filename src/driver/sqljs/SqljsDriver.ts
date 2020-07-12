@@ -95,7 +95,8 @@ export class SqljsDriver extends AbstractSqliteDriver {
                         fileNameOrLocalStorageOrData
                     );
                     return this.createDatabaseConnectionWithImport(database);
-                } else if (checkIfFileOrLocalStorageExists) {
+                }
+                if (checkIfFileOrLocalStorageExists) {
                     throw new Error(
                         `File ${fileNameOrLocalStorageOrData} does not exist`
                     );
@@ -130,7 +131,8 @@ export class SqljsDriver extends AbstractSqliteDriver {
                     return this.createDatabaseConnectionWithImport(
                         JSON.parse(localStorageContent)
                     );
-                } else if (checkIfFileOrLocalStorageExists) {
+                }
+                if (checkIfFileOrLocalStorageExists) {
                     throw new Error(
                         `File ${fileNameOrLocalStorageOrData} does not exist`
                     );

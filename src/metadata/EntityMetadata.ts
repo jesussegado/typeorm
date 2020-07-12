@@ -611,7 +611,8 @@ export class EntityMetadata {
         const idMap = this.getEntityIdMap(entity);
         if (this.hasMultiplePrimaryKeys) {
             return idMap;
-        } else if (idMap) {
+        }
+        if (idMap) {
             return this.primaryColumns[0].getEntityValue(idMap); // todo: what about parent primary column?
         }
 
@@ -863,8 +864,7 @@ export class EntityMetadata {
             this.parentEntityMetadata
                 ? this.parentEntityMetadata.givenTableName
                 : this.tableMetadataArgs.name;
-        this.synchronize =
-            this.tableMetadataArgs.synchronize === false ? false : true;
+        this.synchronize = this.tableMetadataArgs.synchronize !== false;
         this.targetName =
             this.tableMetadataArgs.target instanceof Function
                 ? (this.tableMetadataArgs.target as any).name
@@ -908,8 +908,7 @@ export class EntityMetadata {
         this.target = this.target ? this.target : this.tableName;
         this.name = this.targetName ? this.targetName : this.tableName;
         this.expression = this.tableMetadataArgs.expression;
-        this.withoutRowid =
-            this.tableMetadataArgs.withoutRowid === true ? true : false;
+        this.withoutRowid = this.tableMetadataArgs.withoutRowid === true;
         this.tablePath = this.buildTablePath();
         this.schemaPath = this.buildSchemaPath();
         this.orderBy =

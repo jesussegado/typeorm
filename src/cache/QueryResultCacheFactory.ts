@@ -38,8 +38,7 @@ export class QueryResultCacheFactory {
             cache.type === "ioredis/cluster"
         ) {
             return new RedisQueryResultCache(this.connection, cache.type);
-        } else {
-            return new DbQueryResultCache(this.connection);
         }
+        return new DbQueryResultCache(this.connection);
     }
 }

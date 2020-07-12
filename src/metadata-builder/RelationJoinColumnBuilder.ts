@@ -133,21 +133,20 @@ export class RelationJoinColumnBuilder {
         ) {
             // covers case3 and case1
             return relation.inverseEntityMetadata.primaryColumns;
-        } else {
-            // cases with referenced columns defined
-            return joinColumns.map((joinColumn) => {
-                const referencedColumn = relation.inverseEntityMetadata.ownColumns.find(
-                    (column) =>
-                        column.propertyName === joinColumn.referencedColumnName
-                ); // todo: can we also search in relations?
-                if (!referencedColumn)
-                    throw new Error(
-                        `Referenced column ${joinColumn.referencedColumnName} was not found in entity ${relation.inverseEntityMetadata.name}`
-                    );
-
-                return referencedColumn;
-            });
         }
+        // cases with referenced columns defined
+        return joinColumns.map((joinColumn) => {
+            const referencedColumn = relation.inverseEntityMetadata.ownColumns.find(
+                (column) =>
+                    column.propertyName === joinColumn.referencedColumnName
+            ); // todo: can we also search in relations?
+            if (!referencedColumn)
+                throw new Error(
+                    `Referenced column ${joinColumn.referencedColumnName} was not found in entity ${relation.inverseEntityMetadata.name}`
+                );
+
+            return referencedColumn;
+        });
     }
 
     /**

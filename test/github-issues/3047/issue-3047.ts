@@ -9,6 +9,7 @@ import { Connection } from "../../../src/connection/Connection";
 import { User } from "./entity/User";
 import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
 import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
+
 describe("github issues > #3047 Mysqsl on duplicate key update use current values", () => {
     let connections: Connection[];
 

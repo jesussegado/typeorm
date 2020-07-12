@@ -25,7 +25,7 @@ export function Check(
     maybeExpression?: string
 ): Function {
     const name = maybeExpression ? nameOrExpression : undefined;
-    const expression = maybeExpression ? maybeExpression : nameOrExpression;
+    const expression = maybeExpression || nameOrExpression;
 
     if (!expression) throw new Error(`Check expression is required`);
 

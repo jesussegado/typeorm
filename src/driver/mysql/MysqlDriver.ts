@@ -302,7 +302,7 @@ export class MysqlDriver implements Driver {
             legacySpatialSupport: true,
             ...connection.options,
         } as MysqlConnectionOptions;
-        this.isReplicated = this.options.replication ? true : false;
+        this.isReplicated = !!this.options.replication;
 
         // load mysql package
         this.loadDependencies();
@@ -428,10 +428,9 @@ export class MysqlDriver implements Driver {
 
             if (value instanceof Function) {
                 return value();
-            } else {
-                escapedParameters.push(value);
-                return "?";
             }
+            escapedParameters.push(value);
+            return "?";
         }); // todo: make replace only in value statements, otherwise problems
         return [sql, escapedParameters];
     }
@@ -469,28 +468,36 @@ export class MysqlDriver implements Driver {
 
         if (columnMetadata.type === Boolean) {
             return value === true ? 1 : 0;
-        } else if (columnMetadata.type === "date") {
+        }
+        if (columnMetadata.type === "date") {
             return DateUtils.mixedDateToDateString(value);
-        } else if (columnMetadata.type === "time") {
+        }
+        if (columnMetadata.type === "time") {
             return DateUtils.mixedDateToTimeString(value);
-        } else if (columnMetadata.type === "json") {
+        }
+        if (columnMetadata.type === "json") {
             return JSON.stringify(value);
-        } else if (
+        }
+        if (
             columnMetadata.type === "timestamp" ||
             columnMetadata.type === "datetime" ||
             columnMetadata.type === Date
         ) {
             return DateUtils.mixedDateToDate(value);
-        } else if (columnMetadata.type === "simple-array") {
+        }
+        if (columnMetadata.type === "simple-array") {
             return DateUtils.simpleArrayToString(value);
-        } else if (columnMetadata.type === "simple-json") {
+        }
+        if (columnMetadata.type === "simple-json") {
             return DateUtils.simpleJsonToString(value);
-        } else if (
+        }
+        if (
             columnMetadata.type === "enum" ||
             columnMetadata.type === "simple-enum"
         ) {
             return `${value}`;
-        } else if (columnMetadata.type === "set") {
+        }
+        if (columnMetadata.type === "set") {
             return DateUtils.simpleArrayToString(value);
         }
 
@@ -514,7 +521,7 @@ export class MysqlDriver implements Driver {
             columnMetadata.type === "bool" ||
             columnMetadata.type === "boolean"
         ) {
-            value = value ? true : false;
+            value = !!value;
         } else if (
             columnMetadata.type === "datetime" ||
             columnMetadata.type === Date
@@ -563,17 +570,23 @@ export class MysqlDriver implements Driver {
     }): string {
         if (column.type === Number || column.type === "integer") {
             return "int";
-        } else if (column.type === String) {
+        }
+        if (column.type === String) {
             return "varchar";
-        } else if (column.type === Date) {
+        }
+        if (column.type === Date) {
             return "datetime";
-        } else if ((column.type as any) === Buffer) {
+        }
+        if ((column.type as any) === Buffer) {
             return "blob";
-        } else if (column.type === Boolean) {
+        }
+        if (column.type === Boolean) {
             return "tinyint";
-        } else if (column.type === "uuid") {
+        }
+        if (column.type === "uuid") {
             return "varchar";
-        } else if (column.type === "json" && this.options.type === "mariadb") {
+        }
+        if (column.type === "json" && this.options.type === "mariadb") {
             /*
              * MariaDB implements this as a LONGTEXT rather, as the JSON data type contradicts the SQL standard,
              * and MariaDB's benchmarks indicate that performance is at least equivalent.
@@ -581,36 +594,33 @@ export class MysqlDriver implements Driver {
              * @see https://mariadb.com/kb/en/json-data-type/
              */
             return "longtext";
-        } else if (
-            column.type === "simple-array" ||
-            column.type === "simple-json"
-        ) {
+        }
+        if (column.type === "simple-array" || column.type === "simple-json") {
             return "text";
-        } else if (column.type === "simple-enum") {
+        }
+        if (column.type === "simple-enum") {
             return "enum";
-        } else if (
-            column.type === "double precision" ||
-            column.type === "real"
-        ) {
+        }
+        if (column.type === "double precision" || column.type === "real") {
             return "double";
-        } else if (
+        }
+        if (
             column.type === "dec" ||
             column.type === "numeric" ||
             column.type === "fixed"
         ) {
             return "decimal";
-        } else if (column.type === "bool" || column.type === "boolean") {
-            return "tinyint";
-        } else if (
-            column.type === "nvarchar" ||
-            column.type === "national varchar"
-        ) {
-            return "varchar";
-        } else if (column.type === "nchar" || column.type === "national char") {
-            return "char";
-        } else {
-            return (column.type as string) || "";
         }
+        if (column.type === "bool" || column.type === "boolean") {
+            return "tinyint";
+        }
+        if (column.type === "nvarchar" || column.type === "national varchar") {
+            return "varchar";
+        }
+        if (column.type === "nchar" || column.type === "national char") {
+            return "char";
+        }
+        return (column.type as string) || "";
     }
 
     /**
@@ -633,17 +643,20 @@ export class MysqlDriver implements Driver {
 
         if (typeof defaultValue === "number") {
             return `${defaultValue}`;
-        } else if (typeof defaultValue === "boolean") {
-            return defaultValue === true ? "1" : "0";
-        } else if (typeof defaultValue === "function") {
-            return defaultValue();
-        } else if (typeof defaultValue === "string") {
-            return `'${defaultValue}'`;
-        } else if (defaultValue === null) {
-            return `NULL`;
-        } else {
-            return defaultValue;
         }
+        if (typeof defaultValue === "boolean") {
+            return defaultValue === true ? "1" : "0";
+        }
+        if (typeof defaultValue === "function") {
+            return defaultValue();
+        }
+        if (typeof defaultValue === "string") {
+            return `'${defaultValue}'`;
+        }
+        if (defaultValue === null) {
+            return `NULL`;
+        }
+        return defaultValue;
     }
 
     /**

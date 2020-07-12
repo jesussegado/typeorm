@@ -522,23 +522,20 @@ export class ColumnMetadata {
                 return map;
             };
             return extractEmbeddedColumnValue(propertyNames, {});
-        } else {
-            // no embeds - no problems. Simply return column property name and its value of the entity
-
-            // this is bugfix for #720 when increment number is bigint we need to make sure its a string
-            if (
-                (this.generationStrategy === "increment" ||
-                    this.generationStrategy === "rowid") &&
-                this.type === "bigint"
-            )
-                value = String(value);
-
-            return {
-                [useDatabaseName
-                    ? this.databaseName
-                    : this.propertyName]: value,
-            };
         }
+        // no embeds - no problems. Simply return column property name and its value of the entity
+
+        // this is bugfix for #720 when increment number is bigint we need to make sure its a string
+        if (
+            (this.generationStrategy === "increment" ||
+                this.generationStrategy === "rowid") &&
+            this.type === "bigint"
+        )
+            value = String(value);
+
+        return {
+            [useDatabaseName ? this.databaseName : this.propertyName]: value,
+        };
     }
 
     /**
@@ -600,38 +597,35 @@ export class ColumnMetadata {
             const map: ObjectLiteral = {};
             extractEmbeddedColumnValue(propertyNames, entity, map);
             return Object.keys(map).length > 0 ? map : undefined;
-        } else {
-            // no embeds - no problems. Simply return column property name and its value of the entity
-            if (
-                this.relationMetadata &&
-                entity[this.propertyName] &&
-                entity[this.propertyName] instanceof Object
-            ) {
-                const map = this.relationMetadata.joinColumns.reduce(
-                    (map, joinColumn) => {
-                        const value = joinColumn.referencedColumn!.getEntityValueMap(
-                            entity[this.propertyName]
-                        );
-                        if (value === undefined) return map;
-                        return OrmUtils.mergeDeep(map, value);
-                    },
-                    {}
-                );
-                if (Object.keys(map).length > 0)
-                    return { [this.propertyName]: map };
-
-                return undefined;
-            } else {
-                if (
-                    entity[this.propertyName] !== undefined &&
-                    (returnNulls === false ||
-                        entity[this.propertyName] !== null)
-                )
-                    return { [this.propertyName]: entity[this.propertyName] };
-
-                return undefined;
-            }
         }
+        // no embeds - no problems. Simply return column property name and its value of the entity
+        if (
+            this.relationMetadata &&
+            entity[this.propertyName] &&
+            entity[this.propertyName] instanceof Object
+        ) {
+            const map = this.relationMetadata.joinColumns.reduce(
+                (map, joinColumn) => {
+                    const value = joinColumn.referencedColumn!.getEntityValueMap(
+                        entity[this.propertyName]
+                    );
+                    if (value === undefined) return map;
+                    return OrmUtils.mergeDeep(map, value);
+                },
+                {}
+            );
+            if (Object.keys(map).length > 0)
+                return { [this.propertyName]: map };
+
+            return undefined;
+        }
+        if (
+            entity[this.propertyName] !== undefined &&
+            (returnNulls === false || entity[this.propertyName] !== null)
+        )
+            return { [this.propertyName]: entity[this.propertyName] };
+
+        return undefined;
     }
 
     /**
@@ -794,9 +788,8 @@ export class ColumnMetadata {
                 [...this.embeddedMetadata.embeddedMetadataTree],
                 entity
             );
-        } else {
-            entity[this.propertyName] = value;
         }
+        entity[this.propertyName] = value;
     }
 
     // ---------------------------------------------------------------------

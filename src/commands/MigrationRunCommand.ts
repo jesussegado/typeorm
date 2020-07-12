@@ -3,6 +3,7 @@ import * as yargs from "yargs";
 import { createConnection } from "../index";
 import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
 import { Connection } from "../connection/Connection";
+
 const chalk = require("chalk");
 
 /**

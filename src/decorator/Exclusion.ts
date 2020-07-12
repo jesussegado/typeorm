@@ -25,7 +25,7 @@ export function Exclusion(
     maybeExpression?: string
 ): Function {
     const name = maybeExpression ? nameOrExpression : undefined;
-    const expression = maybeExpression ? maybeExpression : nameOrExpression;
+    const expression = maybeExpression || nameOrExpression;
 
     if (!expression) throw new Error(`Exclusion expression is required`);
 

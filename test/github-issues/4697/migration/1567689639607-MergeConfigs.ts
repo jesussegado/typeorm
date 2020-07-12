@@ -17,11 +17,10 @@ export class MergeConfigs1567689639607 implements MigrationInterface {
                     item.config = data;
 
                     return itemRepository.save(item);
-                } else {
-                    console.warn(`No item found with id: ${itemId}. Ignoring.`);
-
-                    return null;
                 }
+                console.warn(`No item found with id: ${itemId}. Ignoring.`);
+
+                return null;
             })
         );
     }

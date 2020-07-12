@@ -8,8 +8,7 @@ export namespace RegExpStringTransformer {
         if (match) {
             const [, pattern, flags] = match;
             return new RegExp(pattern, flags);
-        } else {
-            throw new Error(`"${value}" is not a regular expression`);
         }
+        throw new Error(`"${value}" is not a regular expression`);
     }
 }

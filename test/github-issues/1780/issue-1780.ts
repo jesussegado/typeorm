@@ -9,6 +9,7 @@ import { Connection } from "../../../src/connection/Connection";
 import { User } from "./entity/User";
 import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
 import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
+
 describe("github issues > #1780 Support for insertion ignore on duplicate error", () => {
     let connections: Connection[];
     before(

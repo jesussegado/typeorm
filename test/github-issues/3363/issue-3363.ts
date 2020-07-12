@@ -33,8 +33,8 @@ describe("github issues > #3363 Isolation Level in transaction() from Connection
                 )
                     return;
 
-                let postId: number | undefined = undefined,
-                    categoryId: number | undefined = undefined;
+                let postId: number | undefined = undefined;
+                let categoryId: number | undefined = undefined;
 
                 await connection.transaction(
                     "READ UNCOMMITTED",
@@ -75,8 +75,8 @@ describe("github issues > #3363 Isolation Level in transaction() from Connection
     it("should execute operations in SERIALIZABLE isolation level", () =>
         Promise.all(
             connections.map(async (connection) => {
-                let postId: number | undefined = undefined,
-                    categoryId: number | undefined = undefined;
+                let postId: number | undefined = undefined;
+                let categoryId: number | undefined = undefined;
 
                 await connection.transaction(
                     "SERIALIZABLE",

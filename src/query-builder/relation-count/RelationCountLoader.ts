@@ -92,105 +92,101 @@ export class RelationCountLoader {
                         relationCountAttribute: relationCountAttr,
                         results: await qb.getRawMany(),
                     };
+                }
+                // example: Post and Category
+                // owner side: loadRelationIdAndMap("post.categoryIds", "post.categories")
+                // inverse side: loadRelationIdAndMap("category.postIds", "category.posts")
+                // we expect it to load array of post ids
+
+                let joinTableColumnName: string;
+                let inverseJoinColumnName: string;
+                let firstJunctionColumn: ColumnMetadata;
+                let secondJunctionColumn: ColumnMetadata;
+
+                if (relationCountAttr.relation.isOwning) {
+                    // todo fix joinColumns[0] and inverseJoinColumns[0].
+                    joinTableColumnName = relationCountAttr.relation
+                        .joinColumns[0].referencedColumn!.databaseName;
+                    inverseJoinColumnName = relationCountAttr.relation
+                        .inverseJoinColumns[0].referencedColumn!.databaseName;
+                    firstJunctionColumn = relationCountAttr.relation
+                        .junctionEntityMetadata!.columns[0];
+                    secondJunctionColumn = relationCountAttr.relation
+                        .junctionEntityMetadata!.columns[1];
                 } else {
-                    // example: Post and Category
-                    // owner side: loadRelationIdAndMap("post.categoryIds", "post.categories")
-                    // inverse side: loadRelationIdAndMap("category.postIds", "category.posts")
-                    // we expect it to load array of post ids
+                    joinTableColumnName = relationCountAttr.relation
+                        .inverseRelation!.inverseJoinColumns[0]
+                        .referencedColumn!.databaseName;
+                    inverseJoinColumnName = relationCountAttr.relation
+                        .inverseRelation!.joinColumns[0].referencedColumn!
+                        .databaseName;
+                    firstJunctionColumn = relationCountAttr.relation
+                        .junctionEntityMetadata!.columns[1];
+                    secondJunctionColumn = relationCountAttr.relation
+                        .junctionEntityMetadata!.columns[0];
+                }
 
-                    let joinTableColumnName: string;
-                    let inverseJoinColumnName: string;
-                    let firstJunctionColumn: ColumnMetadata;
-                    let secondJunctionColumn: ColumnMetadata;
-
-                    if (relationCountAttr.relation.isOwning) {
-                        // todo fix joinColumns[0] and inverseJoinColumns[0].
-                        joinTableColumnName = relationCountAttr.relation
-                            .joinColumns[0].referencedColumn!.databaseName;
-                        inverseJoinColumnName = relationCountAttr.relation
-                            .inverseJoinColumns[0].referencedColumn!
-                            .databaseName;
-                        firstJunctionColumn = relationCountAttr.relation
-                            .junctionEntityMetadata!.columns[0];
-                        secondJunctionColumn = relationCountAttr.relation
-                            .junctionEntityMetadata!.columns[1];
-                    } else {
-                        joinTableColumnName = relationCountAttr.relation
-                            .inverseRelation!.inverseJoinColumns[0]
-                            .referencedColumn!.databaseName;
-                        inverseJoinColumnName = relationCountAttr.relation
-                            .inverseRelation!.joinColumns[0].referencedColumn!
-                            .databaseName;
-                        firstJunctionColumn = relationCountAttr.relation
-                            .junctionEntityMetadata!.columns[1];
-                        secondJunctionColumn = relationCountAttr.relation
-                            .junctionEntityMetadata!.columns[0];
-                    }
-
-                    let referenceColumnValues = rawEntities
-                        .map(
-                            (rawEntity) =>
-                                rawEntity[
-                                    `${relationCountAttr.parentAlias}_${joinTableColumnName}`
-                                ]
-                        )
-                        .filter((value) => !!value);
-                    referenceColumnValues = referenceColumnValues.filter(
-                        onlyUnique
-                    );
-
-                    // ensure we won't perform redundant queries for joined data which was not found in selection
-                    // example: if post.category was not found in db then no need to execute query for category.imageIds
-                    if (referenceColumnValues.length === 0)
-                        return {
-                            relationCountAttribute: relationCountAttr,
-                            results: [],
-                        };
-
-                    const junctionAlias = relationCountAttr.junctionAlias;
-                    const inverseSideTableName =
-                        relationCountAttr.joinInverseSideMetadata.tableName;
-                    const inverseSideTableAlias =
-                        relationCountAttr.alias || inverseSideTableName;
-                    const junctionTableName = relationCountAttr.relation
-                        .junctionEntityMetadata!.tableName;
-
-                    const condition =
-                        `${junctionAlias}.${
-                            firstJunctionColumn.propertyName
-                        } IN (${referenceColumnValues.map((vals) =>
-                            isNaN(vals) ? `'${vals}'` : vals
-                        )})` +
-                        ` AND ${junctionAlias}.${secondJunctionColumn.propertyName} = ${inverseSideTableAlias}.${inverseJoinColumnName}`;
-
-                    const qb = this.connection.createQueryBuilder(
-                        this.queryRunner
-                    );
-                    qb.select(
-                        `${junctionAlias}.${firstJunctionColumn.propertyName}`,
-                        "parentId"
+                let referenceColumnValues = rawEntities
+                    .map(
+                        (rawEntity) =>
+                            rawEntity[
+                                `${relationCountAttr.parentAlias}_${joinTableColumnName}`
+                            ]
                     )
-                        .addSelect(
-                            `COUNT(${qb.escape(
-                                inverseSideTableAlias
-                            )}.${qb.escape(inverseJoinColumnName)})`,
-                            "cnt"
-                        )
-                        .from(inverseSideTableName, inverseSideTableAlias)
-                        .innerJoin(junctionTableName, junctionAlias, condition)
-                        .addGroupBy(
-                            `${junctionAlias}.${firstJunctionColumn.propertyName}`
-                        );
+                    .filter((value) => !!value);
+                referenceColumnValues = referenceColumnValues.filter(
+                    onlyUnique
+                );
 
-                    // apply condition (custom query builder factory)
-                    if (relationCountAttr.queryBuilderFactory)
-                        relationCountAttr.queryBuilderFactory(qb);
-
+                // ensure we won't perform redundant queries for joined data which was not found in selection
+                // example: if post.category was not found in db then no need to execute query for category.imageIds
+                if (referenceColumnValues.length === 0)
                     return {
                         relationCountAttribute: relationCountAttr,
-                        results: await qb.getRawMany(),
+                        results: [],
                     };
-                }
+
+                const junctionAlias = relationCountAttr.junctionAlias;
+                const inverseSideTableName =
+                    relationCountAttr.joinInverseSideMetadata.tableName;
+                const inverseSideTableAlias =
+                    relationCountAttr.alias || inverseSideTableName;
+                const junctionTableName = relationCountAttr.relation
+                    .junctionEntityMetadata!.tableName;
+
+                const condition =
+                    `${junctionAlias}.${
+                        firstJunctionColumn.propertyName
+                    } IN (${referenceColumnValues.map((vals) =>
+                        isNaN(vals) ? `'${vals}'` : vals
+                    )})` +
+                    ` AND ${junctionAlias}.${secondJunctionColumn.propertyName} = ${inverseSideTableAlias}.${inverseJoinColumnName}`;
+
+                const qb = this.connection.createQueryBuilder(this.queryRunner);
+                qb.select(
+                    `${junctionAlias}.${firstJunctionColumn.propertyName}`,
+                    "parentId"
+                )
+                    .addSelect(
+                        `COUNT(${qb.escape(inverseSideTableAlias)}.${qb.escape(
+                            inverseJoinColumnName
+                        )})`,
+                        "cnt"
+                    )
+                    .from(inverseSideTableName, inverseSideTableAlias)
+                    .innerJoin(junctionTableName, junctionAlias, condition)
+                    .addGroupBy(
+                        `${junctionAlias}.${firstJunctionColumn.propertyName}`
+                    );
+
+                // apply condition (custom query builder factory)
+                if (relationCountAttr.queryBuilderFactory)
+                    relationCountAttr.queryBuilderFactory(qb);
+
+                return {
+                    relationCountAttribute: relationCountAttr,
+                    results: await qb.getRawMany(),
+                };
             }
         );
 

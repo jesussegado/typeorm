@@ -198,9 +198,8 @@ export class DateUtils {
         if (value instanceof String || typeof value === "string") {
             if (value.length > 0) {
                 return value.split(",");
-            } else {
-                return [];
             }
+            return [];
         }
 
         return value;
@@ -255,10 +254,10 @@ export class DateUtils {
     private static formatMilliseconds(value: number): string {
         if (value < 10) {
             return `00${value}`;
-        } else if (value < 100) {
-            return `0${value}`;
-        } else {
-            return String(value);
         }
+        if (value < 100) {
+            return `0${value}`;
+        }
+        return String(value);
     }
 }

@@ -102,9 +102,9 @@ export class FindOperator<T> {
                         aliasPath,
                         parameters
                     )})`;
-                } else {
-                    return `${aliasPath} != ${parameters[0]}`;
                 }
+                return `${aliasPath} != ${parameters[0]}`;
+
             case "lessThan":
                 return `${aliasPath} < ${parameters[0]}`;
             case "lessThanOrEqual":
@@ -135,9 +135,8 @@ export class FindOperator<T> {
             case "raw":
                 if (this.value instanceof Function) {
                     return this.value(aliasPath);
-                } else {
-                    return `${aliasPath} = ${this.value}`;
                 }
+                return `${aliasPath} = ${this.value}`;
         }
 
         return "";

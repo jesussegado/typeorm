@@ -205,7 +205,7 @@ export class CockroachDriver implements Driver {
     constructor(connection: Connection) {
         this.connection = connection;
         this.options = connection.options as CockroachConnectionOptions;
-        this.isReplicated = this.options.replication ? true : false;
+        this.isReplicated = !!this.options.replication;
 
         // load postgres package
         this.loadDependencies();
@@ -296,11 +296,14 @@ export class CockroachDriver implements Driver {
 
         if (columnMetadata.type === Boolean) {
             return value === true ? 1 : 0;
-        } else if (columnMetadata.type === "date") {
+        }
+        if (columnMetadata.type === "date") {
             return DateUtils.mixedDateToDateString(value);
-        } else if (columnMetadata.type === "time") {
+        }
+        if (columnMetadata.type === "time") {
             return DateUtils.mixedDateToTimeString(value);
-        } else if (
+        }
+        if (
             columnMetadata.type === "datetime" ||
             columnMetadata.type === Date ||
             columnMetadata.type === "timestamp" ||
@@ -309,15 +312,18 @@ export class CockroachDriver implements Driver {
             columnMetadata.type === "timestamp without time zone"
         ) {
             return DateUtils.mixedDateToDate(value);
-        } else if (
+        }
+        if (
             ["json", "jsonb", ...this.spatialTypes].indexOf(
                 columnMetadata.type
             ) >= 0
         ) {
             return JSON.stringify(value);
-        } else if (columnMetadata.type === "simple-array") {
+        }
+        if (columnMetadata.type === "simple-array") {
             return DateUtils.simpleArrayToString(value);
-        } else if (columnMetadata.type === "simple-json") {
+        }
+        if (columnMetadata.type === "simple-json") {
             return DateUtils.simpleJsonToString(value);
         }
 
@@ -346,7 +352,7 @@ export class CockroachDriver implements Driver {
         ) {
             value = parseInt(value);
         } else if (columnMetadata.type === Boolean) {
-            value = value ? true : false;
+            value = !!value;
         } else if (
             columnMetadata.type === "datetime" ||
             columnMetadata.type === Date ||
@@ -410,12 +416,12 @@ export class CockroachDriver implements Driver {
                         return `$${builtParameters.length}`;
                     })
                     .join(", ");
-            } else if (value instanceof Function) {
-                return value();
-            } else {
-                builtParameters.push(value);
-                return `$${builtParameters.length}`;
             }
+            if (value instanceof Function) {
+                return value();
+            }
+            builtParameters.push(value);
+            return `$${builtParameters.length}`;
         }); // todo: make replace only in value statements, otherwise problems
         return [sql, builtParameters];
     }
@@ -455,49 +461,58 @@ export class CockroachDriver implements Driver {
             column.type === "int64"
         ) {
             return "int8";
-        } else if (
+        }
+        if (
             column.type === String ||
             column.type === "character varying" ||
             column.type === "char varying"
         ) {
             return "varchar";
-        } else if (
+        }
+        if (
             column.type === Date ||
             column.type === "timestamp without time zone"
         ) {
             return "timestamp";
-        } else if (column.type === "timestamp with time zone") {
+        }
+        if (column.type === "timestamp with time zone") {
             return "timestamptz";
-        } else if (column.type === "time without time zone") {
+        }
+        if (column.type === "time without time zone") {
             return "time";
-        } else if (column.type === Boolean || column.type === "boolean") {
+        }
+        if (column.type === Boolean || column.type === "boolean") {
             return "bool";
-        } else if (
+        }
+        if (
             column.type === "simple-array" ||
             column.type === "simple-json" ||
             column.type === "text"
         ) {
             return "string";
-        } else if (column.type === "bytea" || column.type === "blob") {
-            return "bytes";
-        } else if (column.type === "smallint") {
-            return "int2";
-        } else if (column.type === "numeric" || column.type === "dec") {
-            return "decimal";
-        } else if (
-            column.type === "double precision" ||
-            column.type === "float"
-        ) {
-            return "float8";
-        } else if (column.type === "real") {
-            return "float4";
-        } else if (column.type === "character") {
-            return "char";
-        } else if (column.type === "json") {
-            return "jsonb";
-        } else {
-            return (column.type as string) || "";
         }
+        if (column.type === "bytea" || column.type === "blob") {
+            return "bytes";
+        }
+        if (column.type === "smallint") {
+            return "int2";
+        }
+        if (column.type === "numeric" || column.type === "dec") {
+            return "decimal";
+        }
+        if (column.type === "double precision" || column.type === "float") {
+            return "float8";
+        }
+        if (column.type === "real") {
+            return "float4";
+        }
+        if (column.type === "character") {
+            return "char";
+        }
+        if (column.type === "json") {
+            return "jsonb";
+        }
+        return (column.type as string) || "";
     }
 
     /**
@@ -511,19 +526,23 @@ export class CockroachDriver implements Driver {
 
         if (typeof defaultValue === "number") {
             return `${defaultValue}`;
-        } else if (typeof defaultValue === "boolean") {
-            return defaultValue === true ? "true" : "false";
-        } else if (typeof defaultValue === "function") {
-            return defaultValue();
-        } else if (typeof defaultValue === "string") {
-            return `'${defaultValue}'${arrayCast}`;
-        } else if (defaultValue === null) {
-            return `null`;
-        } else if (typeof defaultValue === "object") {
-            return `'${JSON.stringify(defaultValue)}'`;
-        } else {
-            return defaultValue;
         }
+        if (typeof defaultValue === "boolean") {
+            return defaultValue === true ? "true" : "false";
+        }
+        if (typeof defaultValue === "function") {
+            return defaultValue();
+        }
+        if (typeof defaultValue === "string") {
+            return `'${defaultValue}'${arrayCast}`;
+        }
+        if (defaultValue === null) {
+            return `null`;
+        }
+        if (typeof defaultValue === "object") {
+            return `'${JSON.stringify(defaultValue)}'`;
+        }
+        return defaultValue;
     }
 
     /**

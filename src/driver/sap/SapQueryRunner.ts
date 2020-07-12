@@ -207,47 +207,46 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                         return fail(
                             new QueryFailedError(query, parameters, err)
                         );
-                    } else {
-                        if (isInsertQuery) {
-                            const lastIdQuery = `SELECT CURRENT_IDENTITY_VALUE() FROM "SYS"."DUMMY"`;
-                            this.driver.connection.logger.logQuery(
-                                lastIdQuery,
-                                [],
-                                this
-                            );
-                            databaseConnection.exec(
-                                lastIdQuery,
-                                (
-                                    err: any,
-                                    result: {
-                                        "CURRENT_IDENTITY_VALUE()": number;
-                                    }[]
-                                ) => {
-                                    if (err) {
-                                        this.driver.connection.logger.logQueryError(
-                                            err,
+                    }
+                    if (isInsertQuery) {
+                        const lastIdQuery = `SELECT CURRENT_IDENTITY_VALUE() FROM "SYS"."DUMMY"`;
+                        this.driver.connection.logger.logQuery(
+                            lastIdQuery,
+                            [],
+                            this
+                        );
+                        databaseConnection.exec(
+                            lastIdQuery,
+                            (
+                                err: any,
+                                result: {
+                                    "CURRENT_IDENTITY_VALUE()": number;
+                                }[]
+                            ) => {
+                                if (err) {
+                                    this.driver.connection.logger.logQueryError(
+                                        err,
+                                        lastIdQuery,
+                                        [],
+                                        this
+                                    );
+                                    resolveChain();
+                                    fail(
+                                        new QueryFailedError(
                                             lastIdQuery,
                                             [],
-                                            this
-                                        );
-                                        resolveChain();
-                                        fail(
-                                            new QueryFailedError(
-                                                lastIdQuery,
-                                                [],
-                                                err
-                                            )
-                                        );
-                                        return;
-                                    }
-                                    ok(result[0]["CURRENT_IDENTITY_VALUE()"]);
-                                    resolveChain();
+                                            err
+                                        )
+                                    );
+                                    return;
                                 }
-                            );
-                        } else {
-                            ok(result);
-                            resolveChain();
-                        }
+                                ok(result[0]["CURRENT_IDENTITY_VALUE()"]);
+                                resolveChain();
+                            }
+                        );
+                    } else {
+                        ok(result);
+                        resolveChain();
                     }
                 });
             } catch (err) {
@@ -318,7 +317,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         const parsedTableName = this.parseTableName(tableOrName);
         const sql = `SELECT * FROM "SYS"."TABLES" WHERE "SCHEMA_NAME" = ${parsedTableName.schema} AND "TABLE_NAME" = ${parsedTableName.tableName}`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -331,7 +330,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         const parsedTableName = this.parseTableName(tableOrName);
         const sql = `SELECT * FROM "SYS"."TABLE_COLUMNS" WHERE "SCHEMA_NAME" = ${parsedTableName.schema} AND "TABLE_NAME" = ${parsedTableName.tableName} AND "COLUMN_NAME" = '${columnName}'`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -2947,13 +2946,12 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             return new Query(
                 `CREATE VIEW ${this.escapePath(view)} AS ${view.expression}`
             );
-        } else {
-            return new Query(
-                `CREATE VIEW ${this.escapePath(view)} AS ${view
-                    .expression(this.connection)
-                    .getQuery()}`
-            );
         }
+        return new Query(
+            `CREATE VIEW ${this.escapePath(view)} AS ${view
+                .expression(this.connection)
+                .getQuery()}`
+        );
     }
 
     protected async insertViewDefinitionSql(view: View): Promise<Query> {
@@ -3065,14 +3063,13 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         const parsedTableName = this.parseTableName(table);
         if (parsedTableName.schema === "current_schema") {
             return new Query(`DROP INDEX "${indexName}"`);
-        } else {
-            return new Query(
-                `DROP INDEX "${parsedTableName.schema.replace(
-                    /'/g,
-                    ""
-                )}"."${indexName}"`
-            );
         }
+        return new Query(
+            `DROP INDEX "${parsedTableName.schema.replace(
+                /'/g,
+                ""
+            )}"."${indexName}"`
+        );
     }
 
     /**
@@ -3233,12 +3230,11 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                     : "current_schema",
                 tableName: `'${tableName}'`,
             };
-        } else {
-            return {
-                schema: `'${tableName.split(".")[0]}'`,
-                tableName: `'${tableName.split(".")[1]}'`,
-            };
         }
+        return {
+            schema: `'${tableName.split(".")[0]}'`,
+            tableName: `'${tableName.split(".")[1]}'`,
+        };
     }
 
     /**

@@ -6,6 +6,7 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
+
 export type Role = "sa" | "user" | "admin" | "server";
 import { User } from "./entity/user";
 

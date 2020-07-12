@@ -331,14 +331,15 @@ export class OracleDriver implements Driver {
                         return `:${key.substr(4)}${index}`;
                     })
                     .join(", ");
-            } else if (value instanceof Function) {
-                return value();
-            } else if (typeof value === "boolean") {
-                return value ? 1 : 0;
-            } else {
-                escapedParameters.push(value);
-                return key;
             }
+            if (value instanceof Function) {
+                return value();
+            }
+            if (typeof value === "boolean") {
+                return value ? 1 : 0;
+            }
+            escapedParameters.push(value);
+            return key;
         }); // todo: make replace only in value statements, otherwise problems
         return [sql, escapedParameters];
     }
@@ -376,23 +377,27 @@ export class OracleDriver implements Driver {
 
         if (columnMetadata.type === Boolean) {
             return value ? 1 : 0;
-        } else if (columnMetadata.type === "date") {
+        }
+        if (columnMetadata.type === "date") {
             if (typeof value === "string")
                 value = value.replace(/[^0-9-]/g, "");
             return () =>
                 `TO_DATE('${DateUtils.mixedDateToDateString(
                     value
                 )}', 'YYYY-MM-DD')`;
-        } else if (
+        }
+        if (
             columnMetadata.type === Date ||
             columnMetadata.type === "timestamp" ||
             columnMetadata.type === "timestamp with time zone" ||
             columnMetadata.type === "timestamp with local time zone"
         ) {
             return DateUtils.mixedDateToDate(value);
-        } else if (columnMetadata.type === "simple-array") {
+        }
+        if (columnMetadata.type === "simple-array") {
             return DateUtils.simpleArrayToString(value);
-        } else if (columnMetadata.type === "simple-json") {
+        }
+        if (columnMetadata.type === "simple-json") {
             return DateUtils.simpleJsonToString(value);
         }
 
@@ -412,7 +417,7 @@ export class OracleDriver implements Driver {
                 : value;
 
         if (columnMetadata.type === Boolean) {
-            value = value ? true : false;
+            value = !!value;
         } else if (columnMetadata.type === "date") {
             value = DateUtils.mixedDateToDateString(value);
         } else if (columnMetadata.type === "time") {
@@ -462,26 +467,29 @@ export class OracleDriver implements Driver {
             column.type === "smallint"
         ) {
             return "number";
-        } else if (
-            column.type === "real" ||
-            column.type === "double precision"
-        ) {
-            return "float";
-        } else if (column.type === String || column.type === "varchar") {
-            return "varchar2";
-        } else if (column.type === Date) {
-            return "timestamp";
-        } else if ((column.type as any) === Buffer) {
-            return "blob";
-        } else if (column.type === "uuid") {
-            return "varchar2";
-        } else if (column.type === "simple-array") {
-            return "clob";
-        } else if (column.type === "simple-json") {
-            return "clob";
-        } else {
-            return (column.type as string) || "";
         }
+        if (column.type === "real" || column.type === "double precision") {
+            return "float";
+        }
+        if (column.type === String || column.type === "varchar") {
+            return "varchar2";
+        }
+        if (column.type === Date) {
+            return "timestamp";
+        }
+        if ((column.type as any) === Buffer) {
+            return "blob";
+        }
+        if (column.type === "uuid") {
+            return "varchar2";
+        }
+        if (column.type === "simple-array") {
+            return "clob";
+        }
+        if (column.type === "simple-json") {
+            return "clob";
+        }
+        return (column.type as string) || "";
     }
 
     /**
@@ -492,15 +500,17 @@ export class OracleDriver implements Driver {
 
         if (typeof defaultValue === "number") {
             return `${defaultValue}`;
-        } else if (typeof defaultValue === "boolean") {
-            return defaultValue === true ? "1" : "0";
-        } else if (typeof defaultValue === "function") {
-            return defaultValue();
-        } else if (typeof defaultValue === "string") {
-            return `'${defaultValue}'`;
-        } else {
-            return defaultValue;
         }
+        if (typeof defaultValue === "boolean") {
+            return defaultValue === true ? "1" : "0";
+        }
+        if (typeof defaultValue === "function") {
+            return defaultValue();
+        }
+        if (typeof defaultValue === "string") {
+            return `'${defaultValue}'`;
+        }
+        return defaultValue;
     }
 
     /**

@@ -295,7 +295,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
         const result = await this.query(
             `SELECT * FROM "pg_database" WHERE "datname" = '${database}'`
         );
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -305,7 +305,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
         const result = await this.query(
             `SELECT * FROM "information_schema"."schemata" WHERE "schema_name" = '${schema}'`
         );
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -315,7 +315,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
         const parsedTableName = this.parseTableName(tableOrName);
         const sql = `SELECT * FROM "information_schema"."tables" WHERE "table_schema" = ${parsedTableName.schema} AND "table_name" = ${parsedTableName.tableName}`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -328,7 +328,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
         const parsedTableName = this.parseTableName(tableOrName);
         const sql = `SELECT * FROM "information_schema"."columns" WHERE "table_schema" = ${parsedTableName.schema} AND "table_name" = ${parsedTableName.tableName} AND "column_name" = '${columnName}'`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -2854,13 +2854,12 @@ export class CockroachQueryRunner extends BaseQueryRunner
             return new Query(
                 `CREATE VIEW ${this.escapePath(view)} AS ${view.expression}`
             );
-        } else {
-            return new Query(
-                `CREATE VIEW ${this.escapePath(view)} AS ${view
-                    .expression(this.connection)
-                    .getQuery()}`
-            );
         }
+        return new Query(
+            `CREATE VIEW ${this.escapePath(view)} AS ${view
+                .expression(this.connection)
+                .getQuery()}`
+        );
     }
 
     protected async insertViewDefinitionSql(view: View): Promise<Query> {
@@ -3162,12 +3161,11 @@ export class CockroachQueryRunner extends BaseQueryRunner
                     : "current_schema()",
                 tableName: `'${tableName}'`,
             };
-        } else {
-            return {
-                schema: `'${tableName.split(".")[0]}'`,
-                tableName: `'${tableName.split(".")[1]}'`,
-            };
         }
+        return {
+            schema: `'${tableName.split(".")[0]}'`,
+            tableName: `'${tableName.split(".")[1]}'`,
+        };
     }
 
     /**

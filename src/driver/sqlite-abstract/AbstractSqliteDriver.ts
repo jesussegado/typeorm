@@ -250,22 +250,28 @@ export abstract class AbstractSqliteDriver implements Driver {
             columnMetadata.type === "boolean"
         ) {
             return value === true ? 1 : 0;
-        } else if (columnMetadata.type === "date") {
+        }
+        if (columnMetadata.type === "date") {
             return DateUtils.mixedDateToDateString(value);
-        } else if (columnMetadata.type === "time") {
+        }
+        if (columnMetadata.type === "time") {
             return DateUtils.mixedDateToTimeString(value);
-        } else if (
+        }
+        if (
             columnMetadata.type === "datetime" ||
             columnMetadata.type === Date
         ) {
             // to string conversation needs because SQLite stores date as integer number, when date came as Object
             // TODO: think about `toUTC` conversion
             return DateUtils.mixedDateToUtcDatetimeString(value);
-        } else if (columnMetadata.type === "simple-array") {
+        }
+        if (columnMetadata.type === "simple-array") {
             return DateUtils.simpleArrayToString(value);
-        } else if (columnMetadata.type === "simple-json") {
+        }
+        if (columnMetadata.type === "simple-json") {
             return DateUtils.simpleJsonToString(value);
-        } else if (columnMetadata.type === "simple-enum") {
+        }
+        if (columnMetadata.type === "simple-enum") {
             return DateUtils.simpleEnumToString(value);
         }
 
@@ -288,7 +294,7 @@ export abstract class AbstractSqliteDriver implements Driver {
             columnMetadata.type === Boolean ||
             columnMetadata.type === "boolean"
         ) {
-            value = value ? true : false;
+            value = !!value;
         } else if (
             columnMetadata.type === "datetime" ||
             columnMetadata.type === Date
@@ -387,13 +393,13 @@ export abstract class AbstractSqliteDriver implements Driver {
                         // return "$" + builtParameters.length;
                     })
                     .join(", ");
-            } else if (value instanceof Function) {
-                return value();
-            } else {
-                builtParameters.push(value);
-                return "?";
-                // return "$" + builtParameters.length;
             }
+            if (value instanceof Function) {
+                return value();
+            }
+            builtParameters.push(value);
+            return "?";
+            // return "$" + builtParameters.length;
         }); // todo: make replace only in value statements, otherwise problems
         return [sql, builtParameters];
     }
@@ -430,23 +436,29 @@ export abstract class AbstractSqliteDriver implements Driver {
     }): string {
         if (column.type === Number || column.type === "int") {
             return "integer";
-        } else if (column.type === String) {
-            return "varchar";
-        } else if (column.type === Date) {
-            return "datetime";
-        } else if (column.type === Boolean) {
-            return "boolean";
-        } else if (column.type === "uuid") {
-            return "varchar";
-        } else if (column.type === "simple-array") {
-            return "text";
-        } else if (column.type === "simple-json") {
-            return "text";
-        } else if (column.type === "simple-enum") {
-            return "varchar";
-        } else {
-            return (column.type as string) || "";
         }
+        if (column.type === String) {
+            return "varchar";
+        }
+        if (column.type === Date) {
+            return "datetime";
+        }
+        if (column.type === Boolean) {
+            return "boolean";
+        }
+        if (column.type === "uuid") {
+            return "varchar";
+        }
+        if (column.type === "simple-array") {
+            return "text";
+        }
+        if (column.type === "simple-json") {
+            return "text";
+        }
+        if (column.type === "simple-enum") {
+            return "varchar";
+        }
+        return (column.type as string) || "";
     }
 
     /**
@@ -457,15 +469,17 @@ export abstract class AbstractSqliteDriver implements Driver {
 
         if (typeof defaultValue === "number") {
             return `${defaultValue}`;
-        } else if (typeof defaultValue === "boolean") {
-            return defaultValue === true ? "1" : "0";
-        } else if (typeof defaultValue === "function") {
-            return defaultValue();
-        } else if (typeof defaultValue === "string") {
-            return `'${defaultValue}'`;
-        } else {
-            return defaultValue;
         }
+        if (typeof defaultValue === "boolean") {
+            return defaultValue === true ? "1" : "0";
+        }
+        if (typeof defaultValue === "function") {
+            return defaultValue();
+        }
+        if (typeof defaultValue === "string") {
+            return `'${defaultValue}'`;
+        }
+        return defaultValue;
     }
 
     /**

@@ -4,6 +4,7 @@ import { QueryRunner } from "../query-runner/QueryRunner";
 import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
 import { Connection } from "../connection/Connection";
 import { PlatformTools } from "../platform/PlatformTools";
+
 const chalk = require("chalk");
 
 /**

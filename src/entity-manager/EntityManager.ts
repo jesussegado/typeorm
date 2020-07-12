@@ -224,13 +224,12 @@ export class EntityManager {
                 alias,
                 queryRunner || this.queryRunner
             );
-        } else {
-            return this.connection.createQueryBuilder(
-                (entityClass as QueryRunner | undefined) ||
-                    queryRunner ||
-                    this.queryRunner
-            );
         }
+        return this.connection.createQueryBuilder(
+            (entityClass as QueryRunner | undefined) ||
+                queryRunner ||
+                this.queryRunner
+        );
     }
 
     /**
@@ -948,13 +947,12 @@ export class EntityManager {
                 .set(partialEntity)
                 .whereInIds(criteria)
                 .execute();
-        } else {
-            return this.createQueryBuilder()
-                .update(target)
-                .set(partialEntity)
-                .where(criteria)
-                .execute();
         }
+        return this.createQueryBuilder()
+            .update(target)
+            .set(partialEntity)
+            .where(criteria)
+            .execute();
     }
 
     /**
@@ -1002,13 +1000,12 @@ export class EntityManager {
                 .from(targetOrEntity)
                 .whereInIds(criteria)
                 .execute();
-        } else {
-            return this.createQueryBuilder()
-                .delete()
-                .from(targetOrEntity)
-                .where(criteria)
-                .execute();
         }
+        return this.createQueryBuilder()
+            .delete()
+            .from(targetOrEntity)
+            .where(criteria)
+            .execute();
     }
 
     /**
@@ -1056,13 +1053,12 @@ export class EntityManager {
                 .from(targetOrEntity)
                 .whereInIds(criteria)
                 .execute();
-        } else {
-            return this.createQueryBuilder()
-                .softDelete()
-                .from(targetOrEntity)
-                .where(criteria)
-                .execute();
         }
+        return this.createQueryBuilder()
+            .softDelete()
+            .from(targetOrEntity)
+            .where(criteria)
+            .execute();
     }
 
     /**
@@ -1110,13 +1106,12 @@ export class EntityManager {
                 .from(targetOrEntity)
                 .whereInIds(criteria)
                 .execute();
-        } else {
-            return this.createQueryBuilder()
-                .restore()
-                .from(targetOrEntity)
-                .where(criteria)
-                .execute();
         }
+        return this.createQueryBuilder()
+            .restore()
+            .from(targetOrEntity)
+            .where(criteria)
+            .execute();
     }
 
     /**

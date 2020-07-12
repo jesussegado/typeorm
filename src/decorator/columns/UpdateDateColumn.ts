@@ -11,7 +11,7 @@ export function UpdateDateColumn(options?: ColumnOptions): Function {
             target: object.constructor,
             propertyName: propertyName,
             mode: "updateDate",
-            options: options ? options : {},
+            options: options || {},
         } as ColumnMetadataArgs);
     };
 }

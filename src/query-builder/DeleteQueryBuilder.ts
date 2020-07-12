@@ -313,13 +313,13 @@ export class DeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
                 this.connection.driver instanceof CockroachDriver)
         ) {
             return `DELETE FROM ${tableName}${whereExpression} RETURNING ${returningExpression}`;
-        } else if (
+        }
+        if (
             returningExpression !== "" &&
             this.connection.driver instanceof SqlServerDriver
         ) {
             return `DELETE FROM ${tableName} OUTPUT ${returningExpression}${whereExpression}`;
-        } else {
-            return `DELETE FROM ${tableName}${whereExpression}`;
         }
+        return `DELETE FROM ${tableName}${whereExpression}`;
     }
 }

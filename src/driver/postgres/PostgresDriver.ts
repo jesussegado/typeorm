@@ -250,7 +250,7 @@ export class PostgresDriver implements Driver {
 
         this.connection = connection;
         this.options = connection.options as PostgresConnectionOptions;
-        this.isReplicated = this.options.replication ? true : false;
+        this.isReplicated = !!this.options.replication;
 
         // load postgres package
         this.loadDependencies();
@@ -497,11 +497,14 @@ export class PostgresDriver implements Driver {
 
         if (columnMetadata.type === Boolean) {
             return value === true ? 1 : 0;
-        } else if (columnMetadata.type === "date") {
+        }
+        if (columnMetadata.type === "date") {
             return DateUtils.mixedDateToDateString(value);
-        } else if (columnMetadata.type === "time") {
+        }
+        if (columnMetadata.type === "time") {
             return DateUtils.mixedDateToTimeString(value);
-        } else if (
+        }
+        if (
             columnMetadata.type === "datetime" ||
             columnMetadata.type === Date ||
             columnMetadata.type === "timestamp" ||
@@ -509,46 +512,48 @@ export class PostgresDriver implements Driver {
             columnMetadata.type === "timestamp without time zone"
         ) {
             return DateUtils.mixedDateToDate(value);
-        } else if (
+        }
+        if (
             ["json", "jsonb", ...this.spatialTypes].indexOf(
                 columnMetadata.type
             ) >= 0
         ) {
             return JSON.stringify(value);
-        } else if (columnMetadata.type === "hstore") {
+        }
+        if (columnMetadata.type === "hstore") {
             if (typeof value === "string") {
                 return value;
-            } else {
-                // https://www.postgresql.org/docs/9.0/hstore.html
-                const quoteString = (value: unknown) => {
-                    // If a string to be quoted is `null` or `undefined`, we return a literal unquoted NULL.
-                    // This way, NULL values can be stored in the hstore object.
-                    if (value === null || typeof value === "undefined") {
-                        return "NULL";
-                    }
-                    // Convert non-null values to string since HStore only stores strings anyway.
-                    // To include a double quote or a backslash in a key or value, escape it with a backslash.
-                    return `"${`${value}`.replace(/(?=["\\])/g, "\\")}"`;
-                };
-                return Object.keys(value)
-                    .map(
-                        (key) =>
-                            `${quoteString(key)}=>${quoteString(value[key])}`
-                    )
-                    .join(",");
             }
-        } else if (columnMetadata.type === "simple-array") {
+            // https://www.postgresql.org/docs/9.0/hstore.html
+            const quoteString = (value: unknown) => {
+                // If a string to be quoted is `null` or `undefined`, we return a literal unquoted NULL.
+                // This way, NULL values can be stored in the hstore object.
+                if (value === null || typeof value === "undefined") {
+                    return "NULL";
+                }
+                // Convert non-null values to string since HStore only stores strings anyway.
+                // To include a double quote or a backslash in a key or value, escape it with a backslash.
+                return `"${`${value}`.replace(/(?=["\\])/g, "\\")}"`;
+            };
+            return Object.keys(value)
+                .map((key) => `${quoteString(key)}=>${quoteString(value[key])}`)
+                .join(",");
+        }
+        if (columnMetadata.type === "simple-array") {
             return DateUtils.simpleArrayToString(value);
-        } else if (columnMetadata.type === "simple-json") {
+        }
+        if (columnMetadata.type === "simple-json") {
             return DateUtils.simpleJsonToString(value);
-        } else if (columnMetadata.type === "cube") {
+        }
+        if (columnMetadata.type === "cube") {
             if (columnMetadata.isArray) {
                 return `{${value
                     .map((cube: number[]) => `"(${cube.join(",")})"`)
                     .join(",")}}`;
             }
             return `(${value.join(",")})`;
-        } else if (
+        }
+        if (
             (columnMetadata.type === "enum" ||
                 columnMetadata.type === "simple-enum") &&
             !columnMetadata.isArray
@@ -572,7 +577,7 @@ export class PostgresDriver implements Driver {
                 : value;
 
         if (columnMetadata.type === Boolean) {
-            value = value ? true : false;
+            value = !!value;
         } else if (
             columnMetadata.type === "datetime" ||
             columnMetadata.type === Date ||
@@ -598,9 +603,8 @@ export class PostgresDriver implements Driver {
                     return "";
                 });
                 return object;
-            } else {
-                return value;
             }
+            return value;
         } else if (columnMetadata.type === "simple-array") {
             value = DateUtils.stringToSimpleArray(value);
         } else if (columnMetadata.type === "simple-json") {
@@ -705,12 +709,12 @@ export class PostgresDriver implements Driver {
                         return `$${builtParameters.length}`;
                     })
                     .join(", ");
-            } else if (value instanceof Function) {
-                return value();
-            } else {
-                builtParameters.push(value);
-                return `$${builtParameters.length}`;
             }
+            if (value instanceof Function) {
+                return value();
+            }
+            builtParameters.push(value);
+            return `$${builtParameters.length}`;
         }); // todo: make replace only in value statements, otherwise problems
         return [sql, builtParameters];
     }
@@ -746,41 +750,56 @@ export class PostgresDriver implements Driver {
             column.type === "int4"
         ) {
             return "integer";
-        } else if (column.type === String || column.type === "varchar") {
-            return "character varying";
-        } else if (column.type === Date || column.type === "timestamp") {
-            return "timestamp without time zone";
-        } else if (column.type === "timestamptz") {
-            return "timestamp with time zone";
-        } else if (column.type === "time") {
-            return "time without time zone";
-        } else if (column.type === "timetz") {
-            return "time with time zone";
-        } else if (column.type === Boolean || column.type === "bool") {
-            return "boolean";
-        } else if (column.type === "simple-array") {
-            return "text";
-        } else if (column.type === "simple-json") {
-            return "text";
-        } else if (column.type === "simple-enum") {
-            return "enum";
-        } else if (column.type === "int2") {
-            return "smallint";
-        } else if (column.type === "int8") {
-            return "bigint";
-        } else if (column.type === "decimal") {
-            return "numeric";
-        } else if (column.type === "float8" || column.type === "float") {
-            return "double precision";
-        } else if (column.type === "float4") {
-            return "real";
-        } else if (column.type === "char") {
-            return "character";
-        } else if (column.type === "varbit") {
-            return "bit varying";
-        } else {
-            return (column.type as string) || "";
         }
+        if (column.type === String || column.type === "varchar") {
+            return "character varying";
+        }
+        if (column.type === Date || column.type === "timestamp") {
+            return "timestamp without time zone";
+        }
+        if (column.type === "timestamptz") {
+            return "timestamp with time zone";
+        }
+        if (column.type === "time") {
+            return "time without time zone";
+        }
+        if (column.type === "timetz") {
+            return "time with time zone";
+        }
+        if (column.type === Boolean || column.type === "bool") {
+            return "boolean";
+        }
+        if (column.type === "simple-array") {
+            return "text";
+        }
+        if (column.type === "simple-json") {
+            return "text";
+        }
+        if (column.type === "simple-enum") {
+            return "enum";
+        }
+        if (column.type === "int2") {
+            return "smallint";
+        }
+        if (column.type === "int8") {
+            return "bigint";
+        }
+        if (column.type === "decimal") {
+            return "numeric";
+        }
+        if (column.type === "float8" || column.type === "float") {
+            return "double precision";
+        }
+        if (column.type === "float4") {
+            return "real";
+        }
+        if (column.type === "char") {
+            return "character";
+        }
+        if (column.type === "varbit") {
+            return "bit varying";
+        }
+        return (column.type as string) || "";
     }
 
     /**
@@ -807,19 +826,23 @@ export class PostgresDriver implements Driver {
 
         if (typeof defaultValue === "number") {
             return `${defaultValue}`;
-        } else if (typeof defaultValue === "boolean") {
-            return defaultValue === true ? "true" : "false";
-        } else if (typeof defaultValue === "function") {
-            return defaultValue();
-        } else if (typeof defaultValue === "string") {
-            return `'${defaultValue}'${arrayCast}`;
-        } else if (defaultValue === null) {
-            return `null`;
-        } else if (typeof defaultValue === "object") {
-            return `'${JSON.stringify(defaultValue)}'`;
-        } else {
-            return defaultValue;
         }
+        if (typeof defaultValue === "boolean") {
+            return defaultValue === true ? "true" : "false";
+        }
+        if (typeof defaultValue === "function") {
+            return defaultValue();
+        }
+        if (typeof defaultValue === "string") {
+            return `'${defaultValue}'${arrayCast}`;
+        }
+        if (defaultValue === null) {
+            return `null`;
+        }
+        if (typeof defaultValue === "object") {
+            return `'${JSON.stringify(defaultValue)}'`;
+        }
+        return defaultValue;
     }
 
     /**

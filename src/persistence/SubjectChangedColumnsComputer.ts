@@ -212,9 +212,8 @@ export class SubjectChangedColumnsComputer {
                 );
                 if (areRelatedIdsEqual) {
                     return;
-                } else {
-                    subject.diffRelations.push(relation);
                 }
+                subject.diffRelations.push(relation);
             }
 
             // if there is an inserted subject for the related entity of the persisted entity then use it as related entity

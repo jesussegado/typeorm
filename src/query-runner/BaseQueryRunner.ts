@@ -206,9 +206,8 @@ export abstract class BaseQueryRunner {
         if (foundViews.length > 0) {
             this.loadedViews.push(foundViews[0]);
             return foundViews[0];
-        } else {
-            throw new Error(`View "${viewName}" does not exist.`);
         }
+        throw new Error(`View "${viewName}" does not exist.`);
     }
 
     /**
@@ -224,9 +223,8 @@ export abstract class BaseQueryRunner {
         if (foundTables.length > 0) {
             this.loadedTables.push(foundTables[0]);
             return foundTables[0];
-        } else {
-            throw new Error(`Table "${tableName}" does not exist.`);
         }
+        throw new Error(`Table "${tableName}" does not exist.`);
     }
 
     /**

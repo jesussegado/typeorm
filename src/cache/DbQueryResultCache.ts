@@ -152,7 +152,8 @@ export class DbQueryResultCache implements QueryResultCache {
                             : options.identifier,
                 })
                 .getRawOne();
-        } else if (options.query) {
+        }
+        if (options.query) {
             if (this.connection.driver instanceof OracleDriver) {
                 return qb
                     .where(

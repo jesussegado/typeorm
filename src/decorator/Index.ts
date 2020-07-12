@@ -110,18 +110,17 @@ export function Index(
                 : (clsOrObject as Function),
             name: name,
             columns: propertyName ? [propertyName] : fields,
-            synchronize:
+            synchronize: !(
                 options &&
                 (options as { synchronize: false }).synchronize === false
-                    ? false
-                    : true,
+            ),
             where: options ? options.where : undefined,
-            unique: options && options.unique ? true : false,
-            spatial: options && options.spatial ? true : false,
-            fulltext: options && options.fulltext ? true : false,
+            unique: !!(options && options.unique),
+            spatial: !!(options && options.spatial),
+            fulltext: !!(options && options.fulltext),
             parser: options ? options.parser : undefined,
-            sparse: options && options.sparse ? true : false,
-            background: options && options.background ? true : false,
+            sparse: !!(options && options.sparse),
+            background: !!(options && options.background),
             expireAfterSeconds: options
                 ? options.expireAfterSeconds
                 : undefined,

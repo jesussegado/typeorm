@@ -209,7 +209,7 @@ export class SqlServerDriver implements Driver {
     constructor(connection: Connection) {
         this.connection = connection;
         this.options = connection.options as SqlServerConnectionOptions;
-        this.isReplicated = this.options.replication ? true : false;
+        this.isReplicated = !!this.options.replication;
 
         // load mssql package
         this.loadDependencies();
@@ -329,12 +329,12 @@ export class SqlServerDriver implements Driver {
                         return `@${escapedParameters.length - 1}`;
                     })
                     .join(", ");
-            } else if (value instanceof Function) {
-                return value();
-            } else {
-                escapedParameters.push(value);
-                return `@${escapedParameters.length - 1}`;
             }
+            if (value instanceof Function) {
+                return value();
+            }
+            escapedParameters.push(value);
+            return `@${escapedParameters.length - 1}`;
         }); // todo: make replace only in value statements, otherwise problems
         return [sql, escapedParameters];
     }
@@ -382,26 +382,33 @@ export class SqlServerDriver implements Driver {
 
         if (columnMetadata.type === Boolean) {
             return value === true ? 1 : 0;
-        } else if (columnMetadata.type === "date") {
+        }
+        if (columnMetadata.type === "date") {
             return DateUtils.mixedDateToDate(value);
-        } else if (columnMetadata.type === "time") {
+        }
+        if (columnMetadata.type === "time") {
             return DateUtils.mixedTimeToDate(value);
-        } else if (
+        }
+        if (
             columnMetadata.type === "datetime" ||
             columnMetadata.type === "smalldatetime" ||
             columnMetadata.type === Date
         ) {
             return DateUtils.mixedDateToDate(value, false, false);
-        } else if (
+        }
+        if (
             columnMetadata.type === "datetime2" ||
             columnMetadata.type === "datetimeoffset"
         ) {
             return DateUtils.mixedDateToDate(value, false, true);
-        } else if (columnMetadata.type === "simple-array") {
+        }
+        if (columnMetadata.type === "simple-array") {
             return DateUtils.simpleArrayToString(value);
-        } else if (columnMetadata.type === "simple-json") {
+        }
+        if (columnMetadata.type === "simple-json") {
             return DateUtils.simpleJsonToString(value);
-        } else if (columnMetadata.type === "simple-enum") {
+        }
+        if (columnMetadata.type === "simple-enum") {
             return DateUtils.simpleEnumToString(value);
         }
 
@@ -421,7 +428,7 @@ export class SqlServerDriver implements Driver {
                 : value;
 
         if (columnMetadata.type === Boolean) {
-            value = value ? true : false;
+            value = !!value;
         } else if (
             columnMetadata.type === "datetime" ||
             columnMetadata.type === Date ||
@@ -462,32 +469,38 @@ export class SqlServerDriver implements Driver {
     }): string {
         if (column.type === Number || column.type === "integer") {
             return "int";
-        } else if (column.type === String) {
-            return "nvarchar";
-        } else if (column.type === Date) {
-            return "datetime";
-        } else if (column.type === Boolean) {
-            return "bit";
-        } else if ((column.type as any) === Buffer) {
-            return "binary";
-        } else if (column.type === "uuid") {
-            return "uniqueidentifier";
-        } else if (
-            column.type === "simple-array" ||
-            column.type === "simple-json"
-        ) {
-            return "ntext";
-        } else if (column.type === "simple-enum") {
-            return "nvarchar";
-        } else if (column.type === "dec") {
-            return "decimal";
-        } else if (column.type === "double precision") {
-            return "float";
-        } else if (column.type === "rowversion") {
-            return "timestamp"; // the rowversion type's name in SQL server metadata is timestamp
-        } else {
-            return (column.type as string) || "";
         }
+        if (column.type === String) {
+            return "nvarchar";
+        }
+        if (column.type === Date) {
+            return "datetime";
+        }
+        if (column.type === Boolean) {
+            return "bit";
+        }
+        if ((column.type as any) === Buffer) {
+            return "binary";
+        }
+        if (column.type === "uuid") {
+            return "uniqueidentifier";
+        }
+        if (column.type === "simple-array" || column.type === "simple-json") {
+            return "ntext";
+        }
+        if (column.type === "simple-enum") {
+            return "nvarchar";
+        }
+        if (column.type === "dec") {
+            return "decimal";
+        }
+        if (column.type === "double precision") {
+            return "float";
+        }
+        if (column.type === "rowversion") {
+            return "timestamp"; // the rowversion type's name in SQL server metadata is timestamp
+        }
+        return (column.type as string) || "";
     }
 
     /**
@@ -498,15 +511,17 @@ export class SqlServerDriver implements Driver {
 
         if (typeof defaultValue === "number") {
             return `${defaultValue}`;
-        } else if (typeof defaultValue === "boolean") {
-            return defaultValue === true ? "1" : "0";
-        } else if (typeof defaultValue === "function") {
-            return /*"(" + */ defaultValue() /* + ")"*/;
-        } else if (typeof defaultValue === "string") {
-            return `'${defaultValue}'`;
-        } else {
-            return defaultValue;
         }
+        if (typeof defaultValue === "boolean") {
+            return defaultValue === true ? "1" : "0";
+        }
+        if (typeof defaultValue === "function") {
+            return /*"(" + */ defaultValue() /* + ")"*/;
+        }
+        if (typeof defaultValue === "string") {
+            return `'${defaultValue}'`;
+        }
+        return defaultValue;
     }
 
     /**
@@ -697,7 +712,8 @@ export class SqlServerDriver implements Driver {
                 normalizedType as any,
                 column.length as any
             );
-        } else if (
+        }
+        if (
             column.precision !== null &&
             column.precision !== undefined &&
             column.scale !== null &&
@@ -709,16 +725,15 @@ export class SqlServerDriver implements Driver {
                 column.precision,
                 column.scale
             );
-        } else if (
-            column.precision !== null &&
-            column.precision !== undefined
-        ) {
+        }
+        if (column.precision !== null && column.precision !== undefined) {
             return new MssqlParameter(
                 value,
                 normalizedType as any,
                 column.precision
             );
-        } else if (column.scale !== null && column.scale !== undefined) {
+        }
+        if (column.scale !== null && column.scale !== undefined) {
             return new MssqlParameter(
                 value,
                 normalizedType as any,

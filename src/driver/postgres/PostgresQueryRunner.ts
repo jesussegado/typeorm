@@ -271,7 +271,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const result = await this.query(
             `SELECT * FROM "information_schema"."schemata" WHERE "schema_name" = '${schema}'`
         );
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -281,7 +281,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const parsedTableName = this.parseTableName(tableOrName);
         const sql = `SELECT * FROM "information_schema"."tables" WHERE "table_schema" = ${parsedTableName.schema} AND "table_name" = ${parsedTableName.tableName}`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -294,7 +294,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const parsedTableName = this.parseTableName(tableOrName);
         const sql = `SELECT * FROM "information_schema"."columns" WHERE "table_schema" = ${parsedTableName.schema} AND "table_name" = ${parsedTableName.tableName} AND "column_name" = '${columnName}'`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -3156,13 +3156,12 @@ export class PostgresQueryRunner extends BaseQueryRunner
             return new Query(
                 `CREATE ${materializedClause}VIEW ${viewName} AS ${view.expression}`
             );
-        } else {
-            return new Query(
-                `CREATE ${materializedClause}VIEW ${viewName} AS ${view
-                    .expression(this.connection)
-                    .getQuery()}`
-            );
         }
+        return new Query(
+            `CREATE ${materializedClause}VIEW ${viewName} AS ${view
+                .expression(this.connection)
+                .getQuery()}`
+        );
     }
 
     protected async insertViewDefinitionSql(view: View): Promise<Query> {
@@ -3273,7 +3272,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
             `INNER JOIN "pg_namespace" "n" ON "n"."oid" = "t"."typnamespace" ` +
             `WHERE "n"."nspname" = ${schema} AND "t"."typname" = '${enumName}'`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -3539,11 +3538,10 @@ export class PostgresQueryRunner extends BaseQueryRunner
             return disableEscape
                 ? `${schema}.${tableName}_${columnName}_seq`
                 : `"${schema}"."${tableName}_${columnName}_seq"`;
-        } else {
-            return disableEscape
-                ? `${tableName}_${columnName}_seq`
-                : `"${tableName}_${columnName}_seq"`;
         }
+        return disableEscape
+            ? `${tableName}_${columnName}_seq`
+            : `"${tableName}_${columnName}_seq"`;
     }
 
     /**
@@ -3645,12 +3643,11 @@ export class PostgresQueryRunner extends BaseQueryRunner
                     : "current_schema()",
                 tableName: `'${tableName}'`,
             };
-        } else {
-            return {
-                schema: `'${tableName.split(".")[0]}'`,
-                tableName: `'${tableName.split(".")[1]}'`,
-            };
         }
+        return {
+            schema: `'${tableName.split(".")[0]}'`,
+            tableName: `'${tableName.split(".")[1]}'`,
+        };
     }
 
     /**

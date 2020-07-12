@@ -452,9 +452,7 @@ export class SubjectExecutor {
                             .into(subjects[0].metadata.target)
                             .values(bulkInsertMaps)
                             .updateEntity(
-                                this.options && this.options.reload === false
-                                    ? false
-                                    : true
+                                !(this.options && this.options.reload === false)
                             )
                             .callListeners(false)
                             .execute();
@@ -487,10 +485,10 @@ export class SubjectExecutor {
                                     .into(subject.metadata.target)
                                     .values(subject.insertedValueSet)
                                     .updateEntity(
-                                        this.options &&
+                                        !(
+                                            this.options &&
                                             this.options.reload === false
-                                            ? false
-                                            : true
+                                        )
                                     )
                                     .callListeners(false)
                                     .execute()
@@ -607,9 +605,7 @@ export class SubjectExecutor {
                         .update(subject.metadata.target)
                         .set(updateMap)
                         .updateEntity(
-                            this.options && this.options.reload === false
-                                ? false
-                                : true
+                            !(this.options && this.options.reload === false)
                         )
                         .callListeners(false);
 
@@ -773,9 +769,7 @@ export class SubjectExecutor {
                         .softDelete()
                         .from(subject.metadata.target)
                         .updateEntity(
-                            this.options && this.options.reload === false
-                                ? false
-                                : true
+                            !(this.options && this.options.reload === false)
                         )
                         .callListeners(false);
 
@@ -891,9 +885,7 @@ export class SubjectExecutor {
                         .restore()
                         .from(subject.metadata.target)
                         .updateEntity(
-                            this.options && this.options.reload === false
-                                ? false
-                                : true
+                            !(this.options && this.options.reload === false)
                         )
                         .callListeners(false);
 

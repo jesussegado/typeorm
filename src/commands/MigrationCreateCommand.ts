@@ -2,6 +2,7 @@ import * as yargs from "yargs";
 import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
 import { CommandUtils } from "./CommandUtils";
 import { camelCase } from "../util/StringUtils";
+
 const chalk = require("chalk");
 
 /**

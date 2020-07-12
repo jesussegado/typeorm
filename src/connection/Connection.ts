@@ -480,12 +480,11 @@ export class Connection {
             return new SelectQueryBuilder(this, queryRunner)
                 .select(alias)
                 .from(metadata.target, alias);
-        } else {
-            return new SelectQueryBuilder(
-                this,
-                entityOrRunner as QueryRunner | undefined
-            );
         }
+        return new SelectQueryBuilder(
+            this,
+            entityOrRunner as QueryRunner | undefined
+        );
     }
 
     /**
@@ -553,12 +552,10 @@ export class Connection {
             if (typeof target === "string") {
                 if (target.indexOf(".") !== -1) {
                     return metadata.tablePath === target;
-                } else {
-                    return (
-                        metadata.name === target ||
-                        metadata.tableName === target
-                    );
                 }
+                return (
+                    metadata.name === target || metadata.tableName === target
+                );
             }
 
             return false;

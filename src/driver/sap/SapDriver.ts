@@ -335,15 +335,16 @@ export class SapDriver implements Driver {
                         // return "$" + builtParameters.length;
                     })
                     .join(", ");
-            } else if (value instanceof Function) {
-                return value();
-            } else if (value instanceof Date) {
-                return DateUtils.mixedDateToDatetimeString(value, true);
-            } else {
-                builtParameters.push(value);
-                return "?";
-                // return "$" + builtParameters.length;
             }
+            if (value instanceof Function) {
+                return value();
+            }
+            if (value instanceof Date) {
+                return DateUtils.mixedDateToDatetimeString(value, true);
+            }
+            builtParameters.push(value);
+            return "?";
+            // return "$" + builtParameters.length;
         }); // todo: make replace only in value statements, otherwise problems
         return [sql, builtParameters];
     }
@@ -377,24 +378,32 @@ export class SapDriver implements Driver {
 
         if (columnMetadata.type === Boolean) {
             return value === true ? 1 : 0;
-        } else if (columnMetadata.type === "date") {
+        }
+        if (columnMetadata.type === "date") {
             return DateUtils.mixedDateToDateString(value);
-        } else if (columnMetadata.type === "time") {
+        }
+        if (columnMetadata.type === "time") {
             return DateUtils.mixedDateToTimeString(value);
-        } else if (
+        }
+        if (
             columnMetadata.type === "timestamp" ||
             columnMetadata.type === Date
         ) {
             return DateUtils.mixedDateToDatetimeString(value, true);
-        } else if (columnMetadata.type === "seconddate") {
+        }
+        if (columnMetadata.type === "seconddate") {
             return DateUtils.mixedDateToDatetimeString(value, false);
-        } else if (columnMetadata.type === "simple-array") {
+        }
+        if (columnMetadata.type === "simple-array") {
             return DateUtils.simpleArrayToString(value);
-        } else if (columnMetadata.type === "simple-json") {
+        }
+        if (columnMetadata.type === "simple-json") {
             return DateUtils.simpleJsonToString(value);
-        } else if (columnMetadata.type === "simple-enum") {
+        }
+        if (columnMetadata.type === "simple-enum") {
             return DateUtils.simpleEnumToString(value);
-        } else if (columnMetadata.isArray) {
+        }
+        if (columnMetadata.isArray) {
             return () => `ARRAY(${value.map((it: any) => `'${it}'`)})`;
         }
 
@@ -414,7 +423,7 @@ export class SapDriver implements Driver {
                 : value;
 
         if (columnMetadata.type === Boolean) {
-            value = value ? true : false;
+            value = !!value;
         } else if (
             columnMetadata.type === "timestamp" ||
             columnMetadata.type === "seconddate" ||
@@ -453,26 +462,29 @@ export class SapDriver implements Driver {
     }): string {
         if (column.type === Number || column.type === "int") {
             return "integer";
-        } else if (column.type === String) {
-            return "nvarchar";
-        } else if (column.type === Date) {
-            return "timestamp";
-        } else if (column.type === Boolean) {
-            return "boolean";
-        } else if ((column.type as any) === Buffer) {
-            return "blob";
-        } else if (column.type === "uuid") {
-            return "nvarchar";
-        } else if (
-            column.type === "simple-array" ||
-            column.type === "simple-json"
-        ) {
-            return "text";
-        } else if (column.type === "simple-enum") {
-            return "nvarchar";
-        } else {
-            return (column.type as string) || "";
         }
+        if (column.type === String) {
+            return "nvarchar";
+        }
+        if (column.type === Date) {
+            return "timestamp";
+        }
+        if (column.type === Boolean) {
+            return "boolean";
+        }
+        if ((column.type as any) === Buffer) {
+            return "blob";
+        }
+        if (column.type === "uuid") {
+            return "nvarchar";
+        }
+        if (column.type === "simple-array" || column.type === "simple-json") {
+            return "text";
+        }
+        if (column.type === "simple-enum") {
+            return "nvarchar";
+        }
+        return (column.type as string) || "";
     }
 
     /**
@@ -483,15 +495,17 @@ export class SapDriver implements Driver {
 
         if (typeof defaultValue === "number") {
             return `${defaultValue}`;
-        } else if (typeof defaultValue === "boolean") {
-            return defaultValue === true ? "true" : "false";
-        } else if (typeof defaultValue === "function") {
-            return defaultValue();
-        } else if (typeof defaultValue === "string") {
-            return `'${defaultValue}'`;
-        } else {
-            return defaultValue;
         }
+        if (typeof defaultValue === "boolean") {
+            return defaultValue === true ? "true" : "false";
+        }
+        if (typeof defaultValue === "function") {
+            return defaultValue();
+        }
+        if (typeof defaultValue === "string") {
+            return `'${defaultValue}'`;
+        }
+        return defaultValue;
     }
 
     /**

@@ -137,7 +137,8 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                 )
                 .where(whereCondition)
                 .setParameters(parameters);
-        } else if (this.metadata.treeType === "nested-set") {
+        }
+        if (this.metadata.treeType === "nested-set") {
             const whereCondition =
                 `${alias}.${
                     this.metadata.nestedSetLeftColumn!.propertyPath
@@ -166,7 +167,8 @@ export class TreeRepository<Entity> extends Repository<Entity> {
             return this.createQueryBuilder(alias)
                 .innerJoin(this.metadata.targetName, "joined", whereCondition)
                 .where(joinCondition, parameters);
-        } else if (this.metadata.treeType === "materialized-path") {
+        }
+        if (this.metadata.treeType === "materialized-path") {
             return this.createQueryBuilder(alias).where((qb) => {
                 const subQuery = qb
                     .subQuery()
@@ -187,11 +189,10 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                     return `${alias}.${
                         this.metadata.materializedPathColumn!.propertyPath
                     } LIKE ${subQuery.getQuery()} || '%'`;
-                } else {
-                    return `${alias}.${
-                        this.metadata.materializedPathColumn!.propertyPath
-                    } LIKE CONCAT(${subQuery.getQuery()}, '%')`;
                 }
+                return `${alias}.${
+                    this.metadata.materializedPathColumn!.propertyPath
+                } LIKE CONCAT(${subQuery.getQuery()}, '%')`;
             });
         }
 
@@ -285,7 +286,8 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                 )
                 .where(whereCondition)
                 .setParameters(parameters);
-        } else if (this.metadata.treeType === "nested-set") {
+        }
+        if (this.metadata.treeType === "nested-set") {
             const joinCondition = `joined.${
                 this.metadata.nestedSetLeftColumn!.propertyPath
             } BETWEEN ${alias}.${
@@ -310,7 +312,8 @@ export class TreeRepository<Entity> extends Repository<Entity> {
             return this.createQueryBuilder(alias)
                 .innerJoin(this.metadata.targetName, "joined", joinCondition)
                 .where(whereCondition, parameters);
-        } else if (this.metadata.treeType === "materialized-path") {
+        }
+        if (this.metadata.treeType === "materialized-path") {
             // example: SELECT * FROM category category WHERE (SELECT mpath FROM `category` WHERE id = 2) LIKE CONCAT(category.mpath, '%');
             return this.createQueryBuilder(alias).where((qb) => {
                 const subQuery = qb
@@ -332,11 +335,10 @@ export class TreeRepository<Entity> extends Repository<Entity> {
                     return `${subQuery.getQuery()} LIKE ${alias}.${
                         this.metadata.materializedPathColumn!.propertyPath
                     } || '%'`;
-                } else {
-                    return `${subQuery.getQuery()} LIKE CONCAT(${alias}.${
-                        this.metadata.materializedPathColumn!.propertyPath
-                    }, '%')`;
                 }
+                return `${subQuery.getQuery()} LIKE CONCAT(${alias}.${
+                    this.metadata.materializedPathColumn!.propertyPath
+                }, '%')`;
             });
         }
 

@@ -50,7 +50,9 @@ describe("persistence > custom-column-names", function () {
 
     describe("attach exist entity to exist entity with many-to-one relation", function () {
         if (!connection) return;
-        let newPost: Post, newCategory: Category, loadedPost: Post;
+        let newPost: Post;
+        let newCategory: Category;
+        let loadedPost: Post;
 
         before(reloadDatabase);
 
@@ -95,7 +97,9 @@ describe("persistence > custom-column-names", function () {
 
     describe("attach new entity to exist entity with many-to-one relation", function () {
         if (!connection) return;
-        let newPost: Post, newCategory: Category, loadedPost: Post;
+        let newPost: Post;
+        let newCategory: Category;
+        let loadedPost: Post;
 
         before(reloadDatabase);
 
@@ -135,7 +139,9 @@ describe("persistence > custom-column-names", function () {
 
     describe("attach new entity to new entity with many-to-one relation", function () {
         if (!connection) return;
-        let newPost: Post, newCategory: Category, loadedPost: Post;
+        let newPost: Post;
+        let newCategory: Category;
+        let loadedPost: Post;
 
         before(reloadDatabase);
 
@@ -170,10 +176,10 @@ describe("persistence > custom-column-names", function () {
 
     describe("attach exist entity to exist entity with one-to-one relation", function () {
         if (!connection) return;
-        let newPost: Post,
-            newCategory: Category,
-            newMetadata: CategoryMetadata,
-            loadedPost: Post;
+        let newPost: Post;
+        let newCategory: Category;
+        let newMetadata: CategoryMetadata;
+        let loadedPost: Post;
 
         before(reloadDatabase);
 
@@ -231,10 +237,10 @@ describe("persistence > custom-column-names", function () {
 
     describe("attach new entity to exist entity with one-to-one relation", function () {
         if (!connection) return;
-        let newPost: Post,
-            newCategory: Category,
-            newMetadata: CategoryMetadata,
-            loadedPost: Post;
+        let newPost: Post;
+        let newCategory: Category;
+        let newMetadata: CategoryMetadata;
+        let loadedPost: Post;
 
         before(reloadDatabase);
 

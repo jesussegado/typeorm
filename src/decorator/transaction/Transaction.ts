@@ -137,11 +137,10 @@ export function Transaction(
                     isolationLevel,
                     transactionCallback
                 );
-            } else {
-                return getConnection(connectionName).manager.transaction(
-                    transactionCallback
-                );
             }
+            return getConnection(connectionName).manager.transaction(
+                transactionCallback
+            );
         };
     };
 }

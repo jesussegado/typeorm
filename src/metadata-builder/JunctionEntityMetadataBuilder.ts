@@ -263,20 +263,19 @@ export class JunctionEntityMetadataBuilder {
             return relation.entityMetadata.columns.filter(
                 (column) => column.isPrimary
             );
-        } else {
-            return joinTable.joinColumns.map((joinColumn) => {
-                const referencedColumn = relation.entityMetadata.columns.find(
-                    (column) =>
-                        column.propertyName === joinColumn.referencedColumnName
-                );
-                if (!referencedColumn)
-                    throw new Error(
-                        `Referenced column ${joinColumn.referencedColumnName} was not found in entity ${relation.entityMetadata.name}`
-                    );
-
-                return referencedColumn;
-            });
         }
+        return joinTable.joinColumns.map((joinColumn) => {
+            const referencedColumn = relation.entityMetadata.columns.find(
+                (column) =>
+                    column.propertyName === joinColumn.referencedColumnName
+            );
+            if (!referencedColumn)
+                throw new Error(
+                    `Referenced column ${joinColumn.referencedColumnName} was not found in entity ${relation.entityMetadata.name}`
+                );
+
+            return referencedColumn;
+        });
     }
 
     /**
@@ -297,20 +296,19 @@ export class JunctionEntityMetadataBuilder {
             (hasInverseJoinColumns && !hasAnyInverseReferencedColumnName)
         ) {
             return relation.inverseEntityMetadata.primaryColumns;
-        } else {
-            return joinTable.inverseJoinColumns!.map((joinColumn) => {
-                const referencedColumn = relation.inverseEntityMetadata.ownColumns.find(
-                    (column) =>
-                        column.propertyName === joinColumn.referencedColumnName
-                );
-                if (!referencedColumn)
-                    throw new Error(
-                        `Referenced column ${joinColumn.referencedColumnName} was not found in entity ${relation.inverseEntityMetadata.name}`
-                    );
-
-                return referencedColumn;
-            });
         }
+        return joinTable.inverseJoinColumns!.map((joinColumn) => {
+            const referencedColumn = relation.inverseEntityMetadata.ownColumns.find(
+                (column) =>
+                    column.propertyName === joinColumn.referencedColumnName
+            );
+            if (!referencedColumn)
+                throw new Error(
+                    `Referenced column ${joinColumn.referencedColumnName} was not found in entity ${relation.inverseEntityMetadata.name}`
+                );
+
+            return referencedColumn;
+        });
     }
 
     protected changeDuplicatedColumnNames(

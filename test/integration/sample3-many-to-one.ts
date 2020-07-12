@@ -44,11 +44,11 @@ describe("many-to-one", function () {
         return connection.synchronize(true);
     }
 
-    let postRepository: Repository<Post>,
-        postDetailsRepository: Repository<PostDetails>,
-        postCategoryRepository: Repository<PostCategory>,
-        postImageRepository: Repository<PostImage>,
-        postMetadataRepository: Repository<PostMetadata>;
+    let postRepository: Repository<Post>;
+    let postDetailsRepository: Repository<PostDetails>;
+    let postCategoryRepository: Repository<PostCategory>;
+    let postImageRepository: Repository<PostImage>;
+    let postMetadataRepository: Repository<PostMetadata>;
     before(function () {
         if (!connection) return;
         postRepository = connection.getRepository(Post);
@@ -64,7 +64,9 @@ describe("many-to-one", function () {
 
     describe("insert post and details (has inverse relation + full cascade options)", function () {
         if (!connection) return;
-        let newPost: Post, details: PostDetails, savedPost: Post;
+        let newPost: Post;
+        let details: PostDetails;
+        let savedPost: Post;
 
         before(reloadDatabase);
 
@@ -200,7 +202,9 @@ describe("many-to-one", function () {
 
     describe("insert post and category (one-side relation)", function () {
         if (!connection) return;
-        let newPost: Post, category: PostCategory, savedPost: Post;
+        let newPost: Post;
+        let category: PostCategory;
+        let savedPost: Post;
 
         before(reloadDatabase);
 
@@ -284,7 +288,8 @@ describe("many-to-one", function () {
 
     describe("cascade updates should not be executed when cascadeUpdate option is not set", function () {
         if (!connection) return;
-        let newPost: Post, details: PostDetails;
+        let newPost: Post;
+        let details: PostDetails;
 
         before(reloadDatabase);
 
@@ -327,7 +332,8 @@ describe("many-to-one", function () {
 
     describe("cascade remove should not be executed when cascadeRemove option is not set", function () {
         if (!connection) return;
-        let newPost: Post, details: PostDetails;
+        let newPost: Post;
+        let details: PostDetails;
 
         before(reloadDatabase);
 
@@ -367,7 +373,8 @@ describe("many-to-one", function () {
 
     describe("cascade updates should be executed when cascadeUpdate option is set", function () {
         if (!connection) return;
-        let newPost: Post, newImage: PostImage;
+        let newPost: Post;
+        let newImage: PostImage;
 
         before(reloadDatabase);
 
@@ -414,7 +421,8 @@ describe("many-to-one", function () {
 
     describe("cascade remove should be executed when cascadeRemove option is set", function () {
         if (!connection) return;
-        let newPost: Post, newMetadata: PostMetadata;
+        let newPost: Post;
+        let newMetadata: PostMetadata;
 
         before(reloadDatabase);
 
@@ -461,7 +469,9 @@ describe("many-to-one", function () {
 
     describe("insert post details from reverse side", function () {
         if (!connection) return;
-        let newPost: Post, details: PostDetails, savedDetails: PostDetails;
+        let newPost: Post;
+        let details: PostDetails;
+        let savedDetails: PostDetails;
 
         before(reloadDatabase);
 

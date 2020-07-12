@@ -22,9 +22,10 @@ module.exports = {
     "import/extensions": ["off"],
     "@typescript-eslint/no-explicit-any": ["off"],
     "import/prefer-default-export":["off"],
-    "eslint@typescript-eslint/no-non-null-assertion":["off"],
+    "@typescript-eslint/no-non-null-assertion":["off"],
     "func-names":["off"],
-
+    "class-methods-use-this":["off"],
+    "@typescript-eslint/no-inferrable-types":["off"],
   },
   settings: {
     "import/resolver": {

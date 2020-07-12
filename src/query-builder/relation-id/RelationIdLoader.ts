@@ -78,7 +78,8 @@ export class RelationIdLoader {
                         relationIdAttribute: relationIdAttr,
                         results: results,
                     };
-                } else if (
+                }
+                if (
                     relationIdAttr.relation.isOneToMany ||
                     relationIdAttr.relation.isOneToOneNotOwner
                 ) {
@@ -181,132 +182,123 @@ export class RelationIdLoader {
                         relationIdAttribute: relationIdAttr,
                         results,
                     };
-                } else {
-                    // many-to-many
-                    // example: Post and Category
-                    // owner side: loadRelationIdAndMap("post.categoryIds", "post.categories")
-                    // inverse side: loadRelationIdAndMap("category.postIds", "category.posts")
-                    // we expect it to load array of post ids
+                }
+                // many-to-many
+                // example: Post and Category
+                // owner side: loadRelationIdAndMap("post.categoryIds", "post.categories")
+                // inverse side: loadRelationIdAndMap("category.postIds", "category.posts")
+                // we expect it to load array of post ids
 
-                    const relation = relationIdAttr.relation;
-                    const joinColumns = relation.isOwning
-                        ? relation.joinColumns
-                        : relation.inverseRelation!.inverseJoinColumns;
-                    const inverseJoinColumns = relation.isOwning
-                        ? relation.inverseJoinColumns
-                        : relation.inverseRelation!.joinColumns;
-                    const junctionAlias = relationIdAttr.junctionAlias;
-                    const inverseSideTableName =
-                        relationIdAttr.joinInverseSideMetadata.tableName;
-                    const inverseSideTableAlias =
-                        relationIdAttr.alias || inverseSideTableName;
-                    const junctionTableName = relation.isOwning
-                        ? relation.junctionEntityMetadata!.tableName
-                        : relation.inverseRelation!.junctionEntityMetadata!
-                              .tableName;
+                const relation = relationIdAttr.relation;
+                const joinColumns = relation.isOwning
+                    ? relation.joinColumns
+                    : relation.inverseRelation!.inverseJoinColumns;
+                const inverseJoinColumns = relation.isOwning
+                    ? relation.inverseJoinColumns
+                    : relation.inverseRelation!.joinColumns;
+                const junctionAlias = relationIdAttr.junctionAlias;
+                const inverseSideTableName =
+                    relationIdAttr.joinInverseSideMetadata.tableName;
+                const inverseSideTableAlias =
+                    relationIdAttr.alias || inverseSideTableName;
+                const junctionTableName = relation.isOwning
+                    ? relation.junctionEntityMetadata!.tableName
+                    : relation.inverseRelation!.junctionEntityMetadata!
+                          .tableName;
 
-                    const mappedColumns = rawEntities.map((rawEntity) => {
-                        return joinColumns.reduce((map, joinColumn) => {
-                            map[joinColumn.propertyPath] =
-                                rawEntity[
-                                    DriverUtils.buildColumnAlias(
-                                        this.connection.driver,
-                                        relationIdAttr.parentAlias,
-                                        joinColumn.referencedColumn!
-                                            .databaseName
-                                    )
-                                ];
-                            return map;
-                        }, {} as ObjectLiteral);
-                    });
+                const mappedColumns = rawEntities.map((rawEntity) => {
+                    return joinColumns.reduce((map, joinColumn) => {
+                        map[joinColumn.propertyPath] =
+                            rawEntity[
+                                DriverUtils.buildColumnAlias(
+                                    this.connection.driver,
+                                    relationIdAttr.parentAlias,
+                                    joinColumn.referencedColumn!.databaseName
+                                )
+                            ];
+                        return map;
+                    }, {} as ObjectLiteral);
+                });
 
-                    // ensure we won't perform redundant queries for joined data which was not found in selection
-                    // example: if post.category was not found in db then no need to execute query for category.imageIds
-                    if (mappedColumns.length === 0)
-                        return {
-                            relationIdAttribute: relationIdAttr,
-                            results: [],
-                        };
-
-                    const parameters: ObjectLiteral = {};
-                    const joinColumnConditions = mappedColumns.map(
-                        (mappedColumn, index) => {
-                            return Object.keys(mappedColumn)
-                                .map((key) => {
-                                    const parameterName = key + index;
-                                    parameters[parameterName] =
-                                        mappedColumn[key];
-                                    return `${junctionAlias}.${key} = :${parameterName}`;
-                                })
-                                .join(" AND ");
-                        }
-                    );
-
-                    const inverseJoinColumnCondition = inverseJoinColumns
-                        .map((joinColumn) => {
-                            return `${junctionAlias}.${
-                                joinColumn.propertyPath
-                            } = ${inverseSideTableAlias}.${
-                                joinColumn.referencedColumn!.propertyPath
-                            }`;
-                        })
-                        .join(" AND ");
-
-                    const condition = joinColumnConditions
-                        .map((condition) => {
-                            return `(${condition} AND ${inverseJoinColumnCondition})`;
-                        })
-                        .join(" OR ");
-
-                    const qb = this.connection.createQueryBuilder(
-                        this.queryRunner
-                    );
-
-                    inverseJoinColumns.forEach((joinColumn) => {
-                        qb.addSelect(
-                            `${junctionAlias}.${joinColumn.propertyPath}`,
-                            joinColumn.databaseName
-                        ).addOrderBy(
-                            `${junctionAlias}.${joinColumn.propertyPath}`
-                        );
-                    });
-
-                    joinColumns.forEach((joinColumn) => {
-                        qb.addSelect(
-                            `${junctionAlias}.${joinColumn.propertyPath}`,
-                            joinColumn.databaseName
-                        ).addOrderBy(
-                            `${junctionAlias}.${joinColumn.propertyPath}`
-                        );
-                    });
-
-                    qb.from(inverseSideTableName, inverseSideTableAlias)
-                        .innerJoin(junctionTableName, junctionAlias, condition)
-                        .setParameters(parameters);
-
-                    // apply condition (custom query builder factory)
-                    if (relationIdAttr.queryBuilderFactory)
-                        relationIdAttr.queryBuilderFactory(qb);
-
-                    const results = await qb.getRawMany();
-                    results.forEach((result) => {
-                        [...joinColumns, ...inverseJoinColumns].forEach(
-                            (column) => {
-                                result[
-                                    column.databaseName
-                                ] = this.connection.driver.prepareHydratedValue(
-                                    result[column.databaseName],
-                                    column.referencedColumn!
-                                );
-                            }
-                        );
-                    });
-
+                // ensure we won't perform redundant queries for joined data which was not found in selection
+                // example: if post.category was not found in db then no need to execute query for category.imageIds
+                if (mappedColumns.length === 0)
                     return {
                         relationIdAttribute: relationIdAttr,
-                        results,
+                        results: [],
                     };
-                }
+
+                const parameters: ObjectLiteral = {};
+                const joinColumnConditions = mappedColumns.map(
+                    (mappedColumn, index) => {
+                        return Object.keys(mappedColumn)
+                            .map((key) => {
+                                const parameterName = key + index;
+                                parameters[parameterName] = mappedColumn[key];
+                                return `${junctionAlias}.${key} = :${parameterName}`;
+                            })
+                            .join(" AND ");
+                    }
+                );
+
+                const inverseJoinColumnCondition = inverseJoinColumns
+                    .map((joinColumn) => {
+                        return `${junctionAlias}.${
+                            joinColumn.propertyPath
+                        } = ${inverseSideTableAlias}.${
+                            joinColumn.referencedColumn!.propertyPath
+                        }`;
+                    })
+                    .join(" AND ");
+
+                const condition = joinColumnConditions
+                    .map((condition) => {
+                        return `(${condition} AND ${inverseJoinColumnCondition})`;
+                    })
+                    .join(" OR ");
+
+                const qb = this.connection.createQueryBuilder(this.queryRunner);
+
+                inverseJoinColumns.forEach((joinColumn) => {
+                    qb.addSelect(
+                        `${junctionAlias}.${joinColumn.propertyPath}`,
+                        joinColumn.databaseName
+                    ).addOrderBy(`${junctionAlias}.${joinColumn.propertyPath}`);
+                });
+
+                joinColumns.forEach((joinColumn) => {
+                    qb.addSelect(
+                        `${junctionAlias}.${joinColumn.propertyPath}`,
+                        joinColumn.databaseName
+                    ).addOrderBy(`${junctionAlias}.${joinColumn.propertyPath}`);
+                });
+
+                qb.from(inverseSideTableName, inverseSideTableAlias)
+                    .innerJoin(junctionTableName, junctionAlias, condition)
+                    .setParameters(parameters);
+
+                // apply condition (custom query builder factory)
+                if (relationIdAttr.queryBuilderFactory)
+                    relationIdAttr.queryBuilderFactory(qb);
+
+                const results = await qb.getRawMany();
+                results.forEach((result) => {
+                    [...joinColumns, ...inverseJoinColumns].forEach(
+                        (column) => {
+                            result[
+                                column.databaseName
+                            ] = this.connection.driver.prepareHydratedValue(
+                                result[column.databaseName],
+                                column.referencedColumn!
+                            );
+                        }
+                    );
+                });
+
+                return {
+                    relationIdAttribute: relationIdAttr,
+                    results,
+                };
             }
         );
 

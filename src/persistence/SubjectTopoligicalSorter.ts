@@ -170,10 +170,10 @@ export class SubjectTopoligicalSorter {
         }
 
         const nodes = uniqueNodes(edges);
-        let cursor = nodes.length,
-            sorted = new Array(cursor),
-            visited: any = {},
-            i = cursor;
+        let cursor = nodes.length;
+        let sorted = new Array(cursor);
+        let visited: any = {};
+        let i = cursor;
 
         while (i--) {
             if (!visited[i]) visit(nodes[i], i, []);

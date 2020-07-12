@@ -198,7 +198,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
                     ok(result.rows || result.outBinds || result.rowsAffected);
                 };
                 const executionOptions = {
-                    autoCommit: this.isTransactionActive ? false : true,
+                    autoCommit: !this.isTransactionActive,
                 };
 
                 const databaseConnection = await this.connect();
@@ -263,7 +263,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
             tableOrName instanceof Table ? tableOrName.name : tableOrName;
         const sql = `SELECT "TABLE_NAME" FROM "USER_TABLES" WHERE "TABLE_NAME" = '${tableName}'`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -277,7 +277,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
             tableOrName instanceof Table ? tableOrName.name : tableOrName;
         const sql = `SELECT "COLUMN_NAME" FROM "USER_TAB_COLS" WHERE "TABLE_NAME" = '${tableName}' AND "COLUMN_NAME" = '${columnName}'`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -2214,13 +2214,12 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
             return new Query(
                 `CREATE ${materializedClause}VIEW "${view.name}" AS ${view.expression}`
             );
-        } else {
-            return new Query(
-                `CREATE ${materializedClause}VIEW "${
-                    view.name
-                }" AS ${view.expression(this.connection).getQuery()}`
-            );
         }
+        return new Query(
+            `CREATE ${materializedClause}VIEW "${
+                view.name
+            }" AS ${view.expression(this.connection).getQuery()}`
+        );
     }
 
     protected insertViewDefinitionSql(view: View): Query {

@@ -172,7 +172,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
         const result = await this.query(
             `SELECT * FROM \`INFORMATION_SCHEMA\`.\`SCHEMATA\` WHERE \`SCHEMA_NAME\` = '${database}'`
         );
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -189,7 +189,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
         const parsedTableName = this.parseTableName(tableOrName);
         const sql = `SELECT * FROM \`INFORMATION_SCHEMA\`.\`COLUMNS\` WHERE \`TABLE_SCHEMA\` = '${parsedTableName.database}' AND \`TABLE_NAME\` = '${parsedTableName.tableName}'`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -203,7 +203,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
         const columnName = column instanceof TableColumn ? column.name : column;
         const sql = `SELECT * FROM \`INFORMATION_SCHEMA\`.\`COLUMNS\` WHERE \`TABLE_SCHEMA\` = '${parsedTableName.database}' AND \`TABLE_NAME\` = '${parsedTableName.tableName}' AND \`COLUMN_NAME\` = '${columnName}'`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -1452,13 +1452,13 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
         );
 
         // if we already have generated column or column is changed to generated, and we dropped AUTO_INCREMENT property before, we must bring it back
-        const newOrExistGeneratedColumn = generatedColumn
-            ? generatedColumn
-            : columns.find(
-                  (column) =>
-                      column.isGenerated &&
-                      column.generationStrategy === "increment"
-              );
+        const newOrExistGeneratedColumn =
+            generatedColumn ||
+            columns.find(
+                (column) =>
+                    column.isGenerated &&
+                    column.generationStrategy === "increment"
+            );
         if (newOrExistGeneratedColumn) {
             const nonGeneratedColumn = newOrExistGeneratedColumn.clone();
             nonGeneratedColumn.isGenerated = false;
@@ -1810,7 +1810,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
      * (because it can clear all your database).
      */
     async clearDatabase(database?: string): Promise<void> {
-        const dbName = database ? database : this.driver.database;
+        const dbName = database || this.driver.database;
         if (dbName) {
             const isDatabaseExist = await this.hasDatabase(dbName);
             if (!isDatabaseExist) return Promise.resolve();
@@ -2481,13 +2481,12 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
             return new Query(
                 `CREATE VIEW ${this.escapePath(view)} AS ${view.expression}`
             );
-        } else {
-            return new Query(
-                `CREATE VIEW ${this.escapePath(view)} AS ${view
-                    .expression(this.connection)
-                    .getQuery()}`
-            );
         }
+        return new Query(
+            `CREATE VIEW ${this.escapePath(view)} AS ${view
+                .expression(this.connection)
+                .getQuery()}`
+        );
     }
 
     protected async insertViewDefinitionSql(view: View): Promise<Query> {

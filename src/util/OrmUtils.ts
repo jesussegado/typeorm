@@ -116,7 +116,10 @@ export class OrmUtils {
      * @see http://stackoverflow.com/a/1144249
      */
     static deepCompare(...args: any[]): boolean {
-        let i: any, l: any, leftChain: any, rightChain: any;
+        let i: any;
+        let l: any;
+        let leftChain: any;
+        let rightChain: any;
 
         if (arguments.length < 1) {
             return true; // Die silently? Don't know how to handle such case, please help...
@@ -269,7 +272,8 @@ export class OrmUtils {
         for (p in y) {
             if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
                 return false;
-            } else if (typeof y[p] !== typeof x[p]) {
+            }
+            if (typeof y[p] !== typeof x[p]) {
                 return false;
             }
         }
@@ -277,7 +281,8 @@ export class OrmUtils {
         for (p in x) {
             if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
                 return false;
-            } else if (typeof y[p] !== typeof x[p]) {
+            }
+            if (typeof y[p] !== typeof x[p]) {
                 return false;
             }
 

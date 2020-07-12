@@ -456,21 +456,20 @@ export class MigrationExecutor {
                 .find<Migration>()
                 .sort({ _id: -1 })
                 .toArray();
-        } else {
-            const migrationsRaw: ObjectLiteral[] = await this.connection.manager
-                .createQueryBuilder(queryRunner)
-                .select()
-                .orderBy(this.connection.driver.escape("id"), "DESC")
-                .from(this.migrationsTable, this.migrationsTableName)
-                .getRawMany();
-            return migrationsRaw.map((migrationRaw) => {
-                return new Migration(
-                    parseInt(migrationRaw["id"]),
-                    parseInt(migrationRaw["timestamp"]),
-                    migrationRaw["name"]
-                );
-            });
         }
+        const migrationsRaw: ObjectLiteral[] = await this.connection.manager
+            .createQueryBuilder(queryRunner)
+            .select()
+            .orderBy(this.connection.driver.escape("id"), "DESC")
+            .from(this.migrationsTable, this.migrationsTableName)
+            .getRawMany();
+        return migrationsRaw.map((migrationRaw) => {
+            return new Migration(
+                parseInt(migrationRaw["id"]),
+                parseInt(migrationRaw["timestamp"]),
+                migrationRaw["name"]
+            );
+        });
     }
 
     /**

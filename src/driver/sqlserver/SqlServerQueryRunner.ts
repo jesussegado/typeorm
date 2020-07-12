@@ -416,7 +416,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                 : `'${parsedTableName.schema}'`;
         const sql = `SELECT * FROM "${parsedTableName.database}"."INFORMATION_SCHEMA"."TABLES" WHERE "TABLE_NAME" = '${parsedTableName.name}' AND "TABLE_SCHEMA" = ${schema}`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -433,7 +433,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                 : `'${parsedTableName.schema}'`;
         const sql = `SELECT * FROM "${parsedTableName.database}"."INFORMATION_SCHEMA"."COLUMNS" WHERE "TABLE_NAME" = '${parsedTableName.name}' AND "COLUMN_NAME" = '${columnName}' AND "TABLE_SCHEMA" = ${schema}`;
         const result = await this.query(sql);
-        return result.length ? true : false;
+        return !!result.length;
     }
 
     /**
@@ -3141,13 +3141,12 @@ export class SqlServerQueryRunner extends BaseQueryRunner
             return new Query(
                 `CREATE VIEW ${this.escapePath(view)} AS ${view.expression}`
             );
-        } else {
-            return new Query(
-                `CREATE VIEW ${this.escapePath(view)} AS ${view
-                    .expression(this.connection)
-                    .getQuery()}`
-            );
         }
+        return new Query(
+            `CREATE VIEW ${this.escapePath(view)} AS ${view
+                .expression(this.connection)
+                .getQuery()}`
+        );
     }
 
     protected async insertViewDefinitionSql(view: View): Promise<Query> {
@@ -3427,21 +3426,21 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                         : tableName.split(".")[1],
                 name: tableName.split(".")[2],
             };
-        } else if (tableName.split(".").length === 2) {
+        }
+        if (tableName.split(".").length === 2) {
             return {
                 database: this.driver.database,
                 schema: tableName.split(".")[0],
                 name: tableName.split(".")[1],
             };
-        } else {
-            return {
-                database: this.driver.database,
-                schema: this.driver.options.schema
-                    ? this.driver.options.schema
-                    : schema || "SCHEMA_NAME()",
-                name: tableName,
-            };
         }
+        return {
+            database: this.driver.database,
+            schema: this.driver.options.schema
+                ? this.driver.options.schema
+                : schema || "SCHEMA_NAME()",
+            name: tableName,
+        };
     }
 
     /**
