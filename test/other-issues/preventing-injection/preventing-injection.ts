@@ -65,7 +65,7 @@ describe("other issues > preventing-injection", () => {
                     await connection.manager.find(Post, {
                         where: {
                             id: 2,
-                            ["(WHERE LIMIT 1)"]: "hello",
+                            "(WHERE LIMIT 1)": "hello",
                         },
                     });
                 } catch (err) {

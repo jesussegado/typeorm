@@ -2372,9 +2372,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
             const dropViewQueries: ObjectLiteral[] = await this.query(
                 selectViewDropsQuery
             );
-            await Promise.all(
-                dropViewQueries.map((q) => this.query(q["query"]))
-            );
+            await Promise.all(dropViewQueries.map((q) => this.query(q.query)));
 
             // ignore spatial_ref_sys; it's a special table supporting PostGIS
             // TODO generalize this as this.driver.ignoreTables
@@ -2382,9 +2380,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
             const dropTableQueries: ObjectLiteral[] = await this.query(
                 selectTableDropsQuery
             );
-            await Promise.all(
-                dropTableQueries.map((q) => this.query(q["query"]))
-            );
+            await Promise.all(dropTableQueries.map((q) => this.query(q.query)));
             await this.dropEnumTypes(schemaNamesString);
 
             await this.commitTransaction();
@@ -2410,7 +2406,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const currentSchemaQuery = await this.query(
             `SELECT * FROM current_schema()`
         );
-        const currentSchema = currentSchemaQuery[0]["current_schema"];
+        const currentSchema = currentSchemaQuery[0].current_schema;
 
         const viewsCondition = viewNames
             .map((viewName) => {
@@ -2434,12 +2430,11 @@ export class PostgresQueryRunner extends BaseQueryRunner
         return dbViews.map((dbView: any) => {
             const view = new View();
             const schema =
-                dbView["schema"] === currentSchema &&
-                !this.driver.options.schema
+                dbView.schema === currentSchema && !this.driver.options.schema
                     ? undefined
-                    : dbView["schema"];
-            view.name = this.driver.buildTableName(dbView["name"], schema);
-            view.expression = dbView["value"];
+                    : dbView.schema;
+            view.name = this.driver.buildTableName(dbView.name, schema);
+            view.expression = dbView.value;
             return view;
         });
     }
@@ -2454,7 +2449,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const currentSchemaQuery = await this.query(
             `SELECT * FROM current_schema()`
         );
-        const currentSchema = currentSchemaQuery[0]["current_schema"];
+        const currentSchema = currentSchemaQuery[0].current_schema;
 
         const tablesCondition = tableNames
             .map((tableName) => {
@@ -2562,12 +2557,12 @@ export class PostgresQueryRunner extends BaseQueryRunner
                 // In this case we need local variable `tableFullName` for below comparision.
                 const schema = getSchemaFromKey(dbTable, "table_schema");
                 table.name = this.driver.buildTableName(
-                    dbTable["table_name"],
+                    dbTable.table_name,
                     schema
                 );
                 const tableFullName = this.driver.buildTableName(
-                    dbTable["table_name"],
-                    dbTable["table_schema"]
+                    dbTable.table_name,
+                    dbTable.table_schema
                 );
 
                 // create columns from the loaded columns
@@ -2576,8 +2571,8 @@ export class PostgresQueryRunner extends BaseQueryRunner
                         .filter(
                             (dbColumn) =>
                                 this.driver.buildTableName(
-                                    dbColumn["table_name"],
-                                    dbColumn["table_schema"]
+                                    dbColumn.table_name,
+                                    dbColumn.table_schema
                                 ) === tableFullName
                         )
                         .map(async (dbColumn) => {
@@ -2585,20 +2580,18 @@ export class PostgresQueryRunner extends BaseQueryRunner
                                 (dbConstraint) => {
                                     return (
                                         this.driver.buildTableName(
-                                            dbConstraint["table_name"],
-                                            dbConstraint["table_schema"]
+                                            dbConstraint.table_name,
+                                            dbConstraint.table_schema
                                         ) === tableFullName &&
-                                        dbConstraint["column_name"] ===
-                                            dbColumn["column_name"]
+                                        dbConstraint.column_name ===
+                                            dbColumn.column_name
                                     );
                                 }
                             );
 
                             const tableColumn = new TableColumn();
-                            tableColumn.name = dbColumn["column_name"];
-                            tableColumn.type = dbColumn[
-                                "regtype"
-                            ].toLowerCase();
+                            tableColumn.name = dbColumn.column_name;
+                            tableColumn.type = dbColumn.regtype.toLowerCase();
 
                             if (
                                 tableColumn.type === "numeric" ||
@@ -2608,50 +2601,47 @@ export class PostgresQueryRunner extends BaseQueryRunner
                                 // If one of these properties was set, and another was not, Postgres sets '0' in to unspecified property
                                 // we set 'undefined' in to unspecified property to avoid changing column on sync
                                 if (
-                                    dbColumn["numeric_precision"] !== null &&
+                                    dbColumn.numeric_precision !== null &&
                                     !this.isDefaultColumnPrecision(
                                         table,
                                         tableColumn,
-                                        dbColumn["numeric_precision"]
+                                        dbColumn.numeric_precision
                                     )
                                 ) {
                                     tableColumn.precision =
-                                        dbColumn["numeric_precision"];
+                                        dbColumn.numeric_precision;
                                 } else if (
-                                    dbColumn["numeric_scale"] !== null &&
+                                    dbColumn.numeric_scale !== null &&
                                     !this.isDefaultColumnScale(
                                         table,
                                         tableColumn,
-                                        dbColumn["numeric_scale"]
+                                        dbColumn.numeric_scale
                                     )
                                 ) {
                                     tableColumn.precision = undefined;
                                 }
                                 if (
-                                    dbColumn["numeric_scale"] !== null &&
+                                    dbColumn.numeric_scale !== null &&
                                     !this.isDefaultColumnScale(
                                         table,
                                         tableColumn,
-                                        dbColumn["numeric_scale"]
+                                        dbColumn.numeric_scale
                                     )
                                 ) {
-                                    tableColumn.scale =
-                                        dbColumn["numeric_scale"];
+                                    tableColumn.scale = dbColumn.numeric_scale;
                                 } else if (
-                                    dbColumn["numeric_precision"] !== null &&
+                                    dbColumn.numeric_precision !== null &&
                                     !this.isDefaultColumnPrecision(
                                         table,
                                         tableColumn,
-                                        dbColumn["numeric_precision"]
+                                        dbColumn.numeric_precision
                                     )
                                 ) {
                                     tableColumn.scale = undefined;
                                 }
                             }
 
-                            if (
-                                dbColumn["data_type"].toLowerCase() === "array"
-                            ) {
+                            if (dbColumn.data_type.toLowerCase() === "array") {
                                 tableColumn.isArray = true;
                                 const type = tableColumn.type.replace("[]", "");
                                 tableColumn.type = this.connection.driver.normalizeType(
@@ -2670,9 +2660,9 @@ export class PostgresQueryRunner extends BaseQueryRunner
                                 tableColumn.precision = !this.isDefaultColumnPrecision(
                                     table,
                                     tableColumn,
-                                    dbColumn["datetime_precision"]
+                                    dbColumn.datetime_precision
                                 )
-                                    ? dbColumn["datetime_precision"]
+                                    ? dbColumn.datetime_precision
                                     : undefined;
                             }
 
@@ -2683,7 +2673,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
                                     `INNER JOIN "pg_type" "t" ON "t"."oid" = "e"."enumtypid" ` +
                                     `INNER JOIN "pg_namespace" "n" ON "n"."oid" = "t"."typnamespace" ` +
                                     `WHERE "n"."nspname" = '${
-                                        dbTable["table_schema"]
+                                        dbTable.table_schema
                                     }' AND "t"."typname" = '${this.buildEnumName(
                                         table,
                                         tableColumn.name,
@@ -2694,7 +2684,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
                                     sql
                                 );
                                 tableColumn.enum = results.map(
-                                    (result) => result["value"]
+                                    (result) => result.value
                                 );
                             }
 
@@ -2708,7 +2698,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
                           "type"
                         FROM "geometry_columns"
                       ) AS _
-                      WHERE (${tablesCondition}) AND "column_name" = '${tableColumn.name}' AND "table_name" = '${dbTable["table_name"]}'`;
+                      WHERE (${tablesCondition}) AND "column_name" = '${tableColumn.name}' AND "table_name" = '${dbTable.table_name}'`;
 
                                 const results: ObjectLiteral[] = await this.query(
                                     geometryColumnSql
@@ -2728,7 +2718,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
                           "type"
                         FROM "geography_columns"
                       ) AS _
-                      WHERE (${tablesCondition}) AND "column_name" = '${tableColumn.name}' AND "table_name" = '${dbTable["table_name"]}'`;
+                      WHERE (${tablesCondition}) AND "column_name" = '${tableColumn.name}' AND "table_name" = '${dbTable.table_name}'`;
 
                                 const results: ObjectLiteral[] = await this.query(
                                     geographyColumnSql
@@ -2743,11 +2733,9 @@ export class PostgresQueryRunner extends BaseQueryRunner
                                 this.driver.withLengthColumnTypes.indexOf(
                                     tableColumn.type as ColumnType
                                 ) !== -1 &&
-                                dbColumn["character_maximum_length"]
+                                dbColumn.character_maximum_length
                             ) {
-                                const length = dbColumn[
-                                    "character_maximum_length"
-                                ].toString();
+                                const length = dbColumn.character_maximum_length.toString();
                                 tableColumn.length = !this.isDefaultColumnLength(
                                     table,
                                     tableColumn,
@@ -2757,44 +2745,42 @@ export class PostgresQueryRunner extends BaseQueryRunner
                                     : "";
                             }
                             tableColumn.isNullable =
-                                dbColumn["is_nullable"] === "YES";
+                                dbColumn.is_nullable === "YES";
                             tableColumn.isPrimary = !!columnConstraints.find(
                                 (constraint) =>
-                                    constraint["constraint_type"] === "PRIMARY"
+                                    constraint.constraint_type === "PRIMARY"
                             );
 
                             const uniqueConstraint = columnConstraints.find(
                                 (constraint) =>
-                                    constraint["constraint_type"] === "UNIQUE"
+                                    constraint.constraint_type === "UNIQUE"
                             );
                             const isConstraintComposite = uniqueConstraint
                                 ? !!dbConstraints.find(
                                       (dbConstraint) =>
-                                          dbConstraint["constraint_type"] ===
+                                          dbConstraint.constraint_type ===
                                               "UNIQUE" &&
-                                          dbConstraint["constraint_name"] ===
-                                              uniqueConstraint[
-                                                  "constraint_name"
-                                              ] &&
-                                          dbConstraint["column_name"] !==
-                                              dbColumn["column_name"]
+                                          dbConstraint.constraint_name ===
+                                              uniqueConstraint.constraint_name &&
+                                          dbConstraint.column_name !==
+                                              dbColumn.column_name
                                   )
                                 : false;
                             tableColumn.isUnique =
                                 !!uniqueConstraint && !isConstraintComposite;
 
                             if (
-                                dbColumn["column_default"] !== null &&
-                                dbColumn["column_default"] !== undefined
+                                dbColumn.column_default !== null &&
+                                dbColumn.column_default !== undefined
                             ) {
                                 if (
-                                    dbColumn["column_default"].replace(
+                                    dbColumn.column_default.replace(
                                         /"/gi,
                                         ""
                                     ) ===
                                     `nextval('${this.buildSequenceName(
                                         table,
-                                        dbColumn["column_name"],
+                                        dbColumn.column_name,
                                         currentSchema,
                                         true
                                     )}'::regclass)`
@@ -2803,28 +2789,28 @@ export class PostgresQueryRunner extends BaseQueryRunner
                                     tableColumn.generationStrategy =
                                         "increment";
                                 } else if (
-                                    dbColumn["column_default"] ===
+                                    dbColumn.column_default ===
                                         "gen_random_uuid()" ||
                                     /^uuid_generate_v\d\(\)/.test(
-                                        dbColumn["column_default"]
+                                        dbColumn.column_default
                                     )
                                 ) {
                                     tableColumn.isGenerated = true;
                                     tableColumn.generationStrategy = "uuid";
                                 } else {
-                                    tableColumn.default = dbColumn[
-                                        "column_default"
-                                    ].replace(/::.*/, "");
+                                    tableColumn.default = dbColumn.column_default.replace(
+                                        /::.*/,
+                                        ""
+                                    );
                                 }
                             }
 
                             tableColumn.comment = ""; // dbColumn["COLUMN_COMMENT"];
-                            if (dbColumn["character_set_name"])
+                            if (dbColumn.character_set_name)
                                 tableColumn.charset =
-                                    dbColumn["character_set_name"];
-                            if (dbColumn["collation_name"])
-                                tableColumn.collation =
-                                    dbColumn["collation_name"];
+                                    dbColumn.character_set_name;
+                            if (dbColumn.collation_name)
+                                tableColumn.collation = dbColumn.collation_name;
                             return tableColumn;
                         })
                 );
@@ -2834,24 +2820,23 @@ export class PostgresQueryRunner extends BaseQueryRunner
                     dbConstraints.filter((dbConstraint) => {
                         return (
                             this.driver.buildTableName(
-                                dbConstraint["table_name"],
-                                dbConstraint["table_schema"]
+                                dbConstraint.table_name,
+                                dbConstraint.table_schema
                             ) === tableFullName &&
-                            dbConstraint["constraint_type"] === "UNIQUE"
+                            dbConstraint.constraint_type === "UNIQUE"
                         );
                     }),
-                    (dbConstraint) => dbConstraint["constraint_name"]
+                    (dbConstraint) => dbConstraint.constraint_name
                 );
 
                 table.uniques = tableUniqueConstraints.map((constraint) => {
                     const uniques = dbConstraints.filter(
                         (dbC) =>
-                            dbC["constraint_name"] ===
-                            constraint["constraint_name"]
+                            dbC.constraint_name === constraint.constraint_name
                     );
                     return new TableUnique({
-                        name: constraint["constraint_name"],
-                        columnNames: uniques.map((u) => u["column_name"]),
+                        name: constraint.constraint_name,
+                        columnNames: uniques.map((u) => u.column_name),
                     });
                 });
 
@@ -2860,25 +2845,24 @@ export class PostgresQueryRunner extends BaseQueryRunner
                     dbConstraints.filter((dbConstraint) => {
                         return (
                             this.driver.buildTableName(
-                                dbConstraint["table_name"],
-                                dbConstraint["table_schema"]
+                                dbConstraint.table_name,
+                                dbConstraint.table_schema
                             ) === tableFullName &&
-                            dbConstraint["constraint_type"] === "CHECK"
+                            dbConstraint.constraint_type === "CHECK"
                         );
                     }),
-                    (dbConstraint) => dbConstraint["constraint_name"]
+                    (dbConstraint) => dbConstraint.constraint_name
                 );
 
                 table.checks = tableCheckConstraints.map((constraint) => {
                     const checks = dbConstraints.filter(
                         (dbC) =>
-                            dbC["constraint_name"] ===
-                            constraint["constraint_name"]
+                            dbC.constraint_name === constraint.constraint_name
                     );
                     return new TableCheck({
-                        name: constraint["constraint_name"],
-                        columnNames: checks.map((c) => c["column_name"]),
-                        expression: constraint["expression"].replace(
+                        name: constraint.constraint_name,
+                        columnNames: checks.map((c) => c.column_name),
+                        expression: constraint.expression.replace(
                             /^\s*CHECK\s*\((.*)\)\s*$/i,
                             "$1"
                         ),
@@ -2890,20 +2874,20 @@ export class PostgresQueryRunner extends BaseQueryRunner
                     dbConstraints.filter((dbConstraint) => {
                         return (
                             this.driver.buildTableName(
-                                dbConstraint["table_name"],
-                                dbConstraint["table_schema"]
+                                dbConstraint.table_name,
+                                dbConstraint.table_schema
                             ) === tableFullName &&
-                            dbConstraint["constraint_type"] === "EXCLUDE"
+                            dbConstraint.constraint_type === "EXCLUDE"
                         );
                     }),
-                    (dbConstraint) => dbConstraint["constraint_name"]
+                    (dbConstraint) => dbConstraint.constraint_name
                 );
 
                 table.exclusions = tableExclusionConstraints.map(
                     (constraint) => {
                         return new TableExclusion({
-                            name: constraint["constraint_name"],
-                            expression: constraint["expression"].substring(8), // trim EXCLUDE from start of expression
+                            name: constraint.constraint_name,
+                            expression: constraint.expression.substring(8), // trim EXCLUDE from start of expression
                         });
                     }
                 );
@@ -2913,20 +2897,20 @@ export class PostgresQueryRunner extends BaseQueryRunner
                     dbForeignKeys.filter((dbForeignKey) => {
                         return (
                             this.driver.buildTableName(
-                                dbForeignKey["table_name"],
-                                dbForeignKey["table_schema"]
+                                dbForeignKey.table_name,
+                                dbForeignKey.table_schema
                             ) === tableFullName
                         );
                     }),
-                    (dbForeignKey) => dbForeignKey["constraint_name"]
+                    (dbForeignKey) => dbForeignKey.constraint_name
                 );
 
                 table.foreignKeys = tableForeignKeyConstraints.map(
                     (dbForeignKey) => {
                         const foreignKeys = dbForeignKeys.filter(
                             (dbFk) =>
-                                dbFk["constraint_name"] ===
-                                dbForeignKey["constraint_name"]
+                                dbFk.constraint_name ===
+                                dbForeignKey.constraint_name
                         );
 
                         // if referenced table located in currently used schema, we don't need to concat schema name to table name.
@@ -2935,23 +2919,23 @@ export class PostgresQueryRunner extends BaseQueryRunner
                             "referenced_table_schema"
                         );
                         const referencedTableName = this.driver.buildTableName(
-                            dbForeignKey["referenced_table_name"],
+                            dbForeignKey.referenced_table_name,
                             schema
                         );
 
                         return new TableForeignKey({
-                            name: dbForeignKey["constraint_name"],
+                            name: dbForeignKey.constraint_name,
                             columnNames: foreignKeys.map(
-                                (dbFk) => dbFk["column_name"]
+                                (dbFk) => dbFk.column_name
                             ),
                             referencedTableName,
                             referencedColumnNames: foreignKeys.map(
-                                (dbFk) => dbFk["referenced_column_name"]
+                                (dbFk) => dbFk.referenced_column_name
                             ),
-                            onDelete: dbForeignKey["on_delete"],
-                            onUpdate: dbForeignKey["on_update"],
-                            deferrable: dbForeignKey["deferrable"]
-                                ? dbForeignKey["deferred"]
+                            onDelete: dbForeignKey.on_delete,
+                            onUpdate: dbForeignKey.on_update,
+                            deferrable: dbForeignKey.deferrable
+                                ? dbForeignKey.deferred
                                 : undefined,
                         });
                     }
@@ -2962,35 +2946,32 @@ export class PostgresQueryRunner extends BaseQueryRunner
                     dbIndices.filter((dbIndex) => {
                         return (
                             this.driver.buildTableName(
-                                dbIndex["table_name"],
-                                dbIndex["table_schema"]
+                                dbIndex.table_name,
+                                dbIndex.table_schema
                             ) === tableFullName
                         );
                     }),
-                    (dbIndex) => dbIndex["constraint_name"]
+                    (dbIndex) => dbIndex.constraint_name
                 );
 
                 table.indices = tableIndexConstraints.map((constraint) => {
                     const indices = dbIndices.filter((index) => {
                         return (
-                            index["table_schema"] ===
-                                constraint["table_schema"] &&
-                            index["table_name"] === constraint["table_name"] &&
-                            index["constraint_name"] ===
-                                constraint["constraint_name"]
+                            index.table_schema === constraint.table_schema &&
+                            index.table_name === constraint.table_name &&
+                            index.constraint_name === constraint.constraint_name
                         );
                     });
                     return new TableIndex({
                         table,
-                        name: constraint["constraint_name"],
-                        columnNames: indices.map((i) => i["column_name"]),
-                        isUnique: constraint["is_unique"] === "TRUE",
-                        where: constraint["condition"],
+                        name: constraint.constraint_name,
+                        columnNames: indices.map((i) => i.column_name),
+                        isUnique: constraint.is_unique === "TRUE",
+                        where: constraint.condition,
                         isSpatial: indices.every(
                             (i) =>
-                                this.driver.spatialTypes.indexOf(
-                                    i["type_name"]
-                                ) >= 0
+                                this.driver.spatialTypes.indexOf(i.type_name) >=
+                                0
                         ),
                         isFulltext: false,
                     } as TableIndexOptions);
@@ -3163,7 +3144,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const currentSchemaQuery = await this.query(
             `SELECT * FROM current_schema()`
         );
-        const currentSchema = currentSchemaQuery[0]["current_schema"];
+        const currentSchema = currentSchemaQuery[0].current_schema;
         const splittedName = view.name.split(".");
         let schema = this.driver.options.schema || currentSchema;
         let { name } = view;
@@ -3206,7 +3187,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const currentSchemaQuery = await this.query(
             `SELECT * FROM current_schema()`
         );
-        const currentSchema = currentSchemaQuery[0]["current_schema"];
+        const currentSchema = currentSchemaQuery[0].current_schema;
         const viewName =
             viewOrPath instanceof View ? viewOrPath.name : viewOrPath;
         const splittedName = viewName.split(".");
@@ -3248,7 +3229,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
             `INNER JOIN "pg_namespace" "n" ON "n"."oid" = "t"."typnamespace" ` +
             `WHERE "n"."nspname" IN (${schemaNames}) GROUP BY "n"."nspname", "t"."typname"`;
         const dropQueries: ObjectLiteral[] = await this.query(selectDropsQuery);
-        await Promise.all(dropQueries.map((q) => this.query(q["query"])));
+        await Promise.all(dropQueries.map((q) => this.query(q.query)));
     }
 
     /**
@@ -3583,7 +3564,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const currentSchemaQuery = await this.query(
             `SELECT * FROM current_schema()`
         );
-        const currentSchema = currentSchemaQuery[0]["current_schema"];
+        const currentSchema = currentSchemaQuery[0].current_schema;
         let [schema, name] = table.name.split(".");
         if (!name) {
             name = schema;
@@ -3594,8 +3575,8 @@ export class PostgresQueryRunner extends BaseQueryRunner
                 `FROM "information_schema"."columns" WHERE "table_schema" = '${schema}' AND "table_name" = '${name}' AND "column_name"='${column.name}'`
         );
         return {
-            enumTypeSchema: result[0]["udt_schema"],
-            enumTypeName: result[0]["udt_name"],
+            enumTypeSchema: result[0].udt_schema,
+            enumTypeName: result[0].udt_name,
         };
     }
 

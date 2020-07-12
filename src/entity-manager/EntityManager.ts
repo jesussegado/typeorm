@@ -1893,8 +1893,8 @@ export class EntityManager {
         // NOTE: dynamic access to protected properties. We need this to prevent unwanted properties in those classes to be exposed,
         // however we need these properties for internal work of the class
         if (entityRepositoryInstance instanceof AbstractRepository) {
-            if (!(entityRepositoryInstance as any)["manager"])
-                (entityRepositoryInstance as any)["manager"] = this;
+            if (!(entityRepositoryInstance as any).manager)
+                (entityRepositoryInstance as any).manager = this;
         }
         if (entityRepositoryInstance instanceof Repository) {
             if (!entityMetadata)
@@ -1902,8 +1902,8 @@ export class EntityManager {
                     customRepository
                 );
 
-            (entityRepositoryInstance as any)["manager"] = this;
-            (entityRepositoryInstance as any)["metadata"] = entityMetadata;
+            (entityRepositoryInstance as any).manager = this;
+            (entityRepositoryInstance as any).metadata = entityMetadata;
         }
 
         return entityRepositoryInstance;

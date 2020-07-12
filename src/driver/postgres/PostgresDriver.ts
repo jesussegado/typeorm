@@ -1,4 +1,3 @@
-// eslint-disable-file no-console
 import { Driver } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { ObjectLiteral } from "../../common/ObjectLiteral";

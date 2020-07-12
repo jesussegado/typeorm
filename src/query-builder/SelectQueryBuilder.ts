@@ -2496,9 +2496,9 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
             .setOption("disable-global-order")
             .loadRawResults(queryRunner);
 
-        if (!results || !results[0] || !results[0]["cnt"]) return 0;
+        if (!results || !results[0] || !results[0].cnt) return 0;
 
-        return parseInt(results[0]["cnt"]);
+        return parseInt(results[0].cnt);
     }
 
     /**
@@ -2646,7 +2646,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                             metadata.primaryColumns[0].propertyPath
                         } IN (${ids.join(", ")})`;
                     } else {
-                        parameters["orm_distinct_ids"] = ids;
+                        parameters.orm_distinct_ids = ids;
                         condition = `${mainAliasName}.${metadata.primaryColumns[0].propertyPath} IN (:...orm_distinct_ids)`;
                     }
                 }

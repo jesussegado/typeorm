@@ -481,13 +481,12 @@ export class RawSqlResultsToEntityTransformer {
                     ] = 0;
                     rawRelationCountResult.results
                         .filter(
-                            (result) =>
-                                result["parentId"] === referenceColumnValue
+                            (result) => result.parentId === referenceColumnValue
                         )
                         .forEach((result) => {
                             entity[
                                 rawRelationCountResult.relationCountAttribute.mapToPropertyPropertyName
-                            ] = parseInt(result["cnt"]);
+                            ] = parseInt(result.cnt);
                             hasData = true;
                         });
                 }

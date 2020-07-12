@@ -1769,7 +1769,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
                 dropViewsQuery
             );
             await Promise.all(
-                dropViewQueries.map((query) => this.query(query["query"]))
+                dropViewQueries.map((query) => this.query(query.query))
             );
 
             const dropTablesQuery = `SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS' AS "query" FROM "USER_TABLES"`;
@@ -1777,7 +1777,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
                 dropTablesQuery
             );
             await Promise.all(
-                dropTableQueries.map((query) => this.query(query["query"]))
+                dropTableQueries.map((query) => this.query(query.query))
             );
             await this.commitTransaction();
         } catch (error) {
@@ -1806,8 +1806,8 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
         const dbViews = await this.query(query);
         return dbViews.map((dbView: any) => {
             const view = new View();
-            view.name = dbView["name"];
-            view.expression = dbView["value"];
+            view.name = dbView.name;
+            view.expression = dbView.value;
             return view;
         });
     }
@@ -1869,42 +1869,41 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
         // create tables for loaded tables
         return dbTables.map((dbTable) => {
             const table = new Table();
-            table.name = dbTable["TABLE_NAME"];
+            table.name = dbTable.TABLE_NAME;
 
             // create columns from the loaded columns
             table.columns = dbColumns
-                .filter((dbColumn) => dbColumn["TABLE_NAME"] === table.name)
+                .filter((dbColumn) => dbColumn.TABLE_NAME === table.name)
                 .map((dbColumn) => {
                     const columnConstraints = dbConstraints.filter(
                         (dbConstraint) =>
-                            dbConstraint["TABLE_NAME"] === table.name &&
-                            dbConstraint["COLUMN_NAME"] ===
-                                dbColumn["COLUMN_NAME"]
+                            dbConstraint.TABLE_NAME === table.name &&
+                            dbConstraint.COLUMN_NAME === dbColumn.COLUMN_NAME
                     );
 
                     const uniqueConstraint = columnConstraints.find(
-                        (constraint) => constraint["CONSTRAINT_TYPE"] === "U"
+                        (constraint) => constraint.CONSTRAINT_TYPE === "U"
                     );
                     const isConstraintComposite = uniqueConstraint
                         ? !!dbConstraints.find(
                               (dbConstraint) =>
-                                  dbConstraint["CONSTRAINT_TYPE"] === "U" &&
-                                  dbConstraint["CONSTRAINT_NAME"] ===
-                                      uniqueConstraint["CONSTRAINT_NAME"] &&
-                                  dbConstraint["COLUMN_NAME"] !==
-                                      dbColumn["COLUMN_NAME"]
+                                  dbConstraint.CONSTRAINT_TYPE === "U" &&
+                                  dbConstraint.CONSTRAINT_NAME ===
+                                      uniqueConstraint.CONSTRAINT_NAME &&
+                                  dbConstraint.COLUMN_NAME !==
+                                      dbColumn.COLUMN_NAME
                           )
                         : false;
                     const isUnique =
                         !!uniqueConstraint && !isConstraintComposite;
 
                     const isPrimary = !!columnConstraints.find(
-                        (constraint) => constraint["CONSTRAINT_TYPE"] === "P"
+                        (constraint) => constraint.CONSTRAINT_TYPE === "P"
                     );
 
                     const tableColumn = new TableColumn();
-                    tableColumn.name = dbColumn["COLUMN_NAME"];
-                    tableColumn.type = dbColumn["DATA_TYPE"].toLowerCase();
+                    tableColumn.name = dbColumn.COLUMN_NAME;
+                    tableColumn.type = dbColumn.DATA_TYPE.toLowerCase();
                     if (tableColumn.type.indexOf("(") !== -1)
                         tableColumn.type = tableColumn.type.replace(
                             /\([0-9]*\)/,
@@ -1919,8 +1918,8 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
                     ) {
                         const length =
                             tableColumn.type === "raw"
-                                ? dbColumn["DATA_LENGTH"]
-                                : dbColumn["CHAR_COL_DECL_LENGTH"];
+                                ? dbColumn.DATA_LENGTH
+                                : dbColumn.CHAR_COL_DECL_LENGTH;
                         tableColumn.length =
                             length &&
                             !this.isDefaultColumnLength(
@@ -1937,53 +1936,51 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
                         tableColumn.type === "float"
                     ) {
                         if (
-                            dbColumn["DATA_PRECISION"] !== null &&
+                            dbColumn.DATA_PRECISION !== null &&
                             !this.isDefaultColumnPrecision(
                                 table,
                                 tableColumn,
-                                dbColumn["DATA_PRECISION"]
+                                dbColumn.DATA_PRECISION
                             )
                         )
-                            tableColumn.precision = dbColumn["DATA_PRECISION"];
+                            tableColumn.precision = dbColumn.DATA_PRECISION;
                         if (
-                            dbColumn["DATA_SCALE"] !== null &&
+                            dbColumn.DATA_SCALE !== null &&
                             !this.isDefaultColumnScale(
                                 table,
                                 tableColumn,
-                                dbColumn["DATA_SCALE"]
+                                dbColumn.DATA_SCALE
                             )
                         )
-                            tableColumn.scale = dbColumn["DATA_SCALE"];
+                            tableColumn.scale = dbColumn.DATA_SCALE;
                     } else if (
                         (tableColumn.type === "timestamp" ||
                             tableColumn.type === "timestamp with time zone" ||
                             tableColumn.type ===
                                 "timestamp with local time zone") &&
-                        dbColumn["DATA_SCALE"] !== null
+                        dbColumn.DATA_SCALE !== null
                     ) {
                         tableColumn.precision = !this.isDefaultColumnPrecision(
                             table,
                             tableColumn,
-                            dbColumn["DATA_SCALE"]
+                            dbColumn.DATA_SCALE
                         )
-                            ? dbColumn["DATA_SCALE"]
+                            ? dbColumn.DATA_SCALE
                             : undefined;
                     }
 
                     tableColumn.default =
-                        dbColumn["DATA_DEFAULT"] !== null &&
-                        dbColumn["DATA_DEFAULT"] !== undefined &&
-                        dbColumn["DATA_DEFAULT"].trim() !== "NULL"
-                            ? (tableColumn.default = dbColumn[
-                                  "DATA_DEFAULT"
-                              ].trim())
+                        dbColumn.DATA_DEFAULT !== null &&
+                        dbColumn.DATA_DEFAULT !== undefined &&
+                        dbColumn.DATA_DEFAULT.trim() !== "NULL"
+                            ? (tableColumn.default = dbColumn.DATA_DEFAULT.trim())
                             : undefined;
 
-                    tableColumn.isNullable = dbColumn["NULLABLE"] === "Y";
+                    tableColumn.isNullable = dbColumn.NULLABLE === "Y";
                     tableColumn.isUnique = isUnique;
                     tableColumn.isPrimary = isPrimary;
                     tableColumn.isGenerated =
-                        dbColumn["IDENTITY_COLUMN"] === "YES";
+                        dbColumn.IDENTITY_COLUMN === "YES";
                     if (tableColumn.isGenerated) {
                         tableColumn.generationStrategy = "increment";
                         tableColumn.default = undefined;
@@ -1996,21 +1993,20 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
             const tableUniqueConstraints = OrmUtils.uniq(
                 dbConstraints.filter((dbConstraint) => {
                     return (
-                        dbConstraint["TABLE_NAME"] === table.name &&
-                        dbConstraint["CONSTRAINT_TYPE"] === "U"
+                        dbConstraint.TABLE_NAME === table.name &&
+                        dbConstraint.CONSTRAINT_TYPE === "U"
                     );
                 }),
-                (dbConstraint) => dbConstraint["CONSTRAINT_NAME"]
+                (dbConstraint) => dbConstraint.CONSTRAINT_NAME
             );
 
             table.uniques = tableUniqueConstraints.map((constraint) => {
                 const uniques = dbConstraints.filter(
-                    (dbC) =>
-                        dbC["CONSTRAINT_NAME"] === constraint["CONSTRAINT_NAME"]
+                    (dbC) => dbC.CONSTRAINT_NAME === constraint.CONSTRAINT_NAME
                 );
                 return new TableUnique({
-                    name: constraint["CONSTRAINT_NAME"],
-                    columnNames: uniques.map((u) => u["COLUMN_NAME"]),
+                    name: constraint.CONSTRAINT_NAME,
+                    columnNames: uniques.map((u) => u.COLUMN_NAME),
                 });
             });
 
@@ -2018,51 +2014,49 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
             const tableCheckConstraints = OrmUtils.uniq(
                 dbConstraints.filter((dbConstraint) => {
                     return (
-                        dbConstraint["TABLE_NAME"] === table.name &&
-                        dbConstraint["CONSTRAINT_TYPE"] === "C"
+                        dbConstraint.TABLE_NAME === table.name &&
+                        dbConstraint.CONSTRAINT_TYPE === "C"
                     );
                 }),
-                (dbConstraint) => dbConstraint["CONSTRAINT_NAME"]
+                (dbConstraint) => dbConstraint.CONSTRAINT_NAME
             );
 
             table.checks = tableCheckConstraints.map((constraint) => {
                 const checks = dbConstraints.filter(
-                    (dbC) =>
-                        dbC["CONSTRAINT_NAME"] === constraint["CONSTRAINT_NAME"]
+                    (dbC) => dbC.CONSTRAINT_NAME === constraint.CONSTRAINT_NAME
                 );
                 return new TableCheck({
-                    name: constraint["CONSTRAINT_NAME"],
-                    columnNames: checks.map((c) => c["COLUMN_NAME"]),
-                    expression: constraint["SEARCH_CONDITION"],
+                    name: constraint.CONSTRAINT_NAME,
+                    columnNames: checks.map((c) => c.COLUMN_NAME),
+                    expression: constraint.SEARCH_CONDITION,
                 });
             });
 
             // find foreign key constraints of table, group them by constraint name and build TableForeignKey.
             const tableForeignKeyConstraints = OrmUtils.uniq(
                 dbForeignKeys.filter((dbForeignKey) => {
-                    return dbForeignKey["TABLE_NAME"] === table.name;
+                    return dbForeignKey.TABLE_NAME === table.name;
                 }),
-                (dbForeignKey) => dbForeignKey["CONSTRAINT_NAME"]
+                (dbForeignKey) => dbForeignKey.CONSTRAINT_NAME
             );
 
             table.foreignKeys = tableForeignKeyConstraints.map(
                 (dbForeignKey) => {
                     const foreignKeys = dbForeignKeys.filter(
                         (dbFk) =>
-                            dbFk["CONSTRAINT_NAME"] ===
-                            dbForeignKey["CONSTRAINT_NAME"]
+                            dbFk.CONSTRAINT_NAME ===
+                            dbForeignKey.CONSTRAINT_NAME
                     );
                     return new TableForeignKey({
-                        name: dbForeignKey["CONSTRAINT_NAME"],
+                        name: dbForeignKey.CONSTRAINT_NAME,
                         columnNames: foreignKeys.map(
-                            (dbFk) => dbFk["COLUMN_NAME"]
+                            (dbFk) => dbFk.COLUMN_NAME
                         ),
-                        referencedTableName:
-                            dbForeignKey["REFERENCED_TABLE_NAME"],
+                        referencedTableName: dbForeignKey.REFERENCED_TABLE_NAME,
                         referencedColumnNames: foreignKeys.map(
-                            (dbFk) => dbFk["REFERENCED_COLUMN_NAME"]
+                            (dbFk) => dbFk.REFERENCED_COLUMN_NAME
                         ),
-                        onDelete: dbForeignKey["ON_DELETE"],
+                        onDelete: dbForeignKey.ON_DELETE,
                         onUpdate: "NO ACTION", // Oracle does not have onUpdate option in FK's, but we need it for proper synchronization
                     });
                 }
@@ -2070,12 +2064,12 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
 
             // create TableIndex objects from the loaded indices
             table.indices = dbIndices
-                .filter((dbIndex) => dbIndex["TABLE_NAME"] === table.name)
+                .filter((dbIndex) => dbIndex.TABLE_NAME === table.name)
                 .map((dbIndex) => {
                     return new TableIndex({
-                        name: dbIndex["INDEX_NAME"],
-                        columnNames: dbIndex["COLUMN_NAMES"].split(","),
-                        isUnique: dbIndex["UNIQUENESS"] === "UNIQUE",
+                        name: dbIndex.INDEX_NAME,
+                        columnNames: dbIndex.COLUMN_NAMES.split(","),
+                        isUnique: dbIndex.UNIQUENESS === "UNIQUE",
                     });
                 });
 

@@ -207,7 +207,6 @@ export class DepGraph {
      * If `leavesOnly` is true, only nodes that do not depend on any other nodes will be returned.
      */
     overallOrder(leavesOnly?: any) {
-        const self = this;
         const result: any[] = [];
         const keys = Object.keys(this.nodes);
         if (keys.length === 0) {
@@ -223,8 +222,8 @@ export class DepGraph {
         const DFS = createDFS(this.outgoingEdges, leavesOnly, result);
         // Find all potential starting points (nodes with nothing depending on them) an
         // run a DFS starting at these points to get the order
-        keys.filter(function (node) {
-            return self.incomingEdges[node].length === 0;
+        keys.filter((node) => {
+            return this.incomingEdges[node].length === 0;
         }).forEach(function (n) {
             DFS(n);
         });

@@ -369,7 +369,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
      */
     async getDatabases(): Promise<string[]> {
         const results: ObjectLiteral[] = await this.query(`EXEC sp_databases`);
-        return results.map((result) => result["DATABASE_NAME"]);
+        return results.map((result) => result.DATABASE_NAME);
     }
 
     /**
@@ -381,7 +381,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
             ? `SELECT * FROM "${database}"."sys"."schema"`
             : `SELECT * FROM "sys"."schemas"`;
         const results: ObjectLiteral[] = await this.query(query);
-        return results.map((result) => result["name"]);
+        return results.map((result) => result.name);
     }
 
     /**
@@ -391,7 +391,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         const result = await this.query(
             `SELECT DB_ID('${database}') as "db_id"`
         );
-        const dbId = result[0]["db_id"];
+        const dbId = result[0].db_id;
         return !!dbId;
     }
 
@@ -402,7 +402,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         const result = await this.query(
             `SELECT SCHEMA_ID('${schema}') as "schema_id"`
         );
-        const schemaId = result[0]["schema_id"];
+        const schemaId = result[0].schema_id;
         return !!schemaId;
     }
 
@@ -2312,7 +2312,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
             await Promise.all(
                 allViewsResults.map((viewResult) => {
                     // 'DROP VIEW' does not allow specifying the database name as a prefix to the object name.
-                    const dropTableSql = `DROP VIEW "${viewResult["TABLE_SCHEMA"]}"."${viewResult["TABLE_NAME"]}"`;
+                    const dropTableSql = `DROP VIEW "${viewResult.TABLE_SCHEMA}"."${viewResult.TABLE_NAME}"`;
                     return this.query(dropTableSql);
                 })
             );
@@ -2327,27 +2327,27 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                 allTablesResults.map(async (tablesResult) => {
                     // const tableName = database ? `"${tablesResult["TABLE_CATALOG"]}"."sys"."foreign_keys"` : `"sys"."foreign_keys"`;
                     const dropForeignKeySql =
-                        `SELECT 'ALTER TABLE "${tablesResult["TABLE_CATALOG"]}"."' + OBJECT_SCHEMA_NAME("fk"."parent_object_id", DB_ID('${tablesResult["TABLE_CATALOG"]}')) + '"."' + OBJECT_NAME("fk"."parent_object_id", DB_ID('${tablesResult["TABLE_CATALOG"]}')) + '" ` +
-                        `DROP CONSTRAINT "' + "fk"."name" + '"' as "query" FROM "${tablesResult["TABLE_CATALOG"]}"."sys"."foreign_keys" AS "fk" ` +
-                        `WHERE "fk"."referenced_object_id" = OBJECT_ID('"${tablesResult["TABLE_CATALOG"]}"."${tablesResult["TABLE_SCHEMA"]}"."${tablesResult["TABLE_NAME"]}"')`;
+                        `SELECT 'ALTER TABLE "${tablesResult.TABLE_CATALOG}"."' + OBJECT_SCHEMA_NAME("fk"."parent_object_id", DB_ID('${tablesResult.TABLE_CATALOG}')) + '"."' + OBJECT_NAME("fk"."parent_object_id", DB_ID('${tablesResult.TABLE_CATALOG}')) + '" ` +
+                        `DROP CONSTRAINT "' + "fk"."name" + '"' as "query" FROM "${tablesResult.TABLE_CATALOG}"."sys"."foreign_keys" AS "fk" ` +
+                        `WHERE "fk"."referenced_object_id" = OBJECT_ID('"${tablesResult.TABLE_CATALOG}"."${tablesResult.TABLE_SCHEMA}"."${tablesResult.TABLE_NAME}"')`;
                     const dropFkQueries: ObjectLiteral[] = await this.query(
                         dropForeignKeySql
                     );
                     return Promise.all(
                         dropFkQueries
-                            .map((result) => result["query"])
+                            .map((result) => result.query)
                             .map((dropQuery) => this.query(dropQuery))
                     );
                 })
             );
             await Promise.all(
                 allTablesResults.map((tablesResult) => {
-                    if (tablesResult["TABLE_NAME"].startsWith("#")) {
+                    if (tablesResult.TABLE_NAME.startsWith("#")) {
                         // don't try to drop temporary tables
                         return;
                     }
 
-                    const dropTableSql = `DROP TABLE "${tablesResult["TABLE_CATALOG"]}"."${tablesResult["TABLE_SCHEMA"]}"."${tablesResult["TABLE_NAME"]}"`;
+                    const dropTableSql = `DROP TABLE "${tablesResult.TABLE_CATALOG}"."${tablesResult.TABLE_SCHEMA}"."${tablesResult.TABLE_NAME}"`;
                     return this.query(dropTableSql);
                 })
             );
@@ -2373,7 +2373,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         const currentDBQuery = await this.query(
             `SELECT DB_NAME() AS "db_name"`
         );
-        return currentDBQuery[0]["db_name"];
+        return currentDBQuery[0].db_name;
     }
 
     /**
@@ -2383,7 +2383,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         const currentSchemaQuery = await this.query(
             `SELECT SCHEMA_NAME() AS "schema_name"`
         );
-        return currentSchemaQuery[0]["schema_name"];
+        return currentSchemaQuery[0].schema_name;
     }
 
     protected async loadViews(viewPaths: string[]): Promise<View[]> {
@@ -2449,16 +2449,15 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         return dbViews.map((dbView: any) => {
             const view = new View();
             const db =
-                dbView["TABLE_CATALOG"] === currentDatabase
+                dbView.TABLE_CATALOG === currentDatabase
                     ? undefined
-                    : dbView["TABLE_CATALOG"];
+                    : dbView.TABLE_CATALOG;
             const schema =
-                dbView["schema"] === currentSchema &&
-                !this.driver.options.schema
+                dbView.schema === currentSchema && !this.driver.options.schema
                     ? undefined
-                    : dbView["schema"];
-            view.name = this.driver.buildTableName(dbView["name"], schema, db);
-            view.expression = dbView["value"];
+                    : dbView.schema;
+            view.name = this.driver.buildTableName(dbView.name, schema, db);
+            view.expression = dbView.value;
             return view;
         });
     }
@@ -2628,34 +2627,33 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         if (!dbTables.length) return [];
 
         // create table schemas for loaded tables
-        return await Promise.all(
+        return Promise.all(
             dbTables.map(async (dbTable) => {
                 const table = new Table();
 
                 // We do not need to join schema and database names, when db or schema is by default.
                 // In this case we need local variable `tableFullName` for below comparision.
                 const db =
-                    dbTable["TABLE_CATALOG"] === currentDatabase
+                    dbTable.TABLE_CATALOG === currentDatabase
                         ? undefined
-                        : dbTable["TABLE_CATALOG"];
+                        : dbTable.TABLE_CATALOG;
                 const schema =
-                    dbTable["TABLE_SCHEMA"] === currentSchema &&
+                    dbTable.TABLE_SCHEMA === currentSchema &&
                     !this.driver.options.schema
                         ? undefined
-                        : dbTable["TABLE_SCHEMA"];
+                        : dbTable.TABLE_SCHEMA;
                 table.name = this.driver.buildTableName(
-                    dbTable["TABLE_NAME"],
+                    dbTable.TABLE_NAME,
                     schema,
                     db
                 );
                 const tableFullName = this.driver.buildTableName(
-                    dbTable["TABLE_NAME"],
-                    dbTable["TABLE_SCHEMA"],
-                    dbTable["TABLE_CATALOG"]
+                    dbTable.TABLE_NAME,
+                    dbTable.TABLE_SCHEMA,
+                    dbTable.TABLE_CATALOG
                 );
                 const defaultCollation = dbCollations.find(
-                    (dbCollation) =>
-                        dbCollation["NAME"] === dbTable["TABLE_CATALOG"]
+                    (dbCollation) => dbCollation.NAME === dbTable.TABLE_CATALOG
                 )!;
 
                 // create columns from the loaded columns
@@ -2663,9 +2661,9 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                     .filter(
                         (dbColumn) =>
                             this.driver.buildTableName(
-                                dbColumn["TABLE_NAME"],
-                                dbColumn["TABLE_SCHEMA"],
-                                dbColumn["TABLE_CATALOG"]
+                                dbColumn.TABLE_NAME,
+                                dbColumn.TABLE_SCHEMA,
+                                dbColumn.TABLE_CATALOG
                             ) === tableFullName
                     )
                     .map((dbColumn) => {
@@ -2673,64 +2671,61 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                             (dbConstraint) => {
                                 return (
                                     this.driver.buildTableName(
-                                        dbConstraint["TABLE_NAME"],
-                                        dbConstraint["CONSTRAINT_SCHEMA"],
-                                        dbConstraint["CONSTRAINT_CATALOG"]
+                                        dbConstraint.TABLE_NAME,
+                                        dbConstraint.CONSTRAINT_SCHEMA,
+                                        dbConstraint.CONSTRAINT_CATALOG
                                     ) === tableFullName &&
-                                    dbConstraint["COLUMN_NAME"] ===
-                                        dbColumn["COLUMN_NAME"]
+                                    dbConstraint.COLUMN_NAME ===
+                                        dbColumn.COLUMN_NAME
                                 );
                             }
                         );
 
                         const uniqueConstraint = columnConstraints.find(
                             (constraint) =>
-                                constraint["CONSTRAINT_TYPE"] === "UNIQUE"
+                                constraint.CONSTRAINT_TYPE === "UNIQUE"
                         );
                         const isConstraintComposite = uniqueConstraint
                             ? !!dbConstraints.find(
                                   (dbConstraint) =>
-                                      dbConstraint["CONSTRAINT_TYPE"] ===
+                                      dbConstraint.CONSTRAINT_TYPE ===
                                           "UNIQUE" &&
-                                      dbConstraint["CONSTRAINT_NAME"] ===
-                                          uniqueConstraint["CONSTRAINT_NAME"] &&
-                                      dbConstraint["COLUMN_NAME"] !==
-                                          dbColumn["COLUMN_NAME"]
+                                      dbConstraint.CONSTRAINT_NAME ===
+                                          uniqueConstraint.CONSTRAINT_NAME &&
+                                      dbConstraint.COLUMN_NAME !==
+                                          dbColumn.COLUMN_NAME
                               )
                             : false;
 
                         const isPrimary = !!columnConstraints.find(
                             (constraint) =>
-                                constraint["CONSTRAINT_TYPE"] === "PRIMARY KEY"
+                                constraint.CONSTRAINT_TYPE === "PRIMARY KEY"
                         );
                         const isGenerated = !!dbIdentityColumns.find(
                             (column) => {
                                 return (
                                     this.driver.buildTableName(
-                                        column["TABLE_NAME"],
-                                        column["TABLE_SCHEMA"],
-                                        column["TABLE_CATALOG"]
+                                        column.TABLE_NAME,
+                                        column.TABLE_SCHEMA,
+                                        column.TABLE_CATALOG
                                     ) === tableFullName &&
-                                    column["COLUMN_NAME"] ===
-                                        dbColumn["COLUMN_NAME"]
+                                    column.COLUMN_NAME === dbColumn.COLUMN_NAME
                                 );
                             }
                         );
 
                         const tableColumn = new TableColumn();
-                        tableColumn.name = dbColumn["COLUMN_NAME"];
-                        tableColumn.type = dbColumn["DATA_TYPE"].toLowerCase();
+                        tableColumn.name = dbColumn.COLUMN_NAME;
+                        tableColumn.type = dbColumn.DATA_TYPE.toLowerCase();
 
                         // check only columns that have length property
                         if (
                             this.driver.withLengthColumnTypes.indexOf(
                                 tableColumn.type as ColumnType
                             ) !== -1 &&
-                            dbColumn["CHARACTER_MAXIMUM_LENGTH"]
+                            dbColumn.CHARACTER_MAXIMUM_LENGTH
                         ) {
-                            const length = dbColumn[
-                                "CHARACTER_MAXIMUM_LENGTH"
-                            ].toString();
+                            const length = dbColumn.CHARACTER_MAXIMUM_LENGTH.toString();
                             if (length === "-1") {
                                 tableColumn.length = "MAX";
                             } else {
@@ -2749,31 +2744,31 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                             tableColumn.type === "numeric"
                         ) {
                             if (
-                                dbColumn["NUMERIC_PRECISION"] !== null &&
+                                dbColumn.NUMERIC_PRECISION !== null &&
                                 !this.isDefaultColumnPrecision(
                                     table,
                                     tableColumn,
-                                    dbColumn["NUMERIC_PRECISION"]
+                                    dbColumn.NUMERIC_PRECISION
                                 )
                             )
                                 tableColumn.precision =
-                                    dbColumn["NUMERIC_PRECISION"];
+                                    dbColumn.NUMERIC_PRECISION;
                             if (
-                                dbColumn["NUMERIC_SCALE"] !== null &&
+                                dbColumn.NUMERIC_SCALE !== null &&
                                 !this.isDefaultColumnScale(
                                     table,
                                     tableColumn,
-                                    dbColumn["NUMERIC_SCALE"]
+                                    dbColumn.NUMERIC_SCALE
                                 )
                             )
-                                tableColumn.scale = dbColumn["NUMERIC_SCALE"];
+                                tableColumn.scale = dbColumn.NUMERIC_SCALE;
                         }
 
                         if (tableColumn.type === "nvarchar") {
                             // Check if this is an enum
                             const columnCheckConstraints = columnConstraints.filter(
                                 (constraint) =>
-                                    constraint["CONSTRAINT_TYPE"] === "CHECK"
+                                    constraint.CONSTRAINT_TYPE === "CHECK"
                             );
                             if (columnCheckConstraints.length) {
                                 const isEnumRegexp = new RegExp(
@@ -2782,7 +2777,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                                 for (const checkConstraint of columnCheckConstraints) {
                                     if (
                                         isEnumRegexp.test(
-                                            checkConstraint["definition"]
+                                            checkConstraint.definition
                                         )
                                     ) {
                                         // This is an enum constraint, make column into an enum
@@ -2795,7 +2790,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                                         let result;
                                         while (
                                             (result = enumValueRegexp.exec(
-                                                checkConstraint["definition"]
+                                                checkConstraint.definition
                                             )) !== null
                                         ) {
                                             tableColumn.enum.unshift(result[1]);
@@ -2808,14 +2803,13 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                         }
 
                         tableColumn.default =
-                            dbColumn["COLUMN_DEFAULT"] !== null &&
-                            dbColumn["COLUMN_DEFAULT"] !== undefined
+                            dbColumn.COLUMN_DEFAULT !== null &&
+                            dbColumn.COLUMN_DEFAULT !== undefined
                                 ? this.removeParenthesisFromDefault(
-                                      dbColumn["COLUMN_DEFAULT"]
+                                      dbColumn.COLUMN_DEFAULT
                                   )
                                 : undefined;
-                        tableColumn.isNullable =
-                            dbColumn["IS_NULLABLE"] === "YES";
+                        tableColumn.isNullable = dbColumn.IS_NULLABLE === "YES";
                         tableColumn.isPrimary = isPrimary;
                         tableColumn.isUnique =
                             !!uniqueConstraint && !isConstraintComposite;
@@ -2830,12 +2824,12 @@ export class SqlServerQueryRunner extends BaseQueryRunner
 
                         // todo: unable to get default charset
                         // tableColumn.charset = dbColumn["CHARACTER_SET_NAME"];
-                        if (dbColumn["COLLATION_NAME"])
+                        if (dbColumn.COLLATION_NAME)
                             tableColumn.collation =
-                                dbColumn["COLLATION_NAME"] ===
-                                defaultCollation["COLLATION_NAME"]
+                                dbColumn.COLLATION_NAME ===
+                                defaultCollation.COLLATION_NAME
                                     ? undefined
-                                    : dbColumn["COLLATION_NAME"];
+                                    : dbColumn.COLLATION_NAME;
 
                         if (
                             tableColumn.type === "datetime2" ||
@@ -2845,9 +2839,9 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                             tableColumn.precision = !this.isDefaultColumnPrecision(
                                 table,
                                 tableColumn,
-                                dbColumn["DATETIME_PRECISION"]
+                                dbColumn.DATETIME_PRECISION
                             )
-                                ? dbColumn["DATETIME_PRECISION"]
+                                ? dbColumn.DATETIME_PRECISION
                                 : undefined;
                         }
 
@@ -2859,25 +2853,24 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                     dbConstraints.filter((dbConstraint) => {
                         return (
                             this.driver.buildTableName(
-                                dbConstraint["TABLE_NAME"],
-                                dbConstraint["CONSTRAINT_SCHEMA"],
-                                dbConstraint["CONSTRAINT_CATALOG"]
+                                dbConstraint.TABLE_NAME,
+                                dbConstraint.CONSTRAINT_SCHEMA,
+                                dbConstraint.CONSTRAINT_CATALOG
                             ) === tableFullName &&
-                            dbConstraint["CONSTRAINT_TYPE"] === "UNIQUE"
+                            dbConstraint.CONSTRAINT_TYPE === "UNIQUE"
                         );
                     }),
-                    (dbConstraint) => dbConstraint["CONSTRAINT_NAME"]
+                    (dbConstraint) => dbConstraint.CONSTRAINT_NAME
                 );
 
                 table.uniques = tableUniqueConstraints.map((constraint) => {
                     const uniques = dbConstraints.filter(
                         (dbC) =>
-                            dbC["CONSTRAINT_NAME"] ===
-                            constraint["CONSTRAINT_NAME"]
+                            dbC.CONSTRAINT_NAME === constraint.CONSTRAINT_NAME
                     );
                     return new TableUnique({
-                        name: constraint["CONSTRAINT_NAME"],
-                        columnNames: uniques.map((u) => u["COLUMN_NAME"]),
+                        name: constraint.CONSTRAINT_NAME,
+                        columnNames: uniques.map((u) => u.COLUMN_NAME),
                     });
                 });
 
@@ -2886,26 +2879,25 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                     dbConstraints.filter((dbConstraint) => {
                         return (
                             this.driver.buildTableName(
-                                dbConstraint["TABLE_NAME"],
-                                dbConstraint["CONSTRAINT_SCHEMA"],
-                                dbConstraint["CONSTRAINT_CATALOG"]
+                                dbConstraint.TABLE_NAME,
+                                dbConstraint.CONSTRAINT_SCHEMA,
+                                dbConstraint.CONSTRAINT_CATALOG
                             ) === tableFullName &&
-                            dbConstraint["CONSTRAINT_TYPE"] === "CHECK"
+                            dbConstraint.CONSTRAINT_TYPE === "CHECK"
                         );
                     }),
-                    (dbConstraint) => dbConstraint["CONSTRAINT_NAME"]
+                    (dbConstraint) => dbConstraint.CONSTRAINT_NAME
                 );
 
                 table.checks = tableCheckConstraints.map((constraint) => {
                     const checks = dbConstraints.filter(
                         (dbC) =>
-                            dbC["CONSTRAINT_NAME"] ===
-                            constraint["CONSTRAINT_NAME"]
+                            dbC.CONSTRAINT_NAME === constraint.CONSTRAINT_NAME
                     );
                     return new TableCheck({
-                        name: constraint["CONSTRAINT_NAME"],
-                        columnNames: checks.map((c) => c["COLUMN_NAME"]),
-                        expression: constraint["definition"],
+                        name: constraint.CONSTRAINT_NAME,
+                        columnNames: checks.map((c) => c.COLUMN_NAME),
+                        expression: constraint.definition,
                     });
                 });
 
@@ -2914,54 +2906,47 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                     dbForeignKeys.filter((dbForeignKey) => {
                         return (
                             this.driver.buildTableName(
-                                dbForeignKey["TABLE_NAME"],
-                                dbForeignKey["TABLE_SCHEMA"],
-                                dbForeignKey["TABLE_CATALOG"]
+                                dbForeignKey.TABLE_NAME,
+                                dbForeignKey.TABLE_SCHEMA,
+                                dbForeignKey.TABLE_CATALOG
                             ) === tableFullName
                         );
                     }),
-                    (dbForeignKey) => dbForeignKey["FK_NAME"]
+                    (dbForeignKey) => dbForeignKey.FK_NAME
                 );
 
                 table.foreignKeys = tableForeignKeyConstraints.map(
                     (dbForeignKey) => {
                         const foreignKeys = dbForeignKeys.filter(
-                            (dbFk) =>
-                                dbFk["FK_NAME"] === dbForeignKey["FK_NAME"]
+                            (dbFk) => dbFk.FK_NAME === dbForeignKey.FK_NAME
                         );
 
                         // if referenced table located in currently used db and schema, we don't need to concat db and schema names to table name.
                         const db =
-                            dbForeignKey["TABLE_CATALOG"] === currentDatabase
+                            dbForeignKey.TABLE_CATALOG === currentDatabase
                                 ? undefined
-                                : dbForeignKey["TABLE_CATALOG"];
+                                : dbForeignKey.TABLE_CATALOG;
                         const schema =
-                            dbForeignKey["REF_SCHEMA"] === currentSchema
+                            dbForeignKey.REF_SCHEMA === currentSchema
                                 ? undefined
-                                : dbForeignKey["REF_SCHEMA"];
+                                : dbForeignKey.REF_SCHEMA;
                         const referencedTableName = this.driver.buildTableName(
-                            dbForeignKey["REF_TABLE"],
+                            dbForeignKey.REF_TABLE,
                             schema,
                             db
                         );
 
                         return new TableForeignKey({
-                            name: dbForeignKey["FK_NAME"],
+                            name: dbForeignKey.FK_NAME,
                             columnNames: foreignKeys.map(
-                                (dbFk) => dbFk["COLUMN_NAME"]
+                                (dbFk) => dbFk.COLUMN_NAME
                             ),
                             referencedTableName,
                             referencedColumnNames: foreignKeys.map(
-                                (dbFk) => dbFk["REF_COLUMN"]
+                                (dbFk) => dbFk.REF_COLUMN
                             ),
-                            onDelete: dbForeignKey["ON_DELETE"].replace(
-                                "_",
-                                " "
-                            ), // SqlServer returns NO_ACTION, instead of NO ACTION
-                            onUpdate: dbForeignKey["ON_UPDATE"].replace(
-                                "_",
-                                " "
-                            ), // SqlServer returns NO_ACTION, instead of NO ACTION
+                            onDelete: dbForeignKey.ON_DELETE.replace("_", " "), // SqlServer returns NO_ACTION, instead of NO ACTION
+                            onUpdate: dbForeignKey.ON_UPDATE.replace("_", " "), // SqlServer returns NO_ACTION, instead of NO ACTION
                         });
                     }
                 );
@@ -2971,32 +2956,30 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                     dbIndices.filter((dbIndex) => {
                         return (
                             this.driver.buildTableName(
-                                dbIndex["TABLE_NAME"],
-                                dbIndex["TABLE_SCHEMA"],
-                                dbIndex["TABLE_CATALOG"]
+                                dbIndex.TABLE_NAME,
+                                dbIndex.TABLE_SCHEMA,
+                                dbIndex.TABLE_CATALOG
                             ) === tableFullName
                         );
                     }),
-                    (dbIndex) => dbIndex["INDEX_NAME"]
+                    (dbIndex) => dbIndex.INDEX_NAME
                 );
 
                 table.indices = tableIndexConstraints.map((constraint) => {
                     const indices = dbIndices.filter((index) => {
                         return (
-                            index["TABLE_CATALOG"] ===
-                                constraint["TABLE_CATALOG"] &&
-                            index["TABLE_SCHEMA"] ===
-                                constraint["TABLE_SCHEMA"] &&
-                            index["TABLE_NAME"] === constraint["TABLE_NAME"] &&
-                            index["INDEX_NAME"] === constraint["INDEX_NAME"]
+                            index.TABLE_CATALOG === constraint.TABLE_CATALOG &&
+                            index.TABLE_SCHEMA === constraint.TABLE_SCHEMA &&
+                            index.TABLE_NAME === constraint.TABLE_NAME &&
+                            index.INDEX_NAME === constraint.INDEX_NAME
                         );
                     });
                     return new TableIndex({
                         table,
-                        name: constraint["INDEX_NAME"],
-                        columnNames: indices.map((i) => i["COLUMN_NAME"]),
-                        isUnique: constraint["IS_UNIQUE"],
-                        where: constraint["CONDITION"],
+                        name: constraint.INDEX_NAME,
+                        columnNames: indices.map((i) => i.COLUMN_NAME),
+                        isUnique: constraint.IS_UNIQUE,
+                        where: constraint.CONDITION,
                     } as TableIndexOptions);
                 });
 

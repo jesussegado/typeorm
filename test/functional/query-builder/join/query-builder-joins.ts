@@ -229,11 +229,9 @@ describe("query builder > joins", () => {
                         .getRawOne();
 
                     if (connection.driver instanceof CockroachDriver) {
-                        expect(loadedRawPost!["categories_id"]).to.be.equal(
-                            "1"
-                        );
+                        expect(loadedRawPost!.categories_id).to.be.equal("1");
                     } else {
-                        expect(loadedRawPost!["categories_id"]).to.be.equal(1);
+                        expect(loadedRawPost!.categories_id).to.be.equal(1);
                     }
                 })
             ));

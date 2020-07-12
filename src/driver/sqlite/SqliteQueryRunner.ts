@@ -62,7 +62,7 @@ export class SqliteQueryRunner extends AbstractSqliteQueryRunner {
                     );
                     fail(new QueryFailedError(query, parameters, err));
                 } else {
-                    ok(isInsertQuery ? this["lastID"] : result);
+                    ok(isInsertQuery ? this.lastID : result);
                 }
             };
 

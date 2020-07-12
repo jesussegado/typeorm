@@ -32,6 +32,10 @@ module.exports = {
     "no-useless-return":["off"],
     "no-useless-constructor":["off"],
     "radix":["off"],
+    "@typescript-eslint/no-unused-vars":["off"],
+    "@typescript-eslint/explicit-function-return-type":["off"],
+    "no-unused-expressions":["off"],
+    "no-return-assign":["off"],
   },
   settings: {
     "import/resolver": {

@@ -43,7 +43,7 @@ export class MaterializedPathSubjectExecutor {
                 .from(subject.metadata.target, subject.metadata.targetName)
                 .whereInIds(parentId)
                 .getRawOne()
-                .then((result) => (result ? result["path"] : undefined));
+                .then((result) => (result ? result.path : undefined));
         }
 
         const insertedEntityId = subject.metadata

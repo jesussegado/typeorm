@@ -1817,9 +1817,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
             const dropViewQueries: ObjectLiteral[] = await this.query(
                 selectViewDropsQuery
             );
-            await Promise.all(
-                dropViewQueries.map((q) => this.query(q["query"]))
-            );
+            await Promise.all(dropViewQueries.map((q) => this.query(q.query)));
 
             const disableForeignKeysCheckQuery = `SET FOREIGN_KEY_CHECKS = 0;`;
             const dropTablesQuery = `SELECT concat('DROP TABLE IF EXISTS \`', table_schema, '\`.\`', table_name, '\`') AS \`query\` FROM \`INFORMATION_SCHEMA\`.\`TABLES\` WHERE \`TABLE_SCHEMA\` = '${dbName}'`;
@@ -1830,7 +1828,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                 dropTablesQuery
             );
             await Promise.all(
-                dropQueries.map((query) => this.query(query["query"]))
+                dropQueries.map((query) => this.query(query.query))
             );
             await this.query(enableForeignKeysCheckQuery);
 
@@ -1855,7 +1853,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
         const currentDBQuery = await this.query(
             `SELECT DATABASE() AS \`db_name\``
         );
-        return currentDBQuery[0]["db_name"];
+        return currentDBQuery[0].db_name;
     }
 
     protected async loadViews(viewNames: string[]): Promise<View[]> {
@@ -1887,15 +1885,9 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
         return dbViews.map((dbView: any) => {
             const view = new View();
             const db =
-                dbView["schema"] === currentDatabase
-                    ? undefined
-                    : dbView["schema"];
-            view.name = this.driver.buildTableName(
-                dbView["name"],
-                undefined,
-                db
-            );
-            view.expression = dbView["value"];
+                dbView.schema === currentDatabase ? undefined : dbView.schema;
+            view.name = this.driver.buildTableName(dbView.name, undefined, db);
+            view.expression = dbView.value;
             return view;
         });
     }
@@ -1983,26 +1975,26 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                 const table = new Table();
 
                 const dbCollation = dbCollations.find(
-                    (coll) => coll["SCHEMA_NAME"] === dbTable["TABLE_SCHEMA"]
+                    (coll) => coll.SCHEMA_NAME === dbTable.TABLE_SCHEMA
                 )!;
-                const defaultCollation = dbCollation["COLLATION"];
-                const defaultCharset = dbCollation["CHARSET"];
+                const defaultCollation = dbCollation.COLLATION;
+                const defaultCharset = dbCollation.CHARSET;
 
                 // We do not need to join database name, when database is by default.
                 // In this case we need local variable `tableFullName` for below comparision.
                 const db =
-                    dbTable["TABLE_SCHEMA"] === currentDatabase
+                    dbTable.TABLE_SCHEMA === currentDatabase
                         ? undefined
-                        : dbTable["TABLE_SCHEMA"];
+                        : dbTable.TABLE_SCHEMA;
                 table.name = this.driver.buildTableName(
-                    dbTable["TABLE_NAME"],
+                    dbTable.TABLE_NAME,
                     undefined,
                     db
                 );
                 const tableFullName = this.driver.buildTableName(
-                    dbTable["TABLE_NAME"],
+                    dbTable.TABLE_NAME,
                     undefined,
-                    dbTable["TABLE_SCHEMA"]
+                    dbTable.TABLE_SCHEMA
                 );
 
                 // create columns from the loaded columns
@@ -2010,34 +2002,28 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                     .filter(
                         (dbColumn) =>
                             this.driver.buildTableName(
-                                dbColumn["TABLE_NAME"],
+                                dbColumn.TABLE_NAME,
                                 undefined,
-                                dbColumn["TABLE_SCHEMA"]
+                                dbColumn.TABLE_SCHEMA
                             ) === tableFullName
                     )
                     .map((dbColumn) => {
                         const columnUniqueIndex = dbIndices.find((dbIndex) => {
                             const indexTableFullName = this.driver.buildTableName(
-                                dbIndex["TABLE_NAME"],
+                                dbIndex.TABLE_NAME,
                                 undefined,
-                                dbIndex["TABLE_SCHEMA"]
+                                dbIndex.TABLE_SCHEMA
                             );
                             if (indexTableFullName !== tableFullName) {
                                 return false;
                             }
 
                             // Index is not for this column
-                            if (
-                                dbIndex["COLUMN_NAME"] !==
-                                dbColumn["COLUMN_NAME"]
-                            ) {
+                            if (dbIndex.COLUMN_NAME !== dbColumn.COLUMN_NAME) {
                                 return false;
                             }
 
-                            const nonUnique = parseInt(
-                                dbIndex["NON_UNIQUE"],
-                                10
-                            );
+                            const nonUnique = parseInt(dbIndex.NON_UNIQUE, 10);
                             return nonUnique === 0;
                         });
 
@@ -2050,32 +2036,32 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                             tableMetadata.indices.some(
                                 (index) =>
                                     index.name ===
-                                        columnUniqueIndex["INDEX_NAME"] &&
+                                        columnUniqueIndex.INDEX_NAME &&
                                     index.synchronize === false
                             );
 
                         const isConstraintComposite = columnUniqueIndex
                             ? !!dbIndices.find(
                                   (dbIndex) =>
-                                      dbIndex["INDEX_NAME"] ===
-                                          columnUniqueIndex["INDEX_NAME"] &&
-                                      dbIndex["COLUMN_NAME"] !==
-                                          dbColumn["COLUMN_NAME"]
+                                      dbIndex.INDEX_NAME ===
+                                          columnUniqueIndex.INDEX_NAME &&
+                                      dbIndex.COLUMN_NAME !==
+                                          dbColumn.COLUMN_NAME
                               )
                             : false;
 
                         const tableColumn = new TableColumn();
-                        tableColumn.name = dbColumn["COLUMN_NAME"];
-                        tableColumn.type = dbColumn["DATA_TYPE"].toLowerCase();
+                        tableColumn.name = dbColumn.COLUMN_NAME;
+                        tableColumn.type = dbColumn.DATA_TYPE.toLowerCase();
 
                         if (
                             this.driver.withWidthColumnTypes.indexOf(
                                 tableColumn.type as ColumnType
                             ) !== -1
                         ) {
-                            const width = dbColumn["COLUMN_TYPE"].substring(
-                                dbColumn["COLUMN_TYPE"].indexOf("(") + 1,
-                                dbColumn["COLUMN_TYPE"].indexOf(")")
+                            const width = dbColumn.COLUMN_TYPE.substring(
+                                dbColumn.COLUMN_TYPE.indexOf("(") + 1,
+                                dbColumn.COLUMN_TYPE.indexOf(")")
                             );
                             tableColumn.width =
                                 width &&
@@ -2089,29 +2075,28 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                         }
 
                         if (
-                            dbColumn["COLUMN_DEFAULT"] === null ||
-                            dbColumn["COLUMN_DEFAULT"] === undefined
+                            dbColumn.COLUMN_DEFAULT === null ||
+                            dbColumn.COLUMN_DEFAULT === undefined
                         ) {
                             tableColumn.default = undefined;
                         } else {
                             tableColumn.default =
-                                dbColumn["COLUMN_DEFAULT"] ===
-                                "CURRENT_TIMESTAMP"
-                                    ? dbColumn["COLUMN_DEFAULT"]
-                                    : `'${dbColumn["COLUMN_DEFAULT"]}'`;
+                                dbColumn.COLUMN_DEFAULT === "CURRENT_TIMESTAMP"
+                                    ? dbColumn.COLUMN_DEFAULT
+                                    : `'${dbColumn.COLUMN_DEFAULT}'`;
                         }
 
-                        if (dbColumn["EXTRA"].indexOf("on update") !== -1) {
-                            tableColumn.onUpdate = dbColumn["EXTRA"].substring(
-                                dbColumn["EXTRA"].indexOf("on update") + 10
+                        if (dbColumn.EXTRA.indexOf("on update") !== -1) {
+                            tableColumn.onUpdate = dbColumn.EXTRA.substring(
+                                dbColumn.EXTRA.indexOf("on update") + 10
                             );
                         }
 
-                        if (dbColumn["GENERATION_EXPRESSION"]) {
+                        if (dbColumn.GENERATION_EXPRESSION) {
                             tableColumn.asExpression =
-                                dbColumn["GENERATION_EXPRESSION"];
+                                dbColumn.GENERATION_EXPRESSION;
                             tableColumn.generatedType =
-                                dbColumn["EXTRA"].indexOf("VIRTUAL") !== -1
+                                dbColumn.EXTRA.indexOf("VIRTUAL") !== -1
                                     ? "VIRTUAL"
                                     : "STORED";
                         }
@@ -2120,55 +2105,50 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                             !!columnUniqueIndex &&
                             !hasIgnoredIndex &&
                             !isConstraintComposite;
-                        tableColumn.isNullable =
-                            dbColumn["IS_NULLABLE"] === "YES";
+                        tableColumn.isNullable = dbColumn.IS_NULLABLE === "YES";
                         tableColumn.isPrimary = dbPrimaryKeys.some(
                             (dbPrimaryKey) => {
                                 return (
                                     this.driver.buildTableName(
-                                        dbPrimaryKey["TABLE_NAME"],
+                                        dbPrimaryKey.TABLE_NAME,
                                         undefined,
-                                        dbPrimaryKey["TABLE_SCHEMA"]
+                                        dbPrimaryKey.TABLE_SCHEMA
                                     ) === tableFullName &&
-                                    dbPrimaryKey["COLUMN_NAME"] ===
+                                    dbPrimaryKey.COLUMN_NAME ===
                                         tableColumn.name
                                 );
                             }
                         );
                         tableColumn.zerofill =
-                            dbColumn["COLUMN_TYPE"].indexOf("zerofill") !== -1;
+                            dbColumn.COLUMN_TYPE.indexOf("zerofill") !== -1;
                         tableColumn.unsigned = tableColumn.zerofill
                             ? true
-                            : dbColumn["COLUMN_TYPE"].indexOf("unsigned") !==
-                              -1;
+                            : dbColumn.COLUMN_TYPE.indexOf("unsigned") !== -1;
                         tableColumn.isGenerated =
-                            dbColumn["EXTRA"].indexOf("auto_increment") !== -1;
+                            dbColumn.EXTRA.indexOf("auto_increment") !== -1;
                         if (tableColumn.isGenerated)
                             tableColumn.generationStrategy = "increment";
 
-                        tableColumn.comment = dbColumn["COLUMN_COMMENT"];
-                        if (dbColumn["CHARACTER_SET_NAME"])
+                        tableColumn.comment = dbColumn.COLUMN_COMMENT;
+                        if (dbColumn.CHARACTER_SET_NAME)
                             tableColumn.charset =
-                                dbColumn["CHARACTER_SET_NAME"] ===
-                                defaultCharset
+                                dbColumn.CHARACTER_SET_NAME === defaultCharset
                                     ? undefined
-                                    : dbColumn["CHARACTER_SET_NAME"];
-                        if (dbColumn["COLLATION_NAME"])
+                                    : dbColumn.CHARACTER_SET_NAME;
+                        if (dbColumn.COLLATION_NAME)
                             tableColumn.collation =
-                                dbColumn["COLLATION_NAME"] === defaultCollation
+                                dbColumn.COLLATION_NAME === defaultCollation
                                     ? undefined
-                                    : dbColumn["COLLATION_NAME"];
+                                    : dbColumn.COLLATION_NAME;
 
                         // check only columns that have length property
                         if (
                             this.driver.withLengthColumnTypes.indexOf(
                                 tableColumn.type as ColumnType
                             ) !== -1 &&
-                            dbColumn["CHARACTER_MAXIMUM_LENGTH"]
+                            dbColumn.CHARACTER_MAXIMUM_LENGTH
                         ) {
-                            const length = dbColumn[
-                                "CHARACTER_MAXIMUM_LENGTH"
-                            ].toString();
+                            const length = dbColumn.CHARACTER_MAXIMUM_LENGTH.toString();
                             tableColumn.length = !this.isDefaultColumnLength(
                                 table,
                                 tableColumn,
@@ -2184,26 +2164,26 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                             tableColumn.type === "float"
                         ) {
                             if (
-                                dbColumn["NUMERIC_PRECISION"] !== null &&
+                                dbColumn.NUMERIC_PRECISION !== null &&
                                 !this.isDefaultColumnPrecision(
                                     table,
                                     tableColumn,
-                                    dbColumn["NUMERIC_PRECISION"]
+                                    dbColumn.NUMERIC_PRECISION
                                 )
                             )
                                 tableColumn.precision = parseInt(
-                                    dbColumn["NUMERIC_PRECISION"]
+                                    dbColumn.NUMERIC_PRECISION
                                 );
                             if (
-                                dbColumn["NUMERIC_SCALE"] !== null &&
+                                dbColumn.NUMERIC_SCALE !== null &&
                                 !this.isDefaultColumnScale(
                                     table,
                                     tableColumn,
-                                    dbColumn["NUMERIC_SCALE"]
+                                    dbColumn.NUMERIC_SCALE
                                 )
                             )
                                 tableColumn.scale = parseInt(
-                                    dbColumn["NUMERIC_SCALE"]
+                                    dbColumn.NUMERIC_SCALE
                                 );
                         }
 
@@ -2211,7 +2191,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                             tableColumn.type === "enum" ||
                             tableColumn.type === "simple-enum"
                         ) {
-                            const colType = dbColumn["COLUMN_TYPE"];
+                            const colType = dbColumn.COLUMN_TYPE;
                             const items = colType
                                 .substring(
                                     colType.indexOf("(") + 1,
@@ -2230,16 +2210,16 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                             (tableColumn.type === "datetime" ||
                                 tableColumn.type === "time" ||
                                 tableColumn.type === "timestamp") &&
-                            dbColumn["DATETIME_PRECISION"] !== null &&
-                            dbColumn["DATETIME_PRECISION"] !== undefined &&
+                            dbColumn.DATETIME_PRECISION !== null &&
+                            dbColumn.DATETIME_PRECISION !== undefined &&
                             !this.isDefaultColumnPrecision(
                                 table,
                                 tableColumn,
-                                parseInt(dbColumn["DATETIME_PRECISION"])
+                                parseInt(dbColumn.DATETIME_PRECISION)
                             )
                         ) {
                             tableColumn.precision = parseInt(
-                                dbColumn["DATETIME_PRECISION"]
+                                dbColumn.DATETIME_PRECISION
                             );
                         }
 
@@ -2251,46 +2231,46 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                     dbForeignKeys.filter((dbForeignKey) => {
                         return (
                             this.driver.buildTableName(
-                                dbForeignKey["TABLE_NAME"],
+                                dbForeignKey.TABLE_NAME,
                                 undefined,
-                                dbForeignKey["TABLE_SCHEMA"]
+                                dbForeignKey.TABLE_SCHEMA
                             ) === tableFullName
                         );
                     }),
-                    (dbForeignKey) => dbForeignKey["CONSTRAINT_NAME"]
+                    (dbForeignKey) => dbForeignKey.CONSTRAINT_NAME
                 );
 
                 table.foreignKeys = tableForeignKeyConstraints.map(
                     (dbForeignKey) => {
                         const foreignKeys = dbForeignKeys.filter(
                             (dbFk) =>
-                                dbFk["CONSTRAINT_NAME"] ===
-                                dbForeignKey["CONSTRAINT_NAME"]
+                                dbFk.CONSTRAINT_NAME ===
+                                dbForeignKey.CONSTRAINT_NAME
                         );
 
                         // if referenced table located in currently used db, we don't need to concat db name to table name.
                         const database =
-                            dbForeignKey["REFERENCED_TABLE_SCHEMA"] ===
+                            dbForeignKey.REFERENCED_TABLE_SCHEMA ===
                             currentDatabase
                                 ? undefined
-                                : dbForeignKey["REFERENCED_TABLE_SCHEMA"];
+                                : dbForeignKey.REFERENCED_TABLE_SCHEMA;
                         const referencedTableName = this.driver.buildTableName(
-                            dbForeignKey["REFERENCED_TABLE_NAME"],
+                            dbForeignKey.REFERENCED_TABLE_NAME,
                             undefined,
                             database
                         );
 
                         return new TableForeignKey({
-                            name: dbForeignKey["CONSTRAINT_NAME"],
+                            name: dbForeignKey.CONSTRAINT_NAME,
                             columnNames: foreignKeys.map(
-                                (dbFk) => dbFk["COLUMN_NAME"]
+                                (dbFk) => dbFk.COLUMN_NAME
                             ),
                             referencedTableName,
                             referencedColumnNames: foreignKeys.map(
-                                (dbFk) => dbFk["REFERENCED_COLUMN_NAME"]
+                                (dbFk) => dbFk.REFERENCED_COLUMN_NAME
                             ),
-                            onDelete: dbForeignKey["ON_DELETE"],
-                            onUpdate: dbForeignKey["ON_UPDATE"],
+                            onDelete: dbForeignKey.ON_DELETE,
+                            onUpdate: dbForeignKey.ON_UPDATE,
                         });
                     }
                 );
@@ -2300,34 +2280,33 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                     dbIndices.filter((dbIndex) => {
                         return (
                             this.driver.buildTableName(
-                                dbIndex["TABLE_NAME"],
+                                dbIndex.TABLE_NAME,
                                 undefined,
-                                dbIndex["TABLE_SCHEMA"]
+                                dbIndex.TABLE_SCHEMA
                             ) === tableFullName
                         );
                     }),
-                    (dbIndex) => dbIndex["INDEX_NAME"]
+                    (dbIndex) => dbIndex.INDEX_NAME
                 );
 
                 table.indices = tableIndexConstraints.map((constraint) => {
                     const indices = dbIndices.filter((index) => {
                         return (
-                            index["TABLE_SCHEMA"] ===
-                                constraint["TABLE_SCHEMA"] &&
-                            index["TABLE_NAME"] === constraint["TABLE_NAME"] &&
-                            index["INDEX_NAME"] === constraint["INDEX_NAME"]
+                            index.TABLE_SCHEMA === constraint.TABLE_SCHEMA &&
+                            index.TABLE_NAME === constraint.TABLE_NAME &&
+                            index.INDEX_NAME === constraint.INDEX_NAME
                         );
                     });
 
-                    const nonUnique = parseInt(constraint["NON_UNIQUE"], 10);
+                    const nonUnique = parseInt(constraint.NON_UNIQUE, 10);
 
                     return new TableIndex({
                         table,
-                        name: constraint["INDEX_NAME"],
-                        columnNames: indices.map((i) => i["COLUMN_NAME"]),
+                        name: constraint.INDEX_NAME,
+                        columnNames: indices.map((i) => i.COLUMN_NAME),
                         isUnique: nonUnique === 0,
-                        isSpatial: constraint["INDEX_TYPE"] === "SPATIAL",
-                        isFulltext: constraint["INDEX_TYPE"] === "FULLTEXT",
+                        isSpatial: constraint.INDEX_TYPE === "SPATIAL",
+                        isFulltext: constraint.INDEX_TYPE === "FULLTEXT",
                     } as TableIndexOptions);
                 });
 

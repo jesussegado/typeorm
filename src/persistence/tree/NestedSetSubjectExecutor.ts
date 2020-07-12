@@ -54,7 +54,7 @@ export class NestedSetSubjectExecutor {
                 .whereInIds(parentId)
                 .getRawOne()
                 .then((result) => {
-                    const value: any = result ? result["right"] : undefined;
+                    const value: any = result ? result.right : undefined;
                     // CockroachDB returns numeric types as string
                     return typeof value === "string" ? parseInt(value) : value;
                 });

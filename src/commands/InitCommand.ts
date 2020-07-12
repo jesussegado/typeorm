@@ -603,28 +603,28 @@ Steps to run this project:
         switch (database) {
             case "mysql":
             case "mariadb":
-                packageJson.dependencies["mysql"] = "^2.14.1";
+                packageJson.dependencies.mysql = "^2.14.1";
                 break;
             case "postgres":
             case "cockroachdb":
-                packageJson.dependencies["pg"] = "^7.3.0";
+                packageJson.dependencies.pg = "^7.3.0";
                 break;
             case "sqlite":
-                packageJson.dependencies["sqlite3"] = "^4.0.3";
+                packageJson.dependencies.sqlite3 = "^4.0.3";
                 break;
             case "oracle":
-                packageJson.dependencies["oracledb"] = "^1.13.1";
+                packageJson.dependencies.oracledb = "^1.13.1";
                 break;
             case "mssql":
-                packageJson.dependencies["mssql"] = "^4.0.4";
+                packageJson.dependencies.mssql = "^4.0.4";
                 break;
             case "mongodb":
-                packageJson.dependencies["mongodb"] = "^3.0.8";
+                packageJson.dependencies.mongodb = "^3.0.8";
                 break;
         }
 
         if (express) {
-            packageJson.dependencies["express"] = "^4.15.4";
+            packageJson.dependencies.express = "^4.15.4";
             packageJson.dependencies["body-parser"] = "^1.18.1";
         }
 

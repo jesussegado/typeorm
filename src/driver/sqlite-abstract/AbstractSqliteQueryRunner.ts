@@ -177,7 +177,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
             tableOrName instanceof Table ? tableOrName.name : tableOrName;
         const sql = `PRAGMA table_info("${tableName}")`;
         const columns: ObjectLiteral[] = await this.query(sql);
-        return !!columns.find((column) => column["name"] === columnName);
+        return !!columns.find((column) => column.name === columnName);
     }
 
     /**
@@ -1024,17 +1024,13 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
             const dropViewQueries: ObjectLiteral[] = await this.query(
                 selectViewDropsQuery
             );
-            await Promise.all(
-                dropViewQueries.map((q) => this.query(q["query"]))
-            );
+            await Promise.all(dropViewQueries.map((q) => this.query(q.query)));
 
             const selectTableDropsQuery = `SELECT 'DROP TABLE "' || name || '";' as query FROM "sqlite_master" WHERE "type" = 'table' AND "name" != 'sqlite_sequence'`;
             const dropTableQueries: ObjectLiteral[] = await this.query(
                 selectTableDropsQuery
             );
-            await Promise.all(
-                dropTableQueries.map((q) => this.query(q["query"]))
-            );
+            await Promise.all(dropTableQueries.map((q) => this.query(q.query)));
             await this.commitTransaction();
         } catch (error) {
             try {
@@ -1064,8 +1060,8 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
         const dbViews = await this.query(query);
         return dbViews.map((dbView: any) => {
             const view = new View();
-            view.name = dbView["name"];
-            view.expression = dbView["value"];
+            view.name = dbView.name;
+            view.expression = dbView.value;
             return view;
         });
     }
@@ -1097,8 +1093,8 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
         // create table schemas for loaded tables
         return Promise.all(
             dbTables.map(async (dbTable) => {
-                const table = new Table({ name: dbTable["name"] });
-                const sql = dbTable["sql"];
+                const table = new Table({ name: dbTable.name });
+                const { sql } = dbTable;
 
                 // load columns and indices
                 const [
@@ -1106,14 +1102,14 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                     dbIndices,
                     dbForeignKeys,
                 ]: ObjectLiteral[][] = await Promise.all([
-                    this.query(`PRAGMA table_info("${dbTable["name"]}")`),
-                    this.query(`PRAGMA index_list("${dbTable["name"]}")`),
-                    this.query(`PRAGMA foreign_key_list("${dbTable["name"]}")`),
+                    this.query(`PRAGMA table_info("${dbTable.name}")`),
+                    this.query(`PRAGMA index_list("${dbTable.name}")`),
+                    this.query(`PRAGMA foreign_key_list("${dbTable.name}")`),
                 ]);
 
                 // find column name with auto increment
                 let autoIncrementColumnName: string | undefined;
-                const tableSql: string = dbTable["sql"];
+                const tableSql: string = dbTable.sql;
                 const autoIncrementIndex = tableSql
                     .toUpperCase()
                     .indexOf("AUTOINCREMENT");
@@ -1152,19 +1148,19 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                 // create columns from the loaded columns
                 table.columns = dbColumns.map((dbColumn) => {
                     const tableColumn = new TableColumn();
-                    tableColumn.name = dbColumn["name"];
-                    tableColumn.type = dbColumn["type"].toLowerCase();
+                    tableColumn.name = dbColumn.name;
+                    tableColumn.type = dbColumn.type.toLowerCase();
                     tableColumn.default =
-                        dbColumn["dflt_value"] !== null &&
-                        dbColumn["dflt_value"] !== undefined
-                            ? dbColumn["dflt_value"]
+                        dbColumn.dflt_value !== null &&
+                        dbColumn.dflt_value !== undefined
+                            ? dbColumn.dflt_value
                             : undefined;
-                    tableColumn.isNullable = dbColumn["notnull"] === 0;
+                    tableColumn.isNullable = dbColumn.notnull === 0;
                     // primary keys are numbered starting with 1, columns that aren't primary keys are marked with 0
-                    tableColumn.isPrimary = dbColumn["pk"] > 0;
+                    tableColumn.isPrimary = dbColumn.pk > 0;
                     tableColumn.comment = ""; // SQLite does not support column comments
                     tableColumn.isGenerated =
-                        autoIncrementColumnName === dbColumn["name"];
+                        autoIncrementColumnName === dbColumn.name;
                     if (tableColumn.isGenerated) {
                         tableColumn.generationStrategy = "increment";
                     }
@@ -1213,20 +1209,20 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                 // build foreign keys
                 const tableForeignKeyConstraints = OrmUtils.uniq(
                     dbForeignKeys,
-                    (dbForeignKey) => dbForeignKey["id"]
+                    (dbForeignKey) => dbForeignKey.id
                 );
                 table.foreignKeys = tableForeignKeyConstraints.map(
                     (foreignKey) => {
                         const ownForeignKeys = dbForeignKeys.filter(
                             (dbForeignKey) =>
-                                dbForeignKey["id"] === foreignKey["id"] &&
-                                dbForeignKey["table"] === foreignKey["table"]
+                                dbForeignKey.id === foreignKey.id &&
+                                dbForeignKey.table === foreignKey.table
                         );
                         const columnNames = ownForeignKeys.map(
-                            (dbForeignKey) => dbForeignKey["from"]
+                            (dbForeignKey) => dbForeignKey.from
                         );
                         const referencedColumnNames = ownForeignKeys.map(
-                            (dbForeignKey) => dbForeignKey["to"]
+                            (dbForeignKey) => dbForeignKey.to
                         );
                         // build foreign key name, because we can not get it directly.
                         const fkName = this.connection.namingStrategy.foreignKeyName(
@@ -1239,35 +1235,35 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                         return new TableForeignKey({
                             name: fkName,
                             columnNames,
-                            referencedTableName: foreignKey["table"],
+                            referencedTableName: foreignKey.table,
                             referencedColumnNames,
-                            onDelete: foreignKey["on_delete"],
-                            onUpdate: foreignKey["on_update"],
+                            onDelete: foreignKey.on_delete,
+                            onUpdate: foreignKey.on_update,
                         });
                     }
                 );
 
                 // build unique constraints
                 const tableUniquePromises = dbIndices
-                    .filter((dbIndex) => dbIndex["origin"] === "u")
-                    .map((dbIndex) => dbIndex["name"])
+                    .filter((dbIndex) => dbIndex.origin === "u")
+                    .map((dbIndex) => dbIndex.name)
                     .filter(
                         (value, index, self) => self.indexOf(value) === index
                     )
                     .map(async (dbIndexName) => {
                         const dbIndex = dbIndices.find(
-                            (dbIndex) => dbIndex["name"] === dbIndexName
+                            (dbIndex) => dbIndex.name === dbIndexName
                         );
                         const indexInfos: ObjectLiteral[] = await this.query(
-                            `PRAGMA index_info("${dbIndex!["name"]}")`
+                            `PRAGMA index_info("${dbIndex!.name}")`
                         );
                         const indexColumns = indexInfos
                             .sort(
                                 (indexInfo1, indexInfo2) =>
-                                    parseInt(indexInfo1["seqno"]) -
-                                    parseInt(indexInfo2["seqno"])
+                                    parseInt(indexInfo1.seqno) -
+                                    parseInt(indexInfo2.seqno)
                             )
-                            .map((indexInfo) => indexInfo["name"]);
+                            .map((indexInfo) => indexInfo.name);
 
                         if (indexColumns.length === 1) {
                             const column = table.columns.find((column) => {
@@ -1305,36 +1301,35 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
 
                 // build indices
                 const indicesPromises = dbIndices
-                    .filter((dbIndex) => dbIndex["origin"] === "c")
-                    .map((dbIndex) => dbIndex["name"])
+                    .filter((dbIndex) => dbIndex.origin === "c")
+                    .map((dbIndex) => dbIndex.name)
                     .filter(
                         (value, index, self) => self.indexOf(value) === index
                     ) // unqiue
                     .map(async (dbIndexName) => {
                         const indexDef = dbIndicesDef.find(
-                            (dbIndexDef) => dbIndexDef["name"] === dbIndexName
+                            (dbIndexDef) => dbIndexDef.name === dbIndexName
                         );
-                        const condition = /WHERE (.*)/.exec(indexDef!["sql"]);
+                        const condition = /WHERE (.*)/.exec(indexDef!.sql);
                         const dbIndex = dbIndices.find(
-                            (dbIndex) => dbIndex["name"] === dbIndexName
+                            (dbIndex) => dbIndex.name === dbIndexName
                         );
                         const indexInfos: ObjectLiteral[] = await this.query(
-                            `PRAGMA index_info("${dbIndex!["name"]}")`
+                            `PRAGMA index_info("${dbIndex!.name}")`
                         );
                         const indexColumns = indexInfos
                             .sort(
                                 (indexInfo1, indexInfo2) =>
-                                    parseInt(indexInfo1["seqno"]) -
-                                    parseInt(indexInfo2["seqno"])
+                                    parseInt(indexInfo1.seqno) -
+                                    parseInt(indexInfo2.seqno)
                             )
-                            .map((indexInfo) => indexInfo["name"]);
+                            .map((indexInfo) => indexInfo.name);
 
                         const isUnique =
-                            dbIndex!["unique"] === "1" ||
-                            dbIndex!["unique"] === 1;
+                            dbIndex!.unique === "1" || dbIndex!.unique === 1;
                         return new TableIndex({
                             table,
-                            name: dbIndex!["name"],
+                            name: dbIndex!.name,
                             columnNames: indexColumns,
                             isUnique,
                             where: condition ? condition[1] : undefined,

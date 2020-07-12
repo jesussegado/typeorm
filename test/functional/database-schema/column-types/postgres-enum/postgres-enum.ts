@@ -246,7 +246,7 @@ describe("database schema > column types > postgres-enum", () => {
                 const currentSchemaQuery = await queryRunner.query(
                     `SELECT * FROM current_schema()`
                 );
-                const currentSchema = currentSchemaQuery[0]["current_schema"];
+                const currentSchema = currentSchemaQuery[0].current_schema;
                 const table = await queryRunner.getTable("post");
                 const enumColumn = table!.findColumnByName("enum")!;
                 const changedColumn = enumColumn.clone();
@@ -285,7 +285,7 @@ describe("database schema > column types > postgres-enum", () => {
                 const currentSchemaQuery = await queryRunner.query(
                     `SELECT * FROM current_schema()`
                 );
-                const currentSchema = currentSchemaQuery[0]["current_schema"];
+                const currentSchema = currentSchemaQuery[0].current_schema;
                 const table = await queryRunner.getTable("post");
 
                 await queryRunner.renameTable(table!, "question");

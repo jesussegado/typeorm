@@ -167,7 +167,7 @@ export class MongoEntityManager extends EntityManager {
                 optionsOrConditions
             ) || {};
         const objectIdInstance = PlatformTools.load("mongodb").ObjectID;
-        query["_id"] = {
+        query._id = {
             $in: ids.map((id) => {
                 if (id instanceof objectIdInstance) return id;
 
@@ -228,7 +228,7 @@ export class MongoEntityManager extends EntityManager {
                 findOneOptionsOrConditions
             ) || {};
         if (id) {
-            query["_id"] =
+            query._id =
                 id instanceof objectIdInstance ? id : new objectIdInstance(id);
         }
         const cursor = await this.createEntityCursor(entityClassOrName, query);

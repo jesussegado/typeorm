@@ -7,7 +7,7 @@ export class PromiseUtils {
      */
     static create(value: any) {
         const promise = Promise.resolve(value);
-        (promise as any)["__value__"] = value;
+        (promise as any).__value__ = value;
         return promise;
     }
 
@@ -16,8 +16,8 @@ export class PromiseUtils {
      * If given value is not a promise then given value is returned back.
      */
     static extractValue(object: any) {
-        if (object instanceof Promise && (object as any)["__value__"])
-            return (object as any)["__value__"];
+        if (object instanceof Promise && (object as any).__value__)
+            return (object as any).__value__;
 
         return object;
     }

@@ -280,7 +280,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         const results: ObjectLiteral[] = await this.query(
             `SELECT DATABASE_NAME FROM "SYS"."M_DATABASES"`
         );
-        return results.map((result) => result["DATABASE_NAME"]);
+        return results.map((result) => result.DATABASE_NAME);
     }
 
     /**
@@ -292,7 +292,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             ? `SELECT * FROM "${database}"."SYS"."SCHEMAS"`
             : `SELECT * FROM "SYS"."SCHEMAS"`;
         const results: ObjectLiteral[] = await this.query(query);
-        return results.map((result) => result["SCHEMA_NAME"]);
+        return results.map((result) => result.SCHEMA_NAME);
     }
 
     /**
@@ -576,29 +576,28 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             referencedForeignKeys = dbForeignKeys.map((dbForeignKey) => {
                 const foreignKeys = dbForeignKeys.filter(
                     (dbFk) =>
-                        dbFk["CONSTRAINT_NAME"] ===
-                        dbForeignKey["CONSTRAINT_NAME"]
+                        dbFk.CONSTRAINT_NAME === dbForeignKey.CONSTRAINT_NAME
                 );
 
                 referencedForeignKeyTableMapping.push({
-                    tableName: `${dbForeignKey["SCHEMA_NAME"]}.${dbForeignKey["TABLE_NAME"]}`,
-                    fkName: dbForeignKey["CONSTRAINT_NAME"],
+                    tableName: `${dbForeignKey.SCHEMA_NAME}.${dbForeignKey.TABLE_NAME}`,
+                    fkName: dbForeignKey.CONSTRAINT_NAME,
                 });
                 return new TableForeignKey({
-                    name: dbForeignKey["CONSTRAINT_NAME"],
-                    columnNames: foreignKeys.map((dbFk) => dbFk["COLUMN_NAME"]),
+                    name: dbForeignKey.CONSTRAINT_NAME,
+                    columnNames: foreignKeys.map((dbFk) => dbFk.COLUMN_NAME),
                     referencedTableName: newTable.name, // we use renamed table name
                     referencedColumnNames: foreignKeys.map(
-                        (dbFk) => dbFk["REFERENCED_COLUMN_NAME"]
+                        (dbFk) => dbFk.REFERENCED_COLUMN_NAME
                     ),
                     onDelete:
-                        dbForeignKey["DELETE_RULE"] === "RESTRICT"
+                        dbForeignKey.DELETE_RULE === "RESTRICT"
                             ? "NO ACTION"
-                            : dbForeignKey["DELETE_RULE"],
+                            : dbForeignKey.DELETE_RULE,
                     onUpdate:
-                        dbForeignKey["UPDATE_RULE"] === "RESTRICT"
+                        dbForeignKey.UPDATE_RULE === "RESTRICT"
                             ? "NO ACTION"
-                            : dbForeignKey["UPDATE_RULE"],
+                            : dbForeignKey.UPDATE_RULE,
                 });
             });
 
@@ -763,31 +762,31 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                         (dbForeignKey) => {
                             const foreignKeys = dbForeignKeys.filter(
                                 (dbFk) =>
-                                    dbFk["CONSTRAINT_NAME"] ===
-                                    dbForeignKey["CONSTRAINT_NAME"]
+                                    dbFk.CONSTRAINT_NAME ===
+                                    dbForeignKey.CONSTRAINT_NAME
                             );
 
                             referencedForeignKeyTableMapping.push({
-                                tableName: `${dbForeignKey["SCHEMA_NAME"]}.${dbForeignKey["TABLE_NAME"]}`,
-                                fkName: dbForeignKey["CONSTRAINT_NAME"],
+                                tableName: `${dbForeignKey.SCHEMA_NAME}.${dbForeignKey.TABLE_NAME}`,
+                                fkName: dbForeignKey.CONSTRAINT_NAME,
                             });
                             return new TableForeignKey({
-                                name: dbForeignKey["CONSTRAINT_NAME"],
+                                name: dbForeignKey.CONSTRAINT_NAME,
                                 columnNames: foreignKeys.map(
-                                    (dbFk) => dbFk["COLUMN_NAME"]
+                                    (dbFk) => dbFk.COLUMN_NAME
                                 ),
                                 referencedTableName: table.name,
                                 referencedColumnNames: foreignKeys.map(
-                                    (dbFk) => dbFk["REFERENCED_COLUMN_NAME"]
+                                    (dbFk) => dbFk.REFERENCED_COLUMN_NAME
                                 ),
                                 onDelete:
-                                    dbForeignKey["DELETE_RULE"] === "RESTRICT"
+                                    dbForeignKey.DELETE_RULE === "RESTRICT"
                                         ? "NO ACTION"
-                                        : dbForeignKey["DELETE_RULE"],
+                                        : dbForeignKey.DELETE_RULE,
                                 onUpdate:
-                                    dbForeignKey["UPDATE_RULE"] === "RESTRICT"
+                                    dbForeignKey.UPDATE_RULE === "RESTRICT"
                                         ? "NO ACTION"
-                                        : dbForeignKey["UPDATE_RULE"],
+                                        : dbForeignKey.UPDATE_RULE,
                             });
                         }
                     );
@@ -1462,31 +1461,31 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                 referencedForeignKeys = dbForeignKeys.map((dbForeignKey) => {
                     const foreignKeys = dbForeignKeys.filter(
                         (dbFk) =>
-                            dbFk["CONSTRAINT_NAME"] ===
-                            dbForeignKey["CONSTRAINT_NAME"]
+                            dbFk.CONSTRAINT_NAME ===
+                            dbForeignKey.CONSTRAINT_NAME
                     );
 
                     referencedForeignKeyTableMapping.push({
-                        tableName: `${dbForeignKey["SCHEMA_NAME"]}.${dbForeignKey["TABLE_NAME"]}`,
-                        fkName: dbForeignKey["CONSTRAINT_NAME"],
+                        tableName: `${dbForeignKey.SCHEMA_NAME}.${dbForeignKey.TABLE_NAME}`,
+                        fkName: dbForeignKey.CONSTRAINT_NAME,
                     });
                     return new TableForeignKey({
-                        name: dbForeignKey["CONSTRAINT_NAME"],
+                        name: dbForeignKey.CONSTRAINT_NAME,
                         columnNames: foreignKeys.map(
-                            (dbFk) => dbFk["COLUMN_NAME"]
+                            (dbFk) => dbFk.COLUMN_NAME
                         ),
                         referencedTableName: table.name,
                         referencedColumnNames: foreignKeys.map(
-                            (dbFk) => dbFk["REFERENCED_COLUMN_NAME"]
+                            (dbFk) => dbFk.REFERENCED_COLUMN_NAME
                         ),
                         onDelete:
-                            dbForeignKey["DELETE_RULE"] === "RESTRICT"
+                            dbForeignKey.DELETE_RULE === "RESTRICT"
                                 ? "NO ACTION"
-                                : dbForeignKey["DELETE_RULE"],
+                                : dbForeignKey.DELETE_RULE,
                         onUpdate:
-                            dbForeignKey["UPDATE_RULE"] === "RESTRICT"
+                            dbForeignKey.UPDATE_RULE === "RESTRICT"
                                 ? "NO ACTION"
-                                : dbForeignKey["UPDATE_RULE"],
+                                : dbForeignKey.UPDATE_RULE,
                     });
                 });
 
@@ -1724,29 +1723,28 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             referencedForeignKeys = dbForeignKeys.map((dbForeignKey) => {
                 const foreignKeys = dbForeignKeys.filter(
                     (dbFk) =>
-                        dbFk["CONSTRAINT_NAME"] ===
-                        dbForeignKey["CONSTRAINT_NAME"]
+                        dbFk.CONSTRAINT_NAME === dbForeignKey.CONSTRAINT_NAME
                 );
 
                 referencedForeignKeyTableMapping.push({
-                    tableName: `${dbForeignKey["SCHEMA_NAME"]}.${dbForeignKey["TABLE_NAME"]}`,
-                    fkName: dbForeignKey["CONSTRAINT_NAME"],
+                    tableName: `${dbForeignKey.SCHEMA_NAME}.${dbForeignKey.TABLE_NAME}`,
+                    fkName: dbForeignKey.CONSTRAINT_NAME,
                 });
                 return new TableForeignKey({
-                    name: dbForeignKey["CONSTRAINT_NAME"],
-                    columnNames: foreignKeys.map((dbFk) => dbFk["COLUMN_NAME"]),
+                    name: dbForeignKey.CONSTRAINT_NAME,
+                    columnNames: foreignKeys.map((dbFk) => dbFk.COLUMN_NAME),
                     referencedTableName: table.name,
                     referencedColumnNames: foreignKeys.map(
-                        (dbFk) => dbFk["REFERENCED_COLUMN_NAME"]
+                        (dbFk) => dbFk.REFERENCED_COLUMN_NAME
                     ),
                     onDelete:
-                        dbForeignKey["DELETE_RULE"] === "RESTRICT"
+                        dbForeignKey.DELETE_RULE === "RESTRICT"
                             ? "NO ACTION"
-                            : dbForeignKey["DELETE_RULE"],
+                            : dbForeignKey.DELETE_RULE,
                     onUpdate:
-                        dbForeignKey["UPDATE_RULE"] === "RESTRICT"
+                        dbForeignKey.UPDATE_RULE === "RESTRICT"
                             ? "NO ACTION"
-                            : dbForeignKey["UPDATE_RULE"],
+                            : dbForeignKey.UPDATE_RULE,
                 });
             });
 
@@ -1861,29 +1859,28 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             referencedForeignKeys = dbForeignKeys.map((dbForeignKey) => {
                 const foreignKeys = dbForeignKeys.filter(
                     (dbFk) =>
-                        dbFk["CONSTRAINT_NAME"] ===
-                        dbForeignKey["CONSTRAINT_NAME"]
+                        dbFk.CONSTRAINT_NAME === dbForeignKey.CONSTRAINT_NAME
                 );
 
                 referencedForeignKeyTableMapping.push({
-                    tableName: `${dbForeignKey["SCHEMA_NAME"]}.${dbForeignKey["TABLE_NAME"]}`,
-                    fkName: dbForeignKey["CONSTRAINT_NAME"],
+                    tableName: `${dbForeignKey.SCHEMA_NAME}.${dbForeignKey.TABLE_NAME}`,
+                    fkName: dbForeignKey.CONSTRAINT_NAME,
                 });
                 return new TableForeignKey({
-                    name: dbForeignKey["CONSTRAINT_NAME"],
-                    columnNames: foreignKeys.map((dbFk) => dbFk["COLUMN_NAME"]),
+                    name: dbForeignKey.CONSTRAINT_NAME,
+                    columnNames: foreignKeys.map((dbFk) => dbFk.COLUMN_NAME),
                     referencedTableName: table.name,
                     referencedColumnNames: foreignKeys.map(
-                        (dbFk) => dbFk["REFERENCED_COLUMN_NAME"]
+                        (dbFk) => dbFk.REFERENCED_COLUMN_NAME
                     ),
                     onDelete:
-                        dbForeignKey["DELETE_RULE"] === "RESTRICT"
+                        dbForeignKey.DELETE_RULE === "RESTRICT"
                             ? "NO ACTION"
-                            : dbForeignKey["DELETE_RULE"],
+                            : dbForeignKey.DELETE_RULE,
                     onUpdate:
-                        dbForeignKey["UPDATE_RULE"] === "RESTRICT"
+                        dbForeignKey.UPDATE_RULE === "RESTRICT"
                             ? "NO ACTION"
-                            : dbForeignKey["UPDATE_RULE"],
+                            : dbForeignKey.UPDATE_RULE,
                 });
             });
 
@@ -2291,9 +2288,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             const dropTableQueries: ObjectLiteral[] = await this.query(
                 selectTableDropsQuery
             );
-            await Promise.all(
-                dropTableQueries.map((q) => this.query(q["query"]))
-            );
+            await Promise.all(dropTableQueries.map((q) => this.query(q.query)));
 
             await this.commitTransaction();
         } catch (error) {
@@ -2316,7 +2311,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         const currentDBQuery = await this.query(
             `SELECT "VALUE" AS "db_name" FROM "SYS"."M_SYSTEM_OVERVIEW" WHERE "SECTION" = 'System' and "NAME" = 'Instance ID'`
         );
-        return currentDBQuery[0]["db_name"];
+        return currentDBQuery[0].db_name;
     }
 
     /**
@@ -2326,7 +2321,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         const currentSchemaQuery = await this.query(
             `SELECT CURRENT_SCHEMA AS "schema_name" FROM "SYS"."DUMMY"`
         );
-        return currentSchemaQuery[0]["schema_name"];
+        return currentSchemaQuery[0].schema_name;
     }
 
     protected async loadViews(viewNames: string[]): Promise<View[]> {
@@ -2357,12 +2352,11 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         return dbViews.map((dbView: any) => {
             const view = new View();
             const schema =
-                dbView["schema"] === currentSchema &&
-                !this.driver.options.schema
+                dbView.schema === currentSchema && !this.driver.options.schema
                     ? undefined
-                    : dbView["schema"];
-            view.name = this.driver.buildTableName(dbView["name"], schema);
-            view.expression = dbView["value"];
+                    : dbView.schema;
+            view.name = this.driver.buildTableName(dbView.name, schema);
+            view.expression = dbView.value;
             return view;
         });
     }
@@ -2453,17 +2447,17 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                 // We do not need to join schema name, when database is by default.
                 // In this case we need local variable `tableFullName` for below comparision.
                 const schema =
-                    dbTable["SCHEMA_NAME"] === currentSchema &&
+                    dbTable.SCHEMA_NAME === currentSchema &&
                     !this.driver.options.schema
                         ? undefined
-                        : dbTable["SCHEMA_NAME"];
+                        : dbTable.SCHEMA_NAME;
                 table.name = this.driver.buildTableName(
-                    dbTable["TABLE_NAME"],
+                    dbTable.TABLE_NAME,
                     schema
                 );
                 const tableFullName = this.driver.buildTableName(
-                    dbTable["TABLE_NAME"],
-                    dbTable["SCHEMA_NAME"]
+                    dbTable.TABLE_NAME,
+                    dbTable.SCHEMA_NAME
                 );
 
                 // create columns from the loaded columns
@@ -2472,8 +2466,8 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                         .filter(
                             (dbColumn) =>
                                 this.driver.buildTableName(
-                                    dbColumn["TABLE_NAME"],
-                                    dbColumn["SCHEMA_NAME"]
+                                    dbColumn.TABLE_NAME,
+                                    dbColumn.SCHEMA_NAME
                                 ) === tableFullName
                         )
                         .map(async (dbColumn) => {
@@ -2481,11 +2475,11 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                                 (dbConstraint) => {
                                     return (
                                         this.driver.buildTableName(
-                                            dbConstraint["TABLE_NAME"],
-                                            dbConstraint["SCHEMA_NAME"]
+                                            dbConstraint.TABLE_NAME,
+                                            dbConstraint.SCHEMA_NAME
                                         ) === tableFullName &&
-                                        dbConstraint["COLUMN_NAME"] ===
-                                            dbColumn["COLUMN_NAME"]
+                                        dbConstraint.COLUMN_NAME ===
+                                            dbColumn.COLUMN_NAME
                                     );
                                 }
                             );
@@ -2493,8 +2487,8 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                             const columnUniqueIndex = dbIndices.find(
                                 (dbIndex) => {
                                     const indexTableFullName = this.driver.buildTableName(
-                                        dbIndex["TABLE_NAME"],
-                                        dbIndex["SCHEMA_NAME"]
+                                        dbIndex.TABLE_NAME,
+                                        dbIndex.SCHEMA_NAME
                                     );
                                     if (indexTableFullName !== tableFullName) {
                                         return false;
@@ -2502,17 +2496,16 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
 
                                     // Index is not for this column
                                     if (
-                                        dbIndex["COLUMN_NAME"] !==
-                                        dbColumn["COLUMN_NAME"]
+                                        dbIndex.COLUMN_NAME !==
+                                        dbColumn.COLUMN_NAME
                                     ) {
                                         return false;
                                     }
 
                                     return (
-                                        dbIndex["CONSTRAINT"] &&
-                                        dbIndex["CONSTRAINT"].indexOf(
-                                            "UNIQUE"
-                                        ) !== -1
+                                        dbIndex.CONSTRAINT &&
+                                        dbIndex.CONSTRAINT.indexOf("UNIQUE") !==
+                                            -1
                                     );
                                 }
                             );
@@ -2526,25 +2519,23 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                                 tableMetadata.indices.some(
                                     (index) =>
                                         index.name ===
-                                            columnUniqueIndex["INDEX_NAME"] &&
+                                            columnUniqueIndex.INDEX_NAME &&
                                         index.synchronize === false
                                 );
 
                             const isConstraintComposite = columnUniqueIndex
                                 ? !!dbIndices.find(
                                       (dbIndex) =>
-                                          dbIndex["INDEX_NAME"] ===
-                                              columnUniqueIndex["INDEX_NAME"] &&
-                                          dbIndex["COLUMN_NAME"] !==
-                                              dbColumn["COLUMN_NAME"]
+                                          dbIndex.INDEX_NAME ===
+                                              columnUniqueIndex.INDEX_NAME &&
+                                          dbIndex.COLUMN_NAME !==
+                                              dbColumn.COLUMN_NAME
                                   )
                                 : false;
 
                             const tableColumn = new TableColumn();
-                            tableColumn.name = dbColumn["COLUMN_NAME"];
-                            tableColumn.type = dbColumn[
-                                "DATA_TYPE_NAME"
-                            ].toLowerCase();
+                            tableColumn.name = dbColumn.COLUMN_NAME;
+                            tableColumn.type = dbColumn.DATA_TYPE_NAME.toLowerCase();
 
                             if (
                                 tableColumn.type === "dec" ||
@@ -2553,39 +2544,39 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                                 // If one of these properties was set, and another was not, Postgres sets '0' in to unspecified property
                                 // we set 'undefined' in to unspecified property to avoid changing column on sync
                                 if (
-                                    dbColumn["LENGTH"] !== null &&
+                                    dbColumn.LENGTH !== null &&
                                     !this.isDefaultColumnPrecision(
                                         table,
                                         tableColumn,
-                                        dbColumn["LENGTH"]
+                                        dbColumn.LENGTH
                                     )
                                 ) {
-                                    tableColumn.precision = dbColumn["LENGTH"];
+                                    tableColumn.precision = dbColumn.LENGTH;
                                 } else if (
-                                    dbColumn["SCALE"] !== null &&
+                                    dbColumn.SCALE !== null &&
                                     !this.isDefaultColumnScale(
                                         table,
                                         tableColumn,
-                                        dbColumn["SCALE"]
+                                        dbColumn.SCALE
                                     )
                                 ) {
                                     tableColumn.precision = undefined;
                                 }
                                 if (
-                                    dbColumn["SCALE"] !== null &&
+                                    dbColumn.SCALE !== null &&
                                     !this.isDefaultColumnScale(
                                         table,
                                         tableColumn,
-                                        dbColumn["SCALE"]
+                                        dbColumn.SCALE
                                     )
                                 ) {
-                                    tableColumn.scale = dbColumn["SCALE"];
+                                    tableColumn.scale = dbColumn.SCALE;
                                 } else if (
-                                    dbColumn["LENGTH"] !== null &&
+                                    dbColumn.LENGTH !== null &&
                                     !this.isDefaultColumnPrecision(
                                         table,
                                         tableColumn,
-                                        dbColumn["LENGTH"]
+                                        dbColumn.LENGTH
                                     )
                                 ) {
                                     tableColumn.scale = undefined;
@@ -2593,13 +2584,11 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                             }
 
                             if (
-                                dbColumn["DATA_TYPE_NAME"].toLowerCase() ===
+                                dbColumn.DATA_TYPE_NAME.toLowerCase() ===
                                 "array"
                             ) {
                                 tableColumn.isArray = true;
-                                tableColumn.type = dbColumn[
-                                    "CS_DATA_TYPE_NAME"
-                                ].toLowerCase();
+                                tableColumn.type = dbColumn.CS_DATA_TYPE_NAME.toLowerCase();
                             }
 
                             // check only columns that have length property
@@ -2607,9 +2596,9 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                                 this.driver.withLengthColumnTypes.indexOf(
                                     tableColumn.type as ColumnType
                                 ) !== -1 &&
-                                dbColumn["LENGTH"]
+                                dbColumn.LENGTH
                             ) {
-                                const length = dbColumn["LENGTH"].toString();
+                                const length = dbColumn.LENGTH.toString();
                                 tableColumn.length = !this.isDefaultColumnLength(
                                     table,
                                     tableColumn,
@@ -2623,20 +2612,20 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                                 !hasIgnoredIndex &&
                                 !isConstraintComposite;
                             tableColumn.isNullable =
-                                dbColumn["IS_NULLABLE"] === "TRUE";
+                                dbColumn.IS_NULLABLE === "TRUE";
                             tableColumn.isPrimary = !!columnConstraints.find(
                                 (constraint) =>
-                                    constraint["IS_PRIMARY_KEY"] === "TRUE"
+                                    constraint.IS_PRIMARY_KEY === "TRUE"
                             );
                             tableColumn.isGenerated =
-                                dbColumn["GENERATION_TYPE"] ===
+                                dbColumn.GENERATION_TYPE ===
                                 "ALWAYS AS IDENTITY";
                             if (tableColumn.isGenerated)
                                 tableColumn.generationStrategy = "increment";
 
                             if (
-                                dbColumn["DEFAULT_VALUE"] === null ||
-                                dbColumn["DEFAULT_VALUE"] === undefined
+                                dbColumn.DEFAULT_VALUE === null ||
+                                dbColumn.DEFAULT_VALUE === undefined
                             ) {
                                 tableColumn.default = undefined;
                             } else if (
@@ -2647,22 +2636,21 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                                 tableColumn.type === "alphanum" ||
                                 tableColumn.type === "shorttext"
                             ) {
-                                tableColumn.default = `'${dbColumn["DEFAULT_VALUE"]}'`;
+                                tableColumn.default = `'${dbColumn.DEFAULT_VALUE}'`;
                             } else if (tableColumn.type === "boolean") {
                                 tableColumn.default =
-                                    dbColumn["DEFAULT_VALUE"] === "1"
+                                    dbColumn.DEFAULT_VALUE === "1"
                                         ? "true"
                                         : "false";
                             } else {
-                                tableColumn.default = dbColumn["DEFAULT_VALUE"];
+                                tableColumn.default = dbColumn.DEFAULT_VALUE;
                             }
                             tableColumn.comment = ""; // dbColumn["COLUMN_COMMENT"];
-                            if (dbColumn["character_set_name"])
+                            if (dbColumn.character_set_name)
                                 tableColumn.charset =
-                                    dbColumn["character_set_name"];
-                            if (dbColumn["collation_name"])
-                                tableColumn.collation =
-                                    dbColumn["collation_name"];
+                                    dbColumn.character_set_name;
+                            if (dbColumn.collation_name)
+                                tableColumn.collation = dbColumn.collation_name;
                             return tableColumn;
                         })
                 );
@@ -2672,26 +2660,25 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                     dbConstraints.filter((dbConstraint) => {
                         return (
                             this.driver.buildTableName(
-                                dbConstraint["TABLE_NAME"],
-                                dbConstraint["SCHEMA_NAME"]
+                                dbConstraint.TABLE_NAME,
+                                dbConstraint.SCHEMA_NAME
                             ) === tableFullName &&
-                            dbConstraint["CHECK_CONDITION"] !== null &&
-                            dbConstraint["CHECK_CONDITION"] !== undefined
+                            dbConstraint.CHECK_CONDITION !== null &&
+                            dbConstraint.CHECK_CONDITION !== undefined
                         );
                     }),
-                    (dbConstraint) => dbConstraint["CONSTRAINT_NAME"]
+                    (dbConstraint) => dbConstraint.CONSTRAINT_NAME
                 );
 
                 table.checks = tableCheckConstraints.map((constraint) => {
                     const checks = dbConstraints.filter(
                         (dbC) =>
-                            dbC["CONSTRAINT_NAME"] ===
-                            constraint["CONSTRAINT_NAME"]
+                            dbC.CONSTRAINT_NAME === constraint.CONSTRAINT_NAME
                     );
                     return new TableCheck({
-                        name: constraint["CONSTRAINT_NAME"],
-                        columnNames: checks.map((c) => c["COLUMN_NAME"]),
-                        expression: constraint["CHECK_CONDITION"],
+                        name: constraint.CONSTRAINT_NAME,
+                        columnNames: checks.map((c) => c.COLUMN_NAME),
+                        expression: constraint.CHECK_CONDITION,
                     });
                 });
 
@@ -2700,50 +2687,50 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                     dbForeignKeys.filter((dbForeignKey) => {
                         return (
                             this.driver.buildTableName(
-                                dbForeignKey["TABLE_NAME"],
-                                dbForeignKey["SCHEMA_NAME"]
+                                dbForeignKey.TABLE_NAME,
+                                dbForeignKey.SCHEMA_NAME
                             ) === tableFullName
                         );
                     }),
-                    (dbForeignKey) => dbForeignKey["CONSTRAINT_NAME"]
+                    (dbForeignKey) => dbForeignKey.CONSTRAINT_NAME
                 );
 
                 table.foreignKeys = tableForeignKeyConstraints.map(
                     (dbForeignKey) => {
                         const foreignKeys = dbForeignKeys.filter(
                             (dbFk) =>
-                                dbFk["CONSTRAINT_NAME"] ===
-                                dbForeignKey["CONSTRAINT_NAME"]
+                                dbFk.CONSTRAINT_NAME ===
+                                dbForeignKey.CONSTRAINT_NAME
                         );
 
                         // if referenced table located in currently used schema, we don't need to concat schema name to table name.
                         const schema =
-                            dbForeignKey["REFERENCED_SCHEMA_NAME"] ===
+                            dbForeignKey.REFERENCED_SCHEMA_NAME ===
                             currentSchema
                                 ? undefined
-                                : dbForeignKey["REFERENCED_SCHEMA_NAME"];
+                                : dbForeignKey.REFERENCED_SCHEMA_NAME;
                         const referencedTableName = this.driver.buildTableName(
-                            dbForeignKey["REFERENCED_TABLE_NAME"],
+                            dbForeignKey.REFERENCED_TABLE_NAME,
                             schema
                         );
 
                         return new TableForeignKey({
-                            name: dbForeignKey["CONSTRAINT_NAME"],
+                            name: dbForeignKey.CONSTRAINT_NAME,
                             columnNames: foreignKeys.map(
-                                (dbFk) => dbFk["COLUMN_NAME"]
+                                (dbFk) => dbFk.COLUMN_NAME
                             ),
                             referencedTableName,
                             referencedColumnNames: foreignKeys.map(
-                                (dbFk) => dbFk["REFERENCED_COLUMN_NAME"]
+                                (dbFk) => dbFk.REFERENCED_COLUMN_NAME
                             ),
                             onDelete:
-                                dbForeignKey["DELETE_RULE"] === "RESTRICT"
+                                dbForeignKey.DELETE_RULE === "RESTRICT"
                                     ? "NO ACTION"
-                                    : dbForeignKey["DELETE_RULE"],
+                                    : dbForeignKey.DELETE_RULE,
                             onUpdate:
-                                dbForeignKey["UPDATE_RULE"] === "RESTRICT"
+                                dbForeignKey.UPDATE_RULE === "RESTRICT"
                                     ? "NO ACTION"
-                                    : dbForeignKey["UPDATE_RULE"],
+                                    : dbForeignKey.UPDATE_RULE,
                         });
                     }
                 );
@@ -2753,31 +2740,30 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                     dbIndices.filter((dbIndex) => {
                         return (
                             this.driver.buildTableName(
-                                dbIndex["TABLE_NAME"],
-                                dbIndex["SCHEMA_NAME"]
+                                dbIndex.TABLE_NAME,
+                                dbIndex.SCHEMA_NAME
                             ) === tableFullName
                         );
                     }),
-                    (dbIndex) => dbIndex["INDEX_NAME"]
+                    (dbIndex) => dbIndex.INDEX_NAME
                 );
 
                 table.indices = tableIndexConstraints.map((constraint) => {
                     const indices = dbIndices.filter((index) => {
                         return (
-                            index["SCHEMA_NAME"] ===
-                                constraint["SCHEMA_NAME"] &&
-                            index["TABLE_NAME"] === constraint["TABLE_NAME"] &&
-                            index["INDEX_NAME"] === constraint["INDEX_NAME"]
+                            index.SCHEMA_NAME === constraint.SCHEMA_NAME &&
+                            index.TABLE_NAME === constraint.TABLE_NAME &&
+                            index.INDEX_NAME === constraint.INDEX_NAME
                         );
                     });
                     return new TableIndex({
                         table,
-                        name: constraint["INDEX_NAME"],
-                        columnNames: indices.map((i) => i["COLUMN_NAME"]),
+                        name: constraint.INDEX_NAME,
+                        columnNames: indices.map((i) => i.COLUMN_NAME),
                         isUnique:
-                            constraint["CONSTRAINT"] &&
-                            constraint["CONSTRAINT"].indexOf("UNIQUE") !== -1,
-                        isFulltext: constraint["INDEX_TYPE"] === "FULLTEXT",
+                            constraint.CONSTRAINT &&
+                            constraint.CONSTRAINT.indexOf("UNIQUE") !== -1,
+                        isFulltext: constraint.INDEX_TYPE === "FULLTEXT",
                     } as TableIndexOptions);
                 });
 

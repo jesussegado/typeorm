@@ -366,7 +366,7 @@ describe("Connection", () => {
                         [comment.id]
                     );
                     await queryRunner.release();
-                    expect(rows[0]["context"]).to.be.eq(comment.context);
+                    expect(rows[0].context).to.be.eq(comment.context);
                 })
             );
         });
