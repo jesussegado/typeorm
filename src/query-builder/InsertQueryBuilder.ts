@@ -359,15 +359,13 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
         // add columns expression
         if (columnsExpression) {
             query += `(${columnsExpression})`;
-        } else {
-            if (
-                !valuesExpression &&
-                (this.connection.driver instanceof MysqlDriver ||
-                    this.connection.driver instanceof AuroraDataApiDriver)
-            )
-                // special syntax for mysql DEFAULT VALUES insertion
-                query += "()";
-        }
+        } else if (
+            !valuesExpression &&
+            (this.connection.driver instanceof MysqlDriver ||
+                this.connection.driver instanceof AuroraDataApiDriver)
+        )
+            // special syntax for mysql DEFAULT VALUES insertion
+            query += "()";
 
         // add OUTPUT expression
         if (
@@ -380,16 +378,14 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
         // add VALUES expression
         if (valuesExpression) {
             query += ` VALUES ${valuesExpression}`;
+        } else if (
+            this.connection.driver instanceof MysqlDriver ||
+            this.connection.driver instanceof AuroraDataApiDriver
+        ) {
+            // special syntax for mysql DEFAULT VALUES insertion
+            query += " VALUES ()";
         } else {
-            if (
-                this.connection.driver instanceof MysqlDriver ||
-                this.connection.driver instanceof AuroraDataApiDriver
-            ) {
-                // special syntax for mysql DEFAULT VALUES insertion
-                query += " VALUES ()";
-            } else {
-                query += ` DEFAULT VALUES`;
-            }
+            query += ` DEFAULT VALUES`;
         }
         if (
             this.connection.driver instanceof PostgresDriver ||

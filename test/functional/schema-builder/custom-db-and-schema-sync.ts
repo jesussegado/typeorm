@@ -110,8 +110,8 @@ describe("schema builder > custom-db-and-schema-sync", () => {
                 const fkMetadata = new ForeignKeyMetadata({
                     entityMetadata: photoMetadata,
                     referencedEntityMetadata: albumMetadata,
-                    columns: columns,
-                    referencedColumns: referencedColumns,
+                    columns,
+                    referencedColumns,
                     namingStrategy: connection.namingStrategy,
                 });
                 photoMetadata.foreignKeys.push(fkMetadata);

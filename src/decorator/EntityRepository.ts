@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage } from "../";
+import { getMetadataArgsStorage } from "..";
 import { EntityRepositoryMetadataArgs } from "../metadata-args/EntityRepositoryMetadataArgs";
 import { EntitySchema } from "../entity-schema/EntitySchema";
 
@@ -12,8 +12,8 @@ export function EntityRepository(
 ): Function {
     return function (target: Function) {
         getMetadataArgsStorage().entityRepositories.push({
-            target: target,
-            entity: entity,
+            target,
+            entity,
         } as EntityRepositoryMetadataArgs);
     };
 }

@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage, SelectQueryBuilder } from "../../";
+import { getMetadataArgsStorage, SelectQueryBuilder } from "../..";
 import { RelationCountMetadataArgs } from "../../metadata-args/RelationCountMetadataArgs";
 
 /**
@@ -16,10 +16,10 @@ export function RelationCount<T>(
     return function (object: Object, propertyName: string) {
         getMetadataArgsStorage().relationCounts.push({
             target: object.constructor,
-            propertyName: propertyName,
-            relation: relation,
-            alias: alias,
-            queryBuilderFactory: queryBuilderFactory,
+            propertyName,
+            relation,
+            alias,
+            queryBuilderFactory,
         } as RelationCountMetadataArgs);
     };
 }

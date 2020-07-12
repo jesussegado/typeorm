@@ -10,7 +10,9 @@ const chalk = require("chalk");
  */
 export class MigrationCreateCommand implements yargs.CommandModule {
     command = "migration:create";
+
     describe = "Creates a new migration file.";
+
     aliases = "migrations:create";
 
     builder(args: yargs.Argv) {

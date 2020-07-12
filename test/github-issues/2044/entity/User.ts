@@ -14,6 +14,7 @@ export class User {
 
         return decoder.end(this._id);
     }
+
     set id(value: string) {
         this._id = Buffer.from(value, "hex");
     }

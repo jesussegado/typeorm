@@ -52,7 +52,7 @@ export function Unique(
             target: propertyName
                 ? clsOrObject.constructor
                 : (clsOrObject as Function),
-            name: name,
+            name,
             columns: propertyName ? [propertyName] : fields,
         };
         getMetadataArgsStorage().uniques.push(args);

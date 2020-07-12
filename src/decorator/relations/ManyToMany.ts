@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage, ObjectType, RelationOptions } from "../../";
+import { getMetadataArgsStorage, ObjectType, RelationOptions } from "../..";
 import { RelationMetadataArgs } from "../../metadata-args/RelationMetadataArgs";
 
 /**
@@ -64,13 +64,13 @@ export function ManyToMany<T>(
 
         getMetadataArgsStorage().relations.push({
             target: object.constructor,
-            propertyName: propertyName,
+            propertyName,
             // propertyType: reflectedType,
             relationType: "many-to-many",
-            isLazy: isLazy,
+            isLazy,
             type: typeFunctionOrTarget,
-            inverseSideProperty: inverseSideProperty,
-            options: options,
+            inverseSideProperty,
+            options,
         } as RelationMetadataArgs);
     };
 }

@@ -26,7 +26,7 @@ describe("schema builder > add column", () => {
                 const postMetadata = connection.getMetadata("post");
 
                 const columnMetadata1 = new ColumnMetadata({
-                    connection: connection,
+                    connection,
                     entityMetadata: postMetadata!,
                     args: <ColumnMetadataArgs>{
                         target: Post,
@@ -45,7 +45,7 @@ describe("schema builder > add column", () => {
                 columnMetadata1.build(connection);
 
                 const columnMetadata2 = new ColumnMetadata({
-                    connection: connection,
+                    connection,
                     entityMetadata: postMetadata!,
                     args: <ColumnMetadataArgs>{
                         target: Post,

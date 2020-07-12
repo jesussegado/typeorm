@@ -162,6 +162,7 @@ export class BaseEntity {
         this: ObjectType<T>,
         entityLike: DeepPartial<T>
     ): T;
+
     /**
      * Creates a new entity instance and copies all entity properties from this object into a new entity.
      * Note that it copies only properties that present in entity schema.

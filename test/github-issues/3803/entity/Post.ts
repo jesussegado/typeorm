@@ -2,7 +2,9 @@ import { EntitySchemaOptions } from "../../../../src/entity-schema/EntitySchemaO
 
 export class Post {
     id: number;
+
     name: string;
+
     title: string;
 }
 

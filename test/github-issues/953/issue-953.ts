@@ -6,9 +6,9 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
+import { User } from "./entity/user";
 
 export type Role = "sa" | "user" | "admin" | "server";
-import { User } from "./entity/user";
 
 describe("github issues > #953 MySQL 5.7 JSON column parse", () => {
     let connections: Connection[];

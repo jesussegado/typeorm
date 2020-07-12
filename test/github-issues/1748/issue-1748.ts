@@ -39,7 +39,7 @@ describe("github issues > #1748 PrimaryColumn combined with transformer leads to
                 await postRepository.save(post);
 
                 // check if all columns are updated except for readonly columns
-                const loadedPost = await postRepository.findOne({ id: id });
+                const loadedPost = await postRepository.findOne({ id });
                 expect(loadedPost!.id).to.deep.eq(id);
                 expect(loadedPost!.title).to.be.equal("About columns1");
             })

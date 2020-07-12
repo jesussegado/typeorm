@@ -176,6 +176,7 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
             options
         );
     }
+
     /**
      * Perform a bulkWrite operation without a fluent API.
      */

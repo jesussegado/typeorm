@@ -26,6 +26,7 @@ export class AuroraDataApiDriver implements Driver {
     // -------------------------------------------------------------------------
 
     connection: Connection;
+
     /**
      * Aurora Data API underlying library.
      */

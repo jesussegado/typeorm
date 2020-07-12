@@ -76,7 +76,7 @@ export class RelationIdLoader {
 
                     return {
                         relationIdAttribute: relationIdAttr,
-                        results: results,
+                        results,
                     };
                 }
                 if (

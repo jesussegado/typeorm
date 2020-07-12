@@ -10,6 +10,7 @@ export class InitUsers1530542855524 implements MigrationInterface {
             DROP SEQUENCE IF EXISTS users_id_seq
         `);
     }
+
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
             DROP SEQUENCE IF EXISTS users_id_seq

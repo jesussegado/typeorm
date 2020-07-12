@@ -212,7 +212,7 @@ export class PlatformTools {
             built_in: chalk.magentaBright,
             comment: chalk.gray,
         };
-        return highlight(sql, { theme: theme, language: "sql" });
+        return highlight(sql, { theme, language: "sql" });
     }
 
     /**

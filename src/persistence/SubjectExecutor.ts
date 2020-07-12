@@ -105,7 +105,7 @@ export class SubjectExecutor {
         // console.time("SubjectExecutor.execute");
 
         // broadcast "before" events before we start insert / update / remove operations
-        let broadcasterResult: BroadcasterResult | undefined = undefined;
+        let broadcasterResult: BroadcasterResult | undefined;
         if (!this.options || this.options.listeners !== false) {
             // console.time(".broadcastBeforeEventsForAll");
             broadcasterResult = this.broadcastBeforeEventsForAll();

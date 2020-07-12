@@ -1537,10 +1537,7 @@ export class EntityManager {
             | any,
         maybeOptions?: FindOneOptions<Entity>
     ): Promise<Entity | undefined> {
-        let findOptions:
-            | FindManyOptions<any>
-            | FindOneOptions<any>
-            | undefined = undefined;
+        let findOptions: FindManyOptions<any> | FindOneOptions<any> | undefined;
         if (FindOptionsUtils.isFindOneOptions(idOrOptionsOrConditions)) {
             findOptions = idOrOptionsOrConditions;
         } else if (
@@ -1550,7 +1547,7 @@ export class EntityManager {
             findOptions = maybeOptions;
         }
 
-        let options: ObjectLiteral | undefined = undefined;
+        let options: ObjectLiteral | undefined;
         if (
             idOrOptionsOrConditions instanceof Object &&
             !FindOptionsUtils.isFindOneOptions(idOrOptionsOrConditions)

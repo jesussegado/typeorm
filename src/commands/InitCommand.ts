@@ -10,6 +10,7 @@ const chalk = require("chalk");
  */
 export class InitCommand implements yargs.CommandModule {
     command = "init";
+
     describe =
         "Generates initial TypeORM project structure. " +
         "If name specified then creates files inside directory called as name. " +

@@ -19,7 +19,7 @@ export class QueryFailedError extends Error {
         ObjectUtils.assign(this, {
             ...driverError,
             name: "QueryFailedError",
-            query: query,
+            query,
             parameters: parameters || [],
         });
     }

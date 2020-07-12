@@ -183,9 +183,7 @@ export class DeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.wheres = []; // don't move this block below since computeWhereParameter can add where expressions
         const condition = this.computeWhereParameter(where);
         if (condition)
-            this.expressionMap.wheres = [
-                { type: "simple", condition: condition },
-            ];
+            this.expressionMap.wheres = [{ type: "simple", condition }];
         if (parameters) this.setParameters(parameters);
         return this;
     }
@@ -242,6 +240,7 @@ export class DeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
     orWhereInIds(ids: any | any[]): this {
         return this.orWhere(this.createWhereIdsExpression(ids));
     }
+
     /**
      * Optional returning/output clause.
      * This will return given column values.

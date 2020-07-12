@@ -11,5 +11,6 @@ export class Post {
     title: string;
 
     inserted: boolean = false;
+
     updated: boolean = false;
 }

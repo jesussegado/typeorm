@@ -8,5 +8,6 @@ export class Post {
     id: number;
 
     simpleSubscriberSaw?: boolean;
+
     extendedSubscriberSaw?: LoadEvent<Post>;
 }

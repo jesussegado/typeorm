@@ -32,7 +32,7 @@ export class SimpleConsoleLogger implements Logger {
                 (parameters && parameters.length
                     ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                     : "");
-            console.log(`${"query" + ": "}${sql}`);
+            console.log(`${"query: "}${sql}`);
         }
     }
 

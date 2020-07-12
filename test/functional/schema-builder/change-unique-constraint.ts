@@ -32,8 +32,8 @@ describe("schema builder > change unique constraint", () => {
             const nameColumn = teacherMetadata.findColumnWithPropertyName(
                 "name"
             )!;
-            let uniqueIndexMetadata: IndexMetadata | undefined = undefined;
-            let uniqueMetadata: UniqueMetadata | undefined = undefined;
+            let uniqueIndexMetadata: IndexMetadata | undefined;
+            let uniqueMetadata: UniqueMetadata | undefined;
 
             // Mysql and SAP stores unique constraints as unique indices.
             if (

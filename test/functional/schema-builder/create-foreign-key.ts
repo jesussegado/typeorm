@@ -39,8 +39,8 @@ describe("schema builder > create foreign key", () => {
                 const fkMetadata = new ForeignKeyMetadata({
                     entityMetadata: categoryMetadata,
                     referencedEntityMetadata: postMetadata,
-                    columns: columns,
-                    referencedColumns: referencedColumns,
+                    columns,
+                    referencedColumns,
                     namingStrategy: connection.namingStrategy,
                 });
                 categoryMetadata.foreignKeys.push(fkMetadata);

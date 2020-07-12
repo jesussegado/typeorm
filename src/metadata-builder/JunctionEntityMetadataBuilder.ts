@@ -86,8 +86,8 @@ export class JunctionEntityMetadataBuilder {
 
             return new ColumnMetadata({
                 connection: this.connection,
-                entityMetadata: entityMetadata,
-                referencedColumn: referencedColumn,
+                entityMetadata,
+                referencedColumn,
                 args: {
                     target: "",
                     mode: "virtual",
@@ -145,7 +145,7 @@ export class JunctionEntityMetadataBuilder {
 
                 return new ColumnMetadata({
                     connection: this.connection,
-                    entityMetadata: entityMetadata,
+                    entityMetadata,
                     referencedColumn: inverseReferencedColumn,
                     args: {
                         target: "",
@@ -200,14 +200,14 @@ export class JunctionEntityMetadataBuilder {
         // create junction table foreign keys
         entityMetadata.foreignKeys = [
             new ForeignKeyMetadata({
-                entityMetadata: entityMetadata,
+                entityMetadata,
                 referencedEntityMetadata: relation.entityMetadata,
                 columns: junctionColumns,
-                referencedColumns: referencedColumns,
+                referencedColumns,
                 onDelete: relation.onDelete || "CASCADE",
             }),
             new ForeignKeyMetadata({
-                entityMetadata: entityMetadata,
+                entityMetadata,
                 referencedEntityMetadata: relation.inverseEntityMetadata,
                 columns: inverseJunctionColumns,
                 referencedColumns: inverseReferencedColumns,
@@ -218,7 +218,7 @@ export class JunctionEntityMetadataBuilder {
         // create junction table indices
         entityMetadata.ownIndices = [
             new IndexMetadata({
-                entityMetadata: entityMetadata,
+                entityMetadata,
                 columns: junctionColumns,
                 args: {
                     target: entityMetadata.target,
@@ -227,7 +227,7 @@ export class JunctionEntityMetadataBuilder {
             }),
 
             new IndexMetadata({
-                entityMetadata: entityMetadata,
+                entityMetadata,
                 columns: inverseJunctionColumns,
                 args: {
                     target: entityMetadata.target,

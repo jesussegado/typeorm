@@ -26,6 +26,11 @@ module.exports = {
     "func-names":["off"],
     "class-methods-use-this":["off"],
     "@typescript-eslint/no-inferrable-types":["off"],
+
+
+    "prefer-destructing":["off"],
+    "no-useless-return":["off"],
+    "no-useless-constructor":["off"],
   },
   settings: {
     "import/resolver": {

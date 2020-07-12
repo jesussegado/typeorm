@@ -1,4 +1,4 @@
-import { ColumnOptions, getMetadataArgsStorage } from "../../";
+import { ColumnOptions, getMetadataArgsStorage } from "../..";
 import {
     ColumnType,
     SimpleColumnType,
@@ -176,7 +176,7 @@ export function Column(
             // register an embedded
             getMetadataArgsStorage().embeddeds.push({
                 target: object.constructor,
-                propertyName: propertyName,
+                propertyName,
                 isArray:
                     reflectMetadataType === Array || options.array === true,
                 prefix:
@@ -199,15 +199,15 @@ export function Column(
 
             getMetadataArgsStorage().columns.push({
                 target: object.constructor,
-                propertyName: propertyName,
+                propertyName,
                 mode: "regular",
-                options: options,
+                options,
             } as ColumnMetadataArgs);
 
             if (options.generated) {
                 getMetadataArgsStorage().generations.push({
                     target: object.constructor,
-                    propertyName: propertyName,
+                    propertyName,
                     strategy:
                         typeof options.generated === "string"
                             ? options.generated

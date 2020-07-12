@@ -160,7 +160,7 @@ export class SubjectChangedColumnsComputer {
             }
             subject.diffColumns.push(column);
             subject.changeMaps.push({
-                column: column,
+                column,
                 value: entityValue,
             });
         });
@@ -234,7 +234,7 @@ export class SubjectChangedColumnsComputer {
             } else {
                 // if it wasn't found add a new relation for change
                 subject.changeMaps.push({
-                    relation: relation,
+                    relation,
                     value: relatedEntity,
                 });
             }

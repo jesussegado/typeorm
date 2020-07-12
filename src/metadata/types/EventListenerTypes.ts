@@ -15,10 +15,16 @@ export type EventListenerType =
  */
 export class EventListenerTypes {
     static AFTER_LOAD: EventListenerType = "after-load";
+
     static BEFORE_INSERT: EventListenerType = "before-insert";
+
     static AFTER_INSERT: EventListenerType = "after-insert";
+
     static BEFORE_UPDATE: EventListenerType = "before-update";
+
     static AFTER_UPDATE: EventListenerType = "after-update";
+
     static BEFORE_REMOVE: EventListenerType = "before-remove";
+
     static AFTER_REMOVE: EventListenerType = "after-remove";
 }

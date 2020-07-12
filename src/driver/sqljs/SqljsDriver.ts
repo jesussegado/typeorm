@@ -15,7 +15,7 @@ interface Window {
     SQL: any;
     localforage: any;
 }
-declare var window: Window;
+declare let window: Window;
 
 export class SqljsDriver extends AbstractSqliteDriver {
     // The driver specific options.

@@ -666,8 +666,8 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         const newTable = oldTable.clone();
 
         // we need database name and schema name to rename FK constraints
-        let dbName: string | undefined = undefined;
-        let schemaName: string | undefined = undefined;
+        let dbName: string | undefined;
+        let schemaName: string | undefined;
         let oldTableName: string = oldTable.name;
         const splittedName = oldTable.name.split(".");
         if (splittedName.length === 3) {
@@ -1024,7 +1024,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                 `Column "${oldTableColumnOrName}" was not found in the "${table.name}" table.`
             );
 
-        let newColumn: TableColumn | undefined = undefined;
+        let newColumn: TableColumn | undefined;
         if (newTableColumnOrName instanceof TableColumn) {
             newColumn = newTableColumnOrName;
         } else {
@@ -1078,8 +1078,8 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         } else {
             if (newColumn.name !== oldColumn.name) {
                 // we need database name and schema name to rename FK constraints
-                let dbName: string | undefined = undefined;
-                let schemaName: string | undefined = undefined;
+                let dbName: string | undefined;
+                let schemaName: string | undefined;
                 const splittedName = table.name.split(".");
                 if (splittedName.length === 3) {
                     dbName = splittedName[0];
@@ -2949,7 +2949,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                             columnNames: foreignKeys.map(
                                 (dbFk) => dbFk["COLUMN_NAME"]
                             ),
-                            referencedTableName: referencedTableName,
+                            referencedTableName,
                             referencedColumnNames: foreignKeys.map(
                                 (dbFk) => dbFk["REF_COLUMN"]
                             ),
@@ -2991,7 +2991,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                         );
                     });
                     return new TableIndex(<TableIndexOptions>{
-                        table: table,
+                        table,
                         name: constraint["INDEX_NAME"],
                         columnNames: indices.map((i) => i["COLUMN_NAME"]),
                         isUnique: constraint["IS_UNIQUE"],

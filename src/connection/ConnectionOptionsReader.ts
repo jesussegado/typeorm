@@ -90,7 +90,7 @@ export class ConnectionOptionsReader {
         let connectionOptions:
             | ConnectionOptions
             | ConnectionOptions[]
-            | undefined = undefined;
+            | undefined;
 
         const fileFormats = [
             "env",
@@ -188,7 +188,7 @@ export class ConnectionOptionsReader {
 
                     return entity;
                 });
-                Object.assign(connectionOptions, { entities: entities });
+                Object.assign(connectionOptions, { entities });
             }
             if (options.subscribers) {
                 const subscribers = (options.subscribers as any[]).map(
@@ -202,7 +202,7 @@ export class ConnectionOptionsReader {
                         return subscriber;
                     }
                 );
-                Object.assign(connectionOptions, { subscribers: subscribers });
+                Object.assign(connectionOptions, { subscribers });
             }
             if (options.migrations) {
                 const migrations = (options.migrations as any[]).map(
@@ -216,7 +216,7 @@ export class ConnectionOptionsReader {
                         return migration;
                     }
                 );
-                Object.assign(connectionOptions, { migrations: migrations });
+                Object.assign(connectionOptions, { migrations });
             }
 
             // make database path file in sqlite relative to package.json

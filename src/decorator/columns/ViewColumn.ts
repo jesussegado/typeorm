@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage } from "../../";
+import { getMetadataArgsStorage } from "../..";
 import { ColumnMetadataArgs } from "../../metadata-args/ColumnMetadataArgs";
 import { ViewColumnOptions } from "../options/ViewColumnOptions";
 
@@ -9,7 +9,7 @@ export function ViewColumn(options?: ViewColumnOptions): Function {
     return function (object: Object, propertyName: string) {
         getMetadataArgsStorage().columns.push({
             target: object.constructor,
-            propertyName: propertyName,
+            propertyName,
             mode: "regular",
             options: options || {},
         } as ColumnMetadataArgs);

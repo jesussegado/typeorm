@@ -5,7 +5,7 @@ import {
     Repository,
     TreeRepository,
     EntityManager,
-} from "../../";
+} from "../..";
 import { TransactionOptions } from "../options/TransactionOptions";
 import { IsolationLevel } from "../../driver/types/IsolationLevel";
 
@@ -38,7 +38,7 @@ export function Transaction(
         // override method descriptor with proxy method
         descriptor.value = function (...args: any[]) {
             let connectionName = "default";
-            let isolationLevel: IsolationLevel | undefined = undefined;
+            let isolationLevel: IsolationLevel | undefined;
             if (connectionOrOptions) {
                 if (typeof connectionOrOptions === "string") {
                     connectionName = connectionOrOptions;

@@ -99,12 +99,7 @@ export class EntityListenerMetadata {
 
         if (propertyPaths.length === 0) {
             entity[propertyPath][this.propertyName]();
-        } else {
-            if (entity[propertyPath])
-                this.callEntityEmbeddedMethod(
-                    entity[propertyPath],
-                    propertyPaths
-                );
-        }
+        } else if (entity[propertyPath])
+            this.callEntityEmbeddedMethod(entity[propertyPath], propertyPaths);
     }
 }

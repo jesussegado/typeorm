@@ -59,7 +59,7 @@ export class EntitySchemaTransformer {
 
                 const columnAgrs: ColumnMetadataArgs = {
                     target: options.target || options.name,
-                    mode: mode,
+                    mode,
                     propertyName: columnName,
                     options: {
                         type: column.type,

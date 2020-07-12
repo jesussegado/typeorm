@@ -1,4 +1,4 @@
-import { ColumnOptions, getMetadataArgsStorage } from "../../";
+import { ColumnOptions, getMetadataArgsStorage } from "../..";
 import { InheritanceMetadataArgs } from "../../metadata-args/InheritanceMetadataArgs";
 
 /**
@@ -10,7 +10,7 @@ export function TableInheritance(options?: {
 }) {
     return function (target: Function) {
         getMetadataArgsStorage().inheritances.push({
-            target: target,
+            target,
             pattern: options && options.pattern ? options.pattern : "STI",
             column:
                 options && options.column

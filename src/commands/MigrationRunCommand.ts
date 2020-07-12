@@ -11,7 +11,9 @@ const chalk = require("chalk");
  */
 export class MigrationRunCommand implements yargs.CommandModule {
     command = "migration:run";
+
     describe = "Runs all pending migrations.";
+
     aliases = "migrations:run";
 
     builder(args: yargs.Argv) {
@@ -41,7 +43,7 @@ export class MigrationRunCommand implements yargs.CommandModule {
             );
         }
 
-        let connection: Connection | undefined = undefined;
+        let connection: Connection | undefined;
         try {
             const connectionOptionsReader = new ConnectionOptionsReader({
                 root: process.cwd(),

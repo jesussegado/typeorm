@@ -421,7 +421,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                 `Column "${oldTableColumnOrName}" was not found in the "${table.name}" table.`
             );
 
-        let newColumn: TableColumn | undefined = undefined;
+        let newColumn: TableColumn | undefined;
         if (newTableColumnOrName instanceof TableColumn) {
             newColumn = newTableColumnOrName;
         } else {
@@ -1112,7 +1112,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                 ]);
 
                 // find column name with auto increment
-                let autoIncrementColumnName: string | undefined = undefined;
+                let autoIncrementColumnName: string | undefined;
                 const tableSql: string = dbTable["sql"];
                 const autoIncrementIndex = tableSql
                     .toUpperCase()
@@ -1238,9 +1238,9 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
 
                         return new TableForeignKey({
                             name: fkName,
-                            columnNames: columnNames,
+                            columnNames,
                             referencedTableName: foreignKey["table"],
-                            referencedColumnNames: referencedColumnNames,
+                            referencedColumnNames,
                             onDelete: foreignKey["on_delete"],
                             onUpdate: foreignKey["on_update"],
                         });
@@ -1333,10 +1333,10 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                             dbIndex!["unique"] === "1" ||
                             dbIndex!["unique"] === 1;
                         return new TableIndex(<TableIndexOptions>{
-                            table: table,
+                            table,
                             name: dbIndex!["name"],
                             columnNames: indexColumns,
-                            isUnique: isUnique,
+                            isUnique,
                             where: condition ? condition[1] : undefined,
                         });
                     });

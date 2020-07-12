@@ -58,9 +58,7 @@ export class OneToOneInverseSideSubjectBuilder {
         // note: subject.databaseEntity contains relation with loaded relation id only (id map)
         // by example: since subject is a post, we are expecting to get post's category saved in the database here,
         //             particularly its relation id, e.g. category id stored in the database
-        let relatedEntityDatabaseRelationId:
-            | ObjectLiteral
-            | undefined = undefined;
+        let relatedEntityDatabaseRelationId: ObjectLiteral | undefined;
         if (subject.databaseEntity)
             // related entity in the database can exist only if this entity (post) is saved
             relatedEntityDatabaseRelationId = relation.getEntityValue(

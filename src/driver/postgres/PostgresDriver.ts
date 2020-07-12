@@ -1029,6 +1029,7 @@ export class PostgresDriver implements Driver {
             })
             .join(`'`);
     }
+
     /**
      * Returns true if driver supports RETURNING / OUTPUT statement.
      */

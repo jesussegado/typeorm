@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage, SelectQueryBuilder } from "../../";
+import { getMetadataArgsStorage, SelectQueryBuilder } from "../..";
 import { RelationIdMetadataArgs } from "../../metadata-args/RelationIdMetadataArgs";
 
 /**
@@ -16,10 +16,10 @@ export function RelationId<T>(
     return function (object: Object, propertyName: string) {
         getMetadataArgsStorage().relationIds.push({
             target: object.constructor,
-            propertyName: propertyName,
-            relation: relation,
-            alias: alias,
-            queryBuilderFactory: queryBuilderFactory,
+            propertyName,
+            relation,
+            alias,
+            queryBuilderFactory,
         } as RelationIdMetadataArgs);
     };
 }

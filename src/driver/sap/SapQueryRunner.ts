@@ -938,7 +938,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                 `Column "${oldTableColumnOrName}" was not found in the "${table.name}" table.`
             );
 
-        let newColumn: TableColumn | undefined = undefined;
+        let newColumn: TableColumn | undefined;
         if (newTableColumnOrName instanceof TableColumn) {
             newColumn = newTableColumnOrName;
         } else {
@@ -2638,25 +2638,22 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                                 dbColumn["DEFAULT_VALUE"] === undefined
                             ) {
                                 tableColumn.default = undefined;
+                            } else if (
+                                tableColumn.type === "char" ||
+                                tableColumn.type === "nchar" ||
+                                tableColumn.type === "varchar" ||
+                                tableColumn.type === "nvarchar" ||
+                                tableColumn.type === "alphanum" ||
+                                tableColumn.type === "shorttext"
+                            ) {
+                                tableColumn.default = `'${dbColumn["DEFAULT_VALUE"]}'`;
+                            } else if (tableColumn.type === "boolean") {
+                                tableColumn.default =
+                                    dbColumn["DEFAULT_VALUE"] === "1"
+                                        ? "true"
+                                        : "false";
                             } else {
-                                if (
-                                    tableColumn.type === "char" ||
-                                    tableColumn.type === "nchar" ||
-                                    tableColumn.type === "varchar" ||
-                                    tableColumn.type === "nvarchar" ||
-                                    tableColumn.type === "alphanum" ||
-                                    tableColumn.type === "shorttext"
-                                ) {
-                                    tableColumn.default = `'${dbColumn["DEFAULT_VALUE"]}'`;
-                                } else if (tableColumn.type === "boolean") {
-                                    tableColumn.default =
-                                        dbColumn["DEFAULT_VALUE"] === "1"
-                                            ? "true"
-                                            : "false";
-                                } else {
-                                    tableColumn.default =
-                                        dbColumn["DEFAULT_VALUE"];
-                                }
+                                tableColumn.default = dbColumn["DEFAULT_VALUE"];
                             }
                             tableColumn.comment = ""; // dbColumn["COLUMN_COMMENT"];
                             if (dbColumn["character_set_name"])
@@ -2734,7 +2731,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                             columnNames: foreignKeys.map(
                                 (dbFk) => dbFk["COLUMN_NAME"]
                             ),
-                            referencedTableName: referencedTableName,
+                            referencedTableName,
                             referencedColumnNames: foreignKeys.map(
                                 (dbFk) => dbFk["REFERENCED_COLUMN_NAME"]
                             ),
@@ -2773,7 +2770,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                         );
                     });
                     return new TableIndex(<TableIndexOptions>{
-                        table: table,
+                        table,
                         name: constraint["INDEX_NAME"],
                         columnNames: indices.map((i) => i["COLUMN_NAME"]),
                         isUnique:
@@ -2974,8 +2971,8 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             .into(this.getTypeormMetadataTableName())
             .values({
                 type: "VIEW",
-                schema: schema,
-                name: name,
+                schema,
+                name,
                 value: expression,
             })
             .getQueryAndParameters();

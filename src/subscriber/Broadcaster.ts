@@ -54,8 +54,8 @@ export class Broadcaster {
                         connection: this.queryRunner.connection,
                         queryRunner: this.queryRunner,
                         manager: this.queryRunner.manager,
-                        entity: entity,
-                        metadata: metadata,
+                        entity,
+                        metadata,
                     });
                     if (executionResult instanceof Promise)
                         result.promises.push(executionResult);
@@ -103,9 +103,9 @@ export class Broadcaster {
                         connection: this.queryRunner.connection,
                         queryRunner: this.queryRunner,
                         manager: this.queryRunner.manager,
-                        entity: entity,
-                        metadata: metadata,
-                        databaseEntity: databaseEntity,
+                        entity,
+                        metadata,
+                        databaseEntity,
                         updatedColumns: updatedColumns || [],
                         updatedRelations: updatedRelations || [],
                     });
@@ -152,9 +152,9 @@ export class Broadcaster {
                         connection: this.queryRunner.connection,
                         queryRunner: this.queryRunner,
                         manager: this.queryRunner.manager,
-                        entity: entity,
-                        metadata: metadata,
-                        databaseEntity: databaseEntity,
+                        entity,
+                        metadata,
+                        databaseEntity,
                         entityId: metadata.getEntityIdMixedMap(databaseEntity),
                     });
                     if (executionResult instanceof Promise)
@@ -199,8 +199,8 @@ export class Broadcaster {
                         connection: this.queryRunner.connection,
                         queryRunner: this.queryRunner,
                         manager: this.queryRunner.manager,
-                        entity: entity,
-                        metadata: metadata,
+                        entity,
+                        metadata,
                     });
                     if (executionResult instanceof Promise)
                         result.promises.push(executionResult);
@@ -247,9 +247,9 @@ export class Broadcaster {
                         connection: this.queryRunner.connection,
                         queryRunner: this.queryRunner,
                         manager: this.queryRunner.manager,
-                        entity: entity,
-                        metadata: metadata,
-                        databaseEntity: databaseEntity,
+                        entity,
+                        metadata,
+                        databaseEntity,
                         updatedColumns: updatedColumns || [],
                         updatedRelations: updatedRelations || [],
                     });
@@ -296,9 +296,9 @@ export class Broadcaster {
                         connection: this.queryRunner.connection,
                         queryRunner: this.queryRunner,
                         manager: this.queryRunner.manager,
-                        entity: entity,
-                        metadata: metadata,
-                        databaseEntity: databaseEntity,
+                        entity,
+                        metadata,
+                        databaseEntity,
                         entityId: metadata.getEntityIdMixedMap(databaseEntity),
                     });
                     if (executionResult instanceof Promise)
@@ -374,8 +374,8 @@ export class Broadcaster {
                                     connection: this.queryRunner.connection,
                                     queryRunner: this.queryRunner,
                                     manager: this.queryRunner.manager,
-                                    entity: entity,
-                                    metadata: metadata,
+                                    entity,
+                                    metadata,
                                 }
                             );
                             if (executionResult instanceof Promise)

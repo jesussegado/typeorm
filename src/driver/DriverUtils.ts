@@ -96,8 +96,8 @@ export class DriverUtils {
         const [host, port] = hostAndPort.split(":");
 
         return {
-            type: type,
-            host: host,
+            type,
+            host,
             username: decodeURIComponent(username),
             password: decodeURIComponent(password),
             port: port ? parseInt(port) : undefined,

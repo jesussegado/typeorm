@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage } from "../../";
+import { getMetadataArgsStorage } from "../..";
 import { RelationMetadataArgs } from "../../metadata-args/RelationMetadataArgs";
 
 /**
@@ -21,8 +21,8 @@ export function TreeParent(): Function {
         getMetadataArgsStorage().relations.push({
             isTreeParent: true,
             target: object.constructor,
-            propertyName: propertyName,
-            isLazy: isLazy,
+            propertyName,
+            isLazy,
             relationType: "many-to-one",
             type: () => object.constructor,
             options: {},

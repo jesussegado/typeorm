@@ -441,8 +441,8 @@ export class EntityMetadataBuilder {
         return new EntityMetadata({
             connection: this.connection,
             args: tableArgs,
-            inheritanceTree: inheritanceTree,
-            tableTree: tableTree,
+            inheritanceTree,
+            tableTree,
             inheritancePattern: tableInheritance
                 ? tableInheritance.pattern
                 : undefined,
@@ -541,7 +541,7 @@ export class EntityMetadataBuilder {
             if (!discriminatorColumn) {
                 discriminatorColumn = new ColumnMetadata({
                     connection: this.connection,
-                    entityMetadata: entityMetadata,
+                    entityMetadata,
                     args: {
                         target: entityMetadata.target,
                         mode: "virtual",
@@ -584,7 +584,7 @@ export class EntityMetadataBuilder {
             entityMetadata.ownColumns.push(
                 new ColumnMetadata({
                     connection: this.connection,
-                    entityMetadata: entityMetadata,
+                    entityMetadata,
                     materializedPath: true,
                     args: {
                         target: entityMetadata.target,
@@ -604,7 +604,7 @@ export class EntityMetadataBuilder {
             entityMetadata.ownColumns.push(
                 new ColumnMetadata({
                     connection: this.connection,
-                    entityMetadata: entityMetadata,
+                    entityMetadata,
                     nestedSetLeft: true,
                     args: {
                         target: entityMetadata.target,
@@ -622,7 +622,7 @@ export class EntityMetadataBuilder {
             entityMetadata.ownColumns.push(
                 new ColumnMetadata({
                     connection: this.connection,
-                    entityMetadata: entityMetadata,
+                    entityMetadata,
                     nestedSetRight: true,
                     args: {
                         target: entityMetadata.target,
@@ -679,8 +679,8 @@ export class EntityMetadataBuilder {
             .filterListeners(entityMetadata.inheritanceTree)
             .map((args) => {
                 return new EntityListenerMetadata({
-                    entityMetadata: entityMetadata,
-                    args: args,
+                    entityMetadata,
+                    args,
                 });
             });
         entityMetadata.checks = this.metadataArgsStorage
@@ -711,7 +711,7 @@ export class EntityMetadataBuilder {
                 .filter((args) => args.unique)
                 .map((args) => {
                     return new UniqueMetadata({
-                        entityMetadata: entityMetadata,
+                        entityMetadata,
                         args: {
                             target: args.target,
                             name: args.name,
@@ -738,7 +738,7 @@ export class EntityMetadataBuilder {
                 .filterUniques(entityMetadata.inheritanceTree)
                 .map((args) => {
                     return new IndexMetadata({
-                        entityMetadata: entityMetadata,
+                        entityMetadata,
                         args: {
                             target: args.target,
                             name: args.name,
@@ -769,7 +769,7 @@ export class EntityMetadataBuilder {
     ): EmbeddedMetadata[] {
         return embeddedArgs.map((embeddedArgs) => {
             const embeddedMetadata = new EmbeddedMetadata({
-                entityMetadata: entityMetadata,
+                entityMetadata,
                 args: embeddedArgs,
             });
             const targets = MetadataUtils.getInheritanceTree(
@@ -1042,7 +1042,7 @@ export class EntityMetadataBuilder {
     protected createKeysForTableInheritance(entityMetadata: EntityMetadata) {
         entityMetadata.indices.push(
             new IndexMetadata({
-                entityMetadata: entityMetadata,
+                entityMetadata,
                 columns: [entityMetadata.discriminatorColumn!],
                 args: {
                     target: entityMetadata.target,

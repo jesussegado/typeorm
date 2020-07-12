@@ -1,4 +1,4 @@
-import { EntityOptions, getMetadataArgsStorage } from "../../";
+import { EntityOptions, getMetadataArgsStorage } from "../..";
 import { TableMetadataArgs } from "../../metadata-args/TableMetadataArgs";
 
 /**
@@ -30,8 +30,8 @@ export function Entity(
 
     return function (target) {
         getMetadataArgsStorage().tables.push({
-            target: target,
-            name: name,
+            target,
+            name,
             type: "regular",
             orderBy: options.orderBy ? options.orderBy : undefined,
             engine: options.engine ? options.engine : undefined,

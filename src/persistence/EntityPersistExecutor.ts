@@ -86,7 +86,7 @@ export class EntityPersistExecutor {
                                     metadata: this.connection.getMetadata(
                                         entityTarget
                                     ),
-                                    entity: entity,
+                                    entity,
                                     canBeInserted: this.mode === "save",
                                     canBeUpdated: this.mode === "save",
                                     mustBeRemoved: this.mode === "remove",

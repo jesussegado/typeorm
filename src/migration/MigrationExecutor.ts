@@ -32,6 +32,7 @@ export class MigrationExecutor {
     // -------------------------------------------------------------------------
 
     private readonly migrationsTable: string;
+
     private readonly migrationsTableName: string;
 
     // -------------------------------------------------------------------------

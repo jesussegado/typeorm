@@ -683,7 +683,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                 `Column "${oldTableColumnOrName}" was not found in the "${table.name}" table.`
             );
 
-        let newColumn: TableColumn | undefined = undefined;
+        let newColumn: TableColumn | undefined;
         if (newTableColumnOrName instanceof TableColumn) {
             newColumn = newTableColumnOrName;
         } else {
@@ -2292,7 +2292,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                             columnNames: foreignKeys.map(
                                 (dbFk) => dbFk["COLUMN_NAME"]
                             ),
-                            referencedTableName: referencedTableName,
+                            referencedTableName,
                             referencedColumnNames: foreignKeys.map(
                                 (dbFk) => dbFk["REFERENCED_COLUMN_NAME"]
                             ),
@@ -2329,7 +2329,7 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
                     const nonUnique = parseInt(constraint["NON_UNIQUE"], 10);
 
                     return new TableIndex(<TableIndexOptions>{
-                        table: table,
+                        table,
                         name: constraint["INDEX_NAME"],
                         columnNames: indices.map((i) => i["COLUMN_NAME"]),
                         isUnique: nonUnique === 0,

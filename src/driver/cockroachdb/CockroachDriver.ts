@@ -702,6 +702,7 @@ export class CockroachDriver implements Driver {
             })
             .join(`'`);
     }
+
     /**
      * Returns true if driver supports RETURNING / OUTPUT statement.
      */

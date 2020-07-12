@@ -33,26 +33,47 @@ export class MetadataArgsStorage {
     // -------------------------------------------------------------------------
 
     readonly tables: TableMetadataArgs[] = [];
+
     readonly trees: TreeMetadataArgs[] = [];
+
     readonly entityRepositories: EntityRepositoryMetadataArgs[] = [];
+
     readonly transactionEntityManagers: TransactionEntityMetadataArgs[] = [];
+
     readonly transactionRepositories: TransactionRepositoryMetadataArgs[] = [];
+
     readonly namingStrategies: NamingStrategyMetadataArgs[] = [];
+
     readonly entitySubscribers: EntitySubscriberMetadataArgs[] = [];
+
     readonly indices: IndexMetadataArgs[] = [];
+
     readonly uniques: UniqueMetadataArgs[] = [];
+
     readonly checks: CheckMetadataArgs[] = [];
+
     readonly exclusions: ExclusionMetadataArgs[] = [];
+
     readonly columns: ColumnMetadataArgs[] = [];
+
     readonly generations: GeneratedMetadataArgs[] = [];
+
     readonly relations: RelationMetadataArgs[] = [];
+
     readonly joinColumns: JoinColumnMetadataArgs[] = [];
+
     readonly joinTables: JoinTableMetadataArgs[] = [];
+
     readonly entityListeners: EntityListenerMetadataArgs[] = [];
+
     readonly relationCounts: RelationCountMetadataArgs[] = [];
+
     readonly relationIds: RelationIdMetadataArgs[] = [];
+
     readonly embeddeds: EmbeddedMetadataArgs[] = [];
+
     readonly inheritances: InheritanceMetadataArgs[] = [];
+
     readonly discriminatorValues: DiscriminatorValueMetadataArgs[] = [];
 
     // -------------------------------------------------------------------------
@@ -60,7 +81,9 @@ export class MetadataArgsStorage {
     // -------------------------------------------------------------------------
 
     filterTables(target: Function | string): TableMetadataArgs[];
+
     filterTables(target: (Function | string)[]): TableMetadataArgs[];
+
     filterTables(
         target: (Function | string) | (Function | string)[]
     ): TableMetadataArgs[] {
@@ -68,7 +91,9 @@ export class MetadataArgsStorage {
     }
 
     filterColumns(target: Function | string): ColumnMetadataArgs[];
+
     filterColumns(target: (Function | string)[]): ColumnMetadataArgs[];
+
     filterColumns(
         target: (Function | string) | (Function | string)[]
     ): ColumnMetadataArgs[] {
@@ -82,10 +107,12 @@ export class MetadataArgsStorage {
         target: Function | string,
         propertyName: string
     ): GeneratedMetadataArgs | undefined;
+
     findGenerated(
         target: (Function | string)[],
         propertyName: string
     ): GeneratedMetadataArgs | undefined;
+
     findGenerated(
         target: (Function | string) | (Function | string)[],
         propertyName: string
@@ -111,7 +138,9 @@ export class MetadataArgsStorage {
     }
 
     filterRelations(target: Function | string): RelationMetadataArgs[];
+
     filterRelations(target: (Function | string)[]): RelationMetadataArgs[];
+
     filterRelations(
         target: (Function | string) | (Function | string)[]
     ): RelationMetadataArgs[] {
@@ -122,7 +151,9 @@ export class MetadataArgsStorage {
     }
 
     filterRelationIds(target: Function | string): RelationIdMetadataArgs[];
+
     filterRelationIds(target: (Function | string)[]): RelationIdMetadataArgs[];
+
     filterRelationIds(
         target: (Function | string) | (Function | string)[]
     ): RelationIdMetadataArgs[] {
@@ -135,9 +166,11 @@ export class MetadataArgsStorage {
     filterRelationCounts(
         target: Function | string
     ): RelationCountMetadataArgs[];
+
     filterRelationCounts(
         target: (Function | string)[]
     ): RelationCountMetadataArgs[];
+
     filterRelationCounts(
         target: (Function | string) | (Function | string)[]
     ): RelationCountMetadataArgs[] {
@@ -148,7 +181,9 @@ export class MetadataArgsStorage {
     }
 
     filterIndices(target: Function | string): IndexMetadataArgs[];
+
     filterIndices(target: (Function | string)[]): IndexMetadataArgs[];
+
     filterIndices(
         target: (Function | string) | (Function | string)[]
     ): IndexMetadataArgs[] {
@@ -161,7 +196,9 @@ export class MetadataArgsStorage {
     }
 
     filterUniques(target: Function | string): UniqueMetadataArgs[];
+
     filterUniques(target: (Function | string)[]): UniqueMetadataArgs[];
+
     filterUniques(
         target: (Function | string) | (Function | string)[]
     ): UniqueMetadataArgs[] {
@@ -173,7 +210,9 @@ export class MetadataArgsStorage {
     }
 
     filterChecks(target: Function | string): CheckMetadataArgs[];
+
     filterChecks(target: (Function | string)[]): CheckMetadataArgs[];
+
     filterChecks(
         target: (Function | string) | (Function | string)[]
     ): CheckMetadataArgs[] {
@@ -185,7 +224,9 @@ export class MetadataArgsStorage {
     }
 
     filterExclusions(target: Function | string): ExclusionMetadataArgs[];
+
     filterExclusions(target: (Function | string)[]): ExclusionMetadataArgs[];
+
     filterExclusions(
         target: (Function | string) | (Function | string)[]
     ): ExclusionMetadataArgs[] {
@@ -197,9 +238,11 @@ export class MetadataArgsStorage {
     }
 
     filterListeners(target: Function | string): EntityListenerMetadataArgs[];
+
     filterListeners(
         target: (Function | string)[]
     ): EntityListenerMetadataArgs[];
+
     filterListeners(
         target: (Function | string) | (Function | string)[]
     ): EntityListenerMetadataArgs[] {
@@ -207,7 +250,9 @@ export class MetadataArgsStorage {
     }
 
     filterEmbeddeds(target: Function | string): EmbeddedMetadataArgs[];
+
     filterEmbeddeds(target: (Function | string)[]): EmbeddedMetadataArgs[];
+
     filterEmbeddeds(
         target: (Function | string) | (Function | string)[]
     ): EmbeddedMetadataArgs[] {
@@ -245,9 +290,11 @@ export class MetadataArgsStorage {
     filterSubscribers(
         target: Function | string
     ): EntitySubscriberMetadataArgs[];
+
     filterSubscribers(
         target: (Function | string)[]
     ): EntitySubscriberMetadataArgs[];
+
     filterSubscribers(
         target: (Function | string) | (Function | string)[]
     ): EntitySubscriberMetadataArgs[] {
@@ -257,9 +304,11 @@ export class MetadataArgsStorage {
     filterNamingStrategies(
         target: Function | string
     ): NamingStrategyMetadataArgs[];
+
     filterNamingStrategies(
         target: (Function | string)[]
     ): NamingStrategyMetadataArgs[];
+
     filterNamingStrategies(
         target: (Function | string) | (Function | string)[]
     ): NamingStrategyMetadataArgs[] {

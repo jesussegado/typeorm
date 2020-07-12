@@ -1,4 +1,4 @@
-import { ColumnOptions, getMetadataArgsStorage } from "../../";
+import { ColumnOptions, getMetadataArgsStorage } from "../..";
 import { ColumnMetadataArgs } from "../../metadata-args/ColumnMetadataArgs";
 
 /**
@@ -15,9 +15,9 @@ export function ObjectIdColumn(options?: ColumnOptions): Function {
         // create and register a new column metadata
         getMetadataArgsStorage().columns.push({
             target: object.constructor,
-            propertyName: propertyName,
+            propertyName,
             mode: "objectId",
-            options: options,
+            options,
         } as ColumnMetadataArgs);
     };
 }

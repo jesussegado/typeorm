@@ -11,6 +11,7 @@ const chalk = require("chalk");
  */
 export class SchemaLogCommand implements yargs.CommandModule {
     command = "schema:log";
+
     describe =
         "Shows sql to be executed by schema:sync command. It shows sql log only for your default connection. " +
         "To run update queries on a concrete connection use -c option.";
@@ -31,7 +32,7 @@ export class SchemaLogCommand implements yargs.CommandModule {
     }
 
     async handler(args: yargs.Arguments) {
-        let connection: Connection | undefined = undefined;
+        let connection: Connection | undefined;
         try {
             const connectionOptionsReader = new ConnectionOptionsReader({
                 root: process.cwd(),

@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage, ObjectType, RelationOptions } from "../../";
+import { getMetadataArgsStorage, ObjectType, RelationOptions } from "../..";
 import { RelationMetadataArgs } from "../../metadata-args/RelationMetadataArgs";
 
 /**
@@ -61,13 +61,13 @@ export function OneToOne<T>(
 
         getMetadataArgsStorage().relations.push({
             target: object.constructor,
-            propertyName: propertyName,
+            propertyName,
             // propertyType: reflectedType,
-            isLazy: isLazy,
+            isLazy,
             relationType: "one-to-one",
             type: typeFunctionOrTarget,
-            inverseSideProperty: inverseSideProperty,
-            options: options,
+            inverseSideProperty,
+            options,
         } as RelationMetadataArgs);
     };
 }

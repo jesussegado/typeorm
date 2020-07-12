@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage } from "../../";
+import { getMetadataArgsStorage } from "../..";
 import { TableMetadataArgs } from "../../metadata-args/TableMetadataArgs";
 import { ViewEntityOptions } from "../options/ViewEntityOptions";
 
@@ -34,8 +34,8 @@ export function ViewEntity(
 
     return function (target: Function) {
         getMetadataArgsStorage().tables.push({
-            target: target,
-            name: name,
+            target,
+            name,
             expression: options.expression,
             type: "view",
             database: options.database ? options.database : undefined,

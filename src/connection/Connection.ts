@@ -31,7 +31,7 @@ import { QueryResultCache } from "../cache/QueryResultCache";
 import { SqljsEntityManager } from "../entity-manager/SqljsEntityManager";
 import { RelationLoader } from "../query-builder/RelationLoader";
 import { RelationIdLoader } from "../query-builder/RelationIdLoader";
-import { EntitySchema, PromiseUtils } from "../";
+import { EntitySchema, PromiseUtils } from "..";
 import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
 import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { ObjectUtils } from "../util/ObjectUtils";
@@ -400,10 +400,12 @@ export class Connection {
     async transaction<T>(
         runInTransaction: (entityManager: EntityManager) => Promise<T>
     ): Promise<T>;
+
     async transaction<T>(
         isolationLevel: IsolationLevel,
         runInTransaction: (entityManager: EntityManager) => Promise<T>
     ): Promise<T>;
+
     async transaction<T>(
         isolationOrRunInTransaction:
             | IsolationLevel
@@ -500,7 +502,7 @@ export class Connection {
     createQueryRunner(mode: "master" | "slave" = "master"): QueryRunner {
         const queryRunner = this.driver.createQueryRunner(mode);
         const manager = this.createEntityManager(queryRunner);
-        Object.assign(queryRunner, { manager: manager });
+        Object.assign(queryRunner, { manager });
         return queryRunner;
     }
 
@@ -573,19 +575,19 @@ export class Connection {
         const subscribers = connectionMetadataBuilder.buildSubscribers(
             this.options.subscribers || []
         );
-        ObjectUtils.assign(this, { subscribers: subscribers });
+        ObjectUtils.assign(this, { subscribers });
 
         // build entity metadatas
         const entityMetadatas = connectionMetadataBuilder.buildEntityMetadatas(
             this.options.entities || []
         );
-        ObjectUtils.assign(this, { entityMetadatas: entityMetadatas });
+        ObjectUtils.assign(this, { entityMetadatas });
 
         // create migration instances
         const migrations = connectionMetadataBuilder.buildMigrations(
             this.options.migrations || []
         );
-        ObjectUtils.assign(this, { migrations: migrations });
+        ObjectUtils.assign(this, { migrations });
 
         this.driver.database = this.getDatabaseName();
 

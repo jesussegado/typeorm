@@ -1,5 +1,5 @@
 import { Logger } from "./Logger";
-import { QueryRunner } from "../";
+import { QueryRunner } from "..";
 import { PlatformTools } from "../platform/PlatformTools";
 
 /**
@@ -9,13 +9,19 @@ export class DebugLogger implements Logger {
     private debug = PlatformTools.load("debug");
 
     private debugQueryLog = this.debug("typeorm:query:log");
+
     private debugQueryError = this.debug("typeorm:query:error");
+
     private debugQuerySlow = this.debug("typeorm:query:slow");
+
     private debugSchemaBuild = this.debug("typeorm:schema");
+
     private debugMigration = this.debug("typeorm:migration");
 
     private debugLog = this.debug("typeorm:log");
+
     private debugInfo = this.debug("typeorm:info");
+
     private debugWarn = this.debug("typeorm:warn");
 
     /**

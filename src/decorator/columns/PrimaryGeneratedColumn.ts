@@ -1,4 +1,4 @@
-import { ColumnOptions, getMetadataArgsStorage } from "../../";
+import { ColumnOptions, getMetadataArgsStorage } from "../..";
 import { PrimaryGeneratedColumnNumericOptions } from "../options/PrimaryGeneratedColumnNumericOptions";
 import { PrimaryGeneratedColumnUUIDOptions } from "../options/PrimaryGeneratedColumnUUIDOptions";
 import { GeneratedMetadataArgs } from "../../metadata-args/GeneratedMetadataArgs";
@@ -89,16 +89,16 @@ export function PrimaryGeneratedColumn(
         // register column metadata args
         getMetadataArgsStorage().columns.push({
             target: object.constructor,
-            propertyName: propertyName,
+            propertyName,
             mode: "regular",
-            options: options,
+            options,
         });
 
         // register generated metadata args
         getMetadataArgsStorage().generations.push({
             target: object.constructor,
-            propertyName: propertyName,
-            strategy: strategy,
+            propertyName,
+            strategy,
         } as GeneratedMetadataArgs);
     };
 }

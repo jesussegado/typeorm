@@ -11,7 +11,7 @@ interface Window {
     sqlitePlugin: any;
 }
 
-declare var window: Window;
+declare let window: Window;
 
 export class CordovaDriver extends AbstractSqliteDriver {
     options: CordovaConnectionOptions;

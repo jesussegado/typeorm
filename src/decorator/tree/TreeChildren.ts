@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage, RelationOptions } from "../../";
+import { getMetadataArgsStorage, RelationOptions } from "../..";
 import { RelationMetadataArgs } from "../../metadata-args/RelationMetadataArgs";
 
 /**
@@ -28,11 +28,11 @@ export function TreeChildren(options?: {
         getMetadataArgsStorage().relations.push({
             isTreeChildren: true,
             target: object.constructor,
-            propertyName: propertyName,
-            isLazy: isLazy,
+            propertyName,
+            isLazy,
             relationType: "one-to-many",
             type: () => object.constructor,
-            options: options,
+            options,
         } as RelationMetadataArgs);
     };
 }

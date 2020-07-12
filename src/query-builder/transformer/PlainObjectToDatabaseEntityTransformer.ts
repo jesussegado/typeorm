@@ -7,9 +7,13 @@ import { RelationMetadata } from "../../metadata/RelationMetadata";
  */
 class LoadMapItem {
     entity?: ObjectLiteral;
+
     plainEntity: ObjectLiteral;
+
     metadata: EntityMetadata;
+
     parentLoadMapItem?: LoadMapItem;
+
     relation?: RelationMetadata;
 
     constructor(

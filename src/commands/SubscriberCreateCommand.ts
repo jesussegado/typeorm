@@ -9,6 +9,7 @@ const chalk = require("chalk");
  */
 export class SubscriberCreateCommand implements yargs.CommandModule {
     command = "subscriber:create";
+
     describe = "Generates a new subscriber.";
 
     builder(args: yargs.Argv) {

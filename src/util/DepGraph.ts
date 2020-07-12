@@ -46,7 +46,9 @@ function createDFS(edges: any, leavesOnly: any, result: any) {
 
 export class DepGraph {
     nodes: any = {};
+
     outgoingEdges: any = {}; // Node -> [Dependency Node]
+
     incomingEdges: any = {}; // Node -> [Dependant Node]
 
     /**

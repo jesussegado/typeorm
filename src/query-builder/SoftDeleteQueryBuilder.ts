@@ -201,9 +201,7 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.wheres = []; // don't move this block below since computeWhereParameter can add where expressions
         const condition = this.computeWhereParameter(where);
         if (condition)
-            this.expressionMap.wheres = [
-                { type: "simple", condition: condition },
-            ];
+            this.expressionMap.wheres = [{ type: "simple", condition }];
         if (parameters) this.setParameters(parameters);
         return this;
     }
@@ -260,6 +258,7 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
     orWhereInIds(ids: any | any[]): this {
         return this.orWhere(this.createWhereIdsExpression(ids));
     }
+
     /**
      * Optional returning/output clause.
      * This will return given column values.
@@ -353,14 +352,12 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         if (sort) {
             if (sort instanceof Object) {
                 this.expressionMap.orderBys = sort as OrderByCondition;
+            } else if (nulls) {
+                this.expressionMap.orderBys = {
+                    [sort as string]: { order, nulls },
+                };
             } else {
-                if (nulls) {
-                    this.expressionMap.orderBys = {
-                        [sort as string]: { order, nulls },
-                    };
-                } else {
-                    this.expressionMap.orderBys = { [sort as string]: order };
-                }
+                this.expressionMap.orderBys = { [sort as string]: order };
             }
         } else {
             this.expressionMap.orderBys = {};

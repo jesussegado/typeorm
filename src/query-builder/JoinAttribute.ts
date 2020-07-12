@@ -70,7 +70,9 @@ export class JoinAttribute {
     }
 
     isSelectedCache: boolean;
+
     isSelectedEvaluated: boolean = false;
+
     /**
      * Indicates if this join is selected.
      */
@@ -141,7 +143,9 @@ export class JoinAttribute {
     }
 
     relationCache: RelationMetadata | undefined;
+
     relationEvaluated: boolean = false;
+
     /**
      * Relation of the parent.
      * This is used to understand what is joined.

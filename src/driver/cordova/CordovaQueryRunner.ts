@@ -124,8 +124,6 @@ export class CordovaQueryRunner extends AbstractSqliteQueryRunner {
         objectLiteral: ObjectLiteral,
         startIndex: number = 0
     ): string[] {
-        return Object.keys(objectLiteral).map(
-            (key, index) => `"${key}"` + "=?"
-        );
+        return Object.keys(objectLiteral).map((key, index) => `"${key}"=?`);
     }
 }

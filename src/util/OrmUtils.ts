@@ -42,7 +42,9 @@ export class OrmUtils {
     }
 
     static uniq<T>(array: T[], criteria?: (item: T) => any): T[];
+
     static uniq<T, K extends keyof T>(array: T[], property: K): T[];
+
     static uniq<T, K extends keyof T>(
         array: T[],
         criteriaOrProperty?: ((item: T) => any) | K

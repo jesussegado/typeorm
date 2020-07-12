@@ -1,4 +1,4 @@
-import { Connection, ObjectLiteral } from "../";
+import { Connection, ObjectLiteral } from "..";
 import { RelationMetadata } from "../metadata/RelationMetadata";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 
@@ -123,7 +123,7 @@ export class RelationIdLoader {
             );
             if (!relatedEntityOrEntities.length)
                 return entities.map((entity) => ({
-                    entity: entity,
+                    entity,
                     related: isMany ? [] : undefined,
                 }));
         }
@@ -170,7 +170,7 @@ export class RelationIdLoader {
 
         return entities.map((entity) => {
             const group: { entity: E1; related?: E2 | E2[] } = {
-                entity: entity,
+                entity,
                 related: isMany ? [] : undefined,
             };
             relationIds.forEach((relationId) => {

@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage, JoinColumnOptions } from "../../";
+import { getMetadataArgsStorage, JoinColumnOptions } from "../..";
 import { JoinColumnMetadataArgs } from "../../metadata-args/JoinColumnMetadataArgs";
 
 /**
@@ -37,7 +37,7 @@ export function JoinColumn(
         options.forEach((options) => {
             getMetadataArgsStorage().joinColumns.push({
                 target: object.constructor,
-                propertyName: propertyName,
+                propertyName,
                 name: options.name,
                 referencedColumnName: options.referencedColumnName,
             } as JoinColumnMetadataArgs);

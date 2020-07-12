@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage } from "../";
+import { getMetadataArgsStorage } from "..";
 import { ExclusionMetadataArgs } from "../metadata-args/ExclusionMetadataArgs";
 
 /**
@@ -34,8 +34,8 @@ export function Exclusion(
             target: propertyName
                 ? clsOrObject.constructor
                 : (clsOrObject as Function),
-            name: name,
-            expression: expression,
+            name,
+            expression,
         } as ExclusionMetadataArgs);
     };
 }

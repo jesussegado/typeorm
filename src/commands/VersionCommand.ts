@@ -7,6 +7,7 @@ const exec = require("child_process").exec;
  */
 export class VersionCommand implements yargs.CommandModule {
     command = "version";
+
     describe = "Prints TypeORM version this project uses.";
 
     async handler() {

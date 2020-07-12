@@ -180,7 +180,7 @@ export class ManyToManySubjectBuilder {
 
             relation.junctionEntityMetadata!.ownerColumns.forEach((column) => {
                 junctionSubject.changeMaps.push({
-                    column: column,
+                    column,
                     value: ownerValue,
                     // valueFactory: (value) => column.referencedColumn!.getEntityValue(value) // column.referencedColumn!.getEntityValue(ownerEntityMap),
                 });
@@ -189,7 +189,7 @@ export class ManyToManySubjectBuilder {
             relation.junctionEntityMetadata!.inverseColumns.forEach(
                 (column) => {
                     junctionSubject.changeMaps.push({
-                        column: column,
+                        column,
                         value: inverseValue,
                         // valueFactory: (value) => column.referencedColumn!.getEntityValue(value) // column.referencedColumn!.getEntityValue(inverseEntityMap),
                     });

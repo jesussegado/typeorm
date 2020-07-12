@@ -12,6 +12,7 @@ const chalk = require("chalk");
  */
 export class QueryCommand implements yargs.CommandModule {
     command = "query";
+
     describe =
         "Executes given SQL query on a default connection. Specify connection name to run query on a specific connection.";
 
@@ -30,8 +31,8 @@ export class QueryCommand implements yargs.CommandModule {
     }
 
     async handler(args: yargs.Arguments) {
-        let connection: Connection | undefined = undefined;
-        let queryRunner: QueryRunner | undefined = undefined;
+        let connection: Connection | undefined;
+        let queryRunner: QueryRunner | undefined;
         try {
             // create a connection
             const connectionOptionsReader = new ConnectionOptionsReader({

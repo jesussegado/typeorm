@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage } from "../../";
+import { getMetadataArgsStorage } from "../..";
 import { EntitySubscriberMetadataArgs } from "../../metadata-args/EntitySubscriberMetadataArgs";
 
 /**
@@ -8,7 +8,7 @@ import { EntitySubscriberMetadataArgs } from "../../metadata-args/EntitySubscrib
 export function EventSubscriber() {
     return function (target: Function) {
         getMetadataArgsStorage().entitySubscribers.push({
-            target: target,
+            target,
         } as EntitySubscriberMetadataArgs);
     };
 }

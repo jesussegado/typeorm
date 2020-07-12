@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage, IndexOptions } from "../";
+import { getMetadataArgsStorage, IndexOptions } from "..";
 import { IndexMetadataArgs } from "../metadata-args/IndexMetadataArgs";
 
 /**
@@ -108,7 +108,7 @@ export function Index(
             target: propertyName
                 ? clsOrObject.constructor
                 : (clsOrObject as Function),
-            name: name,
+            name,
             columns: propertyName ? [propertyName] : fields,
             synchronize: !(
                 options &&

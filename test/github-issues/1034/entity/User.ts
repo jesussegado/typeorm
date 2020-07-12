@@ -31,6 +31,7 @@ export class User {
     public setId(id: string): void {
         this.id = id;
     }
+
     /**
      * Getter circles
      *

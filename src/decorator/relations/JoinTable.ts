@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage, JoinTableOptions } from "../../";
+import { getMetadataArgsStorage, JoinTableOptions } from "../..";
 import { JoinTableMetadataArgs } from "../../metadata-args/JoinTableMetadataArgs";
 import { JoinTableMultipleColumnsOptions } from "../options/JoinTableMultipleColumnsOptions";
 
@@ -33,7 +33,7 @@ export function JoinTable(
             ({} as JoinTableOptions | JoinTableMultipleColumnsOptions);
         getMetadataArgsStorage().joinTables.push({
             target: object.constructor,
-            propertyName: propertyName,
+            propertyName,
             name: options.name,
             joinColumns: (options && (options as JoinTableOptions).joinColumn
                 ? [(options as JoinTableOptions).joinColumn!]

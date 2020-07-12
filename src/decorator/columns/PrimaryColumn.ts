@@ -1,4 +1,4 @@
-import { ColumnOptions, ColumnType, getMetadataArgsStorage } from "../../";
+import { ColumnOptions, ColumnType, getMetadataArgsStorage } from "../..";
 import { ColumnTypeUndefinedError } from "../../error/ColumnTypeUndefinedError";
 import { PrimaryColumnCannotBeNullableError } from "../../error/PrimaryColumnCannotBeNullableError";
 import { ColumnMetadataArgs } from "../../metadata-args/ColumnMetadataArgs";
@@ -68,15 +68,15 @@ export function PrimaryColumn(
         // create and register a new column metadata
         getMetadataArgsStorage().columns.push({
             target: object.constructor,
-            propertyName: propertyName,
+            propertyName,
             mode: "regular",
-            options: options,
+            options,
         } as ColumnMetadataArgs);
 
         if (options.generated) {
             getMetadataArgsStorage().generations.push({
                 target: object.constructor,
-                propertyName: propertyName,
+                propertyName,
                 strategy:
                     typeof options.generated === "string"
                         ? options.generated

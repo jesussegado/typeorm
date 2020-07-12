@@ -17,7 +17,7 @@ import { TableIndexOptions } from "../../schema-builder/options/TableIndexOption
 import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";
 import { OrmUtils } from "../../util/OrmUtils";
-import { PromiseUtils, ColumnType } from "../../";
+import { PromiseUtils, ColumnType } from "../..";
 import { TableCheck } from "../../schema-builder/table/TableCheck";
 
 import { IsolationLevel } from "../types/IsolationLevel";
@@ -2446,7 +2446,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
                                     .replace("[]", "")
                                     .toLowerCase();
                                 tableColumn.type = this.connection.driver.normalizeType(
-                                    { type: type }
+                                    { type }
                                 );
                             }
 
@@ -2651,7 +2651,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
                             columnNames: foreignKeys.map(
                                 (dbFk) => dbFk["column_name"]
                             ),
-                            referencedTableName: referencedTableName,
+                            referencedTableName,
                             referencedColumnNames: foreignKeys.map(
                                 (dbFk) => dbFk["referenced_column_name"]
                             ),
@@ -2681,7 +2681,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
                             constraint["constraint_name"]
                     );
                     return new TableIndex(<TableIndexOptions>{
-                        table: table,
+                        table,
                         name: constraint["constraint_name"],
                         columnNames: indices.map((i) => i["column_name"]),
                         isUnique: constraint["is_unique"] === "TRUE",
@@ -2885,8 +2885,8 @@ export class CockroachQueryRunner extends BaseQueryRunner
             .into(this.getTypeormMetadataTableName())
             .values({
                 type: "VIEW",
-                schema: schema,
-                name: name,
+                schema,
+                name,
                 value: expression,
             })
             .getQueryAndParameters();

@@ -1,5 +1,5 @@
 import { FindOperatorType } from "./FindOperatorType";
-import { Connection } from "../";
+import { Connection } from "..";
 import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 

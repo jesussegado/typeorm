@@ -269,14 +269,12 @@ export class RawSqlResultsToEntityTransformer {
             // some checks to make sure this join is for current alias
             if (join.mapToProperty) {
                 if (join.mapToPropertyParentAlias !== alias.name) return;
-            } else {
-                if (
-                    !join.relation ||
-                    join.parentAlias !== alias.name ||
-                    join.relationPropertyPath !== join.relation!.propertyPath
-                )
-                    return;
-            }
+            } else if (
+                !join.relation ||
+                join.parentAlias !== alias.name ||
+                join.relationPropertyPath !== join.relation!.propertyPath
+            )
+                return;
 
             // transform joined data into entities
             let result: any = this.transform(rawResults, join.alias);
@@ -515,14 +513,12 @@ export class RawSqlResultsToEntityTransformer {
             columns = relation.inverseRelation!.joinColumns.map(
                 (joinColumn) => joinColumn
             );
+        } else if (relation.isOwning) {
+            columns = relation.joinColumns.map((joinColumn) => joinColumn);
         } else {
-            if (relation.isOwning) {
-                columns = relation.joinColumns.map((joinColumn) => joinColumn);
-            } else {
-                columns = relation.inverseRelation!.inverseJoinColumns.map(
-                    (joinColumn) => joinColumn
-                );
-            }
+            columns = relation.inverseRelation!.inverseJoinColumns.map(
+                (joinColumn) => joinColumn
+            );
         }
         return columns.reduce((valueMap, column) => {
             rawSqlResults.forEach((rawSqlResult) => {
@@ -571,14 +567,12 @@ export class RawSqlResultsToEntityTransformer {
             columns = relation.inverseRelation!.joinColumns.map(
                 (joinColumn) => joinColumn
             );
+        } else if (relation.isOwning) {
+            columns = relation.joinColumns.map((joinColumn) => joinColumn);
         } else {
-            if (relation.isOwning) {
-                columns = relation.joinColumns.map((joinColumn) => joinColumn);
-            } else {
-                columns = relation.inverseRelation!.inverseJoinColumns.map(
-                    (joinColumn) => joinColumn
-                );
-            }
+            columns = relation.inverseRelation!.inverseJoinColumns.map(
+                (joinColumn) => joinColumn
+            );
         }
         return columns.reduce((data, column) => {
             data[column.databaseName] =

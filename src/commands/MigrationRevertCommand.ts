@@ -10,7 +10,9 @@ const chalk = require("chalk");
  */
 export class MigrationRevertCommand implements yargs.CommandModule {
     command = "migration:revert";
+
     describe = "Reverts last executed migration.";
+
     aliases = "migrations:revert";
 
     builder(args: yargs.Argv) {
@@ -40,7 +42,7 @@ export class MigrationRevertCommand implements yargs.CommandModule {
             );
         }
 
-        let connection: Connection | undefined = undefined;
+        let connection: Connection | undefined;
         try {
             const connectionOptionsReader = new ConnectionOptionsReader({
                 root: process.cwd(),

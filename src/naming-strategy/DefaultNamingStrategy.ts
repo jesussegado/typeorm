@@ -210,5 +210,6 @@ export class DefaultNamingStrategy implements NamingStrategyInterface {
     }
 
     nestedSetColumnNames = { left: "nsleft", right: "nsright" };
+
     materializedPathColumnName = "mpath";
 }

@@ -25,7 +25,7 @@ export class ClosureJunctionEntityMetadataBuilder {
     build(parentClosureEntityMetadata: EntityMetadata) {
         // create entity metadata itself
         const entityMetadata = new EntityMetadata({
-            parentClosureEntityMetadata: parentClosureEntityMetadata,
+            parentClosureEntityMetadata,
             connection: this.connection,
             args: {
                 target: "",
@@ -40,7 +40,7 @@ export class ClosureJunctionEntityMetadataBuilder {
             entityMetadata.ownColumns.push(
                 new ColumnMetadata({
                     connection: this.connection,
-                    entityMetadata: entityMetadata,
+                    entityMetadata,
                     closureType: "ancestor",
                     referencedColumn: primaryColumn,
                     args: {
@@ -58,7 +58,7 @@ export class ClosureJunctionEntityMetadataBuilder {
             entityMetadata.ownColumns.push(
                 new ColumnMetadata({
                     connection: this.connection,
-                    entityMetadata: entityMetadata,
+                    entityMetadata,
                     closureType: "descendant",
                     referencedColumn: primaryColumn,
                     args: {
@@ -77,7 +77,7 @@ export class ClosureJunctionEntityMetadataBuilder {
 
         entityMetadata.ownIndices = [
             new IndexMetadata({
-                entityMetadata: entityMetadata,
+                entityMetadata,
                 columns: [entityMetadata.ownColumns[0]],
                 args: {
                     target: entityMetadata.target,
@@ -85,7 +85,7 @@ export class ClosureJunctionEntityMetadataBuilder {
                 },
             }),
             new IndexMetadata({
-                entityMetadata: entityMetadata,
+                entityMetadata,
                 columns: [entityMetadata.ownColumns[1]],
                 args: {
                     target: entityMetadata.target,
@@ -99,7 +99,7 @@ export class ClosureJunctionEntityMetadataBuilder {
             entityMetadata.ownColumns.push(
                 new ColumnMetadata({
                     connection: this.connection,
-                    entityMetadata: entityMetadata,
+                    entityMetadata,
                     args: {
                         target: "",
                         mode: "virtual",
@@ -116,14 +116,14 @@ export class ClosureJunctionEntityMetadataBuilder {
         // create junction table foreign keys
         entityMetadata.foreignKeys = [
             new ForeignKeyMetadata({
-                entityMetadata: entityMetadata,
+                entityMetadata,
                 referencedEntityMetadata: parentClosureEntityMetadata,
                 columns: [entityMetadata.ownColumns[0]],
                 referencedColumns: parentClosureEntityMetadata.primaryColumns,
                 // onDelete: "CASCADE" // todo: does not work in mssql for some reason
             }),
             new ForeignKeyMetadata({
-                entityMetadata: entityMetadata,
+                entityMetadata,
                 referencedEntityMetadata: parentClosureEntityMetadata,
                 columns: [entityMetadata.ownColumns[1]],
                 referencedColumns: parentClosureEntityMetadata.primaryColumns,

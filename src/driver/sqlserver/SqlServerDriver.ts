@@ -654,6 +654,7 @@ export class SqlServerDriver implements Driver {
             );
         });
     }
+
     private lowerDefaultValueIfNessesary(value: string | undefined) {
         // SqlServer saves function calls in default value as lowercase https://github.com/typeorm/typeorm/issues/2733
         if (!value) {
@@ -666,6 +667,7 @@ export class SqlServerDriver implements Driver {
             })
             .join(`'`);
     }
+
     /**
      * Returns true if driver supports RETURNING / OUTPUT statement.
      */

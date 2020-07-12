@@ -1,4 +1,4 @@
-import { Connection, ObjectLiteral, QueryRunner } from "../";
+import { Connection, ObjectLiteral, QueryRunner } from "..";
 import { RelationMetadata } from "../metadata/RelationMetadata";
 
 /**
@@ -332,7 +332,7 @@ export class RelationLoader {
         };
 
         Object.defineProperty(entity, relation.propertyName, {
-            get: function () {
+            get() {
                 if (
                     this[resolveIndex] === true ||
                     this[dataIndex] !== undefined
@@ -354,7 +354,7 @@ export class RelationLoader {
                     );
                 return setPromise(this, loader);
             },
-            set: function (value: any | Promise<any>) {
+            set(value: any | Promise<any>) {
                 if (value instanceof Promise) {
                     // if set data is a promise then wait for its resolve and save in the object
                     setPromise(this, value);

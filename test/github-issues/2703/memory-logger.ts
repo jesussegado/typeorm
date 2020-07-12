@@ -4,6 +4,7 @@ export class MemoryLogger implements Logger {
     constructor(public enabled = true) {}
 
     private _queries: string[] = [];
+
     get queries() {
         return this._queries;
     }

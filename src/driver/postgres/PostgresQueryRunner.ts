@@ -1,4 +1,4 @@
-import { PromiseUtils, ColumnType } from "../../";
+import { PromiseUtils, ColumnType } from "../..";
 import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { QueryFailedError } from "../../error/QueryFailedError";
 import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
@@ -2660,7 +2660,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
                                 tableColumn.isArray = true;
                                 const type = tableColumn.type.replace("[]", "");
                                 tableColumn.type = this.connection.driver.normalizeType(
-                                    { type: type }
+                                    { type }
                                 );
                             }
 
@@ -2949,7 +2949,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
                             columnNames: foreignKeys.map(
                                 (dbFk) => dbFk["column_name"]
                             ),
-                            referencedTableName: referencedTableName,
+                            referencedTableName,
                             referencedColumnNames: foreignKeys.map(
                                 (dbFk) => dbFk["referenced_column_name"]
                             ),
@@ -2986,7 +2986,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
                         );
                     });
                     return new TableIndex(<TableIndexOptions>{
-                        table: table,
+                        table,
                         name: constraint["constraint_name"],
                         columnNames: indices.map((i) => i["column_name"]),
                         isUnique: constraint["is_unique"] === "TRUE",
@@ -3187,8 +3187,8 @@ export class PostgresQueryRunner extends BaseQueryRunner
             .into(this.getTypeormMetadataTableName())
             .values({
                 type: "VIEW",
-                schema: schema,
-                name: name,
+                schema,
+                name,
                 value: expression,
             })
             .getQueryAndParameters();
@@ -3524,8 +3524,8 @@ export class PostgresQueryRunner extends BaseQueryRunner
             columnOrName instanceof TableColumn
                 ? columnOrName.name
                 : columnOrName;
-        let schema: string | undefined = undefined;
-        let tableName: string | undefined = undefined;
+        let schema: string | undefined;
+        let tableName: string | undefined;
 
         if (table.name.indexOf(".") === -1) {
             tableName = table.name;

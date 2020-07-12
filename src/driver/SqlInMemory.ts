@@ -5,5 +5,6 @@ import { Query } from "./Query";
  */
 export class SqlInMemory {
     upQueries: Query[] = [];
+
     downQueries: Query[] = [];
 }

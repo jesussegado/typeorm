@@ -14,8 +14,10 @@ const chalk = require("chalk");
  */
 export class MigrationGenerateCommand implements yargs.CommandModule {
     command = "migration:generate";
+
     describe =
         "Generates a new migration file with sql needs to be executed to update schema.";
+
     aliases = "migrations:generate";
 
     builder(args: yargs.Argv) {
@@ -68,7 +70,7 @@ export class MigrationGenerateCommand implements yargs.CommandModule {
             } catch (err) {}
         }
 
-        let connection: Connection | undefined = undefined;
+        let connection: Connection | undefined;
         try {
             const connectionOptionsReader = new ConnectionOptionsReader({
                 root: process.cwd(),

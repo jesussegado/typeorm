@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage } from "../";
+import { getMetadataArgsStorage } from "..";
 import { GeneratedMetadataArgs } from "../metadata-args/GeneratedMetadataArgs";
 
 /**
@@ -16,8 +16,8 @@ export function Generated(
     return function (object: Object, propertyName: string) {
         getMetadataArgsStorage().generations.push({
             target: object.constructor,
-            propertyName: propertyName,
-            strategy: strategy,
+            propertyName,
+            strategy,
         } as GeneratedMetadataArgs);
     };
 }

@@ -25,7 +25,7 @@ describe("github issues > #1623 NOT NULL constraint failed after a new column is
                 const userMetadata = connection.getMetadata(User);
 
                 const columnMetadata = new ColumnMetadata({
-                    connection: connection,
+                    connection,
                     entityMetadata: userMetadata,
                     args: <ColumnMetadataArgs>{
                         target: User,

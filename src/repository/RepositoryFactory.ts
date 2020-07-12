@@ -27,9 +27,9 @@ export class RepositoryFactory {
             // however we need these properties for internal work of the class
             const repository = new TreeRepository<any>();
             Object.assign(repository, {
-                manager: manager,
-                metadata: metadata,
-                queryRunner: queryRunner,
+                manager,
+                metadata,
+                queryRunner,
             });
             return repository;
         }
@@ -42,9 +42,9 @@ export class RepositoryFactory {
             repository = new Repository<any>();
         }
         Object.assign(repository, {
-            manager: manager,
-            metadata: metadata,
-            queryRunner: queryRunner,
+            manager,
+            metadata,
+            queryRunner,
         });
 
         return repository;

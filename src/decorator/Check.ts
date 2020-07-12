@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage } from "../";
+import { getMetadataArgsStorage } from "..";
 import { CheckMetadataArgs } from "../metadata-args/CheckMetadataArgs";
 
 /**
@@ -34,8 +34,8 @@ export function Check(
             target: propertyName
                 ? clsOrObject.constructor
                 : (clsOrObject as Function),
-            name: name,
-            expression: expression,
+            name,
+            expression,
         } as CheckMetadataArgs);
     };
 }

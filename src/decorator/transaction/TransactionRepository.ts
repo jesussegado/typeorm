@@ -1,4 +1,4 @@
-import { getMetadataArgsStorage } from "../../";
+import { getMetadataArgsStorage } from "../..";
 import { TransactionRepositoryMetadataArgs } from "../../metadata-args/TransactionRepositoryMetadataArgs";
 import { CannotReflectMethodParameterTypeError } from "../../error/CannotReflectMethodParameterTypeError";
 

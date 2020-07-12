@@ -118,7 +118,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.queryType = "select";
         if (Array.isArray(selection)) {
             this.expressionMap.selects = selection.map((selection) => ({
-                selection: selection,
+                selection,
             }));
         } else if (selection instanceof Function) {
             const subQueryBuilder = selection(this.subQuery());
@@ -129,7 +129,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
             });
         } else if (selection) {
             this.expressionMap.selects = [
-                { selection: selection, aliasName: selectionAliasName },
+                { selection, aliasName: selectionAliasName },
             ];
         }
 
@@ -168,7 +168,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
 
         if (Array.isArray(selection)) {
             this.expressionMap.selects = this.expressionMap.selects.concat(
-                selection.map((selection) => ({ selection: selection }))
+                selection.map((selection) => ({ selection }))
             );
         } else if (selection instanceof Function) {
             const subQueryBuilder = selection(this.subQuery());
@@ -179,7 +179,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
             });
         } else if (selection) {
             this.expressionMap.selects.push({
-                selection: selection,
+                selection,
                 aliasName: selectionAliasName,
             });
         }
@@ -1097,9 +1097,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.wheres = []; // don't move this block below since computeWhereParameter can add where expressions
         const condition = this.computeWhereParameter(where);
         if (condition)
-            this.expressionMap.wheres = [
-                { type: "simple", condition: condition },
-            ];
+            this.expressionMap.wheres = [{ type: "simple", condition }];
         if (parameters) this.setParameters(parameters);
         return this;
     }
@@ -1293,14 +1291,12 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         if (sort) {
             if (sort instanceof Object) {
                 this.expressionMap.orderBys = sort as OrderByCondition;
+            } else if (nulls) {
+                this.expressionMap.orderBys = {
+                    [sort as string]: { order, nulls },
+                };
             } else {
-                if (nulls) {
-                    this.expressionMap.orderBys = {
-                        [sort as string]: { order, nulls },
-                    };
-                } else {
-                    this.expressionMap.orderBys = { [sort as string]: order };
-                }
+                this.expressionMap.orderBys = { [sort as string]: order };
             }
         } else {
             this.expressionMap.orderBys = {};
@@ -2703,7 +2699,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
 
         return {
             raw: rawResults,
-            entities: entities,
+            entities,
         };
     }
 
@@ -2758,20 +2754,17 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                         )
                     )}`
                 ] = orderBys[orderCriteria];
+            } else if (
+                this.expressionMap.selects.find(
+                    (select) =>
+                        select.selection === orderCriteria ||
+                        select.aliasName === orderCriteria
+                )
+            ) {
+                orderByObject[`${this.escape(parentAlias)}.${orderCriteria}`] =
+                    orderBys[orderCriteria];
             } else {
-                if (
-                    this.expressionMap.selects.find(
-                        (select) =>
-                            select.selection === orderCriteria ||
-                            select.aliasName === orderCriteria
-                    )
-                ) {
-                    orderByObject[
-                        `${this.escape(parentAlias)}.${orderCriteria}`
-                    ] = orderBys[orderCriteria];
-                } else {
-                    orderByObject[orderCriteria] = orderBys[orderCriteria];
-                }
+                orderByObject[orderCriteria] = orderBys[orderCriteria];
             }
         });
 
@@ -2788,9 +2781,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
             typeof this.connection.options.cache === "object"
                 ? this.connection.options.cache
                 : {};
-        let savedQueryResultCacheOptions:
-            | QueryResultCacheOptions
-            | undefined = undefined;
+        let savedQueryResultCacheOptions: QueryResultCacheOptions | undefined;
         if (
             this.connection.queryResultCache &&
             (this.expressionMap.cache || cacheOptions.alwaysEnabled)

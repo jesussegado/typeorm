@@ -16,6 +16,7 @@ export class ApplyValueTransformers {
         }
         return transformer.from(databaseValue);
     }
+
     static transformTo(
         transformer: ValueTransformer | ValueTransformer[],
         entityValue: any

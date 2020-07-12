@@ -285,7 +285,7 @@ export class Subject {
                     valueMap = changeMap.relation!.createValueMap(value);
                     this.updatedRelationMaps.push({
                         relation: changeMap.relation,
-                        value: value,
+                        value,
                     });
                 }
             }

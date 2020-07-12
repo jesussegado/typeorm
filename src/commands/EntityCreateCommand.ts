@@ -9,6 +9,7 @@ const chalk = require("chalk");
  */
 export class EntityCreateCommand implements yargs.CommandModule {
     command = "entity:create";
+
     describe = "Generates a new entity.";
 
     builder(args: yargs.Argv) {
