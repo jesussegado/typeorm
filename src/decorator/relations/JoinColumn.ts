@@ -30,7 +30,7 @@ export function JoinColumn(options: JoinColumnOptions[]): Function;
 export function JoinColumn(
     optionsOrOptionsArray?: JoinColumnOptions | JoinColumnOptions[]
 ): Function {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         const options = Array.isArray(optionsOrOptionsArray)
             ? optionsOrOptionsArray
             : [optionsOrOptionsArray || {}];

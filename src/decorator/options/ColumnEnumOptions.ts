@@ -5,7 +5,7 @@ export interface ColumnEnumOptions {
     /**
      * Array of possible enumerated values.
      */
-    enum?: any[] | Object;
+    enum?: any[] | Record<string, any>;
     /**
      * Exact name of enum
      */

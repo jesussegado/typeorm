@@ -6,7 +6,7 @@ import { ColumnMetadataArgs } from "../../metadata-args/ColumnMetadataArgs";
  * Marks your entity's column to be an object id.
  */
 export function ObjectIdColumn(options?: ColumnOptions): Function {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         // if column options are not given then create a new empty options
         if (!options) options = {} as ColumnOptions;
         options.primary = true;

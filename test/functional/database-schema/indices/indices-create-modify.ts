@@ -85,7 +85,7 @@ describe("database schema > indices > reading index from entity and updating dat
                 );
                 entityMetadata!.indices = [
                     new IndexMetadata({
-                        entityMetadata: <EntityMetadata>entityMetadata,
+                        entityMetadata: entityMetadata as EntityMetadata,
                         args: {
                             target: Person,
                             name: "IDX_TEST",

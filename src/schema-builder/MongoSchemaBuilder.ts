@@ -56,10 +56,10 @@ export class MongoSchemaBuilder implements SchemaBuilder {
                 );
             });
             metadata.uniques.forEach((unique) => {
-                const options = <MongodbIndexOptions>{
+                const options = {
                     name: unique.name,
                     unique: true,
-                };
+                } as MongodbIndexOptions;
                 promises.push(
                     queryRunner.createCollectionIndex(
                         metadata.tableName,

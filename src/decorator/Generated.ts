@@ -13,7 +13,7 @@ import { GeneratedMetadataArgs } from "../metadata-args/GeneratedMetadataArgs";
 export function Generated(
     strategy: "increment" | "uuid" | "rowid" = "increment"
 ): Function {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         getMetadataArgsStorage().generations.push({
             target: object.constructor,
             propertyName,

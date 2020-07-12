@@ -126,7 +126,7 @@ export interface ColumnOptions extends ColumnCommonOptions {
     /**
      * Array of possible enumerated values.
      */
-    enum?: (string | number)[] | Object;
+    enum?: (string | number)[] | Record<string, any>;
     /**
      * Exact name of enum
      */

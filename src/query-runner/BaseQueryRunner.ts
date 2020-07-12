@@ -247,9 +247,9 @@ export abstract class BaseQueryRunner {
     }
 
     protected getTypeormMetadataTableName(): string {
-        const options = <
-            SqlServerConnectionOptions | PostgresConnectionOptions
-        >this.connection.driver.options;
+        const options = this.connection.driver.options as
+            | SqlServerConnectionOptions
+            | PostgresConnectionOptions;
         return this.connection.driver.buildTableName(
             "typeorm_metadata",
             options.schema,

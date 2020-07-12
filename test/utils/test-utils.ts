@@ -133,7 +133,7 @@ export interface TestingOptions {
      * Options that may be specific to a driver.
      * They are passed down to the enabled drivers.
      */
-    driverSpecific?: Object;
+    driverSpecific?: Record<string, any>;
 
     /**
      * Factory to create a logger for each test connection.

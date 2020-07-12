@@ -152,10 +152,10 @@ export class Post {
     // -------------------------------------------------------------------------
 
     @Column("jsonb")
-    jsonb: Object;
+    jsonb: Record<string, any>;
 
     @Column("json")
-    json: Object;
+    json: Record<string, any>;
 
     // -------------------------------------------------------------------------
     // Array Type

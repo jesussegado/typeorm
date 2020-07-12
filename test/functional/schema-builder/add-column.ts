@@ -28,7 +28,7 @@ describe("schema builder > add column", () => {
                 const columnMetadata1 = new ColumnMetadata({
                     connection,
                     entityMetadata: postMetadata!,
-                    args: <ColumnMetadataArgs>{
+                    args: {
                         target: Post,
                         propertyName: "secondId",
                         mode: "regular",
@@ -40,14 +40,14 @@ describe("schema builder > add column", () => {
                             ), // CockroachDB does not allow changing pk
                             nullable: false,
                         },
-                    },
+                    } as ColumnMetadataArgs,
                 });
                 columnMetadata1.build(connection);
 
                 const columnMetadata2 = new ColumnMetadata({
                     connection,
                     entityMetadata: postMetadata!,
-                    args: <ColumnMetadataArgs>{
+                    args: {
                         target: Post,
                         propertyName: "description",
                         mode: "regular",
@@ -56,7 +56,7 @@ describe("schema builder > add column", () => {
                             name: "description",
                             length: 100,
                         },
-                    },
+                    } as ColumnMetadataArgs,
                 });
                 columnMetadata2.build(connection);
 

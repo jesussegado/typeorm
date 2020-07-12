@@ -137,7 +137,7 @@ describe("query runner > create table", () => {
                     true
                 );
 
-                const questionTableOptions = <TableOptions>{
+                const questionTableOptions = {
                     name: "question",
                     columns: [
                         {
@@ -182,7 +182,7 @@ describe("query runner > create table", () => {
                             referencedColumnNames: ["id", "userId"],
                         },
                     ],
-                };
+                } as TableOptions;
 
                 if (
                     connection.driver instanceof MysqlDriver ||
@@ -209,7 +209,7 @@ describe("query runner > create table", () => {
                     true
                 );
 
-                const categoryTableOptions = <TableOptions>{
+                const categoryTableOptions = {
                     name: "category",
                     columns: [
                         {
@@ -247,7 +247,7 @@ describe("query runner > create table", () => {
                             referencedColumnNames: ["id"],
                         },
                     ],
-                };
+                } as TableOptions;
 
                 if (
                     connection.driver instanceof MysqlDriver ||

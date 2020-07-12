@@ -2991,13 +2991,13 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                             index["INDEX_NAME"] === constraint["INDEX_NAME"]
                         );
                     });
-                    return new TableIndex(<TableIndexOptions>{
+                    return new TableIndex({
                         table,
                         name: constraint["INDEX_NAME"],
                         columnNames: indices.map((i) => i["COLUMN_NAME"]),
                         isUnique: constraint["IS_UNIQUE"],
                         where: constraint["CONDITION"],
-                    });
+                    } as TableIndexOptions);
                 });
 
                 return table;

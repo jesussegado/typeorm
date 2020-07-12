@@ -27,7 +27,7 @@ export function JoinTable(options: JoinTableMultipleColumnsOptions): Function;
 export function JoinTable(
     options?: JoinTableOptions | JoinTableMultipleColumnsOptions
 ): Function {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         options =
             options ||
             ({} as JoinTableOptions | JoinTableMultipleColumnsOptions);

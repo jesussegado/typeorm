@@ -6,7 +6,7 @@ import { EntityListenerMetadataArgs } from "../../metadata-args/EntityListenerMe
  * Calls a method on which this decorator is applied before this entity removal.
  */
 export function BeforeRemove() {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         getMetadataArgsStorage().entityListeners.push({
             target: object.constructor,
             propertyName,

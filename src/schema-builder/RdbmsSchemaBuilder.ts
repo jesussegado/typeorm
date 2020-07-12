@@ -513,9 +513,10 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                                 : undefined;
                         const schema =
                             metadata.schema ||
-                            (<SqlServerDriver | PostgresDriver | SapDriver>(
-                                this.connection.driver
-                            )).options.schema;
+                            (this.connection.driver as
+                                | SqlServerDriver
+                                | PostgresDriver
+                                | SapDriver).options.schema;
                         const fullTableName = this.connection.driver.buildTableName(
                             metadata.tableName,
                             schema,
@@ -552,9 +553,9 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                             : undefined;
                     const schema =
                         metadata.schema ||
-                        (<SqlServerDriver | PostgresDriver>(
-                            this.connection.driver
-                        )).options.schema;
+                        (this.connection.driver as
+                            | SqlServerDriver
+                            | PostgresDriver).options.schema;
                     const fullViewName = this.connection.driver.buildTableName(
                         metadata.tableName,
                         schema,
@@ -601,9 +602,9 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                                 : undefined;
                         const schema =
                             metadata.schema ||
-                            (<SqlServerDriver | PostgresDriver>(
-                                this.connection.driver
-                            )).options.schema;
+                            (this.connection.driver as
+                                | SqlServerDriver
+                                | PostgresDriver).options.schema;
                         const fullViewName = this.connection.driver.buildTableName(
                             metadata.tableName,
                             schema,
@@ -1182,9 +1183,9 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
      * Creates typeorm service table for storing user defined Views.
      */
     protected async createTypeormMetadataTable() {
-        const options = <
-            SqlServerConnectionOptions | PostgresConnectionOptions
-        >this.connection.driver.options;
+        const options = this.connection.driver.options as
+            | SqlServerConnectionOptions
+            | PostgresConnectionOptions;
         const typeormMetadataTable = this.connection.driver.buildTableName(
             "typeorm_metadata",
             options.schema,

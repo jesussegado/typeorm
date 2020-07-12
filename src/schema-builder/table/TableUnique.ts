@@ -36,10 +36,10 @@ export class TableUnique {
      * Creates a new copy of this constraint with exactly same properties.
      */
     clone(): TableUnique {
-        return new TableUnique(<TableUniqueOptions>{
+        return new TableUnique({
             name: this.name,
             columnNames: [...this.columnNames],
-        });
+        } as TableUniqueOptions);
     }
 
     // -------------------------------------------------------------------------
@@ -50,11 +50,11 @@ export class TableUnique {
      * Creates unique from the unique metadata object.
      */
     static create(uniqueMetadata: UniqueMetadata): TableUnique {
-        return new TableUnique(<TableUniqueOptions>{
+        return new TableUnique({
             name: uniqueMetadata.name,
             columnNames: uniqueMetadata.columns.map(
                 (column) => column.databaseName
             ),
-        });
+        } as TableUniqueOptions);
     }
 }

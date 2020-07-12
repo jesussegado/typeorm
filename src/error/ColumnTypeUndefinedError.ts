@@ -5,7 +5,7 @@
 export class ColumnTypeUndefinedError extends Error {
     name = "ColumnTypeUndefinedError";
 
-    constructor(object: Object, propertyName: string) {
+    constructor(object: Record<string, any>, propertyName: string) {
         super();
         Object.setPrototypeOf(this, ColumnTypeUndefinedError.prototype);
         this.message =

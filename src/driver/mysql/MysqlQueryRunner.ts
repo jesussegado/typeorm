@@ -145,12 +145,12 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
     /**
      * Executes a raw SQL query.
      */
-    query(query: string, parameters?: any[]): Promise<any> {
+    async query(query: string, parameters?: any[]): Promise<any> {
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError();
 
-        return new Promise(async (ok, fail) => {
+        const databaseConnection = await this.connect();
+        return new Promise((ok, fail) => {
             try {
-                const databaseConnection = await this.connect();
                 this.driver.connection.logger.logQuery(query, parameters, this);
                 const queryStartTime = +new Date();
                 databaseConnection.query(
@@ -199,7 +199,7 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
     /**
      * Returns raw data stream.
      */
-    stream(
+    async stream(
         query: string,
         parameters?: any[],
         onEnd?: Function,
@@ -207,21 +207,12 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
     ): Promise<ReadStream> {
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError();
 
-        return new Promise(async (ok, fail) => {
-            try {
-                const databaseConnection = await this.connect();
-                this.driver.connection.logger.logQuery(query, parameters, this);
-                const databaseQuery = databaseConnection.query(
-                    query,
-                    parameters
-                );
-                if (onEnd) databaseQuery.on("end", onEnd);
-                if (onError) databaseQuery.on("error", onError);
-                ok(databaseQuery.stream());
-            } catch (err) {
-                fail(err);
-            }
-        });
+        const databaseConnection = await this.connect();
+        this.driver.connection.logger.logQuery(query, parameters, this);
+        const databaseQuery = databaseConnection.query(query, parameters);
+        if (onEnd) databaseQuery.on("end", onEnd);
+        if (onError) databaseQuery.on("error", onError);
+        return databaseQuery.stream();
     }
 
     /**
@@ -2436,14 +2427,14 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
 
                     const nonUnique = parseInt(constraint["NON_UNIQUE"], 10);
 
-                    return new TableIndex(<TableIndexOptions>{
+                    return new TableIndex({
                         table,
                         name: constraint["INDEX_NAME"],
                         columnNames: indices.map((i) => i["COLUMN_NAME"]),
                         isUnique: nonUnique === 0,
                         isSpatial: constraint["INDEX_TYPE"] === "SPATIAL",
                         isFulltext: constraint["INDEX_TYPE"] === "FULLTEXT",
-                    });
+                    } as TableIndexOptions);
                 });
 
                 return table;

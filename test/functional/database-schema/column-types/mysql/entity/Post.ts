@@ -184,7 +184,7 @@ export class Post {
     classEnum1: FruitEnum;
 
     @Column("json")
-    json: Object;
+    json: Record<string, any>;
 
     @Column("simple-array")
     simpleArray: string[];

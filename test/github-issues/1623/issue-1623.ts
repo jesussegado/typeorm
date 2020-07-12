@@ -27,7 +27,7 @@ describe("github issues > #1623 NOT NULL constraint failed after a new column is
                 const columnMetadata = new ColumnMetadata({
                     connection,
                     entityMetadata: userMetadata,
-                    args: <ColumnMetadataArgs>{
+                    args: {
                         target: User,
                         propertyName: "userName",
                         mode: "regular",
@@ -35,7 +35,7 @@ describe("github issues > #1623 NOT NULL constraint failed after a new column is
                             type: "varchar",
                             name: "userName",
                         },
-                    },
+                    } as ColumnMetadataArgs,
                 });
                 columnMetadata.build(connection);
 

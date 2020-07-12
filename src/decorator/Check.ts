@@ -29,7 +29,10 @@ export function Check(
 
     if (!expression) throw new Error(`Check expression is required`);
 
-    return function (clsOrObject: Function | Object, propertyName?: string) {
+    return function (
+        clsOrObject: Function | Record<string, any>,
+        propertyName?: string
+    ) {
         getMetadataArgsStorage().checks.push({
             target: propertyName
                 ? clsOrObject.constructor

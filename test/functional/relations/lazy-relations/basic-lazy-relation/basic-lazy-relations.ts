@@ -421,7 +421,7 @@ describe("basic-lazy-relations", () => {
                             post.oneCategory = Promise.resolve(category);
                             await manager.save(post);
 
-                            return await manager.findOne(Category, {
+                            return manager.findOne(Category, {
                                 where: { name: "category of great post" },
                             });
                         }

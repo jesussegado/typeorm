@@ -41,13 +41,15 @@ export function Unique(
     const name = typeof nameOrFields === "string" ? nameOrFields : undefined;
     const fields =
         typeof nameOrFields === "string"
-            ? <
+            ? (maybeFields as
                   | ((object?: any) => any[] | { [key: string]: number })
-                  | string[]
-              >maybeFields
+                  | string[])
             : (nameOrFields as string[]);
 
-    return function (clsOrObject: Function | Object, propertyName?: string) {
+    return function (
+        clsOrObject: Function | Record<string, any>,
+        propertyName?: string
+    ) {
         const args: UniqueMetadataArgs = {
             target: propertyName
                 ? clsOrObject.constructor

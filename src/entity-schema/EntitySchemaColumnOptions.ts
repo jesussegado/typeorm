@@ -168,7 +168,7 @@ export interface EntitySchemaColumnOptions extends SpatialColumnOptions {
     /**
      * Array of possible enumerated values.
      */
-    enum?: any[] | Object;
+    enum?: any[] | Record<string, any>;
 
     /**
      * Generated column expression. Supports only in MySQL.

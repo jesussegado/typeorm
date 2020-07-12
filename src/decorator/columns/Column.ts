@@ -137,16 +137,16 @@ export function Column(
         | (ColumnOptions & ColumnEmbeddedOptions),
     options?: ColumnOptions & ColumnEmbeddedOptions
 ): Function {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         // normalize parameters
         let type: ColumnType | undefined;
         if (
             typeof typeOrOptions === "string" ||
             typeOrOptions instanceof Function
         ) {
-            type = <ColumnType>typeOrOptions;
+            type = typeOrOptions as ColumnType;
         } else if (typeOrOptions) {
-            options = <ColumnOptions>typeOrOptions;
+            options = typeOrOptions as ColumnOptions;
             type = typeOrOptions.type;
         }
         if (!options) options = {} as ColumnOptions;

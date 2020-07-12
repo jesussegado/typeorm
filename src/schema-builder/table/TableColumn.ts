@@ -181,7 +181,7 @@ export class TableColumn {
      * Clones this column to a new column with exact same properties as this column has.
      */
     clone(): TableColumn {
-        return new TableColumn(<TableColumnOptions>{
+        return new TableColumn({
             name: this.name,
             type: this.type,
             length: this.length,
@@ -207,6 +207,6 @@ export class TableColumn {
             comment: this.comment,
             spatialFeatureType: this.spatialFeatureType,
             srid: this.srid,
-        });
+        } as TableColumnOptions);
     }
 }

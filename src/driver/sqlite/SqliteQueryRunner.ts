@@ -30,12 +30,13 @@ export class SqliteQueryRunner extends AbstractSqliteQueryRunner {
     /**
      * Executes a given SQL query.
      */
-    query(query: string, parameters?: any[]): Promise<any> {
+    async query(query: string, parameters?: any[]): Promise<any> {
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError();
 
         const { connection } = this.driver;
+        const databaseConnection = await this.connect();
 
-        return new Promise<any[]>(async (ok, fail) => {
+        return new Promise<any[]>((ok, fail) => {
             const handler = function (err: any, result: any) {
                 // log slow queries if maxQueryExecution time is set
                 const { maxQueryExecutionTime } = connection.options;
@@ -65,7 +66,6 @@ export class SqliteQueryRunner extends AbstractSqliteQueryRunner {
                 }
             };
 
-            const databaseConnection = await this.connect();
             this.driver.connection.logger.logQuery(query, parameters, this);
             const queryStartTime = +new Date();
             const isInsertQuery = query.substr(0, 11) === "INSERT INTO";

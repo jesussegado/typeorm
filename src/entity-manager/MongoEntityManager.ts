@@ -193,7 +193,7 @@ export class MongoEntityManager extends EntityManager {
                     )
                 );
         }
-        return await cursor.toArray();
+        return cursor.toArray();
     }
 
     /**
@@ -577,7 +577,11 @@ export class MongoEntityManager extends EntityManager {
     findOneAndDelete<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         query: ObjectLiteral,
-        options?: { projection?: Object; sort?: Object; maxTimeMS?: number }
+        options?: {
+            projection?: Record<string, any>;
+            sort?: Record<string, any>;
+            maxTimeMS?: number;
+        }
     ): Promise<FindAndModifyWriteOpResultObject> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.findOneAndDelete(
@@ -593,7 +597,7 @@ export class MongoEntityManager extends EntityManager {
     findOneAndReplace<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         query: ObjectLiteral,
-        replacement: Object,
+        replacement: Record<string, any>,
         options?: FindOneAndReplaceOption
     ): Promise<FindAndModifyWriteOpResultObject> {
         const metadata = this.connection.getMetadata(entityClassOrName);
@@ -611,7 +615,7 @@ export class MongoEntityManager extends EntityManager {
     findOneAndUpdate<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         query: ObjectLiteral,
-        update: Object,
+        update: Record<string, any>,
         options?: FindOneAndReplaceOption
     ): Promise<FindAndModifyWriteOpResultObject> {
         const metadata = this.connection.getMetadata(entityClassOrName);
@@ -659,9 +663,9 @@ export class MongoEntityManager extends EntityManager {
      */
     group<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        keys: Object | Array<any> | Function | Code,
-        condition: Object,
-        initial: Object,
+        keys: Record<string, any> | Array<any> | Function | Code,
+        condition: Record<string, any>,
+        initial: Record<string, any>,
         reduce: Function | Code,
         finalize: Function | Code,
         command: boolean,
@@ -883,7 +887,7 @@ export class MongoEntityManager extends EntityManager {
 
     watch<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        pipeline?: Object[],
+        pipeline?: Record<string, any>[],
         options?: ChangeStreamOptions
     ): ChangeStream {
         const metadata = this.connection.getMetadata(entityClassOrName);

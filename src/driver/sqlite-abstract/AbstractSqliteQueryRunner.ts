@@ -1332,13 +1332,13 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                         const isUnique =
                             dbIndex!["unique"] === "1" ||
                             dbIndex!["unique"] === 1;
-                        return new TableIndex(<TableIndexOptions>{
+                        return new TableIndex({
                             table,
                             name: dbIndex!["name"],
                             columnNames: indexColumns,
                             isUnique,
                             where: condition ? condition[1] : undefined,
-                        });
+                        } as TableIndexOptions);
                     });
                 const indices = await Promise.all(indicesPromises);
                 table.indices = indices.filter(

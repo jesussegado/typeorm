@@ -8,7 +8,7 @@ import { CannotReflectMethodParameterTypeError } from "../../error/CannotReflect
 export function TransactionRepository(
     entityType?: Function
 ): ParameterDecorator {
-    return (object: Object, methodName: string, index: number) => {
+    return (object: Record<string, any>, methodName: string, index: number) => {
         // get repository type
         let repositoryType: Function;
         try {

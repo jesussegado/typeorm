@@ -43,9 +43,9 @@ export class MigrationExecutor {
         protected connection: Connection,
         protected queryRunner?: QueryRunner
     ) {
-        const options = <
-            SqlServerConnectionOptions | PostgresConnectionOptions
-        >this.connection.driver.options;
+        const options = this.connection.driver.options as
+            | SqlServerConnectionOptions
+            | PostgresConnectionOptions;
         this.migrationsTableName =
             connection.options.migrationsTableName || "migrations";
         this.migrationsTable = this.connection.driver.buildTableName(
@@ -86,7 +86,7 @@ export class MigrationExecutor {
         return this.withQueryRunner(async (queryRunner) => {
             await this.createMigrationsTableIfNotExist(queryRunner);
 
-            return await this.loadExecutedMigrations(queryRunner);
+            return this.loadExecutedMigrations(queryRunner);
         });
     }
 
@@ -451,7 +451,7 @@ export class MigrationExecutor {
     ): Promise<Migration[]> {
         if (this.connection.driver instanceof MongoDriver) {
             const mongoRunner = queryRunner as MongoQueryRunner;
-            return await mongoRunner.databaseConnection
+            return mongoRunner.databaseConnection
                 .db(this.connection.driver.database!)
                 .collection(this.migrationsTableName)
                 .find<Migration>()

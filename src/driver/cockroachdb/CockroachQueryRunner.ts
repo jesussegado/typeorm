@@ -185,12 +185,12 @@ export class CockroachQueryRunner extends BaseQueryRunner
     /**
      * Executes a given SQL query.
      */
-    query(query: string, parameters?: any[], options?: {}): Promise<any> {
+    async query(query: string, parameters?: any[], options?: {}): Promise<any> {
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError();
+        const databaseConnection = await this.connect();
 
-        return new Promise<any[]>(async (ok, fail) => {
+        return new Promise<any[]>((ok, fail) => {
             try {
-                const databaseConnection = await this.connect();
                 this.driver.connection.logger.logQuery(query, parameters, this);
                 const queryStartTime = +new Date();
 
@@ -249,7 +249,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
     /**
      * Returns raw data stream.
      */
-    stream(
+    async stream(
         query: string,
         parameters?: any[],
         onEnd?: Function,
@@ -258,20 +258,14 @@ export class CockroachQueryRunner extends BaseQueryRunner
         const QueryStream = this.driver.loadStreamDependency();
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError();
 
-        return new Promise(async (ok, fail) => {
-            try {
-                const databaseConnection = await this.connect();
-                this.driver.connection.logger.logQuery(query, parameters, this);
-                const stream = databaseConnection.query(
-                    new QueryStream(query, parameters)
-                );
-                if (onEnd) stream.on("end", onEnd);
-                if (onError) stream.on("error", onError);
-                ok(stream);
-            } catch (err) {
-                fail(err);
-            }
-        });
+        const databaseConnection = await this.connect();
+        this.driver.connection.logger.logQuery(query, parameters, this);
+        const stream = databaseConnection.query(
+            new QueryStream(query, parameters)
+        );
+        if (onEnd) stream.on("end", onEnd);
+        if (onError) stream.on("error", onError);
+        return stream;
     }
 
     /**
@@ -2681,7 +2675,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
                             index["constraint_name"] ===
                             constraint["constraint_name"]
                     );
-                    return new TableIndex(<TableIndexOptions>{
+                    return new TableIndex({
                         table,
                         name: constraint["constraint_name"],
                         columnNames: indices.map((i) => i["column_name"]),
@@ -2694,7 +2688,7 @@ export class CockroachQueryRunner extends BaseQueryRunner
                                 ) >= 0
                         ),
                         isFulltext: false,
-                    });
+                    } as TableIndexOptions);
                 });
 
                 return table;

@@ -69,7 +69,7 @@ export class TableIndex {
      * Creates a new copy of this index with exactly same properties.
      */
     clone(): TableIndex {
-        return new TableIndex(<TableIndexOptions>{
+        return new TableIndex({
             name: this.name,
             columnNames: [...this.columnNames],
             isUnique: this.isUnique,
@@ -77,7 +77,7 @@ export class TableIndex {
             isFulltext: this.isFulltext,
             parser: this.parser,
             where: this.where,
-        });
+        } as TableIndexOptions);
     }
 
     // -------------------------------------------------------------------------
@@ -88,7 +88,7 @@ export class TableIndex {
      * Creates index from the index metadata object.
      */
     static create(indexMetadata: IndexMetadata): TableIndex {
-        return new TableIndex(<TableIndexOptions>{
+        return new TableIndex({
             name: indexMetadata.name,
             columnNames: indexMetadata.columns.map(
                 (column) => column.databaseName
@@ -98,6 +98,6 @@ export class TableIndex {
             isFulltext: indexMetadata.isFulltext,
             parser: indexMetadata.parser,
             where: indexMetadata.where,
-        });
+        } as TableIndexOptions);
     }
 }

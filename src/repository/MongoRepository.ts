@@ -289,7 +289,11 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
      */
     findOneAndDelete(
         query: ObjectLiteral,
-        options?: { projection?: Object; sort?: Object; maxTimeMS?: number }
+        options?: {
+            projection?: Record<string, any>;
+            sort?: Record<string, any>;
+            maxTimeMS?: number;
+        }
     ): Promise<FindAndModifyWriteOpResultObject> {
         return this.manager.findOneAndDelete(
             this.metadata.tableName,
@@ -303,7 +307,7 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
      */
     findOneAndReplace(
         query: ObjectLiteral,
-        replacement: Object,
+        replacement: Record<string, any>,
         options?: FindOneAndReplaceOption
     ): Promise<FindAndModifyWriteOpResultObject> {
         return this.manager.findOneAndReplace(
@@ -319,7 +323,7 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
      */
     findOneAndUpdate(
         query: ObjectLiteral,
-        update: Object,
+        update: Record<string, any>,
         options?: FindOneAndReplaceOption
     ): Promise<FindAndModifyWriteOpResultObject> {
         return this.manager.findOneAndUpdate(
@@ -357,9 +361,9 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
      * Run a group command across a collection.
      */
     group(
-        keys: Object | Array<any> | Function | Code,
-        condition: Object,
-        initial: Object,
+        keys: Record<string, any> | Array<any> | Function | Code,
+        condition: Record<string, any>,
+        initial: Record<string, any>,
         reduce: Function | Code,
         finalize: Function | Code,
         command: boolean,

@@ -129,25 +129,18 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
     /**
      * Returns raw data stream.
      */
-    stream(
+    async stream(
         query: string,
         parameters?: any[],
         onEnd?: Function,
         onError?: Function
     ): Promise<ReadStream> {
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError();
-
-        return new Promise(async (ok, fail) => {
-            try {
-                const databaseConnection = await this.connect();
-                const stream = databaseConnection.query(query, parameters);
-                if (onEnd) stream.on("end", onEnd);
-                if (onError) stream.on("error", onError);
-                ok(stream);
-            } catch (err) {
-                fail(err);
-            }
-        });
+        const databaseConnection = await this.connect();
+        const stream = databaseConnection.query(query, parameters);
+        if (onEnd) stream.on("end", onEnd);
+        if (onError) stream.on("error", onError);
+        return stream;
     }
 
     /**
@@ -2328,14 +2321,14 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
 
                     const nonUnique = parseInt(constraint["NON_UNIQUE"], 10);
 
-                    return new TableIndex(<TableIndexOptions>{
+                    return new TableIndex({
                         table,
                         name: constraint["INDEX_NAME"],
                         columnNames: indices.map((i) => i["COLUMN_NAME"]),
                         isUnique: nonUnique === 0,
                         isSpatial: constraint["INDEX_TYPE"] === "SPATIAL",
                         isFulltext: constraint["INDEX_TYPE"] === "FULLTEXT",
-                    });
+                    } as TableIndexOptions);
                 });
 
                 return table;

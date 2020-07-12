@@ -28,7 +28,7 @@ export function Transaction(
     connectionOrOptions?: string | TransactionOptions
 ): MethodDecorator {
     return function (
-        target: Object,
+        target: Record<string, any>,
         methodName: string,
         descriptor: PropertyDescriptor
     ) {

@@ -69,7 +69,7 @@ export class TableForeignKey {
      * Creates a new copy of this foreign key with exactly same properties.
      */
     clone(): TableForeignKey {
-        return new TableForeignKey(<TableForeignKeyOptions>{
+        return new TableForeignKey({
             name: this.name,
             columnNames: [...this.columnNames],
             referencedColumnNames: [...this.referencedColumnNames],
@@ -77,7 +77,7 @@ export class TableForeignKey {
             onDelete: this.onDelete,
             onUpdate: this.onUpdate,
             deferrable: this.deferrable,
-        });
+        } as TableForeignKeyOptions);
     }
 
     // -------------------------------------------------------------------------
@@ -88,7 +88,7 @@ export class TableForeignKey {
      * Creates a new table foreign key from the given foreign key metadata.
      */
     static create(metadata: ForeignKeyMetadata): TableForeignKey {
-        return new TableForeignKey(<TableForeignKeyOptions>{
+        return new TableForeignKey({
             name: metadata.name,
             columnNames: metadata.columnNames,
             referencedColumnNames: metadata.referencedColumnNames,
@@ -96,6 +96,6 @@ export class TableForeignKey {
             onDelete: metadata.onDelete,
             onUpdate: metadata.onUpdate,
             deferrable: metadata.deferrable,
-        });
+        } as TableForeignKeyOptions);
     }
 }

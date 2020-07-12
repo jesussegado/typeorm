@@ -42,11 +42,11 @@ export class TableCheck {
      * Creates a new copy of this constraint with exactly same properties.
      */
     clone(): TableCheck {
-        return new TableCheck(<TableCheckOptions>{
+        return new TableCheck({
             name: this.name,
             columnNames: this.columnNames ? [...this.columnNames] : [],
             expression: this.expression,
-        });
+        } as TableCheckOptions);
     }
 
     // -------------------------------------------------------------------------
@@ -57,9 +57,9 @@ export class TableCheck {
      * Creates checks from the check metadata object.
      */
     static create(checkMetadata: CheckMetadata): TableCheck {
-        return new TableCheck(<TableCheckOptions>{
+        return new TableCheck({
             name: checkMetadata.name,
             expression: checkMetadata.expression,
-        });
+        } as TableCheckOptions);
     }
 }

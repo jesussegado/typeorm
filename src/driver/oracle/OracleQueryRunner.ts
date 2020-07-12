@@ -158,10 +158,11 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
     /**
      * Executes a given SQL query.
      */
-    query(query: string, parameters?: any[]): Promise<any> {
+    async query(query: string, parameters?: any[]): Promise<any> {
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError();
+        const databaseConnection = await this.connect();
 
-        return new Promise(async (ok, fail) => {
+        return new Promise((ok, fail) => {
             try {
                 this.driver.connection.logger.logQuery(query, parameters, this);
                 const queryStartTime = +new Date();
@@ -202,7 +203,6 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
                     autoCommit: !this.isTransactionActive,
                 };
 
-                const databaseConnection = await this.connect();
                 databaseConnection.execute(
                     query,
                     parameters || {},

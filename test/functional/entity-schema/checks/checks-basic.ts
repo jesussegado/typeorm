@@ -13,7 +13,7 @@ describe("entity-schema > checks", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [<any>PersonSchema],
+                entities: [PersonSchema as any],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

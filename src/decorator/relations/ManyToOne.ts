@@ -35,14 +35,14 @@ export function ManyToOne<T>(
     // normalize parameters
     let inverseSideProperty: string | ((object: T) => any);
     if (typeof inverseSideOrOptions === "object") {
-        options = <RelationOptions>inverseSideOrOptions;
+        options = inverseSideOrOptions as RelationOptions;
     } else {
-        inverseSideProperty = <string | ((object: T) => any)>(
-            inverseSideOrOptions
-        );
+        inverseSideProperty = inverseSideOrOptions as
+            | string
+            | ((object: T) => any);
     }
 
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         if (!options) options = {} as RelationOptions;
 
         // now try to determine it its lazy relation

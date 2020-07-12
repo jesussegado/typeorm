@@ -520,7 +520,7 @@ export class EntityMetadata {
         // if target is set to a function (e.g. class) that can be created then create it
         let ret: any;
         if (this.target instanceof Function) {
-            ret = new (<any>this.target)();
+            ret = new (this.target as any)();
             this.lazyRelations.forEach((relation) =>
                 this.connection.relationLoader.enableLazyLoad(
                     relation,

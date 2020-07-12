@@ -46,11 +46,11 @@ export class View {
      * Clones this table to a new table with all properties cloned.
      */
     clone(): View {
-        return new View(<ViewOptions>{
+        return new View({
             name: this.name,
             expression: this.expression,
             materialized: this.materialized,
-        });
+        } as ViewOptions);
     }
 
     // -------------------------------------------------------------------------

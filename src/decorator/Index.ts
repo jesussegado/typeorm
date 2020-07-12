@@ -86,10 +86,9 @@ export function Index(
             : undefined;
     const fields =
         typeof nameOrFieldsOrOptions === "string"
-            ? <
+            ? (maybeFieldsOrOptions as
                   | ((object?: any) => any[] | { [key: string]: number })
-                  | string[]
-              >maybeFieldsOrOptions
+                  | string[])
             : (nameOrFieldsOrOptions as string[]);
     let options =
         typeof nameOrFieldsOrOptions === "object" &&
@@ -103,7 +102,10 @@ export function Index(
                 ? (maybeFieldsOrOptions as IndexOptions)
                 : maybeOptions;
 
-    return function (clsOrObject: Function | Object, propertyName?: string) {
+    return function (
+        clsOrObject: Function | Record<string, any>,
+        propertyName?: string
+    ) {
         getMetadataArgsStorage().indices.push({
             target: propertyName
                 ? clsOrObject.constructor

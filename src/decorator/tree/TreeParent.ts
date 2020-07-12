@@ -6,7 +6,7 @@ import { RelationMetadataArgs } from "../../metadata-args/RelationMetadataArgs";
  * "Tree parent" indicates who owns (is a parent) of this entity in tree structure.
  */
 export function TreeParent(): Function {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         // now try to determine it its lazy relation
         const reflectedType =
             Reflect && (Reflect as any).getMetadata

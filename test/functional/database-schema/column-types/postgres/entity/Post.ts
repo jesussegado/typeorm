@@ -142,7 +142,7 @@ export class Post {
     // -------------------------------------------------------------------------
 
     @Column("point")
-    point: string | Object;
+    point: string | Record<string, any>;
 
     @Column("line")
     line: string;
@@ -151,7 +151,7 @@ export class Post {
     lseg: string | string[];
 
     @Column("box")
-    box: string | Object;
+    box: string | Record<string, any>;
 
     @Column("path")
     path: string;
@@ -160,7 +160,7 @@ export class Post {
     polygon: string;
 
     @Column("circle")
-    circle: string | Object;
+    circle: string | Record<string, any>;
 
     // -------------------------------------------------------------------------
     // Network Address Type
@@ -207,10 +207,10 @@ export class Post {
     // -------------------------------------------------------------------------
 
     @Column("json")
-    json: Object;
+    json: Record<string, any>;
 
     @Column("jsonb")
-    jsonb: Object;
+    jsonb: Record<string, any>;
 
     // -------------------------------------------------------------------------
     // Range Type

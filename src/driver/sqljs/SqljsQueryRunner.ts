@@ -43,7 +43,7 @@ export class SqljsQueryRunner extends AbstractSqliteQueryRunner {
     query(query: string, parameters: any[] = []): Promise<any> {
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError();
 
-        return new Promise<any[]>(async (ok, fail) => {
+        return new Promise<any[]>((ok, fail) => {
             const { databaseConnection } = this.driver;
             this.driver.connection.logger.logQuery(query, parameters, this);
             const queryStartTime = +new Date();

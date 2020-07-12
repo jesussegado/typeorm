@@ -149,9 +149,9 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             await Promise.all(otherWaitingPromises);
         }
 
-        const promise = new Promise(async (ok, fail) => {
+        const databaseConnection = await this.connect();
+        const promise = new Promise((ok, fail) => {
             try {
-                const databaseConnection = await this.connect();
                 // we disable autocommit because ROLLBACK does not work in autocommit mode
                 databaseConnection.setAutoCommit(!this.isTransactionActive);
                 this.driver.connection.logger.logQuery(query, parameters, this);
@@ -2770,7 +2770,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                             index["INDEX_NAME"] === constraint["INDEX_NAME"]
                         );
                     });
-                    return new TableIndex(<TableIndexOptions>{
+                    return new TableIndex({
                         table,
                         name: constraint["INDEX_NAME"],
                         columnNames: indices.map((i) => i["COLUMN_NAME"]),
@@ -2778,7 +2778,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
                             constraint["CONSTRAINT"] &&
                             constraint["CONSTRAINT"].indexOf("UNIQUE") !== -1,
                         isFulltext: constraint["INDEX_TYPE"] === "FULLTEXT",
-                    });
+                    } as TableIndexOptions);
                 });
 
                 return table;

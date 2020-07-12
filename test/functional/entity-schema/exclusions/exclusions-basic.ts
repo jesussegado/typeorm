@@ -13,7 +13,7 @@ describe("entity-schema > exclusions", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [<any>MeetingSchema],
+                entities: [MeetingSchema as any],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));

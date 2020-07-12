@@ -16,7 +16,7 @@ describe("entity-schema > indices > basic", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [<any>PersonSchema],
+                entities: [PersonSchema as any],
             }))
     );
     beforeEach(() => reloadTestingDatabases(connections));
@@ -85,7 +85,7 @@ describe("entity-schema > indices > basic", () => {
                 );
                 entityMetadata!.indices = [
                     new IndexMetadata({
-                        entityMetadata: <EntityMetadata>entityMetadata,
+                        entityMetadata: entityMetadata as EntityMetadata,
                         args: {
                             target: entityMetadata!.target,
                             name: "IDX_TEST",

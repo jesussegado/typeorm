@@ -29,7 +29,10 @@ export function Exclusion(
 
     if (!expression) throw new Error(`Exclusion expression is required`);
 
-    return function (clsOrObject: Function | Object, propertyName?: string) {
+    return function (
+        clsOrObject: Function | Record<string, any>,
+        propertyName?: string
+    ) {
         getMetadataArgsStorage().exclusions.push({
             target: propertyName
                 ? clsOrObject.constructor

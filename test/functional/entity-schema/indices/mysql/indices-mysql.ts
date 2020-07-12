@@ -12,7 +12,7 @@ describe("entity-schema > indices > mysql", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [<any>PersonSchema],
+                entities: [PersonSchema as any],
                 enabledDrivers: ["mysql"],
             }))
     );

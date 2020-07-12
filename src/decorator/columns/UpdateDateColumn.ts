@@ -6,7 +6,7 @@ import { ColumnMetadataArgs } from "../../metadata-args/ColumnMetadataArgs";
  * This date is being updated each time you persist the object.
  */
 export function UpdateDateColumn(options?: ColumnOptions): Function {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         getMetadataArgsStorage().columns.push({
             target: object.constructor,
             propertyName,

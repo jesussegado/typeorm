@@ -36,10 +36,10 @@ export class TableExclusion {
      * Creates a new copy of this constraint with exactly same properties.
      */
     clone(): TableExclusion {
-        return new TableExclusion(<TableExclusionOptions>{
+        return new TableExclusion({
             name: this.name,
             expression: this.expression,
-        });
+        } as TableExclusionOptions);
     }
 
     // -------------------------------------------------------------------------
@@ -50,9 +50,9 @@ export class TableExclusion {
      * Creates exclusions from the exclusion metadata object.
      */
     static create(exclusionMetadata: ExclusionMetadata): TableExclusion {
-        return new TableExclusion(<TableExclusionOptions>{
+        return new TableExclusion({
             name: exclusionMetadata.name,
             expression: exclusionMetadata.expression,
-        });
+        } as TableExclusionOptions);
     }
 }

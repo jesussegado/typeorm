@@ -126,7 +126,7 @@ export class Table {
      * Clones this table to a new table with all properties cloned.
      */
     clone(): Table {
-        return new Table(<TableOptions>{
+        return new Table({
             name: this.name,
             columns: this.columns.map((column) => column.clone()),
             indices: this.indices.map((constraint) => constraint.clone()),
@@ -138,7 +138,7 @@ export class Table {
             exclusions: this.exclusions.map((constraint) => constraint.clone()),
             justCreated: this.justCreated,
             engine: this.engine,
-        });
+        } as TableOptions);
     }
 
     /**

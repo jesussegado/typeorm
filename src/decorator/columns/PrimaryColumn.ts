@@ -30,13 +30,13 @@ export function PrimaryColumn(
     typeOrOptions?: ColumnType | ColumnOptions,
     options?: ColumnOptions
 ): Function {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         // normalize parameters
         let type: ColumnType | undefined;
         if (typeof typeOrOptions === "string") {
-            type = <ColumnType>typeOrOptions;
+            type = typeOrOptions as ColumnType;
         } else {
-            options = { ...(<ColumnOptions>typeOrOptions) };
+            options = { ...(typeOrOptions as ColumnOptions) };
         }
         if (!options) options = {} as ColumnOptions;
 

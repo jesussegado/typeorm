@@ -1,7 +1,7 @@
 export class PrimaryColumnCannotBeNullableError extends Error {
     name = "PrimaryColumnCannotBeNullableError";
 
-    constructor(object: Object, propertyName: string) {
+    constructor(object: Record<string, any>, propertyName: string) {
         super();
         Object.setPrototypeOf(
             this,
@@ -9,7 +9,7 @@ export class PrimaryColumnCannotBeNullableError extends Error {
         );
         this.message =
             `Primary column ${
-                (<any>object.constructor).name
+                (object.constructor as any).name
             }#${propertyName} cannot be nullable. ` +
             `Its not allowed for primary keys. Try to remove nullable option.`;
     }

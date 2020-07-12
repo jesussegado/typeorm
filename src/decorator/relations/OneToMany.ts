@@ -10,7 +10,7 @@ export function OneToMany<T>(
     inverseSide: string | ((object: T) => any),
     options?: RelationOptions
 ): Function {
-    return function (object: Object, propertyName: string) {
+    return function (object: Record<string, any>, propertyName: string) {
         if (!options) options = {} as RelationOptions;
 
         // now try to determine it its lazy relation

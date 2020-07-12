@@ -6,7 +6,7 @@ export class Post {
     id: number;
 
     @Column("hstore", { hstoreType: "object" })
-    hstoreObj: Object;
+    hstoreObj: Record<string, any>;
 
     @Column("hstore", { hstoreType: "string" })
     hstoreStr: string;
