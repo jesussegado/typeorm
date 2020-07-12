@@ -583,7 +583,7 @@ Steps to run this project:
     protected static appendPackageJson(
         packageJsonContents: string,
         database: string,
-        express: boolean /*, docker: boolean*/
+        express: boolean
     ): string {
         const packageJson = JSON.parse(packageJsonContents);
 
@@ -630,8 +630,7 @@ Steps to run this project:
 
         if (!packageJson.scripts) packageJson.scripts = {};
         Object.assign(packageJson.scripts, {
-            start:
-                /*(docker ? "docker-compose up && " : "") + */ "ts-node src/index.ts",
+            start: "ts-node src/index.ts",
         });
         return JSON.stringify(packageJson, undefined, 3);
     }

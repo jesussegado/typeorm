@@ -57,7 +57,7 @@ describe("entity-model", () => {
 
             await post.reload();
 
-            const assertCategory = Object.assign({}, post.categories[0]);
+            const assertCategory = { ...post.categories[0] };
             post!.should.be.instanceOf(Post);
             post!.id.should.be.eql(post.id);
             post!.title.should.be.eql("About ActiveRecord");
@@ -72,10 +72,9 @@ describe("entity-model", () => {
 
             await post.reload();
 
-            const assertReloadedCategory = Object.assign(
-                {},
-                post.categories[0]
-            );
+            const assertReloadedCategory = {
+                ...post.categories[0],
+            };
             assertReloadedCategory.should.be.eql({
                 id: 1,
                 name: "Persistence and Entity",

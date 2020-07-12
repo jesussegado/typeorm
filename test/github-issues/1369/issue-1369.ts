@@ -37,7 +37,7 @@ describe("github issues > #1369 EntitySubscriber not firing events on abstract c
                 );
                 expect(foundEntity).to.not.be.undefined;
 
-                const assertObject = Object.assign({}, foundEntity);
+                const assertObject = { ...foundEntity };
                 assertObject!.should.be.eql({
                     id: 1,
                     firstname: "Michael",

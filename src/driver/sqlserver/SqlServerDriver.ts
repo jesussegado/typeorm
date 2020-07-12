@@ -516,7 +516,7 @@ export class SqlServerDriver implements Driver {
             return defaultValue === true ? "1" : "0";
         }
         if (typeof defaultValue === "function") {
-            return /*"(" + */ defaultValue() /* + ")"*/;
+            return defaultValue();
         }
         if (typeof defaultValue === "string") {
             return `'${defaultValue}'`;
@@ -813,32 +813,26 @@ export class SqlServerDriver implements Driver {
         options: SqlServerConnectionOptions,
         credentials: SqlServerConnectionCredentialsOptions
     ): Promise<any> {
-        credentials = Object.assign(
-            {},
-            credentials,
-            DriverUtils.buildDriverOptions(credentials)
-        ); // todo: do it better way
+        credentials = {
+            ...credentials,
+            ...DriverUtils.buildDriverOptions(credentials),
+        }; // todo: do it better way
 
         // build connection options for the driver
-        const connectionOptions = Object.assign(
-            {},
-            {
-                connectionTimeout: this.options.connectionTimeout,
-                requestTimeout: this.options.requestTimeout,
-                stream: this.options.stream,
-                pool: this.options.pool,
-                options: this.options.options,
-            },
-            {
-                server: credentials.host,
-                user: credentials.username,
-                password: credentials.password,
-                database: credentials.database,
-                port: credentials.port,
-                domain: credentials.domain,
-            },
-            options.extra || {}
-        );
+        const connectionOptions = {
+            connectionTimeout: this.options.connectionTimeout,
+            requestTimeout: this.options.requestTimeout,
+            stream: this.options.stream,
+            pool: this.options.pool,
+            options: this.options.options,
+            server: credentials.host,
+            user: credentials.username,
+            password: credentials.password,
+            database: credentials.database,
+            port: credentials.port,
+            domain: credentials.domain,
+            ...(options.extra || {}),
+        };
 
         // set default useUTC option if it hasn't been set
         if (!connectionOptions.options)

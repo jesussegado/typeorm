@@ -1,3 +1,4 @@
+// eslint-disable-file no-console
 import { Driver } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { ObjectLiteral } from "../../common/ObjectLiteral";
@@ -610,7 +611,7 @@ export class PostgresDriver implements Driver {
         } else if (columnMetadata.type === "simple-json") {
             value = DateUtils.stringToSimpleJson(value);
         } else if (columnMetadata.type === "cube") {
-            value = value.replace(/[\(\)\s]+/g, ""); // remove whitespace
+            value = value.replace(/[()\s]+/g, ""); // remove whitespace
             if (columnMetadata.isArray) {
                 /**
                  * Strips these groups from `{"1,2,3","",NULL}`:
@@ -618,7 +619,7 @@ export class PostgresDriver implements Driver {
                  * 2. ["", undefined]         <- cube of arity 0
                  * 3. [undefined, "NULL"]     <- NULL
                  */
-                const regexp = /(?:\"((?:[\d\s\.,])*)\")|(?:(NULL))/g;
+                const regexp = /(?:"((?:[\d\s.,])*)")|(?:(NULL))/g;
                 const unparsedArrayString = value;
 
                 value = [];
@@ -1103,27 +1104,23 @@ export class PostgresDriver implements Driver {
         options: PostgresConnectionOptions,
         credentials: PostgresConnectionCredentialsOptions
     ): Promise<any> {
-        credentials = Object.assign(
-            {},
-            credentials,
-            DriverUtils.buildDriverOptions(credentials)
-        ); // todo: do it better way
+        credentials = {
+            ...credentials,
+            ...DriverUtils.buildDriverOptions(credentials),
+        }; // todo: do it better way
 
         // build connection options for the driver
         // See: https://github.com/brianc/node-postgres/tree/master/packages/pg-pool#create
-        const connectionOptions = Object.assign(
-            {},
-            {
-                host: credentials.host,
-                user: credentials.username,
-                password: credentials.password,
-                database: credentials.database,
-                port: credentials.port,
-                ssl: credentials.ssl,
-                connectionTimeoutMillis: options.connectTimeoutMS,
-            },
-            options.extra || {}
-        );
+        const connectionOptions = {
+            host: credentials.host,
+            user: credentials.username,
+            password: credentials.password,
+            database: credentials.database,
+            port: credentials.port,
+            ssl: credentials.ssl,
+            connectionTimeoutMillis: options.connectTimeoutMS,
+            ...(options.extra || {}),
+        };
 
         // create a connection pool
         const pool = new this.postgres.Pool(connectionOptions);

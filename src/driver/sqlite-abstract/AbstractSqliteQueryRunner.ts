@@ -1190,7 +1190,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                     if (pos !== -1) {
                         const dataType = tableColumn.type.substr(0, pos);
                         if (
-                            !!this.driver.withLengthColumnTypes.find(
+                            this.driver.withLengthColumnTypes.find(
                                 (col) => col === dataType
                             )
                         ) {

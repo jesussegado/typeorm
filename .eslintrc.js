@@ -31,6 +31,7 @@ module.exports = {
     "prefer-destructing":["off"],
     "no-useless-return":["off"],
     "no-useless-constructor":["off"],
+    "radix":["off"],
   },
   settings: {
     "import/resolver": {

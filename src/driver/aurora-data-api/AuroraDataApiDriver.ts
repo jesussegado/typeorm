@@ -865,33 +865,26 @@ export class AuroraDataApiDriver implements Driver {
         options: AuroraDataApiConnectionOptions,
         credentials: AuroraDataApiConnectionCredentialsOptions
     ): Promise<any> {
-        credentials = Object.assign(
-            {},
-            credentials,
-            DriverUtils.buildDriverOptions(credentials)
-        ); // todo: do it better way
+        credentials = {
+            ...credentials,
+            ...DriverUtils.buildDriverOptions(credentials),
+        }; // todo: do it better way
 
         // build connection options for the driver
-        return Object.assign(
-            {},
-            {
-                resourceArn: options.resourceArn,
-                secretArn: options.secretArn,
-                database: options.database,
-                region: options.region,
-                type: options.type,
-            },
-            {
-                host: credentials.host,
-                user: credentials.username,
-                password: credentials.password,
-                database: credentials.database,
-                port: credentials.port,
-                ssl: options.ssl,
-            },
+        return {
+            resourceArn: options.resourceArn,
+            secretArn: options.secretArn,
+            region: options.region,
+            type: options.type,
+            host: credentials.host,
+            user: credentials.username,
+            password: credentials.password,
+            database: credentials.database || options.database, // TODO: Check if that's what we want
+            port: credentials.port,
+            ssl: options.ssl,
 
-            options.extra || {}
-        );
+            ...(options.extra || {}),
+        };
     }
 
     /**

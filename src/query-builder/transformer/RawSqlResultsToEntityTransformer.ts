@@ -580,12 +580,4 @@ export class RawSqlResultsToEntityTransformer {
             return data;
         }, {} as ObjectLiteral);
     }
-
-    /*private removeVirtualColumns(entity: ObjectLiteral, alias: Alias) {
-        const virtualColumns = this.expressionMap.selects
-            .filter(select => select.virtual)
-            .map(select => select.selection.replace(alias.name + ".", ""));
-
-        virtualColumns.forEach(virtualColumn => delete entity[virtualColumn]);
-    }*/
 }

@@ -16,10 +16,10 @@ export class ConnectionOptionsYmlReader {
         const ymlParser = PlatformTools.load("js-yaml");
         const config = ymlParser.safeLoad(PlatformTools.readFileSync(path));
         return Object.keys(config).map((connectionName) => {
-            return Object.assign(
-                { name: connectionName },
-                config[connectionName]
-            );
+            return {
+                name: connectionName,
+                ...config[connectionName],
+            };
         });
     }
 }

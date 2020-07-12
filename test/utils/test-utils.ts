@@ -225,35 +225,28 @@ export function setupTestingConnections(
             return true;
         })
         .map((connectionOptions) => {
-            let newOptions: any = Object.assign(
-                {},
-                connectionOptions as ConnectionOptions,
-                {
-                    name:
-                        options && options.name
-                            ? options.name
-                            : connectionOptions.name,
-                    entities:
-                        options && options.entities ? options.entities : [],
-                    migrations:
-                        options && options.migrations ? options.migrations : [],
-                    subscribers:
-                        options && options.subscribers
-                            ? options.subscribers
-                            : [],
-                    dropSchema:
-                        options && options.dropSchema !== undefined
-                            ? options.dropSchema
-                            : false,
-                    cache: options ? options.cache : undefined,
-                }
-            );
+            let newOptions: any = {
+                ...(connectionOptions as ConnectionOptions),
+                name:
+                    options && options.name
+                        ? options.name
+                        : connectionOptions.name,
+                entities: options && options.entities ? options.entities : [],
+                migrations:
+                    options && options.migrations ? options.migrations : [],
+                subscribers:
+                    options && options.subscribers ? options.subscribers : [],
+                dropSchema:
+                    options && options.dropSchema !== undefined
+                        ? options.dropSchema
+                        : false,
+                cache: options ? options.cache : undefined,
+            };
             if (options && options.driverSpecific)
-                newOptions = Object.assign(
-                    {},
-                    options.driverSpecific,
-                    newOptions
-                );
+                newOptions = {
+                    ...options.driverSpecific,
+                    ...newOptions,
+                };
             if (options && options.schemaCreate)
                 newOptions.synchronize = options.schemaCreate;
             if (options && options.schema) newOptions.schema = options.schema;

@@ -535,13 +535,6 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                     // extract real value from the entity
                     let value = column.getEntityValue(valueSet);
 
-                    // if column is relational and value is an object then get real referenced column value from this object
-                    // for example column value is { question: { id: 1 } }, value will be equal to { id: 1 }
-                    // and we extract "1" from this object
-                    /*if (column.referencedColumn && value instanceof Object && !(value instanceof Function)) { // todo: check if we still need it since getEntityValue already has similar code
-                        value = column.referencedColumn.getEntityValue(value);
-                    }*/
-
                     if (!(value instanceof Function)) {
                         // make sure our value is normalized by a driver
                         value = this.connection.driver.preparePersistentValue(
@@ -554,18 +547,6 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                     // also, user-specified version must be empty
                     if (column.isVersion && value === undefined) {
                         expression += "1";
-
-                        // } else if (column.isNestedSetLeft) {
-                        //     const tableName = this.connection.driver.escape(column.entityMetadata.tablePath);
-                        //     const rightColumnName = this.connection.driver.escape(column.entityMetadata.nestedSetRightColumn!.databaseName);
-                        //     const subQuery = `(SELECT c.max + 1 FROM (SELECT MAX(${rightColumnName}) as max from ${tableName}) c)`;
-                        //     expression += subQuery;
-                        //
-                        // } else if (column.isNestedSetRight) {
-                        //     const tableName = this.connection.driver.escape(column.entityMetadata.tablePath);
-                        //     const rightColumnName = this.connection.driver.escape(column.entityMetadata.nestedSetRightColumn!.databaseName);
-                        //     const subQuery = `(SELECT c.max + 2 FROM (SELECT MAX(${rightColumnName}) as max from ${tableName}) c)`;
-                        //     expression += subQuery;
                     } else if (column.isDiscriminator) {
                         this.expressionMap.nativeParameters[
                             `discriminator_value_${parametersCount}`
@@ -575,13 +556,6 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                             parametersCount
                         );
                         parametersCount++;
-                        // return "1";
-
-                        // for create and update dates we insert current date
-                        // no, we don't do it because this constant is already in "default" value of the column
-                        // with extended timestamp functionality, like CURRENT_TIMESTAMP(6) for example
-                        // } else if (column.isCreateDate || column.isUpdateDate) {
-                        //     return "CURRENT_TIMESTAMP";
 
                         // if column is generated uuid and database does not support its generation and custom generated value was not provided by a user - we generate a new uuid value for insertion
                     } else if (

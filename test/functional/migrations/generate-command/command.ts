@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import {
     createTestingConnections,
-    closeTestingConnections /*reloadTestingDatabases*/,
+    closeTestingConnections,
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
 import { Category, Post } from "./entity";
@@ -19,7 +19,6 @@ describe("migrations > generate command", () => {
                 schema: "public",
             }))
     );
-    // beforeEach(() => reloadTestingDatabases(connections));
     after(() => closeTestingConnections(connections));
 
     it("can recognize model changes", () =>

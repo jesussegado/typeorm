@@ -46,7 +46,7 @@ export class RandomGenerator {
         let temp;
 
         // utf8_encode
-        str = /*unescape*/ encodeURIComponent(str);
+        str = encodeURIComponent(str);
         const strLen = str.length;
 
         const wordArray = [];

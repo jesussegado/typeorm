@@ -941,47 +941,41 @@ export class MysqlDriver implements Driver {
         options: MysqlConnectionOptions,
         credentials: MysqlConnectionCredentialsOptions
     ): Promise<any> {
-        credentials = Object.assign(
-            {},
-            credentials,
-            DriverUtils.buildDriverOptions(credentials)
-        ); // todo: do it better way
+        credentials = {
+            ...credentials,
+            ...DriverUtils.buildDriverOptions(credentials),
+        }; // todo: do it better way
 
         // build connection options for the driver
-        return Object.assign(
-            {},
-            {
-                charset: options.charset,
-                timezone: options.timezone,
-                connectTimeout: options.connectTimeout,
-                insecureAuth: options.insecureAuth,
-                supportBigNumbers:
-                    options.supportBigNumbers !== undefined
-                        ? options.supportBigNumbers
-                        : true,
-                bigNumberStrings:
-                    options.bigNumberStrings !== undefined
-                        ? options.bigNumberStrings
-                        : true,
-                dateStrings: options.dateStrings,
-                debug: options.debug,
-                trace: options.trace,
-                multipleStatements: options.multipleStatements,
-                flags: options.flags,
-            },
-            {
-                host: credentials.host,
-                user: credentials.username,
-                password: credentials.password,
-                database: credentials.database,
-                port: credentials.port,
-                ssl: options.ssl,
-            },
-            options.acquireTimeout === undefined
+        return {
+            charset: options.charset,
+            timezone: options.timezone,
+            connectTimeout: options.connectTimeout,
+            insecureAuth: options.insecureAuth,
+            supportBigNumbers:
+                options.supportBigNumbers !== undefined
+                    ? options.supportBigNumbers
+                    : true,
+            bigNumberStrings:
+                options.bigNumberStrings !== undefined
+                    ? options.bigNumberStrings
+                    : true,
+            dateStrings: options.dateStrings,
+            debug: options.debug,
+            trace: options.trace,
+            multipleStatements: options.multipleStatements,
+            flags: options.flags,
+            host: credentials.host,
+            user: credentials.username,
+            password: credentials.password,
+            database: credentials.database,
+            port: credentials.port,
+            ssl: options.ssl,
+            ...(options.acquireTimeout === undefined
                 ? {}
-                : { acquireTimeout: options.acquireTimeout },
-            options.extra || {}
-        );
+                : { acquireTimeout: options.acquireTimeout }),
+            ...(options.extra || {}),
+        };
     }
 
     /**

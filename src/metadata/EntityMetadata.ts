@@ -169,7 +169,7 @@ export class EntityMetadata {
      * If this entity metadata's table using one of the inheritance patterns,
      * then this will contain what pattern it uses.
      */
-    inheritancePattern?: "STI" /*|"CTI"*/;
+    inheritancePattern?: "STI";
 
     /**
      * Checks if there any non-nullable column exist in this entity.
@@ -492,7 +492,7 @@ export class EntityMetadata {
     constructor(options: {
         connection: Connection;
         inheritanceTree?: Function[];
-        inheritancePattern?: "STI" /*|"CTI"*/;
+        inheritancePattern?: "STI";
         tableTree?: TreeMetadataArgs;
         parentClosureEntityMetadata?: EntityMetadata;
         args: TableMetadataArgs;

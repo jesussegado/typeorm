@@ -271,17 +271,6 @@ describe("one-to-one", function () {
                 .getOne()
                 .should.eventually.eql(expectedPost);
         });
-
-        it("should load details and its post if left join used (from reverse side)", function () {
-            // later need to specify with what exception we reject it
-            /*return postCategoryRepository
-                .createQueryBuilder("category")
-                .leftJoinAndSelect("category.post", "post")
-                .where("category.id=:id", { id: savedPost.id })
-                .getSingleResult()
-                .should.be.rejectedWith(Error);*/
-            // not working, find fix
-        });
     });
 
     describe("cascade updates should not be executed when cascadeUpdate option is not set", function () {

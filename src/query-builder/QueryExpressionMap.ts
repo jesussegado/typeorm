@@ -433,7 +433,7 @@ export class QueryExpressionMap {
         );
         map.wheres = this.wheres.map((where) => ({ ...where }));
         map.havings = this.havings.map((having) => ({ ...having }));
-        map.orderBys = Object.assign({}, this.orderBys);
+        map.orderBys = { ...this.orderBys };
         map.groupBys = this.groupBys.map((groupBy) => groupBy);
         map.limit = this.limit;
         map.offset = this.offset;
@@ -442,7 +442,7 @@ export class QueryExpressionMap {
         map.lockMode = this.lockMode;
         map.lockVersion = this.lockVersion;
         map.withDeleted = this.withDeleted;
-        map.parameters = Object.assign({}, this.parameters);
+        map.parameters = { ...this.parameters };
         map.disableEscaping = this.disableEscaping;
         map.enableRelationIdValues = this.enableRelationIdValues;
         map.extraAppendedAndWhereCondition = this.extraAppendedAndWhereCondition;
@@ -458,7 +458,7 @@ export class QueryExpressionMap {
         map.updateEntity = this.updateEntity;
         map.callListeners = this.callListeners;
         map.useTransaction = this.useTransaction;
-        map.nativeParameters = Object.assign({}, this.nativeParameters);
+        map.nativeParameters = { ...this.nativeParameters };
         return map;
     }
 }

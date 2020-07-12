@@ -14,14 +14,12 @@ import { EntitySchema } from "../../../../../src";
  * So we run tests only for mysql.
  */
 describe("basic-lazy-relations", () => {
-    let UserSchema: any;
-    let ProfileSchema: any;
     const appRoot = require("app-root-path");
     const resourceDir = `${appRoot}/test/functional/relations/lazy-relations/basic-lazy-relation/`;
-    UserSchema = new EntitySchema<any>(
+    const userSchema = new EntitySchema<any>(
         require(`${resourceDir}schema/user.json`)
     );
-    ProfileSchema = new EntitySchema<any>(
+    const profileSchema = new EntitySchema<any>(
         require(`${resourceDir}schema/profile.json`)
     );
 
@@ -29,7 +27,7 @@ describe("basic-lazy-relations", () => {
     before(
         async () =>
             (connections = await createTestingConnections({
-                entities: [Post, Category, UserSchema, ProfileSchema],
+                entities: [Post, Category, userSchema, profileSchema],
                 enabledDrivers: ["postgres"], // we can properly test lazy-relations only on one platform
             }))
     );

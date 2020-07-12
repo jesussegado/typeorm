@@ -643,42 +643,6 @@ export class MongoQueryRunner implements QueryRunner {
     }
 
     /**
-     * Insert a new row with given values into the given table.
-     * Returns value of inserted object id.
-
-    async insert(collectionName: string, keyValues: ObjectLiteral): Promise<any> { // todo: fix any
-        const results = await this.databaseConnection
-            .collection(collectionName)
-            .insertOne(keyValues);
-        const generatedMap = this.connection.getMetadata(collectionName).objectIdColumn!.createValueMap(results.insertedId);
-        return {
-            result: results,
-            generatedMap: generatedMap
-        };
-    }*/
-
-    /**
-     * Updates rows that match given conditions in the given table.
-
-    async update(collectionName: string, valuesMap: ObjectLiteral, conditions: ObjectLiteral): Promise<any> { // todo: fix any
-        await this.databaseConnection
-            .collection(collectionName)
-            .updateOne(conditions, valuesMap);
-    }*/
-
-    /**
-     * Deletes from the given table by a given conditions.
-
-    async delete(collectionName: string, conditions: ObjectLiteral|ObjectLiteral[]|string, maybeParameters?: any[]): Promise<any> { // todo: fix any
-        if (typeof conditions === "string")
-            throw new Error(`String condition is not supported by MongoDB driver.`);
-
-        await this.databaseConnection
-            .collection(collectionName)
-            .deleteOne(conditions);
-    }*/
-
-    /**
      * Returns all available database names including system databases.
      */
     async getDatabases(): Promise<string[]> {

@@ -5,7 +5,7 @@ import { InheritanceMetadataArgs } from "../../metadata-args/InheritanceMetadata
  * Sets for entity to use table inheritance pattern.
  */
 export function TableInheritance(options?: {
-    pattern?: "STI" /*|"CTI"*/;
+    pattern?: "STI";
     column?: string | ColumnOptions;
 }) {
     return function (target: Function) {

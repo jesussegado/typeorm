@@ -70,14 +70,11 @@ export class CordovaDriver extends AbstractSqliteDriver {
      */
     protected createDatabaseConnection() {
         return new Promise<void>((ok, fail) => {
-            const options = Object.assign(
-                {},
-                {
-                    name: this.options.database,
-                    location: this.options.location,
-                },
-                this.options.extra || {}
-            );
+            const options = {
+                name: this.options.database,
+                location: this.options.location,
+                ...(this.options.extra || {}),
+            };
 
             this.sqlite.openDatabase(
                 options,

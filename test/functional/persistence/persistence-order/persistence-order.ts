@@ -61,33 +61,6 @@ describe("persistence > order of persistence execution operations", () => {
                     post1.category = category1;
 
                     await connection.manager.save(post1);
-
-                    // now check
-                    /*const posts = await connection.manager.find(Post, {
-             alias: "post",
-             innerJoinAndSelect: {
-             category: "post.category"
-             },
-             orderBy: {
-             "post.id": "ASC"
-             }
-             });
-
-             posts.should.be.eql([{
-             id: 1,
-             title: "Hello Post #1",
-             category: {
-             id: 1,
-             name: "Category saved by cascades #1"
-             }
-             }, {
-             id: 2,
-             title: "Hello Post #2",
-             category: {
-             id: 2,
-             name: "Category saved by cascades #2"
-             }
-             }]);*/
                 })
             ));
     });

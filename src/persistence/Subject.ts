@@ -302,7 +302,7 @@ export class Subject {
      */
     recompute(): void {
         if (this.entity) {
-            this.entityWithFulfilledIds = Object.assign({}, this.entity);
+            this.entityWithFulfilledIds = { ...this.entity };
             if (this.parentSubject) {
                 this.metadata.primaryColumns.forEach((primaryColumn) => {
                     if (

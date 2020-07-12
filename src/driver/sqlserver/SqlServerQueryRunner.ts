@@ -2397,6 +2397,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         const currentDatabase = await this.getCurrentDatabase();
 
         const extractTableSchemaAndName = (tableName: string): string[] => {
+            // eslint-disable-next-line prefer-const
             let [database, schema, name] = tableName.split(".");
             // if name is empty, it means that tableName have only schema name and table name or only table name
             if (!name) {
@@ -2475,6 +2476,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         const currentDatabase = await this.getCurrentDatabase();
 
         const extractTableSchemaAndName = (tableName: string): string[] => {
+            // eslint-disable-next-line prefer-const
             let [database, schema, name] = tableName.split(".");
             // if name is empty, it means that tableName have only schema name and table name or only table name
             if (!name) {

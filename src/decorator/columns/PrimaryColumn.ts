@@ -36,7 +36,7 @@ export function PrimaryColumn(
         if (typeof typeOrOptions === "string") {
             type = <ColumnType>typeOrOptions;
         } else {
-            options = Object.assign({}, <ColumnOptions>typeOrOptions);
+            options = { ...(<ColumnOptions>typeOrOptions) };
         }
         if (!options) options = {} as ColumnOptions;
 

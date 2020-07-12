@@ -53,22 +53,7 @@ describe("Connection", () => {
             expect(() => connection.manager).to.throw(
                 CannotGetEntityManagerNotConnectedError
             );
-            // expect(() => connection.reactiveEntityManager).to.throw(CannotGetEntityManagerNotConnectedError);
         });
-
-        // todo: they aren't promises anymore
-        /*it("import entities, entity schemas, subscribers and naming strategies should work", () => {
-         return Promise.all([
-         connection.importEntities([Post]).should.be.fulfilled,
-         connection.importEntitySchemas([]).should.be.fulfilled,
-         connection.importSubscribers([]).should.be.fulfilled,
-         connection.importNamingStrategies([]).should.be.fulfilled,
-         connection.importEntitiesFromDirectories([]).should.be.fulfilled,
-         connection.importEntitySchemaFromDirectories([]).should.be.fulfilled,
-         connection.importSubscribersFromDirectories([]).should.be.fulfilled,
-         connection.importNamingStrategiesFromDirectories([]).should.be.fulfilled
-         ]);
-         });*/
 
         it("should not be able to close", () => {
             if (!connection) return;
@@ -135,7 +120,6 @@ describe("Connection", () => {
         it("entity manager and reactive entity manager should be accessible", () =>
             connections.forEach((connection) => {
                 expect(connection.manager).to.be.instanceOf(EntityManager);
-                // expect(connection.reactiveEntityManager).to.be.instanceOf(ReactiveEntityManager);
             }));
 
         it("should not be able to connect again", () =>
@@ -181,23 +165,11 @@ describe("Connection", () => {
                     .target.should.be.eql(Category);
             }));
 
-        // it("should be able to get simple entity reactive repository", () => connections.forEach(connection => {
-        //     connection.getReactiveRepository(Post).should.be.instanceOf(ReactiveRepository);
-        //     connection.getReactiveRepository(Post).should.not.be.instanceOf(TreeReactiveRepository);
-        //     connection.getReactiveRepository(Post).target.should.be.eql(Post);
-        // }));
-
-        // it("should be able to get tree entity reactive repository", () => connections.forEach(connection => {
-        //     connection.getReactiveTreeRepository(Category).should.be.instanceOf(TreeReactiveRepository);
-        //     connection.getReactiveTreeRepository(Category).target.should.be.eql(Category);
-        // }));
-
         it("should not be able to get tree entity repository of the non-tree entities", () =>
             connections.forEach((connection) => {
                 expect(() => connection.getTreeRepository(Post)).to.throw(
                     Error
                 ); // RepositoryNotTreeError
-                // expect(() => connection.getReactiveTreeRepository(Post)).to.throw(RepositoryNotTreeError);
             }));
 
         it("should not be able to get repositories that are not registered", () =>
@@ -208,8 +180,6 @@ describe("Connection", () => {
                 expect(() =>
                     connection.getTreeRepository("SomeEntity")
                 ).to.throw(Error); // RepositoryNotTreeError
-                // expect(() => connection.getReactiveRepository("SomeEntity")).to.throw(RepositoryNotFoundError);
-                // expect(() => connection.getReactiveTreeRepository("SomeEntity")).to.throw(RepositoryNotFoundError);
             }));
     });
 

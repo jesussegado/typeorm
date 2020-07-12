@@ -12,7 +12,7 @@ export interface InheritanceMetadataArgs {
     /**
      * Inheritance pattern.
      */
-    readonly pattern: "STI" /*|"CTI"*/;
+    readonly pattern: "STI";
 
     /**
      * Column used as inheritance discriminator column.

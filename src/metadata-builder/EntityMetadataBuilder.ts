@@ -590,7 +590,7 @@ export class EntityMetadataBuilder {
                         target: entityMetadata.target,
                         mode: "virtual",
                         propertyName: "mpath",
-                        options: /*tree.column || */ {
+                        options: {
                             name: namingStrategy.materializedPathColumnName,
                             type: "varchar",
                             nullable: true,
@@ -610,7 +610,7 @@ export class EntityMetadataBuilder {
                         target: entityMetadata.target,
                         mode: "virtual",
                         propertyName: left,
-                        options: /*tree.column || */ {
+                        options: {
                             name: left,
                             type: "integer",
                             nullable: false,
@@ -628,7 +628,7 @@ export class EntityMetadataBuilder {
                         target: entityMetadata.target,
                         mode: "virtual",
                         propertyName: right,
-                        options: /*tree.column || */ {
+                        options: {
                             name: right,
                             type: "integer",
                             nullable: false,

@@ -30,9 +30,9 @@ export class DriverUtils {
             if (buildOptions && buildOptions.useSid) {
                 urlDriverOptions.sid = parsedUrl.database;
             }
-            return Object.assign({}, urlDriverOptions, options);
+            return { ...urlDriverOptions, ...options };
         }
-        return Object.assign({}, options);
+        return { ...options };
     }
 
     /**
