@@ -1,12 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "../../../../src";
-
-export class EmbeddedInThing {
-    @Column()
-    public someSeriouslyLongFieldNameFirst: number;
-
-    @Column()
-    public someSeriouslyLongFieldNameSecond: number;
-}
+import { EmbeddedInThing } from './EmbeddedInThing';
 
 @Entity()
 export class Thing {

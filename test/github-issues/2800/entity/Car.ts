@@ -1,13 +1,6 @@
-import { Engine, Vehicle } from "./Vehicle";
+import { Vehicle } from "./Vehicle";
 import { ChildEntity, Column } from "../../../../src";
-
-export class CarEngine extends Engine {
-    @Column()
-    public horsePower: number;
-
-    @Column()
-    public torque: number;
-}
+import { CarEngine } from './CarEngine';
 
 @ChildEntity()
 export class Car extends Vehicle {

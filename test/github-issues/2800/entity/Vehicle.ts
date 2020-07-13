@@ -3,8 +3,7 @@ import {
     PrimaryGeneratedColumn,
     TableInheritance,
 } from "../../../../src";
-
-export abstract class Engine {}
+import { Engine } from './Engine';
 
 @Entity()
 @TableInheritance({ column: { name: "type", type: "varchar" } })

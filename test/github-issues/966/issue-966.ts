@@ -6,7 +6,8 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { User, UserInfo } from "./entity/user";
+import { User } from "./entity/User";
+import { UserInfo } from "./entity/UserInfo";
 
 describe("github issues > #966 Inheritance in embeddables", () => {
     let connections: Connection[];

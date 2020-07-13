@@ -1,9 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "../../../../src/index";
-
-export class EmbeddedItem {
-    @Column({ type: "integer", array: true })
-    arrayInsideEmbedded: number[];
-}
+import { EmbeddedItem } from './EmbeddedItem';
 
 @Entity()
 export class Item {

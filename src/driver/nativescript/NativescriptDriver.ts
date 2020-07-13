@@ -104,7 +104,7 @@ export class NativescriptDriver extends AbstractSqliteDriver {
                 ...(this.options.extra || {}),
             };
 
-            new this.sqlite(
+            this.sqlite(
                 this.options.database,
                 options,
                 (err: Error, db: any): any => {

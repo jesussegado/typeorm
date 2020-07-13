@@ -645,7 +645,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                     )} = CURRENT_TIMESTAMP`
                 ); // todo: fix issue with CURRENT_TIMESTAMP(6) being used, can "DEFAULT" be used?!
         } else {
-            Object.keys(valuesSet).map((key) => {
+            Object.keys(valuesSet).forEach((key) => {
                 const value = valuesSet[key];
 
                 // todo: duplication zone

@@ -6,7 +6,8 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Item, EmbeddedItem } from "./entity/Item";
+import { Item } from "./entity/Item";
+import { EmbeddedItem } from "./entity/EmbeddedItem";
 
 describe("github issue > #1569 updateById generates wrong SQL with arrays inside embeddeds", () => {
     let connections: Connection[] = [];

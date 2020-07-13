@@ -11,15 +11,3 @@ export class FeatureWithoutSRID {
     @Column({ type: "geometry" })
     shape: string;
 }
-
-@Entity()
-export class FeatureWithSRID {
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column()
-    name: string;
-
-    @Column({ type: "geometry", srid: 2326 })
-    shape: string;
-}

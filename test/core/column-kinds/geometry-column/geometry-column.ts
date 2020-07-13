@@ -6,7 +6,8 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import { FeatureWithoutSRID, FeatureWithSRID } from "./entity/Feature";
+import { FeatureWithoutSRID } from "./entity/FeatureWithoutSRID";
+import { FeatureWithSRID } from "./entity/FeatureWithSRID";
 
 describe("column kinds > geometry column", () => {
     let connections: Connection[];

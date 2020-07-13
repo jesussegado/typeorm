@@ -6,7 +6,8 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src";
-import { Thing, EmbeddedInThing } from "./entity/thing";
+import { Thing } from "./entity/Thing";
+import { EmbeddedInThing } from "./entity/EmbeddedInThing";
 
 describe("github issues > #1825 Invalid field values being loaded with long camelCased embedded field names.", () => {
     let connections: Connection[];

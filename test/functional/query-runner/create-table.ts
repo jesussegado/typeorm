@@ -14,7 +14,8 @@ import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
 import { AbstractSqliteDriver } from "../../../src/driver/sqlite-abstract/AbstractSqliteDriver";
 import { OracleDriver } from "../../../src/driver/oracle/OracleDriver";
 import { Photo } from "./entity/Photo";
-import { Book2, Book } from "./entity/Book";
+import { Book } from "./entity/Book";
+import { Book2 } from "./entity/Book2";
 import { SqliteDriver } from "../../../src/driver/sqlite/SqliteDriver";
 
 describe("query runner > create table", () => {

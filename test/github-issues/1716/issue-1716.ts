@@ -17,7 +17,7 @@ import { MssqlEntity } from "./entity/mssqlEntity";
 const toISOString = (input: string) => new Date(input).toISOString();
 
 const convertPropsToISOStrings = (obj: any, props: string[]) => {
-    props.map((prop) => {
+    props.forEach((prop) => {
         obj[prop] = toISOString(obj[prop]);
     });
 };

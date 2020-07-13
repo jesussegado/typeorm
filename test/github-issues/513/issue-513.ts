@@ -32,7 +32,7 @@ describe("github issues > #513 Incorrect time/datetime types for SQLite", () => 
                 expect(dbColumns).not.to.be.undefined;
 
                 let columnType: string = "";
-                dbColumns.map((dbColumn) => {
+                dbColumns.forEach((dbColumn) => {
                     if (dbColumn.name === "dateTimeColumn") {
                         columnType = dbColumn.type;
                     }
@@ -75,7 +75,7 @@ describe("github issues > #513 Incorrect time/datetime types for SQLite", () => 
                 expect(dbColumns).not.to.be.undefined;
 
                 let columnType: string = "";
-                dbColumns.map((dbColumn) => {
+                dbColumns.forEach((dbColumn) => {
                     if (dbColumn.name === "timeColumn") {
                         columnType = dbColumn.type;
                     }

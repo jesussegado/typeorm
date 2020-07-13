@@ -1,13 +1,6 @@
-import { Engine, Vehicle } from "./Vehicle";
+import { Vehicle } from "./Vehicle";
 import { ChildEntity, Column } from "../../../../src";
-
-export class PlaneEngine extends Engine {
-    @Column()
-    public beep: number;
-
-    @Column()
-    public boop: number;
-}
+import { PlaneEngine } from './PlaneEngine';
 
 @ChildEntity()
 export class Plane extends Vehicle {

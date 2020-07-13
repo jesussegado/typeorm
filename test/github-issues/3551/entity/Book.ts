@@ -1,17 +1,5 @@
 import { Entity, ObjectIdColumn, Column, ObjectID } from "../../../../src";
-
-export class Page {
-    @Column()
-    number: number;
-}
-
-export class Chapter {
-    @Column()
-    title: string;
-
-    @Column((type) => Page)
-    pages: Page[];
-}
+import { Chapter } from './Chapter';
 
 @Entity()
 export class Book {

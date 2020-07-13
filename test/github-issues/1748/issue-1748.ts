@@ -6,7 +6,8 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src";
-import { Post, Uuid } from "./entity/Post";
+import { Post } from "./entity/Post";
+import { Uuid } from "./entity/Uuid";
 import { SqlServerDriver } from "../../../src/driver/sqlserver/SqlServerDriver";
 
 describe("github issues > #1748 PrimaryColumn combined with transformer leads to error on save", () => {

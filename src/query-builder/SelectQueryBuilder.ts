@@ -2646,6 +2646,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                             metadata.primaryColumns[0].propertyPath
                         } IN (${ids.join(", ")})`;
                     } else {
+                        // eslint-disable-next-line @typescript-eslint/camelcase
                         parameters.orm_distinct_ids = ids;
                         condition = `${mainAliasName}.${metadata.primaryColumns[0].propertyPath} IN (:...orm_distinct_ids)`;
                     }

@@ -634,7 +634,7 @@ export class PostgresQueryRunner extends BaseQueryRunner
         const enumColumns = newTable.columns.filter(
             (column) => column.type === "enum" || column.type === "simple-enum"
         );
-        for (const column of enumColumns) {
+        const promises = enumColumns.map(async (column) => {
             const oldEnumType = await this.getEnumTypeName(oldTable, column);
             upQueries.push(
                 new Query(
@@ -651,7 +651,8 @@ export class PostgresQueryRunner extends BaseQueryRunner
                     )} RENAME TO "${oldEnumType.enumTypeName}"`
                 )
             );
-        }
+        });
+        await Promise.all(promises);
         await this.executeQueries(upQueries, downQueries);
     }
 

@@ -1,5 +1,4 @@
 import {
-    ChildEntity,
     Column,
     Entity,
     PrimaryColumn,
@@ -16,8 +15,4 @@ export class User {
     type: string;
 }
 
-@ChildEntity("sub")
-export class SubUser extends User {
-    @Column()
-    anotherColumn: number;
-}
+

@@ -1,15 +1,5 @@
 import { Column, Entity, PrimaryColumn } from "../../../../../src";
-
-class FriendStats {
-    @Column({ default: 0 })
-    count: number;
-
-    @Column({ default: 0 })
-    sent: number;
-
-    @Column({ default: 0 })
-    received: number;
-}
+import { FriendStats } from './FriendStats';
 
 @Entity()
 export class UserWithEmbededEntity {

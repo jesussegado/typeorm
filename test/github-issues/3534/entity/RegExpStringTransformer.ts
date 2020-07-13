@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace RegExpStringTransformer {
     export function to(value: RegExp): string {
         return value.toString();

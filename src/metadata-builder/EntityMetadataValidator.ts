@@ -191,8 +191,6 @@ export class EntityMetadataValidator {
                         `This may lead to unexpected circular removals. Please set cascade remove only from one side of relationship.`
                 );
         }); // todo: maybe better just deny removal from one to one relation without join column?
-
-        entityMetadata.eagerRelations.forEach((relation) => {});
     }
 
     /**

@@ -72,7 +72,7 @@ export class RelationUpdater {
             const parameters: ObjectLiteral = {};
             const conditions: string[] = [];
             ofs.forEach((of, ofIndex) => {
-                relation.inverseRelation!.joinColumns.map(
+                relation.inverseRelation!.joinColumns.forEach(
                     (column, columnIndex) => {
                         const parameterName = `joinColumn_${ofIndex}_${columnIndex}`;
                         parameters[parameterName] =

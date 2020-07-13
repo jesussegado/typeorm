@@ -209,6 +209,7 @@ export class PlatformTools {
             literal: chalk.blueBright,
             string: chalk.white,
             type: chalk.magentaBright,
+            // eslint-disable-next-line @typescript-eslint/camelcase
             built_in: chalk.magentaBright,
             comment: chalk.gray,
         };

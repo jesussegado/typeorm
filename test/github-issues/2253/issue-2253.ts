@@ -5,7 +5,7 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { SubUser } from "./entity/User";
+import { SubUser } from "./entity/SubUser";
 
 describe("github issues > #2253 - inserting multiple child entities fails", () => {
     let connections: Connection[];
