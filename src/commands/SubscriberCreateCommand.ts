@@ -58,6 +58,7 @@ export class SubscriberCreateCommand implements yargs.CommandModule {
                     directory = connectionOptions.cli
                         ? connectionOptions.cli.subscribersDir
                         : undefined;
+                    // eslint-disable-next-line no-empty
                 } catch (err) {}
             }
 

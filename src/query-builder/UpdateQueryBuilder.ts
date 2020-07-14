@@ -125,8 +125,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
             );
 
             if (this.connection.driver instanceof PostgresDriver) {
-                updateResult.raw = result[0];
-                updateResult.affected = result[1];
+                [updateResult.raw, updateResult.affected] = result;
             } else if (this.connection.driver instanceof MysqlDriver) {
                 updateResult.raw = result;
                 updateResult.affected = result.affectedRows;
@@ -169,7 +168,12 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
             if (transactionStartedByUs) {
                 try {
                     await queryRunner.rollbackTransaction();
-                } catch (rollbackError) {}
+                } catch (rollbackError) {
+                    this.connection.logger.log(
+                        "warn",
+                        `Error during transaction rollback. ${rollbackError}`
+                    );
+                }
             }
             throw error;
         } finally {

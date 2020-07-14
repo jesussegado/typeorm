@@ -93,7 +93,12 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                 // we throw original error even if rollback thrown an error
                 if (!(this.connection.driver instanceof CockroachDriver))
                     await this.queryRunner.rollbackTransaction();
-            } catch (rollbackError) {}
+            } catch (rollbackError) {
+                this.connection.logger.log(
+                    "warn",
+                    `Error during transaction rollback. ${rollbackError}`
+                );
+            }
             throw error;
         } finally {
             await this.queryRunner.release();

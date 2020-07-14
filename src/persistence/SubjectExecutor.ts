@@ -493,10 +493,10 @@ export class SubjectExecutor {
                                     .callListeners(false)
                                     .execute()
                                     .then((insertResult) => {
-                                        subject.identifier =
-                                            insertResult.identifiers[0];
-                                        subject.generatedMap =
-                                            insertResult.generatedMaps[0];
+                                        [subject.identifier] =
+                                            insertResult.identifiers;
+                                        [subject.generatedMap] =
+                                            insertResult.generatedMaps;
                                     });
 
                                 // for tree tables we execute additional queries
@@ -617,7 +617,7 @@ export class SubjectExecutor {
                     }
 
                     const updateResult = await updateQueryBuilder.execute();
-                    subject.generatedMap = updateResult.generatedMaps[0];
+                    [subject.generatedMap] = updateResult.generatedMaps;
                     if (subject.generatedMap) {
                         subject.metadata.columns.forEach((column) => {
                             const value = column.getEntityValue(
@@ -781,7 +781,7 @@ export class SubjectExecutor {
                     }
 
                     const updateResult = await softDeleteQueryBuilder.execute();
-                    subject.generatedMap = updateResult.generatedMaps[0];
+                    [subject.generatedMap] = updateResult.generatedMaps;
                     if (subject.generatedMap) {
                         subject.metadata.columns.forEach((column) => {
                             const value = column.getEntityValue(
@@ -897,7 +897,7 @@ export class SubjectExecutor {
                     }
 
                     const updateResult = await softDeleteQueryBuilder.execute();
-                    subject.generatedMap = updateResult.generatedMaps[0];
+                    [subject.generatedMap] = updateResult.generatedMaps;
                     if (subject.generatedMap) {
                         subject.metadata.columns.forEach((column) => {
                             const value = column.getEntityValue(

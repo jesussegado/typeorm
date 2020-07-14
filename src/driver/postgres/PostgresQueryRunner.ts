@@ -2389,7 +2389,12 @@ export class PostgresQueryRunner extends BaseQueryRunner
             try {
                 // we throw original error even if rollback thrown an error
                 await this.rollbackTransaction();
-            } catch (rollbackError) {}
+            } catch (rollbackError) {
+                this.connection.logger.log(
+                    "warn",
+                    `Error during transaction rollback. ${rollbackError}`
+                );
+            }
             throw error;
         }
     }

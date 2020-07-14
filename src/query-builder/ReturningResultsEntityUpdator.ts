@@ -47,11 +47,11 @@ export class ReturningResultsEntityUpdator {
                     ) {
                         updateResult.raw = updateResult.raw.reduce(
                             (newRaw, rawItem, rawItemIndex) => {
-                                newRaw[
+                                [newRaw[
                                     this.expressionMap.extraReturningColumns[
                                         rawItemIndex
                                     ].databaseName
-                                ] = rawItem[0];
+                                ]] = rawItem;
                                 return newRaw;
                             },
                             {} as ObjectLiteral
@@ -139,11 +139,11 @@ export class ReturningResultsEntityUpdator {
             ) {
                 insertResult.raw = insertResult.raw.reduce(
                     (newRaw, rawItem, rawItemIndex) => {
-                        newRaw[
+                        [newRaw[
                             this.expressionMap.extraReturningColumns[
                                 rawItemIndex
                             ].databaseName
-                        ] = rawItem[0];
+                        ]] = rawItem;
                         return newRaw;
                     },
                     {} as ObjectLiteral

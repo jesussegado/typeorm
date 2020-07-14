@@ -20,7 +20,7 @@ export class UpdateContacts1566560354098 implements MigrationInterface {
         const items: Array<Item> = await repo.find();
 
         items.forEach((item) => {
-            item.contact = item.contacts[0];
+            [item.contact] = item.contacts;
         });
 
         await repo.save(items);

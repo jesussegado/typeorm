@@ -69,6 +69,7 @@ export class MigrationCreateCommand implements yargs.CommandModule {
                     directory = connectionOptions.cli
                         ? connectionOptions.cli.migrationsDir
                         : undefined;
+                    // eslint-disable-next-line no-empty
                 } catch (err) {}
             }
 

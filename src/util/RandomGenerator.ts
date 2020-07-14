@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 export class RandomGenerator {
     /**
      *  discuss at: http://locutus.io/php/sha1/

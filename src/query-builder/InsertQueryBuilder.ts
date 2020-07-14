@@ -161,7 +161,12 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
             if (transactionStartedByUs) {
                 try {
                     await queryRunner.rollbackTransaction();
-                } catch (rollbackError) {}
+                } catch (rollbackError) {
+                    this.connection.logger.log(
+                        "warn",
+                        `Error during transaction rollback. ${rollbackError}`
+                    );
+                }
             }
             throw error;
         } finally {

@@ -158,7 +158,12 @@ export class EntityManager {
             try {
                 // we throw original error even if rollback thrown an error
                 await queryRunner.rollbackTransaction();
-            } catch (rollbackError) {}
+            } catch (rollbackError) {
+                this.connection.logger.log(
+                    "warn",
+                    `Error during transaction rollback. ${rollbackError}`
+                );
+            }
             throw err;
         } finally {
             if (!this.queryRunner)

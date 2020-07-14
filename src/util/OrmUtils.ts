@@ -89,6 +89,7 @@ export class OrmUtils {
             // eslint-disable-next-line guard-for-in
             for (const key in source) {
                 const value = source[key];
+                // eslint-disable-next-line no-continue
                 if (key === "__proto__" || value instanceof Promise) continue;
 
                 if (
@@ -137,7 +138,9 @@ export class OrmUtils {
                 !this.compare2Objects(
                     leftChain,
                     rightChain,
+                    // eslint-disable-next-line prefer-rest-params
                     arguments[0],
+                    // eslint-disable-next-line prefer-rest-params
                     arguments[i]
                 )
             ) {

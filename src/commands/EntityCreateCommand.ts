@@ -58,6 +58,7 @@ export class EntityCreateCommand implements yargs.CommandModule {
                     directory = connectionOptions.cli
                         ? connectionOptions.cli.entitiesDir
                         : undefined;
+                    // eslint-disable-next-line no-empty
                 } catch (err) {}
             }
 
@@ -66,7 +67,7 @@ export class EntityCreateCommand implements yargs.CommandModule {
             }${filename}`;
             const fileExists = await CommandUtils.fileExists(path);
             if (fileExists) {
-                throw `File ${chalk.blue(path)} already exists`;
+                throw new Error(`File ${chalk.blue(path)} already exists`);
             }
             await CommandUtils.createFile(path, fileContent);
             console.log(

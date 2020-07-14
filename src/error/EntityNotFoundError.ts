@@ -28,6 +28,7 @@ export class EntityNotFoundError extends Error {
     private stringifyCriteria(criteria: any): string {
         try {
             return JSON.stringify(criteria, null, 4);
+            // eslint-disable-next-line no-empty
         } catch (e) {}
         return `${criteria}`;
     }

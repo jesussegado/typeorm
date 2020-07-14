@@ -82,7 +82,7 @@ export class ExpoDriver extends AbstractSqliteDriver {
                                 ok(databaseConnection);
                             },
                             (t: any, err: any) => {
-                                fail({ transaction: t, error: err });
+                                fail( err);
                             }
                         );
                     },

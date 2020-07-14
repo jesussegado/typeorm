@@ -1090,6 +1090,7 @@ export class PostgresDriver implements Driver {
                 const pgNative = PlatformTools.load("pg-native");
                 if (pgNative && this.postgres.native)
                     this.postgres = this.postgres.native;
+                // eslint-disable-next-line no-empty
             } catch (e) {}
         } catch (e) {
             // todo: better error for browser env

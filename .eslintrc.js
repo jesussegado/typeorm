@@ -46,7 +46,8 @@ module.exports = {
     "consistent-return": ["off"],
     "@typescript-eslint/no-empty-function":"off",
     "no-restricted-syntax":"off",
-    "no-prototype-builtins":"off"
+    "no-prototype-builtins":"off",
+    "global-require":"off",
 },
 overrides: [
     {

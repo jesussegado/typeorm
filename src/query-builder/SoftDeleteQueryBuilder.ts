@@ -104,8 +104,7 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
 
             const { driver } = queryRunner.connection;
             if (driver instanceof PostgresDriver) {
-                updateResult.raw = result[0];
-                updateResult.affected = result[1];
+                [updateResult.raw,updateResult.affected] = result;
             } else {
                 updateResult.raw = result;
             }
@@ -145,7 +144,10 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
             if (transactionStartedByUs) {
                 try {
                     await queryRunner.rollbackTransaction();
-                } catch (rollbackError) {}
+                } catch (rollbackError) {
+
+                this.connection.logger.log("warn",`Error during transaction rollback. ${rollbackError}`);
+                }
             }
             throw error;
         } finally {

@@ -57,7 +57,7 @@ describe("mssql -> add column to existing table", () => {
                     .getRepository<Post>("Post")
                     .findOne();
                 if (!post) {
-                    throw "Post should exist";
+                    throw new Error("Post should exist");
                 }
                 post.should.exist;
                 post.id.should.be.eq(1);

@@ -23,7 +23,7 @@ export class PlainObjectToDatabaseEntityTransformer {
         // if plain object does not have id then nothing to load really
         if (!metadata.hasAllPrimaryKeys(plainObject))
             return Promise.reject(
-                "Given object does not have a primary column, cannot transform it to database entity."
+                new Error("Given object does not have a primary column, cannot transform it to database entity.")
             );
 
         // create a special load map that will hold all metadata that will be used to operate with entities easily

@@ -195,7 +195,12 @@ export class EntityPersistExecutor {
                     if (isTransactionStartedByUs) {
                         try {
                             await queryRunner.rollbackTransaction();
-                        } catch (rollbackError) {}
+                        } catch (rollbackError) {
+                            this.connection.logger.log(
+                                "warn",
+                                `Error during transaction rollback. ${rollbackError}`
+                            );
+                        }
                     }
                     throw error;
                 }
