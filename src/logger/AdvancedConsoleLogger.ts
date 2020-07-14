@@ -2,6 +2,7 @@ import { LoggerOptions } from "./LoggerOptions";
 import { PlatformTools } from "../platform/PlatformTools";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { Logger } from "./Logger";
+import { assertUnreachable } from "../util/GeneralUtils";
 
 /**
  * Performs logging of the events in TypeORM.
@@ -140,6 +141,9 @@ export class AdvancedConsoleLogger implements Logger {
                 )
                     console.warn(PlatformTools.warn(message));
                 break;
+
+            default:
+                assertUnreachable(level);
         }
     }
 

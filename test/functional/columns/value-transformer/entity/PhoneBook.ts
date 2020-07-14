@@ -1,7 +1,7 @@
 import { Entity } from "../../../../../src/decorator/entity/Entity";
 import { Column } from "../../../../../src/decorator/columns/Column";
 import { PrimaryGeneratedColumn } from "../../../../../src/decorator/columns/PrimaryGeneratedColumn";
-import { PhonesTransformer } from './PhonesTransformer';
+import { PhonesTransformer } from "./PhonesTransformer";
 
 @Entity()
 export class PhoneBook {

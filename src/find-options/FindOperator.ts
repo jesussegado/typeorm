@@ -2,6 +2,7 @@ import { FindOperatorType } from "./FindOperatorType";
 import { Connection } from "..";
 import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { MysqlDriver } from "../driver/mysql/MysqlDriver";
+import { assertUnreachable } from "../util/GeneralUtils";
 
 /**
  * Find Operator used in Find Conditions.
@@ -137,8 +138,8 @@ export class FindOperator<T> {
                     return this.value(aliasPath);
                 }
                 return `${aliasPath} = ${this.value}`;
+            default:
+                return assertUnreachable(this._type);
         }
-
-        return "";
     }
 }

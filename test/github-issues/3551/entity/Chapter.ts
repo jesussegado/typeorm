@@ -5,7 +5,6 @@ export class Chapter {
     @Column()
     title: string;
 
-
     @Column((type) => Page)
     pages: Page[];
 }

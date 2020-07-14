@@ -54,7 +54,7 @@ export function abbreviate(str: string, abbrLettersCount: number = 1): string {
     }, "");
 }
 
-export interface IShortenOptions {
+export interface ShortenOptions {
     /** String used to split "segments" of the alias/column name */
     separator?: string;
     /** Maximum length of any "segment" */
@@ -85,7 +85,7 @@ export interface IShortenOptions {
  * // equals: UsShCa__orde__mark_market_id
  * `${shorten('UserShoppingCart__order__market')}_market_id`
  */
-export function shorten(input: string, options: IShortenOptions = {}): string {
+export function shorten(input: string, options: ShortenOptions = {}): string {
     const { segmentLength = 4, separator = "__", termLength = 2 } = options;
 
     const segments = input.split(separator);
@@ -107,7 +107,7 @@ export function shorten(input: string, options: IShortenOptions = {}): string {
     return shortSegments.join(separator);
 }
 
-interface IHashOptions {
+interface HashOptions {
     length?: number;
 }
 
@@ -117,7 +117,7 @@ interface IHashOptions {
  * @param input String to be hashed.
  * @param options.length Optionally, shorten the output to desired length.
  */
-export function hash(input: string, options: IHashOptions = {}): string {
+export function hash(input: string, options: HashOptions = {}): string {
     const hashFunction = shajs("sha256");
 
     hashFunction.update(input, "utf8");

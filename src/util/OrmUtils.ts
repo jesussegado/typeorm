@@ -86,6 +86,7 @@ export class OrmUtils {
         const source = sources.shift();
 
         if (this.isObject(target) && this.isObject(source)) {
+            // eslint-disable-next-line guard-for-in
             for (const key in source) {
                 const value = source[key];
                 if (key === "__proto__" || value instanceof Promise) continue;
@@ -271,6 +272,7 @@ export class OrmUtils {
 
         // Quick checking of one object being a subset of another.
         // todo: cache the structure of arguments[0] for performance
+        // eslint-disable-next-line guard-for-in
         for (p in y) {
             if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
                 return false;
@@ -280,6 +282,7 @@ export class OrmUtils {
             }
         }
 
+        // eslint-disable-next-line guard-for-in
         for (p in x) {
             if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
                 return false;

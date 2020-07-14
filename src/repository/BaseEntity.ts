@@ -26,6 +26,7 @@ export class BaseEntity {
     /**
      * Connection used in all static methods of the BaseEntity.
      */
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore: Unused variable which is actually used
     private static usedConnection?: Connection;
 

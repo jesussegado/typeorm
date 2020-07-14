@@ -1,4 +1,4 @@
-import { LoadMapItem } from './LoadMapItem';
+import { LoadMapItem } from "./LoadMapItem";
 
 export class LoadMap {
     loadMapItems: LoadMapItem[] = [];
@@ -11,10 +11,10 @@ export class LoadMap {
 
     addLoadMap(newLoadMap: LoadMapItem) {
         const item = this.loadMapItems.find(
-            (item) => item.target === newLoadMap.target && item.id === newLoadMap.id
+            (item) =>
+                item.target === newLoadMap.target && item.id === newLoadMap.id
         );
-        if (!item)
-            this.loadMapItems.push(newLoadMap);
+        if (!item) this.loadMapItems.push(newLoadMap);
     }
 
     fillEntities(target: Function | string, entities: any[]) {
@@ -28,13 +28,12 @@ export class LoadMap {
                     )
                 );
             });
-            if (item)
-                item.entity = entity;
+            if (item) item.entity = entity;
         });
     }
 
-    groupByTargetIds(): { target: Function | string; ids: any[]; }[] {
-        const groups: { target: Function | string; ids: any[]; }[] = [];
+    groupByTargetIds(): { target: Function | string; ids: any[] }[] {
+        const groups: { target: Function | string; ids: any[] }[] = [];
         this.loadMapItems.forEach((loadMapItem) => {
             let group = groups.find(
                 (group) => group.target === loadMapItem.target

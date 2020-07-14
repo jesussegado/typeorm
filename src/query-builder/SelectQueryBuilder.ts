@@ -1962,6 +1962,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                 case "dirty_read":
                     lock = " WITH (NOLOCK)";
                     break;
+                default:
             }
         }
 

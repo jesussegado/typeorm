@@ -79,6 +79,8 @@ export class RandomGenerator {
                     (str.charCodeAt(strLen - 1) << 8) |
                     0x80;
                 break;
+            default:
+                throw new Error("Didn't expect to get here");
         }
 
         wordArray.push(i);

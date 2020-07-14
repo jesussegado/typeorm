@@ -693,7 +693,8 @@ export class OracleDriver implements Driver {
      * Converts column type in to native oracle type.
      */
     columnTypeToNativeParameter(type: ColumnType): any {
-        switch (this.normalizeType({ type: type as any })) {
+        const normalizedType = this.normalizeType({ type: type as any });
+        switch (normalizedType) {
             case "number":
             case "numeric":
             case "int":
@@ -716,6 +717,10 @@ export class OracleDriver implements Driver {
             case "timestamp with time zone":
             case "timestamp with local time zone":
                 return this.oracle.DATE;
+            default:
+                throw new Error(
+                    `Unknown column normalized type ${normalizedType}.`
+                );
         }
     }
 

@@ -538,9 +538,9 @@ export class SapDriver implements Driver {
                 return "127";
             case "varbinary":
                 return "255";
+            default:
+                return "";
         }
-
-        return "";
     }
 
     /**

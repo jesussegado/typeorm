@@ -26,6 +26,7 @@ describe("github issues > #3416 Unknown fields are stripped from WHERE clause", 
                 connections.map(async (connection) => {
                     let error: Error | undefined;
                     try {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
                         // @ts-ignore
                         await connection.manager.findOne(User, {
                             unknownProp: "John Doe",

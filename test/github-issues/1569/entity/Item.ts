@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "../../../../src/index";
-import { EmbeddedItem } from './EmbeddedItem';
+import { EmbeddedItem } from "./EmbeddedItem";
 
 @Entity()
 export class Item {

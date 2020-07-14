@@ -4,6 +4,7 @@ import { SimpleConsoleLogger } from "./SimpleConsoleLogger";
 import { AdvancedConsoleLogger } from "./AdvancedConsoleLogger";
 import { FileLogger } from "./FileLogger";
 import { DebugLogger } from "./DebugLogger";
+import { assertUnreachable } from "../util/GeneralUtils";
 
 /**
  * Helps to create logger instances.
@@ -36,6 +37,8 @@ export class LoggerFactory {
 
                 case "debug":
                     return new DebugLogger();
+                default:
+                    return assertUnreachable(logger);
             }
         }
 

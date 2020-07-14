@@ -6,4 +6,3 @@ export class Book {
     @PrimaryColumn()
     ean: string;
 }
-

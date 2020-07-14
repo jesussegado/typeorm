@@ -2,6 +2,7 @@ import { LoggerOptions } from "./LoggerOptions";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { Logger } from "./Logger";
 import { PlatformTools } from "../platform/PlatformTools";
+import { assertUnreachable } from "../util/GeneralUtils";
 
 /**
  * Performs logging of the events in TypeORM.
@@ -132,6 +133,8 @@ export class FileLogger implements Logger {
                 )
                     this.write(`[WARN]: ${message}`);
                 break;
+            default:
+                assertUnreachable(level);
         }
     }
 

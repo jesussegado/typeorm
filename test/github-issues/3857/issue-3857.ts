@@ -29,12 +29,9 @@ describe("github issues > #3857 Schema inheritance when STI pattern is used", ()
                 const personMetadata = connection.getMetadata(Person);
                 const menMetadata = connection.getMetadata(Men);
                 const womenMetadata = connection.getMetadata(Women);
-                // @ts-ignore
-                personMetadata.schema.should.be.eq("custom");
-                // @ts-ignore
-                menMetadata.schema.should.be.eq(personMetadata.schema);
-                // @ts-ignore
-                womenMetadata.schema.should.be.eq(personMetadata.schema);
+                personMetadata.schema!.should.be.eq("custom");
+                menMetadata.schema!.should.be.eq(personMetadata.schema);
+                womenMetadata.schema!.should.be.eq(personMetadata.schema);
             })
         ));
 });

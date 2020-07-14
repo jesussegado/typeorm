@@ -145,6 +145,7 @@ export class SubjectChangedColumnsComputer {
                                 databaseValue
                             );
                             break;
+                        default:
                     }
 
                     if (column.transformer) {

@@ -215,6 +215,7 @@ export class InitCommand implements yargs.CommandModule {
                     database: "test",
                 });
                 break;
+            default:
         }
         Object.assign(options, {
             synchronize: true,
@@ -520,37 +521,36 @@ services:
                 return `version: '3'
 services:
 `;
-            case "oracle":
-                throw new Error(
-                    `You cannot initialize a project with docker for Oracle driver yet.`
-                ); // todo: implement for oracle as well
 
             case "mssql":
                 return `version: '3'
-services:
+    services:
 
-  mssql:
+    mssql:
     image: "microsoft/mssql-server-linux:rc2"
     ports:
       - "1433:1433"
-    environment:
+      environment:
       SA_PASSWORD: "Admin12345"
       ACCEPT_EULA: "Y"
 
-`;
+      `;
             case "mongodb":
                 return `version: '3'
-services:
+                services:
 
-  mongodb:
-    image: "mongo:4.0.6"
-    container_name: "typeorm-mongodb"
+                mongodb:
+                image: "mongo:4.0.6"
+                container_name: "typeorm-mongodb"
     ports:
-      - "27017:27017"
+    - "27017:27017"
 
-`;
+    `;
+            default:
+                throw new Error(
+                    `You cannot initialize a project with docker for ${database} driver yet.`
+                ); // todo: implement for oracle as well
         }
-        return "";
     }
 
     /**
@@ -621,6 +621,10 @@ Steps to run this project:
             case "mongodb":
                 packageJson.dependencies.mongodb = "^3.0.8";
                 break;
+            default:
+                throw new Error(
+                    `You cannot initialize a project for ${database} driver yet.`
+                );
         }
 
         if (express) {

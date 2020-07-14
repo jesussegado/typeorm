@@ -149,6 +149,8 @@ export class FindOptionsUtils {
                     case "DESC":
                         qb.addOrderBy(`${qb.alias}.${key}`, "DESC");
                         break;
+                    default:
+                        throw new Error(`Unknown order ${order}.`);
                 }
             });
 

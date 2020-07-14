@@ -1,2 +1,1 @@
-
-export abstract class Engine { }
+export abstract class Engine {}

@@ -7,7 +7,7 @@ import { ExpoDriver } from "./ExpoDriver";
 import { Broadcaster } from "../../subscriber/Broadcaster";
 
 // Needed to satisfy the Typescript compiler
-interface IResultSet {
+interface ResultSet {
     insertId: number | undefined;
     rowsAffected: number;
     rows: {
@@ -16,12 +16,12 @@ interface IResultSet {
         _array: any[];
     };
 }
-interface ITransaction {
+interface Transaction {
     executeSql: (
         sql: string,
         args: any[] | undefined,
-        ok: (tsx: ITransaction, resultSet: IResultSet) => void,
-        fail: (tsx: ITransaction, err: any) => void
+        ok: (tsx: Transaction, resultSet: ResultSet) => void,
+        fail: (tsx: Transaction, err: any) => void
     ) => void;
 }
 
@@ -37,7 +37,7 @@ export class ExpoQueryRunner extends AbstractSqliteQueryRunner {
     /**
      * Database transaction object
      */
-    private transaction?: ITransaction;
+    private transaction?: Transaction;
 
     // -------------------------------------------------------------------------
     // Constructor
@@ -117,7 +117,7 @@ export class ExpoQueryRunner extends AbstractSqliteQueryRunner {
             const queryStartTime = +new Date();
             // All Expo SQL queries are executed in a transaction context
             databaseConnection.transaction(
-                (transaction: ITransaction) => {
+                (transaction: Transaction) => {
                     if (typeof this.transaction === "undefined") {
                         this.startTransaction();
                         this.transaction = transaction;
@@ -125,7 +125,7 @@ export class ExpoQueryRunner extends AbstractSqliteQueryRunner {
                     this.transaction.executeSql(
                         query,
                         parameters,
-                        (t: ITransaction, result: IResultSet) => {
+                        (t: Transaction, result: ResultSet) => {
                             // log slow queries if maxQueryExecution time is set
                             const {
                                 maxQueryExecutionTime,
@@ -156,7 +156,7 @@ export class ExpoQueryRunner extends AbstractSqliteQueryRunner {
                                 ok(resultSet);
                             }
                         },
-                        (t: ITransaction, err: any) => {
+                        (t: Transaction, err: any) => {
                             this.driver.connection.logger.logQueryError(
                                 err,
                                 query,

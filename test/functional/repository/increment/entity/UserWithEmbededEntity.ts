@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryColumn } from "../../../../../src";
-import { FriendStats } from './FriendStats';
+import { FriendStats } from "./FriendStats";
 
 @Entity()
 export class UserWithEmbededEntity {

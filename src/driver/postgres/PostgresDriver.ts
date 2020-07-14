@@ -1,3 +1,4 @@
+/* eslint-disable-next-line  max-classes-per-file */
 import { Driver } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { ObjectLiteral } from "../../common/ObjectLiteral";
