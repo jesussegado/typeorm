@@ -1295,6 +1295,7 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
                 // build checks
                 let result;
                 const regexp = /CONSTRAINT "([^"]*)" CHECK (\(.*?\))([,]|[)]$)/g;
+                // eslint-disable-next-line no-cond-assign
                 while ((result = regexp.exec(sql)) !== null) {
                     table.checks.push(
                         new TableCheck({

@@ -33,7 +33,7 @@ export class NativescriptQueryRunner extends AbstractSqliteQueryRunner {
 
         const { connection } = this.driver;
 
-        return new Promise<any[]>((ok, fail) => {
+        return new Promise<any[]>( (ok, fail) => {
             const isInsertQuery = query.substr(0, 11) === "INSERT INTO";
 
             const handler = function (err: any, result: any) {
@@ -67,6 +67,7 @@ export class NativescriptQueryRunner extends AbstractSqliteQueryRunner {
             };
             this.driver.connection.logger.logQuery(query, parameters, this);
             const queryStartTime = +new Date();
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             this.connect().then((databaseConnection) => {
                 if (isInsertQuery) {
                     databaseConnection.execSQL(query, parameters, handler);

@@ -199,7 +199,8 @@ export class SubjectTopoligicalSorter {
             const outgoing = edges.filter(function (edge) {
                 return edge[0] === node;
             });
-            if ((i = outgoing.length)) {
+            if (outgoing.length) {
+                i=outgoing.length;
                 const preds = predecessors.concat(node);
                 do {
                     const child = outgoing[--i][1];

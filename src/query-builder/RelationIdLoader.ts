@@ -53,6 +53,7 @@ export class RelationIdLoader {
             entities = Array.isArray(relationNameOrEntities)
                 ? (relationNameOrEntities as ObjectLiteral[])
                 : [relationNameOrEntities as ObjectLiteral];
+            // eslint-disable-next-line no-nested-ternary
             relatedEntities = Array.isArray(entitiesOrRelatedEntities)
                 ? (entitiesOrRelatedEntities as ObjectLiteral[])
                 : entitiesOrRelatedEntities
@@ -73,6 +74,7 @@ export class RelationIdLoader {
             entities = Array.isArray(entitiesOrRelatedEntities)
                 ? (entitiesOrRelatedEntities as ObjectLiteral[])
                 : [entitiesOrRelatedEntities as ObjectLiteral];
+            // eslint-disable-next-line no-nested-ternary
             relatedEntities = Array.isArray(maybeRelatedEntities)
                 ? (maybeRelatedEntities as ObjectLiteral[])
                 : maybeRelatedEntities

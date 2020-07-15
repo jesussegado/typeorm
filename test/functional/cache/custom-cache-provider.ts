@@ -29,11 +29,13 @@ describe("custom cache provider", () => {
     it("should be used instead of built-ins", () =>
         Promise.all(
             connections.map(async (connection) => {
+                // eslint-disable-next-line prefer-destructuring
                 const queryResultCache: any = connection.queryResultCache;
                 expect(queryResultCache).to.have.property(
                     "queryResultCacheTable"
                 );
 
+                // eslint-disable-next-line prefer-destructuring
                 const queryResultCacheTable =
                     queryResultCache.queryResultCacheTable;
                 expect(queryResultCacheTable).to.contain("mock");

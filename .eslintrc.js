@@ -16,8 +16,8 @@ module.exports = {
   plugins: ["@typescript-eslint"],
   rules: {
     "@typescript-eslint/no-floating-promises": ["error"],
-    "no-use-before-define": ["error", "nofunc"],
-    "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
+    // "no-use-before-define": ["error", "nofunc"],
+    // "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
 
     "import/extensions": ["off"],
     "@typescript-eslint/no-explicit-any": ["off"],
@@ -40,7 +40,7 @@ module.exports = {
     "no-param-reassign":["off"],
     "no-shadow":["off"],
     "no-dupe-class-members":["off"],
-    "no-console":["off"], // TODO: add logger level error - and remove this lint
+    "no-console":["off"], // TODO: add logger level error and enable this lint
     // "no-underscore-dangle": ["error", { "allow": ["__dirname", "__value__"] }],
     "no-underscore-dangle": ["off"],
     "consistent-return": ["off"],
@@ -48,6 +48,14 @@ module.exports = {
     "no-restricted-syntax":"off",
     "no-prototype-builtins":"off",
     "global-require":"off",
+
+    "@typescript-eslint/no-var-requires":"off",
+    "@typescript-eslint/no-use-before-define":"off",
+    "import/no-dynamic-require":"off",
+    "import/no-extraneous-dependencies":"off",
+    "import/no-unresolved":"off",
+    "no-plusplus":"off",
+    "no-use-before-define":"off",
 },
 overrides: [
     {

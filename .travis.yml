@@ -15,6 +15,7 @@ before_script:
 
 script:
   - npx nyc npm test
-
+  - npm run lint
+  
 after_success:
   - bash <(curl -s https://codecov.io/bash)

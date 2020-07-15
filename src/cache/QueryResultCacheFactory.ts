@@ -26,6 +26,7 @@ export class QueryResultCacheFactory {
                 `To use cache you need to enable it in connection options by setting cache: true or providing some caching options. Example: { host: ..., username: ..., cache: true }`
             );
 
+        // eslint-disable-next-line prefer-destructuring
         const cache: any = this.connection.options.cache;
 
         if (cache.provider && typeof cache.provider === "function") {

@@ -107,27 +107,19 @@ export class MigrationExecutor {
     /**
      * Inserts an executed migration.
      */
-    public insertMigration(migration: Migration): Promise<void> {
-        return new Promise((resolve, reject) => {
-            this.withQueryRunner((queryRunner) => {
-                this.insertExecutedMigration(queryRunner, migration)
-                    .then(resolve)
-                    .catch(reject);
+    public async insertMigration(migration: Migration)  {
+            await this.withQueryRunner( async (queryRunner) => {
+                await this.insertExecutedMigration(queryRunner, migration)
             });
-        });
     }
 
     /**
      * Deletes an executed migration.
      */
-    public deleteMigration(migration: Migration): Promise<void> {
-        return new Promise((resolve, reject) => {
-            this.withQueryRunner((queryRunner) => {
-                this.deleteExecutedMigration(queryRunner, migration)
-                    .then(resolve)
-                    .catch(reject);
+    public async  deleteMigration(migration: Migration){
+            await this.withQueryRunner(async (queryRunner) => {
+                await this.deleteExecutedMigration(queryRunner, migration)
             });
-        });
     }
 
     /**

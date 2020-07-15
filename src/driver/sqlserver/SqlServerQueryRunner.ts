@@ -92,6 +92,8 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         if (this.isTransactionActive)
             throw new TransactionAlreadyStartedError();
 
+        // TODO: remove async
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise<void>(async (ok, fail) => {
             this.isTransactionActive = true;
 
@@ -179,6 +181,8 @@ export class SqlServerQueryRunner extends BaseQueryRunner
             await Promise.all(otherWaitingPromises);
         }
 
+        // TODO: remove async
+        // eslint-disable-next-line no-async-promise-executor
         const promise = new Promise(async (ok, fail) => {
             try {
                 this.driver.connection.logger.logQuery(query, parameters, this);
@@ -300,6 +304,8 @@ export class SqlServerQueryRunner extends BaseQueryRunner
             await Promise.all(otherWaitingPromises);
         }
 
+        // TODO: remove async
+        // eslint-disable-next-line no-async-promise-executor
         const promise = new Promise<ReadStream>(async (ok, fail) => {
             this.driver.connection.logger.logQuery(query, parameters, this);
             const pool = await (this.mode === "slave"
@@ -2794,6 +2800,7 @@ export class SqlServerQueryRunner extends BaseQueryRunner
                                         );
                                         let result;
                                         while (
+                                            // eslint-disable-next-line no-cond-assign
                                             (result = enumValueRegexp.exec(
                                                 checkConstraint.definition
                                             )) !== null
@@ -3526,6 +3533,8 @@ export class SqlServerQueryRunner extends BaseQueryRunner
      * Converts MssqlParameter into real mssql parameter type.
      */
     protected mssqlParameterToNativeParameter(parameter: MssqlParameter): any {
+        // TODO: Can we miss any types here?
+        // eslint-disable-next-line default-case
         switch (this.driver.normalizeType({ type: parameter.type as any })) {
             case "bit":
                 return this.driver.mssql.Bit;

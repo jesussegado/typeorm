@@ -214,9 +214,9 @@ export class MongoEntityManager extends EntityManager {
             | DeepPartial<Entity>,
         maybeOptions?: FindOneOptions<Entity>
     ): Promise<Entity | undefined> {
-        const objectIdInstance = PlatformTools.load("mongodb").ObjectID;
+        const ObjectIdInstance = PlatformTools.load("mongodb").ObjectID;
         const id =
-            optionsOrConditions instanceof objectIdInstance ||
+            optionsOrConditions instanceof ObjectIdInstance ||
             typeof optionsOrConditions === "string"
                 ? optionsOrConditions
                 : undefined;
@@ -229,7 +229,7 @@ export class MongoEntityManager extends EntityManager {
             ) || {};
         if (id) {
             query._id =
-                id instanceof objectIdInstance ? id : new objectIdInstance(id);
+                id instanceof ObjectIdInstance ? id : new ObjectIdInstance(id);
         }
         const cursor = await this.createEntityCursor(entityClassOrName, query);
         if (FindOptionsUtils.isFindOneOptions(findOneOptionsOrConditions)) {
@@ -1024,12 +1024,12 @@ export class MongoEntityManager extends EntityManager {
         }
 
         // means idMap is just object id
-        const objectIdInstance = PlatformTools.load("mongodb").ObjectID;
+        const ObjectIdInstance = PlatformTools.load("mongodb").ObjectID;
         return {
             _id:
-                idMap instanceof objectIdInstance
+                idMap instanceof ObjectIdInstance
                     ? idMap
-                    : new objectIdInstance(idMap),
+                    : new ObjectIdInstance(idMap),
         };
     }
 
@@ -1046,7 +1046,7 @@ export class MongoEntityManager extends EntityManager {
             if (callback) {
                 ParentCursor.prototype.toArray.call(
                     this,
-                    (error: MongoError, results: Entity[]): void => {
+                    async (error: MongoError, results: Entity[]): Promise<void> => {
                         if (error) {
                             callback(error, results);
                             return;
@@ -1066,7 +1066,7 @@ export class MongoEntityManager extends EntityManager {
                             entities
                         );
 
-                        Promise.all(broadcastResult.promises).then(() =>
+                        await Promise.all(broadcastResult.promises).then(() =>
                             callback(error, entities)
                         );
                     }
@@ -1099,7 +1099,7 @@ export class MongoEntityManager extends EntityManager {
             if (callback) {
                 ParentCursor.prototype.next.call(
                     this,
-                    (error: MongoError, result: CursorResult): void => {
+                    async (error: MongoError, result: CursorResult): Promise<void> => {
                         if (error || !result) {
                             callback(error, result);
                             return;
@@ -1116,7 +1116,7 @@ export class MongoEntityManager extends EntityManager {
                             [entity]
                         );
 
-                        Promise.all(broadcastResult.promises).then(() =>
+                        await Promise.all(broadcastResult.promises).then(() =>
                             callback(error, entity)
                         );
                     }

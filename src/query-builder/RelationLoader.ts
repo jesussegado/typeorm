@@ -306,6 +306,7 @@ export class RelationLoader {
         entity: ObjectLiteral,
         queryRunner?: QueryRunner
     ) {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const relationLoader = this;
         const dataIndex = `__${relation.propertyName}__`; // in what property of the entity loaded data will be stored
         const promiseIndex = `__promise_${relation.propertyName}__`; // in what property of the entity loading promise will be stored
@@ -321,14 +322,14 @@ export class RelationLoader {
             delete entity[resolveIndex];
             delete entity[dataIndex];
             entity[promiseIndex] = value;
-            value.then(
+            const promise = value.then(
                 // ensure different value is not assigned yet
                 (result) =>
                     entity[promiseIndex] === value
                         ? setData(entity, result)
                         : result
             );
-            return value;
+            return promise;
         };
 
         Object.defineProperty(entity, relation.propertyName, {
@@ -357,6 +358,8 @@ export class RelationLoader {
             set(value: any | Promise<any>) {
                 if (value instanceof Promise) {
                     // if set data is a promise then wait for its resolve and save in the object
+                    // TODO: is this deterministic?
+                    // eslint-disable-next-line @typescript-eslint/no-floating-promises
                     setPromise(this, value);
                 } else {
                     // if its direct data set (non promise, probably not safe-typed)

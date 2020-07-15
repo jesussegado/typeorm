@@ -625,6 +625,7 @@ export class PostgresDriver implements Driver {
                 value = [];
                 let cube: RegExpExecArray | null = null;
                 // Iterate through all regexp matches for cubes/null in array
+                // eslint-disable-next-line no-cond-assign
                 while ((cube = regexp.exec(unparsedArrayString)) !== null) {
                     if (cube[1] !== undefined) {
                         value.push(

@@ -117,9 +117,9 @@ export class ExpoQueryRunner extends AbstractSqliteQueryRunner {
             const queryStartTime = +new Date();
             // All Expo SQL queries are executed in a transaction context
             databaseConnection.transaction(
-                (transaction: Transaction) => {
+                async (transaction: Transaction) => {
                     if (typeof this.transaction === "undefined") {
-                        this.startTransaction();
+                        await this.startTransaction();
                         this.transaction = transaction;
                     }
                     this.transaction.executeSql(
@@ -167,8 +167,8 @@ export class ExpoQueryRunner extends AbstractSqliteQueryRunner {
                         }
                     );
                 },
-                (err: any) => {
-                    this.rollbackTransaction();
+                async (err: any) => {
+                    await this.rollbackTransaction();
                 },
                 () => {
                     this.isTransactionActive = false;

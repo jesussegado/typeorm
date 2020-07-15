@@ -13,6 +13,7 @@ export function TableInheritance(options?: {
             target,
             pattern: options && options.pattern ? options.pattern : "STI",
             column:
+                // eslint-disable-next-line no-nested-ternary
                 options && options.column
                     ? typeof options.column === "string"
                         ? { name: options.column }

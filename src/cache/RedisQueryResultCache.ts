@@ -57,8 +57,10 @@ export class RedisQueryResultCache implements QueryResultCache {
             }
         } else if (this.clientType === "ioredis") {
             if (cacheOptions && cacheOptions.options) {
+                // eslint-disable-next-line new-cap
                 this.client = new this.redis(cacheOptions.options);
             } else {
+                // eslint-disable-next-line new-cap
                 this.client = new this.redis();
             }
         } else if (this.clientType === "ioredis/cluster") {

@@ -158,6 +158,8 @@ export class RelationCountLoader {
                     `${junctionAlias}.${
                         firstJunctionColumn.propertyName
                     } IN (${referenceColumnValues.map((vals) =>
+                        // TODO: Investigate if anything is undeterministic with connecting to mssql - error once change isNaN to Number.isNaN
+                        // eslint-disable-next-line no-restricted-globals
                         isNaN(vals) ? `'${vals}'` : vals
                     )})` +
                     ` AND ${junctionAlias}.${secondJunctionColumn.propertyName} = ${inverseSideTableAlias}.${inverseJoinColumnName}`;
