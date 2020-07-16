@@ -8,7 +8,7 @@
     "test": "cd cli && npm run test && cd ../options-reader && npm run test && cd ../core && npm run test",
     "compile": "cd cli && npm run compile && cd ../options-reader && npm run compile && cd ../core && npm run compile",
     "package": "cd core && npm run package",
-    "install": "cd cli && npm run install && cd ../options-reader && npm run install && cd ../core && npm run install",
+    "install": "cd cli && npm install && cd ../options-reader && npm install && cd ../core && npm install",
     "link": "cd cli && npm link typeorm-core && cd ../options-reader && npm link typeorm-core"
   },
   "repository": {
