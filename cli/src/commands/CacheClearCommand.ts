@@ -1,29 +1,29 @@
 import * as yargs from "yargs";
-import { createConnection } from "../index";
-import { Connection } from "../connection/Connection";
-import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
+import {
+    createConnection,
+    ConnectionOptionsReader,
+    Connection,
+} from "typeorm-core";
 
 const chalk = require("chalk");
 
 /**
- * Drops all tables of the database from the given connection.
+ * Clear cache command.
  */
-export class SchemaDropCommand implements yargs.CommandModule {
-    command = "schema:drop";
+export class CacheClearCommand implements yargs.CommandModule {
+    command = "cache:clear";
 
-    describe =
-        "Drops all tables in the database on your default connection. " +
-        "To drop table of a concrete connection's database use -c option.";
+    describe = "Clears all data stored in query runner cache.";
 
     builder(args: yargs.Argv) {
         return args
-            .option("c", {
-                alias: "connection",
+            .option("connection", {
+                alias: "c",
                 default: "default",
-                describe: "Name of the connection on which to drop all tables.",
+                describe: "Name of the connection on which run a query.",
             })
-            .option("f", {
-                alias: "config",
+            .option("config", {
+                alias: "f",
                 default: "ormconfig",
                 describe: "Name of the file with connection configuration.",
             });
@@ -40,22 +40,31 @@ export class SchemaDropCommand implements yargs.CommandModule {
                 args.connection as any
             );
             Object.assign(connectionOptions, {
+                subscribers: [],
                 synchronize: false,
                 migrationsRun: false,
                 dropSchema: false,
-                logging: ["query", "schema"],
+                logging: ["schema"],
             });
             connection = await createConnection(connectionOptions);
-            await connection.dropDatabase();
-            await connection.close();
 
-            console.log(
-                chalk.green("Database schema has been successfully dropped.")
-            );
+            if (!connection.queryResultCache) {
+                console.log(
+                    chalk.black.bgRed(
+                        "Cache is not enabled. To use cache enable it in connection configuration."
+                    )
+                );
+                return;
+            }
+
+            await connection.queryResultCache.clear();
+            console.log(chalk.green("Cache was successfully cleared"));
+
+            if (connection) await connection.close();
         } catch (err) {
             if (connection) await (connection as Connection).close();
 
-            console.log(chalk.black.bgRed("Error during schema drop:"));
+            console.log(chalk.black.bgRed("Error during cache clear:"));
             console.error(err);
             process.exit(1);
         }

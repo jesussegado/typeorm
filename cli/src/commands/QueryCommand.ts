@@ -1,9 +1,11 @@
 import * as yargs from "yargs";
-import { createConnection } from "../index";
-import { QueryRunner } from "../query-runner/QueryRunner";
-import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
-import { Connection } from "../connection/Connection";
-import { PlatformTools } from "../platform/PlatformTools";
+import {
+    Connection,
+    QueryRunner,
+    ConnectionOptionsReader,
+    createConnection,
+} from "typeorm-core";
+import { PlatformTools } from "typeorm-core/platform/PlatformTools";
 
 const chalk = require("chalk");
 

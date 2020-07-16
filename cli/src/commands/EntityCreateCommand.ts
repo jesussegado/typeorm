@@ -1,16 +1,16 @@
 import * as yargs from "yargs";
-import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
+import { ConnectionOptionsReader } from "typeorm-core";
 import { CommandUtils } from "./CommandUtils";
 
 const chalk = require("chalk");
 
 /**
- * Generates a new subscriber.
+ * Generates a new entity.
  */
-export class SubscriberCreateCommand implements yargs.CommandModule {
-    command = "subscriber:create";
+export class EntityCreateCommand implements yargs.CommandModule {
+    command = "entity:create";
 
-    describe = "Generates a new subscriber.";
+    describe = "Generates a new entity.";
 
     builder(args: yargs.Argv) {
         return args
@@ -21,12 +21,12 @@ export class SubscriberCreateCommand implements yargs.CommandModule {
             })
             .option("n", {
                 alias: "name",
-                describe: "Name of the subscriber class.",
+                describe: "Name of the entity class.",
                 demand: true,
             })
             .option("d", {
                 alias: "dir",
-                describe: "Directory where subscriber should be created.",
+                describe: "Directory where entity should be created.",
             })
             .option("f", {
                 alias: "config",
@@ -37,7 +37,7 @@ export class SubscriberCreateCommand implements yargs.CommandModule {
 
     async handler(args: yargs.Arguments) {
         try {
-            const fileContent = SubscriberCreateCommand.getTemplate(
+            const fileContent = EntityCreateCommand.getTemplate(
                 args.name as any
             );
             const filename = `${args.name}.ts`;
@@ -56,7 +56,7 @@ export class SubscriberCreateCommand implements yargs.CommandModule {
                         args.connection as any
                     );
                     directory = connectionOptions.cli
-                        ? connectionOptions.cli.subscribersDir
+                        ? connectionOptions.cli.entitiesDir
                         : undefined;
                     // eslint-disable-next-line no-empty
                 } catch (err) {}
@@ -65,16 +65,18 @@ export class SubscriberCreateCommand implements yargs.CommandModule {
             const path = `${process.cwd()}/${
                 directory ? `${directory}/` : ""
             }${filename}`;
+            const fileExists = await CommandUtils.fileExists(path);
+            if (fileExists) {
+                throw new Error(`File ${chalk.blue(path)} already exists`);
+            }
             await CommandUtils.createFile(path, fileContent);
             console.log(
                 chalk.green(
-                    `Subscriber ${chalk.blue(
-                        path
-                    )} has been created successfully.`
+                    `Entity ${chalk.blue(path)} has been created successfully.`
                 )
             );
         } catch (err) {
-            console.log(chalk.black.bgRed("Error during subscriber creation:"));
+            console.log(chalk.black.bgRed("Error during entity creation:"));
             console.error(err);
             process.exit(1);
         }
@@ -88,10 +90,10 @@ export class SubscriberCreateCommand implements yargs.CommandModule {
      * Gets contents of the entity file.
      */
     protected static getTemplate(name: string): string {
-        return `import {EventSubscriber, EntitySubscriberInterface} from "typeorm";
+        return `import {Entity} from "typeorm";
 
-@EventSubscriber()
-export class ${name} implements EntitySubscriberInterface<any> {
+@Entity()
+export class ${name} {
 
 }
 `;

@@ -1,35 +1,32 @@
 import * as yargs from "yargs";
-import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
+import { ConnectionOptionsReader } from "typeorm-core";
 import { CommandUtils } from "./CommandUtils";
-import { camelCase } from "../util/StringUtils";
 
 const chalk = require("chalk");
 
 /**
- * Creates a new migration file.
+ * Generates a new subscriber.
  */
-export class MigrationCreateCommand implements yargs.CommandModule {
-    command = "migration:create";
+export class SubscriberCreateCommand implements yargs.CommandModule {
+    command = "subscriber:create";
 
-    describe = "Creates a new migration file.";
-
-    aliases = "migrations:create";
+    describe = "Generates a new subscriber.";
 
     builder(args: yargs.Argv) {
         return args
             .option("c", {
                 alias: "connection",
                 default: "default",
-                describe: "Name of the connection on which run a query.",
+                describe: "Name of the connection on which to run a query",
             })
             .option("n", {
                 alias: "name",
-                describe: "Name of the migration class.",
+                describe: "Name of the subscriber class.",
                 demand: true,
             })
             .option("d", {
                 alias: "dir",
-                describe: "Directory where migration should be created.",
+                describe: "Directory where subscriber should be created.",
             })
             .option("f", {
                 alias: "config",
@@ -39,19 +36,11 @@ export class MigrationCreateCommand implements yargs.CommandModule {
     }
 
     async handler(args: yargs.Arguments) {
-        if (args._[0] === "migrations:create") {
-            console.log(
-                "'migrations:create' is deprecated, please use 'migration:create' instead"
-            );
-        }
-
         try {
-            const timestamp = new Date().getTime();
-            const fileContent = MigrationCreateCommand.getTemplate(
-                args.name as any,
-                timestamp
+            const fileContent = SubscriberCreateCommand.getTemplate(
+                args.name as any
             );
-            const filename = `${timestamp}-${args.name}.ts`;
+            const filename = `${args.name}.ts`;
             let directory = args.dir;
 
             // if directory is not set then try to open tsconfig and find default path there
@@ -67,7 +56,7 @@ export class MigrationCreateCommand implements yargs.CommandModule {
                         args.connection as any
                     );
                     directory = connectionOptions.cli
-                        ? connectionOptions.cli.migrationsDir
+                        ? connectionOptions.cli.subscribersDir
                         : undefined;
                     // eslint-disable-next-line no-empty
                 } catch (err) {}
@@ -78,10 +67,14 @@ export class MigrationCreateCommand implements yargs.CommandModule {
             }${filename}`;
             await CommandUtils.createFile(path, fileContent);
             console.log(
-                `Migration ${chalk.blue(path)} has been generated successfully.`
+                chalk.green(
+                    `Subscriber ${chalk.blue(
+                        path
+                    )} has been created successfully.`
+                )
             );
         } catch (err) {
-            console.log(chalk.black.bgRed("Error during migration creation:"));
+            console.log(chalk.black.bgRed("Error during subscriber creation:"));
             console.error(err);
             process.exit(1);
         }
@@ -92,21 +85,13 @@ export class MigrationCreateCommand implements yargs.CommandModule {
     // -------------------------------------------------------------------------
 
     /**
-     * Gets contents of the migration file.
+     * Gets contents of the entity file.
      */
-    protected static getTemplate(name: string, timestamp: number): string {
-        return `import {MigrationInterface, QueryRunner} from "typeorm";
+    protected static getTemplate(name: string): string {
+        return `import {EventSubscriber, EntitySubscriberInterface} from "typeorm";
 
-export class ${camelCase(
-            name,
-            true
-        )}${timestamp} implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-    }
-
-    public async down(queryRunner: QueryRunner): Promise<void> {
-    }
+@EventSubscriber()
+export class ${name} implements EntitySubscriberInterface<any> {
 
 }
 `;

@@ -1,28 +1,31 @@
-import * as process from "process";
 import * as yargs from "yargs";
-import { createConnection } from "../index";
-import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
-import { Connection } from "../connection/Connection";
+import {
+    Connection,
+    ConnectionOptionsReader,
+    createConnection,
+} from "typeorm-core";
 
 const chalk = require("chalk");
 
 /**
- * Runs migration command.
+ * Drops all tables of the database from the given connection.
  */
-export class MigrationShowCommand implements yargs.CommandModule {
-    command = "migration:show";
+export class SchemaDropCommand implements yargs.CommandModule {
+    command = "schema:drop";
 
-    describe = "Show all migrations and whether they have been run or not";
+    describe =
+        "Drops all tables in the database on your default connection. " +
+        "To drop table of a concrete connection's database use -c option.";
 
     builder(args: yargs.Argv) {
         return args
-            .option("connection", {
-                alias: "c",
+            .option("c", {
+                alias: "connection",
                 default: "default",
-                describe: "Name of the connection on which run a query.",
+                describe: "Name of the connection on which to drop all tables.",
             })
-            .option("config", {
-                alias: "f",
+            .option("f", {
+                alias: "config",
                 default: "ormconfig",
                 describe: "Name of the file with connection configuration.",
             });
@@ -39,22 +42,22 @@ export class MigrationShowCommand implements yargs.CommandModule {
                 args.connection as any
             );
             Object.assign(connectionOptions, {
-                subscribers: [],
                 synchronize: false,
                 migrationsRun: false,
                 dropSchema: false,
-                logging: ["query", "error", "schema"],
+                logging: ["query", "schema"],
             });
             connection = await createConnection(connectionOptions);
-            const unappliedMigrations = await connection.showMigrations();
+            await connection.dropDatabase();
             await connection.close();
 
-            // return error code if there are unapplied migrations for CI
-            process.exit(unappliedMigrations ? 1 : 0);
+            console.log(
+                chalk.green("Database schema has been successfully dropped.")
+            );
         } catch (err) {
             if (connection) await (connection as Connection).close();
 
-            console.log(chalk.black.bgRed("Error during migration show:"));
+            console.log(chalk.black.bgRed("Error during schema drop:"));
             console.error(err);
             process.exit(1);
         }

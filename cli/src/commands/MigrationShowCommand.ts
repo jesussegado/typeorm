@@ -1,17 +1,20 @@
+import * as process from "process";
 import * as yargs from "yargs";
-import { createConnection } from "../index";
-import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
-import { Connection } from "../connection/Connection";
+import {
+    ConnectionOptionsReader,
+    Connection,
+    createConnection,
+} from "typeorm-core";
 
 const chalk = require("chalk");
 
 /**
- * Clear cache command.
+ * Runs migration command.
  */
-export class CacheClearCommand implements yargs.CommandModule {
-    command = "cache:clear";
+export class MigrationShowCommand implements yargs.CommandModule {
+    command = "migration:show";
 
-    describe = "Clears all data stored in query runner cache.";
+    describe = "Show all migrations and whether they have been run or not";
 
     builder(args: yargs.Argv) {
         return args
@@ -42,27 +45,18 @@ export class CacheClearCommand implements yargs.CommandModule {
                 synchronize: false,
                 migrationsRun: false,
                 dropSchema: false,
-                logging: ["schema"],
+                logging: ["query", "error", "schema"],
             });
             connection = await createConnection(connectionOptions);
+            const unappliedMigrations = await connection.showMigrations();
+            await connection.close();
 
-            if (!connection.queryResultCache) {
-                console.log(
-                    chalk.black.bgRed(
-                        "Cache is not enabled. To use cache enable it in connection configuration."
-                    )
-                );
-                return;
-            }
-
-            await connection.queryResultCache.clear();
-            console.log(chalk.green("Cache was successfully cleared"));
-
-            if (connection) await connection.close();
+            // return error code if there are unapplied migrations for CI
+            process.exit(unappliedMigrations ? 1 : 0);
         } catch (err) {
             if (connection) await (connection as Connection).close();
 
-            console.log(chalk.black.bgRed("Error during cache clear:"));
+            console.log(chalk.black.bgRed("Error during migration show:"));
             console.error(err);
             process.exit(1);
         }

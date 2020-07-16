@@ -1,32 +1,35 @@
 import * as yargs from "yargs";
-import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
+import { ConnectionOptionsReader } from "typeorm-core";
+import { camelCase } from "typeorm-core/util/StringUtils";
 import { CommandUtils } from "./CommandUtils";
 
 const chalk = require("chalk");
 
 /**
- * Generates a new entity.
+ * Creates a new migration file.
  */
-export class EntityCreateCommand implements yargs.CommandModule {
-    command = "entity:create";
+export class MigrationCreateCommand implements yargs.CommandModule {
+    command = "migration:create";
 
-    describe = "Generates a new entity.";
+    describe = "Creates a new migration file.";
+
+    aliases = "migrations:create";
 
     builder(args: yargs.Argv) {
         return args
             .option("c", {
                 alias: "connection",
                 default: "default",
-                describe: "Name of the connection on which to run a query",
+                describe: "Name of the connection on which run a query.",
             })
             .option("n", {
                 alias: "name",
-                describe: "Name of the entity class.",
+                describe: "Name of the migration class.",
                 demand: true,
             })
             .option("d", {
                 alias: "dir",
-                describe: "Directory where entity should be created.",
+                describe: "Directory where migration should be created.",
             })
             .option("f", {
                 alias: "config",
@@ -36,11 +39,19 @@ export class EntityCreateCommand implements yargs.CommandModule {
     }
 
     async handler(args: yargs.Arguments) {
-        try {
-            const fileContent = EntityCreateCommand.getTemplate(
-                args.name as any
+        if (args._[0] === "migrations:create") {
+            console.log(
+                "'migrations:create' is deprecated, please use 'migration:create' instead"
             );
-            const filename = `${args.name}.ts`;
+        }
+
+        try {
+            const timestamp = new Date().getTime();
+            const fileContent = MigrationCreateCommand.getTemplate(
+                args.name as any,
+                timestamp
+            );
+            const filename = `${timestamp}-${args.name}.ts`;
             let directory = args.dir;
 
             // if directory is not set then try to open tsconfig and find default path there
@@ -56,7 +67,7 @@ export class EntityCreateCommand implements yargs.CommandModule {
                         args.connection as any
                     );
                     directory = connectionOptions.cli
-                        ? connectionOptions.cli.entitiesDir
+                        ? connectionOptions.cli.migrationsDir
                         : undefined;
                     // eslint-disable-next-line no-empty
                 } catch (err) {}
@@ -65,18 +76,12 @@ export class EntityCreateCommand implements yargs.CommandModule {
             const path = `${process.cwd()}/${
                 directory ? `${directory}/` : ""
             }${filename}`;
-            const fileExists = await CommandUtils.fileExists(path);
-            if (fileExists) {
-                throw new Error(`File ${chalk.blue(path)} already exists`);
-            }
             await CommandUtils.createFile(path, fileContent);
             console.log(
-                chalk.green(
-                    `Entity ${chalk.blue(path)} has been created successfully.`
-                )
+                `Migration ${chalk.blue(path)} has been generated successfully.`
             );
         } catch (err) {
-            console.log(chalk.black.bgRed("Error during entity creation:"));
+            console.log(chalk.black.bgRed("Error during migration creation:"));
             console.error(err);
             process.exit(1);
         }
@@ -87,13 +92,21 @@ export class EntityCreateCommand implements yargs.CommandModule {
     // -------------------------------------------------------------------------
 
     /**
-     * Gets contents of the entity file.
+     * Gets contents of the migration file.
      */
-    protected static getTemplate(name: string): string {
-        return `import {Entity} from "typeorm";
+    protected static getTemplate(name: string, timestamp: number): string {
+        return `import {MigrationInterface, QueryRunner} from "typeorm";
 
-@Entity()
-export class ${name} {
+export class ${camelCase(
+            name,
+            true
+        )}${timestamp} implements MigrationInterface {
+
+    public async up(queryRunner: QueryRunner): Promise<void> {
+    }
+
+    public async down(queryRunner: QueryRunner): Promise<void> {
+    }
 
 }
 `;

@@ -9,13 +9,10 @@ const del = require("del");
 const shell = require("gulp-shell");
 const replace = require("gulp-replace");
 const rename = require("gulp-rename");
-const mocha = require("gulp-mocha");
-const chai = require("chai");
 const sourcemaps = require("gulp-sourcemaps");
 const istanbul = require("gulp-istanbul");
 const remapIstanbul = require("remap-istanbul/lib/gulpRemapIstanbul");
 const ts = require("gulp-typescript");
-const args = require("yargs").argv;
 
 @Gulpclass()
 export class Gulpfile {
@@ -37,7 +34,7 @@ export class Gulpfile {
      */
     @Task()
     clean(cb: Function) {
-        return del(["./build/**"], cb);
+        return del(["./build/browser/**","./build/package/**","./build/compiled/**"], cb);
     }
 
     /**
@@ -287,22 +284,7 @@ export class Gulpfile {
             .pipe(istanbul.writeReports());
     }
 
-    /**
-     * Runs mocha tests.
-     */
-    @Task()
-    runTests() {
-        chai.should();
-        chai.use(require("sinon-chai"));
-        chai.use(require("chai-as-promised"));
 
-        return gulp.src(["./build/compiled/test/**/*.js"])
-            .pipe(mocha({
-                bail: true,
-                grep: !!args.grep ? new RegExp(args.grep) : undefined,
-                timeout: 15000
-            }));
-    }
 
     @Task()
     coverageRemap() {
@@ -311,35 +293,8 @@ export class Gulpfile {
             .pipe(gulp.dest("./coverage"));
     }
 
-    /**
-     * Compiles the code and runs tests + makes coverage report.
-     */
-    @SequenceTask()
-    tests() {
-        return [
-            "compile",
-            "coveragePre",
-            "runTests",
-            "coveragePost",
-            "coverageRemap"
-        ];
-    }
 
-    /**
-     * Runs tests, but creates a small delay before running them to make sure to give time for docker containers to be initialized.
-     */
-    @SequenceTask("ci-tests")
-    ciTests() {
-        return [
-            "clean",
-            "compile",
-            "wait",
-            "coveragePre",
-            "runTests",
-            "coveragePost",
-            "coverageRemap"
-        ];
-    }
+
 
     // -------------------------------------------------------------------------
     // CI tasks

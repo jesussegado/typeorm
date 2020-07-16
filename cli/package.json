@@ -1,0 +1,41 @@
+{
+  "name": "typeorm-cli",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "typeorm": "./cli.js"
+  },
+  "scripts": {
+    "compile": "rimraf ./build && tsc",
+    "watch": "./node_modules/.bin/tsc -w",
+    "lint": "eslint {src,test}/**/*.ts",
+    "prettier": "prettier --write {src,test}/**/*.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "cli-highlight": "^2.1.4",
+    "mkdirp": "^1.0.4",
+    "reflect-metadata": "^0.1.13",
+    "typeorm-core": "^0.2.25",
+    "yargonaut": "^1.1.2",
+    "yargs": "^15.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "14.0.4",
+    "@types/source-map-support": "^0.5.2",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^3.4.0",
+    "@typescript-eslint/typescript-estree": "^3.4.0",
+    "@types/yargs": "^15.0.5",
+    "eslint": "^7.3.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "typescript": "^3.6.5",
+    "rimraf": "^3.0.2",
+    "prettier": "^2.0.5"
+  }
+}

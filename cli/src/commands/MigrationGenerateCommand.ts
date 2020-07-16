@@ -1,11 +1,13 @@
 import * as yargs from "yargs";
-import { ConnectionOptionsReader } from "../connection/ConnectionOptionsReader";
+import {
+    ConnectionOptionsReader,
+    Connection,
+    createConnection,
+} from "typeorm-core";
+import { MysqlDriver } from "typeorm-core/driver/mysql/MysqlDriver";
+import { AuroraDataApiDriver } from "typeorm-core/driver/aurora-data-api/AuroraDataApiDriver";
+import { camelCase } from "typeorm-core/util/StringUtils";
 import { CommandUtils } from "./CommandUtils";
-import { Connection } from "../connection/Connection";
-import { createConnection } from "../index";
-import { MysqlDriver } from "../driver/mysql/MysqlDriver";
-import { camelCase } from "../util/StringUtils";
-import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
 
 const chalk = require("chalk");
 

@@ -1,7 +1,7 @@
 import * as path from "path";
 import * as yargs from "yargs";
+import { ObjectLiteral } from "typeorm-core";
 import { CommandUtils } from "./CommandUtils";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 
 const chalk = require("chalk");
 
