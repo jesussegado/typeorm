@@ -19,7 +19,6 @@
     "cli-highlight": "^2.1.4",
     "mkdirp": "^1.0.4",
     "reflect-metadata": "^0.1.13",
-    "typeorm-core": "^0.2.25",
     "yargonaut": "^1.1.2",
     "yargs": "^15.4.0"
   },

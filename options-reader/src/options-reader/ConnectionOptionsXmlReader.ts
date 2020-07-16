@@ -1,6 +1,6 @@
-import { PlatformTools } from "../../platform/PlatformTools";
-import { ConnectionOptions } from "../ConnectionOptions";
-
+import * as fs from "fs";
+import { parseStringPromise } from "xml2js";
+import { ConnectionOptions } from "typeorm-core";
 /**
  * Reads connection options defined in the xml file.
  */
@@ -58,15 +58,9 @@ export class ConnectionOptionsXmlReader {
     /**
      * Reads xml file contents and returns them in a promise.
      */
-    protected readXml(path: string): Promise<any> {
-        const xmlParser = PlatformTools.load("xml2js").parseString;
+    protected async readXml(path: string): Promise<any> {
         const xmlOptions = { trim: true, explicitRoot: false };
-        return new Promise((ok, fail) => {
-            xmlParser(
-                PlatformTools.readFileSync(path),
-                xmlOptions,
-                (err: any, result: any) => (err ? fail(err) : ok(result))
-            );
-        });
+        const fileContent = fs.readFileSync(path);
+        return parseStringPromise(fileContent, xmlOptions);
     }
 }

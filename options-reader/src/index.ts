@@ -1,13 +1,27 @@
-import { ConnectionOptions } from "./ConnectionOptions";
-import { PlatformTools } from "../platform/PlatformTools";
+import * as fs from "fs";
+import * as dotenv from "dotenv";
+import { ConnectionOptions } from "typeorm-core";
+import * as appRootPath from "app-root-path";
 import { ConnectionOptionsEnvReader } from "./options-reader/ConnectionOptionsEnvReader";
 import { ConnectionOptionsYmlReader } from "./options-reader/ConnectionOptionsYmlReader";
 import { ConnectionOptionsXmlReader } from "./options-reader/ConnectionOptionsXmlReader";
-
 /**
  * Reads connection options from the ormconfig.
  * Can read from multiple file extensions including env, json, js, xml and yml.
  */
+
+export function getEnvVariable(name: string): any {
+    return process.env[name];
+}
+export function fileExist(pathStr: string): boolean {
+    return fs.existsSync(pathStr);
+}
+export async function getConnectionOptions(
+    connectionName: string = "default"
+): Promise<ConnectionOptions> {
+    return new ConnectionOptionsReader().get(connectionName);
+}
+
 export class ConnectionOptionsReader {
     // -------------------------------------------------------------------------
     // Constructor
@@ -115,17 +129,13 @@ export class ConnectionOptionsReader {
         const foundFileFormat =
             fileExtension ||
             fileFormats.find((format) => {
-                return PlatformTools.fileExist(
-                    `${this.baseFilePath}.${format}`
-                );
+                return fs.existsSync(`${this.baseFilePath}.${format}`);
             });
 
         // if .env file found then load all its variables into process.env using dotenv package
         if (foundFileFormat === "env") {
-            const dotenv = PlatformTools.load("dotenv");
             dotenv.config({ path: this.baseFilePath });
-        } else if (PlatformTools.fileExist(".env")) {
-            const dotenv = PlatformTools.load("dotenv");
+        } else if (fileExist(".env")) {
             dotenv.config({ path: ".env" });
         }
 
@@ -136,16 +146,16 @@ export class ConnectionOptionsReader {
 
         // try to find connection options from any of available sources of configuration
         if (
-            PlatformTools.getEnvVariable("TYPEORM_CONNECTION") ||
-            PlatformTools.getEnvVariable("TYPEORM_URL")
+            getEnvVariable("TYPEORM_CONNECTION") ||
+            getEnvVariable("TYPEORM_URL")
         ) {
             connectionOptions = new ConnectionOptionsEnvReader().read();
         } else if (foundFileFormat === "js" || foundFileFormat === "cjs") {
-            connectionOptions = await PlatformTools.load(configFile);
+            connectionOptions = await require(configFile);
         } else if (foundFileFormat === "ts") {
-            connectionOptions = await PlatformTools.load(configFile);
+            connectionOptions = await require(configFile);
         } else if (foundFileFormat === "json") {
-            connectionOptions = PlatformTools.load(configFile);
+            connectionOptions = require(configFile);
         } else if (foundFileFormat === "yml") {
             connectionOptions = new ConnectionOptionsYmlReader().read(
                 configFile
@@ -250,7 +260,7 @@ export class ConnectionOptionsReader {
     protected get baseDirectory(): string {
         if (this.options && this.options.root) return this.options.root;
 
-        return PlatformTools.load("app-root-path").path;
+        return appRootPath.path;
     }
 
     /**

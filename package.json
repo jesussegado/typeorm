@@ -4,10 +4,12 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "lint": "cd core && npm run lint",
-    "test": "cd core && npm t",
-    "compile": "cd core && npm run compile",
-    "package": "cd core && npm run package"
+    "lint": "cd cli && npm run lint && cd ../options-reader && npm run lint && cd ../core && npm run lint",
+    "test": "cd cli && npm run test && cd ../options-reader && npm run test && cd ../core && npm run test",
+    "compile": "cd cli && npm run compile && cd ../options-reader && npm run compile && cd ../core && npm run compile",
+    "package": "cd core && npm run package",
+    "install": "cd cli && npm run install && cd ../options-reader && npm run install && cd ../core && npm run install",
+    "link": "cd cli && npm link typeorm-core && cd ../options-reader && npm link typeorm-core"
   },
   "repository": {
     "type": "git",
