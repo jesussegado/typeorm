@@ -19,6 +19,7 @@ import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { EntitySchema } from "../entity-schema/EntitySchema";
 import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
+import { isDriverSupported } from '../driver/Driver';
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -319,16 +320,13 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                 .join(", ");
         if (statement && Array.isArray(statement.overwrite)) {
             if (
-                this.connection.driver instanceof MysqlDriver ||
-                this.connection.driver instanceof AuroraDataApiDriver
+                isDriverSupported(["mysql","aurora-data-api"],this.connection.driver.type)
             ) {
                 this.expressionMap.onUpdate.overwrite = statement.overwrite
                     .map((column) => `${column} = VALUES(${column})`)
                     .join(", ");
             } else if (
-                this.connection.driver instanceof PostgresDriver ||
-                this.connection.driver instanceof AbstractSqliteDriver ||
-                this.connection.driver instanceof CockroachDriver
+                isDriverSupported(["postgres","sqlite-abstract","cockroachdb"],this.connection.driver.type)
             ) {
                 this.expressionMap.onUpdate.overwrite = statement.overwrite
                     .map((column) => `${column} = EXCLUDED.${column}`)

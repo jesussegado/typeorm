@@ -1,12 +1,10 @@
-import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { UniqueMetadata } from "../metadata/UniqueMetadata";
 import { ForeignKeyMetadata } from "../metadata/ForeignKeyMetadata";
 import { RelationMetadata } from "../metadata/RelationMetadata";
 import { JoinColumnMetadataArgs } from "../metadata-args/JoinColumnMetadataArgs";
 import { Connection } from "../connection/Connection";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
-import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
+import { isDriverSupported } from '../driver/Driver';
 
 /**
  * Builds join column for the many-to-one and one-to-one owner relations.
@@ -84,7 +82,8 @@ export class RelationJoinColumnBuilder {
 
         // Oracle does not allow both primary and unique constraints on the same column
         if (
-            this.connection.driver instanceof OracleDriver &&
+            isDriverSupported(["oracle"],this.connection.driver.type)
+            &&
             columns.every((column) => column.isPrimary)
         )
             return { foreignKey, uniqueConstraint: undefined };
@@ -190,10 +189,8 @@ export class RelationJoinColumnBuilder {
                             type: referencedColumn.type,
                             length:
                                 !referencedColumn.length &&
-                                (this.connection.driver instanceof
-                                    MysqlDriver ||
-                                    this.connection.driver instanceof
-                                        AuroraDataApiDriver) &&
+                                (isDriverSupported(["mysql","aurora-data-api"],this.connection.driver.type)
+                                    ) &&
                                 (referencedColumn.generationStrategy ===
                                     "uuid" ||
                                     referencedColumn.type === "uuid")

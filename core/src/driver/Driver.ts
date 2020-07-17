@@ -10,12 +10,23 @@ import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { DatabaseType } from '..';
 
-export type DriverType = DatabaseType;
-// "Cockroach" | "Sqljs" | "Mongo" | "Postgres" | "Mssql" | "Oracle" | "Mysql" | "AuroraDataApi" | "Sap"
+export type DriverType = DatabaseType | "sqlite-abstract";
 
 export function isDriverSupported(supportedDrivers: DriverType[],driver: DriverType): boolean {
-    return supportedDrivers.includes(driver);
-    // TODO: abstractsql
+    const abstractSqlite:DriverType[] = [
+        "cordova",
+        "expo",
+        "nativescript",
+        "react-native",
+        "sqlite",
+        "sqljs"
+    ];
+    switch (driver) {
+        case "sqlite-abstract":
+            return abstractSqlite.includes(driver);
+        default:
+            return supportedDrivers.includes(driver);
+    }
 }
 /**
  * Driver organizes TypeORM communication with specific database management system.

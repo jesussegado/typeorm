@@ -1,4 +1,3 @@
-import { SapDriver } from "../driver/sap/SapDriver";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { Subject } from "./Subject";
 import { PromiseUtils } from "../util/PromiseUtils";
@@ -8,16 +7,15 @@ import { SubjectWithoutIdentifierError } from "../error/SubjectWithoutIdentifier
 import { SubjectRemovedAndUpdatedError } from "../error/SubjectRemovedAndUpdatedError";
 import { MongoQueryRunner } from "../driver/mongodb/MongoQueryRunner";
 import { MongoEntityManager } from "../entity-manager/MongoEntityManager";
-import { MongoDriver } from "../driver/mongodb/MongoDriver";
 import { ObjectLiteral } from "../common/ObjectLiteral";
 import { SaveOptions } from "../repository/SaveOptions";
 import { RemoveOptions } from "../repository/RemoveOptions";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { NestedSetSubjectExecutor } from "./tree/NestedSetSubjectExecutor";
 import { ClosureSubjectExecutor } from "./tree/ClosureSubjectExecutor";
 import { MaterializedPathSubjectExecutor } from "./tree/MaterializedPathSubjectExecutor";
 import { OrmUtils } from "../util/OrmUtils";
+import { isDriverSupported } from '../driver/Driver';
 
 /**
  * Executes all database operations (inserts, updated, deletes) that must be executed
@@ -371,7 +369,7 @@ export class SubjectExecutor {
                 const bulkInsertMaps: ObjectLiteral[] = [];
                 const bulkInsertSubjects: Subject[] = [];
                 const singleInsertSubjects: Subject[] = [];
-                if (this.queryRunner.connection.driver instanceof MongoDriver) {
+                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
                     subjects.forEach((subject) => {
                         if (
                             subject.metadata.createDateColumn &&
@@ -397,7 +395,7 @@ export class SubjectExecutor {
                         bulkInsertMaps.push(subject.entity!);
                     });
                 } else if (
-                    this.queryRunner.connection.driver instanceof OracleDriver
+                    isDriverSupported(["oracle"],this.queryRunner.connection.driver.type)
                 ) {
                     subjects.forEach((subject) => {
                         singleInsertSubjects.push(subject);
@@ -411,10 +409,7 @@ export class SubjectExecutor {
                         if (
                             subject.changeMaps.length === 0 ||
                             subject.metadata.treeType ||
-                            this.queryRunner.connection.driver instanceof
-                                OracleDriver ||
-                            this.queryRunner.connection.driver instanceof
-                                SapDriver
+                            isDriverSupported(["oracle","sap"],this.queryRunner.connection.driver.type)
                         ) {
                             singleInsertSubjects.push(subject);
                         } else {

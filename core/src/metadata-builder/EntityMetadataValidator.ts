@@ -2,15 +2,11 @@ import { EntityMetadata } from "../metadata/EntityMetadata";
 import { MissingPrimaryColumnError } from "../error/MissingPrimaryColumnError";
 import { CircularRelationsError } from "../error/CircularRelationsError";
 import { DepGraph } from "../util/DepGraph";
-import { Driver } from "../driver/Driver";
+import { Driver, isDriverSupported } from "../driver/Driver";
 import { DataTypeNotSupportedError } from "../error/DataTypeNotSupportedError";
 import { ColumnType } from "../driver/types/ColumnTypes";
-import { MongoDriver } from "../driver/mongodb/MongoDriver";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
-import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { NoConnectionOptionError } from "../error/NoConnectionOptionError";
 import { InitializedRelationError } from "../error/InitializedRelationError";
-import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
 
 /// todo: add check if there are multiple tables with the same name
 /// todo: add checks when generated column / table names are too long for the specific driver
@@ -102,7 +98,7 @@ export class EntityMetadataValidator {
                 );
         });
 
-        if (!(driver instanceof MongoDriver)) {
+        if (!(isDriverSupported(["mongodb"],driver.type))) {
             entityMetadata.columns.forEach((column) => {
                 const normalizedColumn = driver.normalizeType(
                     column
@@ -125,8 +121,7 @@ export class EntityMetadataValidator {
         }
 
         if (
-            driver instanceof MysqlDriver ||
-            driver instanceof AuroraDataApiDriver
+            isDriverSupported(["mysql","aurora-data-api"],driver.type)
         ) {
             const generatedColumns = entityMetadata.columns.filter(
                 (column) =>
@@ -141,7 +136,7 @@ export class EntityMetadataValidator {
         // for mysql we are able to not define a default selected database, instead all entities can have their database
         // defined in their decorators. To make everything work either all entities must have database define and we
         // can live without database set in the connection options, either database in the connection options must be set
-        if (driver instanceof MysqlDriver) {
+        if (isDriverSupported(["mysql"],driver.type)) {
             const metadatasWithDatabase = allEntityMetadatas.filter(
                 (metadata) => metadata.database
             );
@@ -149,7 +144,7 @@ export class EntityMetadataValidator {
                 throw new NoConnectionOptionError("database");
         }
 
-        if (driver instanceof SqlServerDriver) {
+        if (isDriverSupported(["mssql"],driver.type)) {
             const charsetColumns = entityMetadata.columns.filter(
                 (column) => column.charset
             );

@@ -1,21 +1,16 @@
-import { CockroachDriver } from "../driver/cockroachdb/CockroachDriver";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { QueryBuilder } from "./QueryBuilder";
 import { ObjectLiteral } from "../common/ObjectLiteral";
 import { ObjectType } from "../common/ObjectType";
 import { Connection } from "../connection/Connection";
 import { QueryRunner } from "../query-runner/QueryRunner";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
-import { PostgresDriver } from "../driver/postgres/PostgresDriver";
 import { WhereExpression } from "./WhereExpression";
 import { Brackets } from "./Brackets";
 import { DeleteResult } from "./result/DeleteResult";
 import { ReturningStatementNotSupportedError } from "../error/ReturningStatementNotSupportedError";
-import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
-import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { EntitySchema } from "../index";
-import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
+import { isDriverSupported } from '../driver/Driver';
+import { SqljsDriver } from '../driver/sqljs/SqljsDriver';
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -84,21 +79,18 @@ export class DeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
 
             const { driver } = queryRunner.connection;
             if (
-                driver instanceof MysqlDriver ||
-                driver instanceof AuroraDataApiDriver
+                isDriverSupported(["mysql","aurora-data-api"],driver.type)
             ) {
                 deleteResult.raw = result;
                 deleteResult.affected = result.affectedRows;
             } else if (
-                driver instanceof SqlServerDriver ||
-                driver instanceof PostgresDriver ||
-                driver instanceof CockroachDriver
+                isDriverSupported(["mssql","postgres","cockroachdb"],driver.type)
             ) {
                 deleteResult.raw = result[0] ? result[0] : null;
                 // don't return 0 because it could confuse. null means that we did not receive this value
                 deleteResult.affected =
                     typeof result[1] === "number" ? result[1] : null;
-            } else if (driver instanceof OracleDriver) {
+            } else if ( isDriverSupported(["oracle"],driver.type)) {
                 deleteResult.affected = result;
             } else {
                 deleteResult.raw = result;
@@ -313,14 +305,14 @@ export class DeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
 
         if (
             returningExpression &&
-            (this.connection.driver instanceof PostgresDriver ||
-                this.connection.driver instanceof CockroachDriver)
+            (isDriverSupported(["postgres","cockroachdb"],this.connection.driver.type)
+            )
         ) {
             return `DELETE FROM ${tableName}${whereExpression} RETURNING ${returningExpression}`;
         }
         if (
             returningExpression !== "" &&
-            this.connection.driver instanceof SqlServerDriver
+            isDriverSupported(["mssql"],this.connection.driver.type)
         ) {
             return `DELETE FROM ${tableName} OUTPUT ${returningExpression}${whereExpression}`;
         }

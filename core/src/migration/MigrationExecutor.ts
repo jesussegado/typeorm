@@ -4,12 +4,11 @@ import { Migration } from "./Migration";
 import { ObjectLiteral } from "../common/ObjectLiteral";
 import { PromiseUtils } from "../util/PromiseUtils";
 import { QueryRunner } from "../query-runner/QueryRunner";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
 import { MssqlParameter } from "../driver/sqlserver/MssqlParameter";
 import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";
 import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
-import { MongoDriver } from "../driver/mongodb/MongoDriver";
 import { MongoQueryRunner } from "../driver/mongodb/MongoQueryRunner";
+import { isDriverSupported } from '../driver/Driver';
 
 /**
  * Executes migrations: runs pending and reverts previously executed migrations.
@@ -402,7 +401,7 @@ export class MigrationExecutor {
         queryRunner: QueryRunner
     ): Promise<void> {
         // If driver is mongo no need to create
-        if (this.connection.driver instanceof MongoDriver) {
+        if (isDriverSupported(["mongodb"],this.connection.driver.type)) {
             return;
         }
         const tableExist = await queryRunner.hasTable(this.migrationsTable); // todo: table name should be configurable
@@ -451,7 +450,7 @@ export class MigrationExecutor {
     protected async loadExecutedMigrations(
         queryRunner: QueryRunner
     ): Promise<Migration[]> {
-        if (this.connection.driver instanceof MongoDriver) {
+        if (isDriverSupported(["mongodb"],this.connection.driver.type)) {
             const mongoRunner = queryRunner as MongoQueryRunner;
             return mongoRunner.databaseConnection
                 .db(this.connection.driver.database!)
@@ -551,7 +550,7 @@ export class MigrationExecutor {
         migration: Migration
     ): Promise<void> {
         const values: ObjectLiteral = {};
-        if (this.connection.driver instanceof SqlServerDriver) {
+        if (isDriverSupported(["mssql"],this.connection.driver.type)) {
             values.timestamp = new MssqlParameter(
                 migration.timestamp,
                 this.connection.driver.normalizeType({
@@ -569,7 +568,7 @@ export class MigrationExecutor {
             values.timestamp = migration.timestamp;
             values.name = migration.name;
         }
-        if (this.connection.driver instanceof MongoDriver) {
+        if (isDriverSupported(["mongodb"],this.connection.driver.type)) {
             const mongoRunner = queryRunner as MongoQueryRunner;
             await mongoRunner.databaseConnection
                 .db(this.connection.driver.database!)
@@ -593,7 +592,7 @@ export class MigrationExecutor {
         migration: Migration
     ): Promise<void> {
         const conditions: ObjectLiteral = {};
-        if (this.connection.driver instanceof SqlServerDriver) {
+        if (isDriverSupported(["mssql"],this.connection.driver.type)) {
             conditions.timestamp = new MssqlParameter(
                 migration.timestamp,
                 this.connection.driver.normalizeType({
@@ -612,7 +611,7 @@ export class MigrationExecutor {
             conditions.name = migration.name;
         }
 
-        if (this.connection.driver instanceof MongoDriver) {
+        if (isDriverSupported(["mongodb"],this.connection.driver.type)) {
             const mongoRunner = queryRunner as MongoQueryRunner;
             await mongoRunner.databaseConnection
                 .db(this.connection.driver.database!)
