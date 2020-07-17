@@ -1,5 +1,5 @@
 /* eslint-disable-next-line  max-classes-per-file */
-import { Driver } from "../Driver";
+import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
@@ -27,6 +27,8 @@ import { AuroraDataApiPostgresQueryRunner } from "../aurora-data-api-pg/AuroraDa
  * Organizes communication with PostgreSQL DBMS.
  */
 export class PostgresDriver implements Driver {
+
+    type :DriverType = "postgres";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

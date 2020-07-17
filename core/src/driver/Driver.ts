@@ -8,11 +8,21 @@ import { DataTypeDefaults } from "./types/DataTypeDefaults";
 import { BaseConnectionOptions } from "../connection/BaseConnectionOptions";
 import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
+import { DatabaseType } from '..';
 
+export type DriverType = DatabaseType;
+// "Cockroach" | "Sqljs" | "Mongo" | "Postgres" | "Mssql" | "Oracle" | "Mysql" | "AuroraDataApi" | "Sap"
+
+export function isDriverSupported(supportedDrivers: DriverType[],driver: DriverType): boolean {
+    return supportedDrivers.includes(driver);
+    // TODO: abstractsql
+}
 /**
  * Driver organizes TypeORM communication with specific database management system.
  */
 export interface Driver {
+
+    type: DriverType;
     /**
      * Connection options.
      */

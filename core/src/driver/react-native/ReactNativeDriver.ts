@@ -5,10 +5,12 @@ import { QueryRunner } from "../../query-runner/QueryRunner";
 import { Connection } from "../../connection/Connection";
 import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
+import { DriverType } from '../Driver';
 
 export class ReactNativeDriver extends AbstractSqliteDriver {
     options: ReactNativeConnectionOptions;
 
+    type :DriverType = "react-native";
     // -------------------------------------------------------------------------
     // Constructor
     // -------------------------------------------------------------------------

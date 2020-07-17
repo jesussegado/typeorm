@@ -1,4 +1,4 @@
-import { Driver } from "../Driver";
+import { Driver, DriverType } from "../Driver";
 import { DriverUtils } from "../DriverUtils";
 import { AuroraDataApiQueryRunner } from "./AuroraDataApiQueryRunner";
 import { ObjectLiteral } from "../../common/ObjectLiteral";
@@ -21,6 +21,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  * Organizes communication with MySQL DBMS.
  */
 export class AuroraDataApiDriver implements Driver {
+    type :DriverType = "aurora-data-api";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

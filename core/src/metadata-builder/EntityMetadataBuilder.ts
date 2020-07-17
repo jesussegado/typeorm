@@ -1,5 +1,3 @@
-import { CockroachDriver } from "../driver/cockroachdb/CockroachDriver";
-import { SapDriver } from "../driver/sap/SapDriver";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { IndexMetadata } from "../metadata/IndexMetadata";
@@ -17,12 +15,9 @@ import { RelationJoinColumnBuilder } from "./RelationJoinColumnBuilder";
 import { Connection } from "../connection/Connection";
 import { EntityListenerMetadata } from "../metadata/EntityListenerMetadata";
 import { UniqueMetadata } from "../metadata/UniqueMetadata";
-import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { CheckMetadata } from "../metadata/CheckMetadata";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
-import { PostgresDriver } from "../driver/postgres/PostgresDriver";
 import { ExclusionMetadata } from "../metadata/ExclusionMetadata";
-import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
+import { isDriverSupported } from '../driver/Driver';
 
 /**
  * Builds EntityMetadata objects and all its sub-metadatas.
@@ -186,12 +181,7 @@ export class EntityMetadataBuilder {
                         }
                         if (uniqueConstraint) {
                             if (
-                                this.connection.driver instanceof MysqlDriver ||
-                                this.connection.driver instanceof
-                                    AuroraDataApiDriver ||
-                                this.connection.driver instanceof
-                                    SqlServerDriver ||
-                                this.connection.driver instanceof SapDriver
+                                isDriverSupported(["mysql","aurora-data-api","mssql","sap"], this.connection.driver.type)
                             ) {
                                 const index = new IndexMetadata({
                                     entityMetadata:
@@ -206,8 +196,7 @@ export class EntityMetadataBuilder {
                                 });
 
                                 if (
-                                    this.connection.driver instanceof
-                                    SqlServerDriver
+                                    isDriverSupported(["mssql"], this.connection.driver.type)
                                 ) {
                                     index.where = index.columns
                                         .map((column) => {
@@ -243,8 +232,7 @@ export class EntityMetadataBuilder {
                         }
 
                         if (
-                            foreignKey &&
-                            this.connection.driver instanceof CockroachDriver
+                            foreignKey &&isDriverSupported(["cockroachdb"], this.connection.driver.type)
                         ) {
                             const index = new IndexMetadata({
                                 entityMetadata: relation.entityMetadata,
@@ -690,7 +678,7 @@ export class EntityMetadataBuilder {
             });
 
         // Only PostgreSQL supports exclusion constraints.
-        if (this.connection.driver instanceof PostgresDriver) {
+        if (isDriverSupported(["postgres"], this.connection.driver.type)) {
             entityMetadata.exclusions = this.metadataArgsStorage
                 .filterExclusions(entityMetadata.inheritanceTree)
                 .map((args) => {
@@ -698,7 +686,7 @@ export class EntityMetadataBuilder {
                 });
         }
 
-        if (this.connection.driver instanceof CockroachDriver) {
+        if (isDriverSupported(["cockroachdb"], this.connection.driver.type)) {
             entityMetadata.ownIndices = this.metadataArgsStorage
                 .filterIndices(entityMetadata.inheritanceTree)
                 .filter((args) => !args.unique)
@@ -730,9 +718,7 @@ export class EntityMetadataBuilder {
 
         // Mysql and SAP HANA stores unique constraints as unique indices.
         if (
-            this.connection.driver instanceof MysqlDriver ||
-            this.connection.driver instanceof AuroraDataApiDriver ||
-            this.connection.driver instanceof SapDriver
+            isDriverSupported(["mysql", "aurora-data-api", "sap"], this.connection.driver.type)
         ) {
             const indices = this.metadataArgsStorage
                 .filterUniques(entityMetadata.inheritanceTree)

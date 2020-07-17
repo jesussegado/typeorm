@@ -7,10 +7,10 @@ import { ColumnMetadataArgs } from "../metadata-args/ColumnMetadataArgs";
 import { Connection } from "../connection/Connection";
 import { OrmUtils } from "../util/OrmUtils";
 import { ValueTransformer } from "../decorator/options/ValueTransformer";
-import { MongoDriver } from "../driver/mongodb/MongoDriver";
 import { PromiseUtils } from "../util/PromiseUtils";
 import { FindOperator } from "../find-options/FindOperator";
 import { ApplyValueTransformers } from "../util/ApplyValueTransformers";
+import { isDriverSupported } from '../driver/Driver';
 
 /**
  * This metadata contains all information about entity's column.
@@ -856,7 +856,7 @@ export class ColumnMetadata {
         let propertyNames = this.embeddedMetadata
             ? this.embeddedMetadata.parentPrefixes
             : [];
-        if (connection.driver instanceof MongoDriver)
+        if (isDriverSupported(["mongodb"], connection.driver.type))
             // we don't need to include embedded name for the mongodb column names
             propertyNames = [];
         return connection.namingStrategy.columnName(

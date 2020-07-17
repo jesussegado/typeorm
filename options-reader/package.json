@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile": "rimraf ./build/compiled/* && tsc",
+    "compile": "rimraf ./build/compiled/* && tsc && cp ./package.json build/compiled/src ",
     "watch": "./node_modules/.bin/tsc -w",
     "lint": "eslint {src,test}/**/*.ts",
     "prettier": "prettier --write {src,test}/**/*.ts",

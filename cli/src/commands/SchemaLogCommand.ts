@@ -2,9 +2,9 @@ import { highlight } from "cli-highlight";
 import * as yargs from "yargs";
 import {
     Connection,
-    ConnectionOptionsReader,
     createConnection,
 } from "typeorm-core";
+import { ConnectionOptionsReader } from 'typeorm-options-reader';
 
 const chalk = require("chalk");
 

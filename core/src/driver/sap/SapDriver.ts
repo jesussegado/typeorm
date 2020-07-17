@@ -12,7 +12,7 @@ import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 import { DateUtils } from "../../util/DateUtils";
 import { OrmUtils } from "../../util/OrmUtils";
-import { Driver } from "../Driver";
+import { Driver, DriverType } from "../Driver";
 import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
 import { SapConnectionOptions } from "./SapConnectionOptions";
@@ -24,6 +24,8 @@ import { SapQueryRunner } from "./SapQueryRunner";
  * todo: looks like there is no built in support for connection pooling, we need to figure out something
  */
 export class SapDriver implements Driver {
+
+    type :DriverType = "sap";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

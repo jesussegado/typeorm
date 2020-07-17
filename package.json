@@ -4,12 +4,12 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "lint": "cd cli && npm run lint && cd ../options-reader && npm run lint && cd ../core && npm run lint",
-    "test": "cd cli && npm run test && cd ../options-reader && npm run test && cd ../core && npm run test",
-    "compile": "cd cli && npm run compile && cd ../options-reader && npm run compile && cd ../core && npm run compile",
+    "lint": "cd options-reader && npm run lint && cd ../cli && npm run lint && cd ../core && npm run lint",
+    "test": "cd options-reader && npx nyc npm test && cd .. && cd core && npx nyc npm test && cd ..",
+    "compile": "cd core && npm run compile && npm run package && cd ../options-reader && npm run compile && cd ../cli && npm run compile",
     "package": "cd core && npm run package",
-    "install": "cd cli && npm install && cd ../options-reader && npm install && cd ../core && npm install",
-    "link": "cd cli && npm link typeorm-core && cd ../options-reader && npm link typeorm-core"
+    "install": "cd options-reader && npm install && cd ../cli && npm install && cd ../core && npm install",
+    "link": "cd core && npm i && npm run package && cd build/package && npm link && cd ../../.. && cd options-reader && npm i && npm link typeorm-core && npm run compile && cd build/compiled/src/ && npm link && cd ../../../../cli && npm link typeorm-core"
   },
   "repository": {
     "type": "git",

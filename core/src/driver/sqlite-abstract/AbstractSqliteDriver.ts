@@ -1,4 +1,4 @@
-import { Driver } from "../Driver";
+import { Driver, DriverType } from "../Driver";
 import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { DateUtils } from "../../util/DateUtils";
@@ -21,6 +21,7 @@ export abstract class AbstractSqliteDriver implements Driver {
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
+    abstract type:DriverType;
 
     /**
      * Connection used by driver.

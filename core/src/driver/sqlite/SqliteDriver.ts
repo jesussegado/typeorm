@@ -7,11 +7,14 @@ import { SqliteConnectionOptions } from "./SqliteConnectionOptions";
 import { ColumnType } from "../types/ColumnTypes";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
+import { DriverType } from '../Driver';
 
 /**
  * Organizes communication with sqlite DBMS.
  */
 export class SqliteDriver extends AbstractSqliteDriver {
+
+    type :DriverType = "sqlite";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

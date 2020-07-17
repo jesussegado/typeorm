@@ -1,4 +1,4 @@
-import { Driver } from "../Driver";
+import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { OracleQueryRunner } from "./OracleQueryRunner";
@@ -23,6 +23,8 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  * Organizes communication with Oracle RDBMS.
  */
 export class OracleDriver implements Driver {
+
+    type :DriverType = "oracle";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

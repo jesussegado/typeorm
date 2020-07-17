@@ -1,12 +1,12 @@
 import * as yargs from "yargs";
 import {
-    ConnectionOptionsReader,
     Connection,
     createConnection,
 } from "typeorm-core";
 import { MysqlDriver } from "typeorm-core/driver/mysql/MysqlDriver";
 import { AuroraDataApiDriver } from "typeorm-core/driver/aurora-data-api/AuroraDataApiDriver";
 import { camelCase } from "typeorm-core/util/StringUtils";
+import { ConnectionOptionsReader } from 'typeorm-options-reader';
 import { CommandUtils } from "./CommandUtils";
 
 const chalk = require("chalk");

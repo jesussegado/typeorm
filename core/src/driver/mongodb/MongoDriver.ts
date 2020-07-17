@@ -1,4 +1,4 @@
-import { Driver } from "../Driver";
+import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { MongoQueryRunner } from "./MongoQueryRunner";
@@ -24,6 +24,8 @@ export class MongoDriver implements Driver {
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
+
+    type :DriverType = "mongodb";
 
     /**
      * Underlying mongodb library.

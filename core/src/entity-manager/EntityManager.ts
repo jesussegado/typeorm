@@ -20,7 +20,6 @@ import { AbstractRepository } from "../repository/AbstractRepository";
 import { CustomRepositoryCannotInheritRepositoryError } from "../error/CustomRepositoryCannotInheritRepositoryError";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
-import { MongoDriver } from "../driver/mongodb/MongoDriver";
 import { RepositoryNotFoundError } from "../error/RepositoryNotFoundError";
 import { RepositoryNotTreeError } from "../error/RepositoryNotTreeError";
 import { RepositoryFactory } from "../repository/RepositoryFactory";
@@ -31,10 +30,10 @@ import { ObjectID } from "../driver/mongodb/typings";
 import { InsertResult } from "../query-builder/result/InsertResult";
 import { UpdateResult } from "../query-builder/result/UpdateResult";
 import { DeleteResult } from "../query-builder/result/DeleteResult";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { FindConditions } from "../find-options/FindConditions";
 import { IsolationLevel } from "../driver/types/IsolationLevel";
 import { ObjectUtils } from "../util/ObjectUtils";
+import { isDriverSupported } from '../driver/Driver';
 
 /**
  * Entity manager supposed to work with any entity, automatically find its repository and call its methods,
@@ -129,7 +128,7 @@ export class EntityManager {
             );
         }
 
-        if (this.connection.driver instanceof MongoDriver)
+        if (isDriverSupported(["mongodb"], this.connection.driver.type))
             throw new Error(`Transactions aren't supported by MongoDB.`);
 
         if (this.queryRunner && this.queryRunner.isReleased)
@@ -888,7 +887,7 @@ export class EntityManager {
 
         // TODO: Oracle does not support multiple values. Need to create another nice solution.
         if (
-            this.connection.driver instanceof OracleDriver &&
+            isDriverSupported(["oracle"], this.connection.driver.type) &&
             Array.isArray(entity)
         ) {
             const results = await Promise.all(

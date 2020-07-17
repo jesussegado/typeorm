@@ -4,10 +4,12 @@ import { ExpoQueryRunner } from "./ExpoQueryRunner";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { Connection } from "../../connection/Connection";
 import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
+import { DriverType } from '../Driver';
 
 export class ExpoDriver extends AbstractSqliteDriver {
     options: ExpoConnectionOptions;
 
+    type :DriverType = "expo";
     // -------------------------------------------------------------------------
     // Constructor
     // -------------------------------------------------------------------------

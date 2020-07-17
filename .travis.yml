@@ -15,10 +15,8 @@ before_script:
   - cp ormconfig.travis.json options-reader/ormconfig.json
 
 script:
-  - cd core && npm i && npm run package && cd build/package && npm link && cd ../../..
   - npm run link
-  - cd options-reader && npx nyc npm test && cd ..
-  - cd core && npx nyc npm test && cd ..
+  - npm t
   - npm run lint
 
 after_success:

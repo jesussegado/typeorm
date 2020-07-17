@@ -1,4 +1,4 @@
-import { Driver } from "../Driver";
+import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
@@ -28,6 +28,8 @@ export class CockroachDriver implements Driver {
     // Public Properties
     // -------------------------------------------------------------------------
 
+    type :DriverType = "cockroachdb";
+    
     /**
      * Connection used by driver.
      */

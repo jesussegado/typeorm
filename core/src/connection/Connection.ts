@@ -1,4 +1,4 @@
-import { Driver } from "../driver/Driver";
+import { Driver, isDriverSupported } from "../driver/Driver";
 import { Repository } from "../repository/Repository";
 import { EntitySubscriberInterface } from "../subscriber/EntitySubscriberInterface";
 import { ObjectType } from "../common/ObjectType";
@@ -15,7 +15,6 @@ import { MigrationInterface } from "../migration/MigrationInterface";
 import { MigrationExecutor } from "../migration/MigrationExecutor";
 import { Migration } from "../migration/Migration";
 import { MongoRepository } from "../repository/MongoRepository";
-import { MongoDriver } from "../driver/mongodb/MongoDriver";
 import { MongoEntityManager } from "../entity-manager/MongoEntityManager";
 import { EntityMetadataValidator } from "../metadata-builder/EntityMetadataValidator";
 import { ConnectionOptions } from "./ConnectionOptions";
@@ -32,12 +31,9 @@ import { SqljsEntityManager } from "../entity-manager/SqljsEntityManager";
 import { RelationLoader } from "../query-builder/RelationLoader";
 import { RelationIdLoader } from "../query-builder/RelationIdLoader";
 import { EntitySchema, PromiseUtils } from "..";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
-import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { ObjectUtils } from "../util/ObjectUtils";
 
 import { IsolationLevel } from "../driver/types/IsolationLevel";
-import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
 import { DriverUtils } from "../driver/DriverUtils";
 
 /**
@@ -263,9 +259,7 @@ export class Connection {
         const queryRunner = this.createQueryRunner("master");
         try {
             if (
-                this.driver instanceof SqlServerDriver ||
-                this.driver instanceof MysqlDriver ||
-                this.driver instanceof AuroraDataApiDriver
+                isDriverSupported(["mssql","mysql","aurora-data-api"], this.driver.type)
             ) {
                 const databases: string[] = this.driver.database
                     ? [this.driver.database]
@@ -378,7 +372,7 @@ export class Connection {
     getMongoRepository<Entity>(
         target: ObjectType<Entity> | EntitySchema<Entity> | string
     ): MongoRepository<Entity> {
-        if (!(this.driver instanceof MongoDriver))
+        if (!(isDriverSupported(["mongodb"], this.driver.type)))
             throw new Error(
                 `You can use getMongoRepository only for MongoDB connections.`
             );

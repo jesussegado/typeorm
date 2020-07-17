@@ -9,6 +9,7 @@ import { PlatformTools } from "../../platform/PlatformTools";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { OrmUtils } from "../../util/OrmUtils";
 import { ObjectLiteral } from "../../common/ObjectLiteral";
+import { DriverType } from '../Driver';
 
 // This is needed to satisfy the typescript compiler.
 interface Window {
@@ -18,6 +19,9 @@ interface Window {
 declare let window: Window;
 
 export class SqljsDriver extends AbstractSqliteDriver {
+
+    type :DriverType = "sqljs";
+
     // The driver specific options.
     options: SqljsConnectionOptions;
 

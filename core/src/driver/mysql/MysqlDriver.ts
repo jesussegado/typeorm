@@ -1,4 +1,4 @@
-import { Driver } from "../Driver";
+import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { DriverUtils } from "../DriverUtils";
@@ -23,6 +23,8 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  * Organizes communication with MySQL DBMS.
  */
 export class MysqlDriver implements Driver {
+
+    type :DriverType = "mysql";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

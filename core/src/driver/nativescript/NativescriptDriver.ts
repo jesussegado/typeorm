@@ -6,11 +6,14 @@ import { Connection } from "../../connection/Connection";
 import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { ColumnType } from "../types/ColumnTypes";
+import { DriverType } from '../Driver';
 
 /**
  * Organizes communication with sqlite DBMS within Nativescript.
  */
 export class NativescriptDriver extends AbstractSqliteDriver {
+
+    type :DriverType = "nativescript";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

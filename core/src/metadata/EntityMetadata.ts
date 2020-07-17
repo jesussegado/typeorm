@@ -2,10 +2,7 @@ import { QueryRunner, SelectQueryBuilder } from "..";
 import { ObjectLiteral } from "../common/ObjectLiteral";
 import { Connection } from "../connection/Connection";
 import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
-import { PostgresDriver } from "../driver/postgres/PostgresDriver";
-import { SapDriver } from "../driver/sap/SapDriver";
 import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
 import { CannotCreateEntityIdMapError } from "../error/CannotCreateEntityIdMapError";
 import { OrderByCondition } from "../find-options/OrderByCondition";
 import { TableMetadataArgs } from "../metadata-args/TableMetadataArgs";
@@ -25,6 +22,7 @@ import { RelationMetadata } from "./RelationMetadata";
 import { TableType } from "./types/TableTypes";
 import { TreeType } from "./types/TreeTypes";
 import { UniqueMetadata } from "./UniqueMetadata";
+import { isDriverSupported } from '../driver/Driver';
 
 /**
  * Contains all entity metadata.
@@ -977,20 +975,18 @@ export class EntityMetadata {
         let tablePath = this.tableName;
         if (
             this.schema &&
-            (this.connection.driver instanceof PostgresDriver ||
-                this.connection.driver instanceof SqlServerDriver ||
-                this.connection.driver instanceof SapDriver)
+            (isDriverSupported(["postgres","mssql","sap"], this.connection.driver.type))
         ) {
             tablePath = `${this.schema}.${tablePath}`;
         }
 
         if (
             this.database &&
-            !(this.connection.driver instanceof PostgresDriver)
+            !(isDriverSupported(["postgres"], this.connection.driver.type))
         ) {
             if (
                 !this.schema &&
-                this.connection.driver instanceof SqlServerDriver
+                isDriverSupported(["mssql"], this.connection.driver.type)
             ) {
                 tablePath = `${this.database}..${tablePath}`;
             } else {
@@ -1008,7 +1004,7 @@ export class EntityMetadata {
         if (!this.schema) return undefined;
 
         return this.database &&
-            !(this.connection.driver instanceof PostgresDriver)
+            !(isDriverSupported(["postgres"], this.connection.driver.type))
             ? `${this.database}.${this.schema}`
             : this.schema;
     }

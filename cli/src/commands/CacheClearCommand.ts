@@ -1,7 +1,7 @@
 import * as yargs from "yargs";
+import {ConnectionOptionsReader} from "typeorm-options-reader"
 import {
     createConnection,
-    ConnectionOptionsReader,
     Connection,
 } from "typeorm-core";
 
