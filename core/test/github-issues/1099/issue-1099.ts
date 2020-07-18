@@ -1,6 +1,4 @@
 import "reflect-metadata";
-import { AuroraDataApiDriver } from "../../../src/driver/aurora-data-api/AuroraDataApiDriver";
-import { SapDriver } from "../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,7 +7,7 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { Animal } from "./entity/Animal";
 import { OffsetWithoutLimitNotSupportedError } from "../../../src/error/OffsetWithoutLimitNotSupportedError";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #1099 BUG - QueryBuilder MySQL skip sql is wrong", () => {
     let connections: Connection[];
@@ -40,9 +38,10 @@ describe("github issues > #1099 BUG - QueryBuilder MySQL skip sql is wrong", () 
                     .skip(1);
 
                 if (
-                    connection.driver instanceof MysqlDriver ||
-                    connection.driver instanceof AuroraDataApiDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(
+                        ["mysql", "aurora-data-api", "sap"],
+                        connection.driver.type
+                    )
                 ) {
                     await qb
                         .getManyAndCount()

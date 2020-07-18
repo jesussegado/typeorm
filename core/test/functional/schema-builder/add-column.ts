@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { Connection } from "../../../src";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
 import { ColumnMetadataArgs } from "../../../src/metadata-args/ColumnMetadataArgs";
 import { ColumnMetadata } from "../../../src/metadata/ColumnMetadata";
 import {
@@ -8,6 +7,7 @@ import {
     createTestingConnections,
 } from "../../utils/test-utils";
 import { Post } from "./entity/Post";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("schema builder > add column", () => {
     let connections: Connection[];
@@ -35,8 +35,9 @@ describe("schema builder > add column", () => {
                         options: {
                             type: "int",
                             name: "secondId",
-                            primary: !(
-                                connection.driver instanceof CockroachDriver
+                            primary: !isDriverSupported(
+                                ["cockroachdb"],
+                                connection.driver.type
                             ), // CockroachDB does not allow changing pk
                             nullable: false,
                         },
@@ -71,7 +72,7 @@ describe("schema builder > add column", () => {
                 const column1 = table!.findColumnByName("secondId")!;
                 column1.should.be.exist;
                 column1.isNullable.should.be.false;
-                if (!(connection.driver instanceof CockroachDriver))
+                if (!isDriverSupported(["cockroachdb"], connection.driver.type))
                     column1.isPrimary.should.be.true;
 
                 const column2 = table!.findColumnByName("description")!;

@@ -8,7 +8,7 @@ import {
 import { Connection } from "../../../src";
 import { Post } from "./entity/Post";
 import { Uuid } from "./entity/Uuid";
-import { SqlServerDriver } from "../../../src/driver/sqlserver/SqlServerDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #1748 PrimaryColumn combined with transformer leads to error on save", () => {
     let connections: Connection[];
@@ -25,7 +25,8 @@ describe("github issues > #1748 PrimaryColumn combined with transformer leads to
     it("should work as expected", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (connection.driver instanceof SqlServerDriver) return;
+                if (isDriverSupported(["mssql"], connection.driver.type))
+                    return;
 
                 const postRepository = connection.getRepository(Post);
                 const id = new Uuid("6f715828-d2c6-4e96-a749-aecb9598fd69");

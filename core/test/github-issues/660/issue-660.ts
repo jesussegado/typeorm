@@ -7,9 +7,8 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { User } from "./entity/User";
-import { SqlServerDriver } from "../../../src/driver/sqlserver/SqlServerDriver";
-import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
 import { ReturningStatementNotSupportedError } from "../../../src/error/ReturningStatementNotSupportedError";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with QueryBuilder", () => {
     let connections: Connection[];
@@ -36,7 +35,10 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
                         .into(User)
                         .values(user)
                         .returning(
-                            connection.driver instanceof PostgresDriver
+                            isDriverSupported(
+                                ["postgres"],
+                                connection.driver.type
+                            )
                                 ? "*"
                                 : "inserted.*"
                         )
@@ -48,11 +50,13 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
                     );
                 }
 
-                if (connection.driver instanceof SqlServerDriver) {
+                if (isDriverSupported(["mssql"], connection.driver.type)) {
                     expect(sql).to.equal(
                         "INSERT INTO user(name) OUTPUT inserted.* VALUES (@0)"
                     );
-                } else if (connection.driver instanceof PostgresDriver) {
+                } else if (
+                    isDriverSupported(["postgres"], connection.driver.type)
+                ) {
                     expect(sql).to.equal(
                         "INSERT INTO user(name) VALUES ($1) RETURNING *"
                     );
@@ -67,8 +71,10 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
                 user.name = "Tim Merrison";
 
                 if (
-                    connection.driver instanceof SqlServerDriver ||
-                    connection.driver instanceof PostgresDriver
+                    isDriverSupported(
+                        ["mssql", "postgres"],
+                        connection.driver.type
+                    )
                 ) {
                     const returning = await connection
                         .createQueryBuilder()
@@ -76,7 +82,10 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
                         .into(User)
                         .values(user)
                         .returning(
-                            connection.driver instanceof PostgresDriver
+                            isDriverSupported(
+                                ["postgres"],
+                                connection.driver.type
+                            )
                                 ? "*"
                                 : "inserted.*"
                         )
@@ -100,18 +109,23 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
                         .set({ name: "Joe Bloggs" })
                         .where("name = :name", { name: user.name })
                         .returning(
-                            connection.driver instanceof PostgresDriver
+                            isDriverSupported(
+                                ["postgres"],
+                                connection.driver.type
+                            )
                                 ? "*"
                                 : "inserted.*"
                         )
                         .disableEscaping()
                         .getSql();
 
-                    if (connection.driver instanceof SqlServerDriver) {
+                    if (isDriverSupported(["mssql"], connection.driver.type)) {
                         expect(sql).to.equal(
                             "UPDATE user SET name = @0 OUTPUT inserted.* WHERE name = @1"
                         );
-                    } else if (connection.driver instanceof PostgresDriver) {
+                    } else if (
+                        isDriverSupported(["postgres"], connection.driver.type)
+                    ) {
                         expect(sql).to.equal(
                             "UPDATE user SET name = $1 WHERE name = $2 RETURNING *"
                         );
@@ -133,8 +147,10 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
                 await connection.manager.save(user);
 
                 if (
-                    connection.driver instanceof SqlServerDriver ||
-                    connection.driver instanceof PostgresDriver
+                    isDriverSupported(
+                        ["mssql", "postgres"],
+                        connection.driver.type
+                    )
                 ) {
                     const returning = await connection
                         .createQueryBuilder()
@@ -142,7 +158,10 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
                         .set({ name: "Joe Bloggs" })
                         .where("name = :name", { name: user.name })
                         .returning(
-                            connection.driver instanceof PostgresDriver
+                            isDriverSupported(
+                                ["postgres"],
+                                connection.driver.type
+                            )
                                 ? "*"
                                 : "inserted.*"
                         )
@@ -168,18 +187,23 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
                         .from(User)
                         .where("name = :name", { name: user.name })
                         .returning(
-                            connection.driver instanceof PostgresDriver
+                            isDriverSupported(
+                                ["postgres"],
+                                connection.driver.type
+                            )
                                 ? "*"
                                 : "deleted.*"
                         )
                         .disableEscaping()
                         .getSql();
 
-                    if (connection.driver instanceof SqlServerDriver) {
+                    if (isDriverSupported(["mssql"], connection.driver.type)) {
                         expect(sql).to.equal(
                             "DELETE FROM user OUTPUT deleted.* WHERE name = @0"
                         );
-                    } else if (connection.driver instanceof PostgresDriver) {
+                    } else if (
+                        isDriverSupported(["postgres"], connection.driver.type)
+                    ) {
                         expect(sql).to.equal(
                             "DELETE FROM user WHERE name = $1 RETURNING *"
                         );
@@ -201,8 +225,10 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
                 await connection.manager.save(user);
 
                 if (
-                    connection.driver instanceof SqlServerDriver ||
-                    connection.driver instanceof PostgresDriver
+                    isDriverSupported(
+                        ["mssql", "postgres"],
+                        connection.driver.type
+                    )
                 ) {
                     const returning = await connection
                         .createQueryBuilder()
@@ -210,7 +236,10 @@ describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with Quer
                         .from(User)
                         .where("name = :name", { name: user.name })
                         .returning(
-                            connection.driver instanceof PostgresDriver
+                            isDriverSupported(
+                                ["postgres"],
+                                connection.driver.type
+                            )
                                 ? "*"
                                 : "deleted.*"
                         )

@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
 import { UniqueMetadata } from "../../../src/metadata/UniqueMetadata";
 import {
     closeTestingConnections,
@@ -8,6 +7,7 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { ForeignKeyMetadata } from "../../../src/metadata/ForeignKeyMetadata";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("schema builder > create foreign key", () => {
     let connections: Connection[];
@@ -46,7 +46,9 @@ describe("schema builder > create foreign key", () => {
                 categoryMetadata.foreignKeys.push(fkMetadata);
 
                 // CockroachDB requires unique constraint for foreign key referenced columns
-                if (connection.driver instanceof CockroachDriver) {
+                if (
+                    isDriverSupported(["cockroachdb"], connection.driver.type)
+                ) {
                     const uniqueConstraint = new UniqueMetadata({
                         entityMetadata: categoryMetadata,
                         columns: fkMetadata.columns,

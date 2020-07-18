@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -8,6 +7,7 @@ import {
 } from "../../utils/test-utils";
 import { Table } from "../../../src/schema-builder/table/Table";
 import { TableIndex } from "../../../src/schema-builder/table/TableIndex";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("query runner > create index", () => {
     let connections: Connection[];
@@ -64,7 +64,9 @@ describe("query runner > create index", () => {
                 let table = await queryRunner.getTable("question");
 
                 // CockroachDB stores unique indices as UNIQUE constraints
-                if (connection.driver instanceof CockroachDriver) {
+                if (
+                    isDriverSupported(["cockroachdb"], connection.driver.type)
+                ) {
                     table!.indices.length.should.be.equal(1);
                     table!.uniques.length.should.be.equal(1);
                 } else {

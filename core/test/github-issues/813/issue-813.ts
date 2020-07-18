@@ -6,8 +6,8 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
 import { Category } from "./entity/Category";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #813 order by must support functions", () => {
     let connections: Connection[];
@@ -23,7 +23,8 @@ describe("github issues > #813 order by must support functions", () => {
     it("should work perfectly", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (!(connection.driver instanceof MysqlDriver)) return;
+                if (!isDriverSupported(["mysql"], connection.driver.type))
+                    return;
 
                 const categories = [new Category(), new Category()];
                 await connection.manager.save(categories);
@@ -47,7 +48,8 @@ describe("github issues > #813 order by must support functions", () => {
     it("should work perfectly with pagination as well", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (!(connection.driver instanceof MysqlDriver)) return;
+                if (!isDriverSupported(["mysql"], connection.driver.type))
+                    return;
 
                 const categories = [new Category(), new Category()];
                 await connection.manager.save(categories);

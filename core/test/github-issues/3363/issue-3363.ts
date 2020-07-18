@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { SapDriver } from "../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,7 +8,7 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { OracleDriver } from "../../../src/driver/oracle/OracleDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #3363 Isolation Level in transaction() from Connection", () => {
     let connections: Connection[];
@@ -28,8 +27,7 @@ describe("github issues > #3363 Isolation Level in transaction() from Connection
             connections.map(async function (connection) {
                 // SAP, Oracle does not support READ UNCOMMITTED isolation level
                 if (
-                    connection.driver instanceof SapDriver ||
-                    connection.driver instanceof OracleDriver
+                    isDriverSupported(["sap", "oracle"], connection.driver.type)
                 )
                     return;
 

@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("schema builder > drop column", () => {
     let connections: Connection[];
@@ -68,7 +68,9 @@ describe("schema builder > drop column", () => {
                     .undefined;
 
                 // CockroachDB creates indices for foreign keys
-                if (connection.driver instanceof CockroachDriver) {
+                if (
+                    isDriverSupported(["cockroachdb"], connection.driver.type)
+                ) {
                     studentTable!.indices.length.should.be.equal(1);
                 } else {
                     studentTable!.indices.length.should.be.equal(0);

@@ -7,7 +7,7 @@ import {
     reloadTestingDatabases,
     closeTestingConnections,
 } from "../../utils/test-utils";
-import { SqlServerDriver } from "../../../src/driver/sqlserver/SqlServerDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #5160 (MSSQL) DML statement cannot have any enabled triggers if the statement contains an OUTPUT clause without INTO clause", () => {
     let connections: Connection[];
@@ -24,7 +24,7 @@ describe("github issues > #5160 (MSSQL) DML statement cannot have any enabled tr
 
         return Promise.all(
             connections.map(async (connection) => {
-                if (!(connection.driver instanceof SqlServerDriver)) {
+                if (!isDriverSupported(["mssql"], connection.driver.type)) {
                     return;
                 }
 
@@ -44,7 +44,7 @@ describe("github issues > #5160 (MSSQL) DML statement cannot have any enabled tr
     it("should update entity model after insertion to MSSQL table with trigger", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (!(connection.driver instanceof SqlServerDriver)) {
+                if (!isDriverSupported(["mssql"], connection.driver.type)) {
                     return;
                 }
 
@@ -86,7 +86,7 @@ describe("github issues > #5160 (MSSQL) DML statement cannot have any enabled tr
     it("should update entity model after save to MSSQL table with trigger", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (!(connection.driver instanceof SqlServerDriver)) {
+                if (!isDriverSupported(["mssql"], connection.driver.type)) {
                     return;
                 }
 

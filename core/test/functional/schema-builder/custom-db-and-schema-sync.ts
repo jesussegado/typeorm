@@ -1,15 +1,12 @@
 import "reflect-metadata";
 import { Connection } from "../../../src";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
-import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
-import { SapDriver } from "../../../src/driver/sap/SapDriver";
-import { SqlServerDriver } from "../../../src/driver/sqlserver/SqlServerDriver";
 import { ForeignKeyMetadata } from "../../../src/metadata/ForeignKeyMetadata";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("schema builder > custom-db-and-schema-sync", () => {
     let connections: Connection[];
@@ -34,7 +31,7 @@ describe("schema builder > custom-db-and-schema-sync", () => {
                 photoMetadata.synchronize = true;
                 albumMetadata.synchronize = true;
 
-                if (connection.driver instanceof SqlServerDriver) {
+                if (isDriverSupported(["mssql"], connection.driver.type)) {
                     photoMetadata.database = "secondDB";
                     photoMetadata.schema = "photo-schema";
                     photoMetadata.tablePath = "secondDB.photo-schema.photo";
@@ -58,8 +55,10 @@ describe("schema builder > custom-db-and-schema-sync", () => {
                         true
                     );
                 } else if (
-                    connection.driver instanceof PostgresDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(
+                        ["postgres", "sap"],
+                        connection.driver.type
+                    )
                 ) {
                     photoMetadata.schema = "photo-schema";
                     photoMetadata.tablePath = "photo-schema.photo";
@@ -76,7 +75,9 @@ describe("schema builder > custom-db-and-schema-sync", () => {
                         albumMetadata.schemaPath,
                         true
                     );
-                } else if (connection.driver instanceof MysqlDriver) {
+                } else if (
+                    isDriverSupported(["mysql"], connection.driver.type)
+                ) {
                     photoMetadata.database = "secondDB";
                     photoMetadata.tablePath = "secondDB.photo";
 

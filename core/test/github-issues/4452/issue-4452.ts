@@ -7,7 +7,7 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { User } from "./entity/User";
-import { OracleDriver } from "../../../src/driver/oracle/OracleDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #4452 InsertQueryBuilder fails on some SQL Expressions values", () => {
     let connections: Connection[];
@@ -30,10 +30,12 @@ describe("github issues > #4452 InsertQueryBuilder fails on some SQL Expressions
                     .into(User)
                     .values({
                         name: "Ben Dover",
-                        created_at:
-                            connection.driver instanceof OracleDriver
-                                ? () => "SYSDATE"
-                                : () => "current_timestamp",
+                        created_at: isDriverSupported(
+                            ["oracle"],
+                            connection.driver.type
+                        )
+                            ? () => "SYSDATE"
+                            : () => "current_timestamp",
                     })
                     .execute();
 

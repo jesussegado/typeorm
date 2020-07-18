@@ -9,7 +9,7 @@ import { PromiseUtils } from "../../../src";
 import { Teacher } from "./entity/Teacher";
 import { Post } from "./entity/Post";
 import { CheckMetadata } from "../../../src/metadata/CheckMetadata";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("schema builder > change check constraint", () => {
     let connections: Connection[];
@@ -26,7 +26,7 @@ describe("schema builder > change check constraint", () => {
     it("should correctly add new check constraint", () =>
         PromiseUtils.runInSequence(connections, async (connection) => {
             // Mysql does not support check constraints.
-            if (connection.driver instanceof MysqlDriver) return;
+            if (isDriverSupported(["mysql"], connection.driver.type)) return;
 
             const teacherMetadata = connection.getMetadata(Teacher);
             const checkMetadata = new CheckMetadata({
@@ -51,7 +51,7 @@ describe("schema builder > change check constraint", () => {
     it("should correctly change check", () =>
         PromiseUtils.runInSequence(connections, async (connection) => {
             // Mysql does not support check constraints.
-            if (connection.driver instanceof MysqlDriver) return;
+            if (isDriverSupported(["mysql"], connection.driver.type)) return;
 
             const postMetadata = connection.getMetadata(Post);
             postMetadata.checks[0].expression = `"likesCount" < 2000`;
@@ -71,7 +71,7 @@ describe("schema builder > change check constraint", () => {
     it("should correctly drop removed check", () =>
         PromiseUtils.runInSequence(connections, async (connection) => {
             // Mysql does not support check constraints.
-            if (connection.driver instanceof MysqlDriver) return;
+            if (isDriverSupported(["mysql"], connection.driver.type)) return;
 
             const postMetadata = connection.getMetadata(Post);
             postMetadata.checks = [];

@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Table } from "../../../src/schema-builder/table/Table";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("query runner > create primary key", () => {
     let connections: Connection[];
@@ -24,7 +24,8 @@ describe("query runner > create primary key", () => {
         Promise.all(
             connections.map(async (connection) => {
                 // CockroachDB does not allow altering primary key
-                if (connection.driver instanceof CockroachDriver) return;
+                if (isDriverSupported(["cockroachdb"], connection.driver.type))
+                    return;
 
                 const queryRunner = connection.createQueryRunner();
                 await queryRunner.createTable(

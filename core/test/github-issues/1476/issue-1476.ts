@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { expect } from "chai";
-
 import { Connection } from "../../../src/connection/Connection";
 import {
     closeTestingConnections,
@@ -9,7 +8,7 @@ import {
 } from "../../utils/test-utils";
 import { Plan } from "./entity/Plan";
 import { Item } from "./entity/Item";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #1476 subqueries", () => {
     let connections: Connection[] = [];
@@ -67,7 +66,7 @@ describe("github issues > #1476 subqueries", () => {
                 expect(plan.b_planName).to.be.equal("Test");
                 expect(plan.planId).to.be.equal(1);
 
-                if (connection.driver instanceof MysqlDriver) {
+                if (isDriverSupported(["mysql"], connection.driver.type)) {
                     expect(plan.total).to.be.equal("2");
                 } else {
                     expect(plan.total).to.be.equal(2);

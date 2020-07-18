@@ -7,7 +7,7 @@ import {
 } from "../../utils/test-utils";
 
 import { TableCheck } from "../../../src/schema-builder/table/TableCheck";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("query runner > create check constraint", () => {
     let connections: Connection[];
@@ -25,7 +25,8 @@ describe("query runner > create check constraint", () => {
         Promise.all(
             connections.map(async (connection) => {
                 // Mysql does not support check constraints.
-                if (connection.driver instanceof MysqlDriver) return;
+                if (isDriverSupported(["mysql"], connection.driver.type))
+                    return;
 
                 const queryRunner = connection.createQueryRunner();
                 await queryRunner.createTable(

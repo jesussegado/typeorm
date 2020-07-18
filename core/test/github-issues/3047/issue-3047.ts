@@ -7,8 +7,7 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { User } from "./entity/User";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
-import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #3047 Mysqsl on duplicate key update use current values", () => {
     let connections: Connection[];
@@ -40,7 +39,7 @@ describe("github issues > #3047 Mysqsl on duplicate key update use current value
         Promise.all(
             connections.map(async (connection) => {
                 try {
-                    if (connection.driver instanceof MysqlDriver) {
+                    if (isDriverSupported(["mysql"], connection.driver.type)) {
                         const UserRepository = connection.manager.getRepository(
                             User
                         );
@@ -75,7 +74,9 @@ describe("github issues > #3047 Mysqsl on duplicate key update use current value
         Promise.all(
             connections.map(async (connection) => {
                 try {
-                    if (connection.driver instanceof PostgresDriver) {
+                    if (
+                        isDriverSupported(["postgres"], connection.driver.type)
+                    ) {
                         const UserRepository = connection.manager.getRepository(
                             User
                         );

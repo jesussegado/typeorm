@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { SapDriver } from "../../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,6 +8,7 @@ import {
 import { Connection } from "../../../../src/connection/Connection";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("transaction > transaction with full isolation support", () => {
     let connections: Connection[];
@@ -26,7 +26,7 @@ describe("transaction > transaction with full isolation support", () => {
         Promise.all(
             connections.map(async (connection) => {
                 // SAP does not support READ UNCOMMITTED isolation level
-                if (connection.driver instanceof SapDriver) return;
+                if (isDriverSupported(["sap"], connection.driver.type)) return;
 
                 let postId: number | undefined;
                 let categoryId: number | undefined;

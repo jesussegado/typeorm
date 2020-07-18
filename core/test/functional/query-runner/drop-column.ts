@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("query runner > drop column", () => {
     let connections: Connection[];
@@ -35,7 +35,9 @@ describe("query runner > drop column", () => {
                 // without all removed columns. In other drivers it's no difference between these methods, because 'dropColumns'
                 // calls 'dropColumn' method for each removed column.
                 // CockroachDB does not support changing pk.
-                if (connection.driver instanceof CockroachDriver) {
+                if (
+                    isDriverSupported(["cockroachdb"], connection.driver.type)
+                ) {
                     await queryRunner.dropColumns(table!, [
                         nameColumn,
                         versionColumn,
@@ -51,7 +53,7 @@ describe("query runner > drop column", () => {
                 table = await queryRunner.getTable("post");
                 expect(table!.findColumnByName("name")).to.be.undefined;
                 expect(table!.findColumnByName("version")).to.be.undefined;
-                if (!(connection.driver instanceof CockroachDriver))
+                if (!isDriverSupported(["cockroachdb"], connection.driver.type))
                     expect(table!.findColumnByName("id")).to.be.undefined;
 
                 await queryRunner.executeMemoryDownSql();

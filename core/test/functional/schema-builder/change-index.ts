@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -12,6 +11,7 @@ import { IndexMetadata } from "../../../src/metadata/IndexMetadata";
 import { Teacher } from "./entity/Teacher";
 import { Student } from "./entity/Student";
 import { TableIndex } from "../../../src/schema-builder/table/TableIndex";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("schema builder > change index", () => {
     let connections: Connection[];
@@ -85,7 +85,7 @@ describe("schema builder > change index", () => {
             const studentTable = await queryRunner.getTable("student");
             await queryRunner.release();
             // CockroachDB also stores indices for relation columns
-            if (connection.driver instanceof CockroachDriver) {
+            if (isDriverSupported(["cockroachdb"], connection.driver.type)) {
                 studentTable!.indices.length.should.be.equal(2);
             } else {
                 studentTable!.indices.length.should.be.equal(0);
@@ -109,7 +109,7 @@ describe("schema builder > change index", () => {
 
             teacherTable = await queryRunner.getTable("teacher");
             // CockroachDB stores unique indices as UNIQUE constraints
-            if (connection.driver instanceof CockroachDriver) {
+            if (isDriverSupported(["cockroachdb"], connection.driver.type)) {
                 teacherTable!.indices.length.should.be.equal(0);
                 teacherTable!.uniques.length.should.be.equal(1);
                 teacherTable!.findColumnByName("name")!.isUnique.should.be.true;
@@ -122,7 +122,7 @@ describe("schema builder > change index", () => {
 
             teacherTable = await queryRunner.getTable("teacher");
             // CockroachDB stores unique indices as UNIQUE constraints
-            if (connection.driver instanceof CockroachDriver) {
+            if (isDriverSupported(["cockroachdb"], connection.driver.type)) {
                 teacherTable!.indices.length.should.be.equal(0);
                 teacherTable!.uniques.length.should.be.equal(0);
                 teacherTable!.findColumnByName("name")!.isUnique.should.be

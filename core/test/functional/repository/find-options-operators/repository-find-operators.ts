@@ -21,9 +21,9 @@ import {
     PromiseUtils,
 } from "../../../../src";
 import { Post } from "./entity/Post";
-import { PostgresDriver } from "../../../../src/driver/postgres/PostgresDriver";
 import { Raw } from "../../../../src/find-options/operator/Raw";
 import { PersonAR } from "./entity/PersonAR";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("repository > find options > operators", () => {
     let connections: Connection[];
@@ -476,7 +476,8 @@ describe("repository > find options > operators", () => {
     it("any", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (!(connection.driver instanceof PostgresDriver)) return;
+                if (!isDriverSupported(["postgres"], connection.driver.type))
+                    return;
 
                 // insert some fake data
                 const post1 = new Post();
@@ -501,7 +502,8 @@ describe("repository > find options > operators", () => {
     it("not(any)", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (!(connection.driver instanceof PostgresDriver)) return;
+                if (!isDriverSupported(["postgres"], connection.driver.type))
+                    return;
 
                 // insert some fake data
                 const post1 = new Post();

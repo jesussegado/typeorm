@@ -7,7 +7,7 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Flight } from "./entity/Flight";
-import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe.skip("github issues > #838 Time zones for timestamp columns are incorrectly fetched and persisted in PostgreSQL", () => {
     let connections: Connection[];
@@ -19,8 +19,8 @@ describe.skip("github issues > #838 Time zones for timestamp columns are incorre
             entities: [`${__dirname}/entity/*{.js,.ts}`],
             enabledDrivers: ["postgres"],
         });
-        postgresConnection = connections.find(
-            (connection) => connection.driver instanceof PostgresDriver
+        postgresConnection = connections.find((connection) =>
+            isDriverSupported(["postgres"], connection.driver.type)
         )!;
     });
 

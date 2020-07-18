@@ -1,8 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
-import { SapDriver } from "../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -10,13 +8,10 @@ import {
 import { Table } from "../../../src/schema-builder/table/Table";
 import { TableOptions } from "../../../src/schema-builder/options/TableOptions";
 import { Post } from "./entity/Post";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
-import { AbstractSqliteDriver } from "../../../src/driver/sqlite-abstract/AbstractSqliteDriver";
-import { OracleDriver } from "../../../src/driver/oracle/OracleDriver";
 import { Photo } from "./entity/Photo";
 import { Book } from "./entity/Book";
 import { Book2 } from "./entity/Book2";
-import { SqliteDriver } from "../../../src/driver/sqlite/SqliteDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("query runner > create table", () => {
     let connections: Connection[];
@@ -37,11 +32,12 @@ describe("query runner > create table", () => {
                     columns: [
                         {
                             name: "id",
-                            type:
-                                connection.driver instanceof
-                                AbstractSqliteDriver
-                                    ? "integer"
-                                    : "int",
+                            type: isDriverSupported(
+                                ["sqlite-abstract"],
+                                connection.driver.type
+                            )
+                                ? "integer"
+                                : "int",
                             isPrimary: true,
                             isGenerated: true,
                             generationStrategy: "increment",
@@ -68,8 +64,8 @@ describe("query runner > create table", () => {
                 nameColumn!.isUnique.should.be.true;
                 table!.should.exist;
                 if (
-                    !(connection.driver instanceof MysqlDriver) &&
-                    !(connection.driver instanceof SapDriver)
+                    !isDriverSupported(["mysql"], connection.driver.type) &&
+                    !isDriverSupported(["sap"], connection.driver.type)
                 )
                     table!.uniques.length.should.be.equal(1);
 
@@ -95,8 +91,8 @@ describe("query runner > create table", () => {
                 const nameColumn = table!.findColumnByName("name");
                 table!.should.exist;
                 if (
-                    !(connection.driver instanceof MysqlDriver) &&
-                    !(connection.driver instanceof SapDriver)
+                    !isDriverSupported(["mysql"], connection.driver.type) &&
+                    !isDriverSupported(["sap"], connection.driver.type)
                 ) {
                     table!.uniques.length.should.be.equal(2);
                     table!.checks.length.should.be.equal(1);
@@ -143,11 +139,12 @@ describe("query runner > create table", () => {
                     columns: [
                         {
                             name: "id",
-                            type:
-                                connection.driver instanceof
-                                AbstractSqliteDriver
-                                    ? "integer"
-                                    : "int",
+                            type: isDriverSupported(
+                                ["sqlite-abstract"],
+                                connection.driver.type
+                            )
+                                ? "integer"
+                                : "int",
                             isPrimary: true,
                             isGenerated: true,
                             generationStrategy: "increment",
@@ -186,8 +183,8 @@ describe("query runner > create table", () => {
                 } as TableOptions;
 
                 if (
-                    connection.driver instanceof MysqlDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(["mysql"], connection.driver.type) ||
+                    isDriverSupported(["sap"], connection.driver.type)
                 ) {
                     questionTableOptions.indices!.push({
                         columnNames: ["name", "text"],
@@ -215,11 +212,12 @@ describe("query runner > create table", () => {
                     columns: [
                         {
                             name: "id",
-                            type:
-                                connection.driver instanceof
-                                AbstractSqliteDriver
-                                    ? "integer"
-                                    : "int",
+                            type: isDriverSupported(
+                                ["sqlite-abstract"],
+                                connection.driver.type
+                            )
+                                ? "integer"
+                                : "int",
                             isPrimary: true,
                             isGenerated: true,
                             generationStrategy: "increment",
@@ -251,8 +249,7 @@ describe("query runner > create table", () => {
                 } as TableOptions;
 
                 if (
-                    connection.driver instanceof MysqlDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(["mysql", "sap"], connection.driver.type)
                 ) {
                     categoryTableOptions.indices = [
                         { columnNames: ["name", "alternativeName"] },
@@ -265,9 +262,10 @@ describe("query runner > create table", () => {
 
                 // When we mark column as unique, MySql create index for that column and we don't need to create index separately.
                 if (
-                    !(connection.driver instanceof MysqlDriver) &&
-                    !(connection.driver instanceof OracleDriver) &&
-                    !(connection.driver instanceof SapDriver)
+                    !isDriverSupported(
+                        ["mysql", "oracle", "sap"],
+                        connection.driver.type
+                    )
                 )
                     categoryTableOptions.indices = [
                         { columnNames: ["questionId"] },
@@ -295,14 +293,15 @@ describe("query runner > create table", () => {
                 questionTable!.should.exist;
 
                 if (
-                    connection.driver instanceof MysqlDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(["mysql", "sap"], connection.driver.type)
                 ) {
                     // MySql and SAP HANA does not have unique constraints.
                     // all unique constraints is unique indexes.
                     questionTable!.uniques.length.should.be.equal(0);
                     questionTable!.indices.length.should.be.equal(2);
-                } else if (connection.driver instanceof CockroachDriver) {
+                } else if (
+                    isDriverSupported(["cockroachdb"], connection.driver.type)
+                ) {
                     // CockroachDB stores unique indices as UNIQUE constraints
                     questionTable!.uniques.length.should.be.equal(2);
                     questionTable!.uniques[0].columnNames.length.should.be.equal(
@@ -346,12 +345,13 @@ describe("query runner > create table", () => {
                 categoryTable!.foreignKeys.length.should.be.equal(1);
 
                 if (
-                    connection.driver instanceof MysqlDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(["mysql", "sap"], connection.driver.type)
                 ) {
                     // MySql and SAP HANA does not have unique constraints. All unique constraints is unique indexes.
                     categoryTable!.indices.length.should.be.equal(3);
-                } else if (connection.driver instanceof OracleDriver) {
+                } else if (
+                    isDriverSupported(["oracle"], connection.driver.type)
+                ) {
                     // Oracle does not allow to put index on primary or unique columns.
                     categoryTable!.indices.length.should.be.equal(0);
                 } else {
@@ -393,14 +393,15 @@ describe("query runner > create table", () => {
                 descriptionColumn!.isUnique.should.be.true;
 
                 if (
-                    connection.driver instanceof MysqlDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(["mysql", "sap"], connection.driver.type)
                 ) {
                     table!.uniques.length.should.be.equal(0);
                     table!.indices.length.should.be.equal(4);
                     tagColumn!.isUnique.should.be.true;
                     textColumn!.isUnique.should.be.true;
-                } else if (connection.driver instanceof CockroachDriver) {
+                } else if (
+                    isDriverSupported(["cockroachdb"], connection.driver.type)
+                ) {
                     // CockroachDB stores unique indices as UNIQUE constraints
                     table!.uniques.length.should.be.equal(4);
                     table!.indices.length.should.be.equal(0);
@@ -425,7 +426,7 @@ describe("query runner > create table", () => {
     it("should correctly create table with different `withoutRowid` definitions", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (connection.driver instanceof SqliteDriver) {
+                if (isDriverSupported(["sqlite"], connection.driver.type)) {
                     const queryRunner = connection.createQueryRunner();
 
                     // the table 'book' must contain a 'rowid' column

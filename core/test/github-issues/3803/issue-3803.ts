@@ -1,6 +1,4 @@
 import { expect } from "chai";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
-import { SapDriver } from "../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,6 +7,7 @@ import {
 import { Connection, EntitySchema } from "../../../src";
 
 import { Post, PostSchema } from "./entity/Post";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #3803 column option unique sqlite error", () => {
     let connections: Connection[];
@@ -30,8 +29,7 @@ describe("github issues > #3803 column option unique sqlite error", () => {
 
                 // MySQL stores unique constraints as unique indices
                 if (
-                    connection.driver instanceof MysqlDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(["mysql", "sap"], connection.driver.type)
                 ) {
                     expect(table!.indices.length).to.be.equal(1);
                     expect(table!.indices[0].isUnique).to.be.true;

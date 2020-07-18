@@ -6,8 +6,8 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
 import { User } from "./entity/User";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #2067 Unhandled promise rejection warning on postgres connection issues", () => {
     let connections: Connection[];
@@ -29,7 +29,7 @@ describe("github issues > #2067 Unhandled promise rejection warning on postgres 
                 const connectionFailureMessage =
                     "Test error to simulate a connection error";
 
-                if (connection.driver instanceof PostgresDriver) {
+                if (isDriverSupported(["postgres"], connection.driver.type)) {
                     connection.driver.obtainMasterConnection = () =>
                         Promise.reject<any>(
                             new Error(connectionFailureMessage)

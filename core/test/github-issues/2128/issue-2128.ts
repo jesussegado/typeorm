@@ -7,7 +7,7 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("github issues > #2128 skip preparePersistentValue for value functions", () => {
     let connections: Connection[];
@@ -45,7 +45,10 @@ describe("github issues > #2128 skip preparePersistentValue for value functions"
                     .update(Post)
                     .set({
                         meta: () =>
-                            connection.driver instanceof PostgresDriver
+                            isDriverSupported(
+                                ["postgres"],
+                                connection.driver.type
+                            )
                                 ? `'${metaAddition}'::JSONB || meta::JSONB`
                                 : `JSON_MERGE('${metaAddition}', meta)`,
                     })

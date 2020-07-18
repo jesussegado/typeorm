@@ -5,7 +5,7 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("query runner > drop check constraint", () => {
     let connections: Connection[];
@@ -23,7 +23,8 @@ describe("query runner > drop check constraint", () => {
         Promise.all(
             connections.map(async (connection) => {
                 // Mysql does not support check constraints.
-                if (connection.driver instanceof MysqlDriver) return;
+                if (isDriverSupported(["mysql"], connection.driver.type))
+                    return;
 
                 const queryRunner = connection.createQueryRunner();
 

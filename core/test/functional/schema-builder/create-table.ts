@@ -1,13 +1,11 @@
 import { expect } from "chai";
 import "reflect-metadata";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
-import { SapDriver } from "../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("schema builder > create table", () => {
     let connections: Connection[];
@@ -41,8 +39,7 @@ describe("schema builder > create table", () => {
                 postTable!.should.exist;
 
                 if (
-                    connection.driver instanceof MysqlDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(["mysql", "sap"], connection.driver.type)
                 ) {
                     postTable!.indices.length.should.be.equal(2);
                 } else {
@@ -61,7 +58,9 @@ describe("schema builder > create table", () => {
                 studentTable!.should.exist;
                 studentTable!.foreignKeys.length.should.be.equal(2);
                 // CockroachDB also stores indices for relation columns
-                if (connection.driver instanceof CockroachDriver) {
+                if (
+                    isDriverSupported(["cockroachdb"], connection.driver.type)
+                ) {
                     studentTable!.indices.length.should.be.equal(3);
                 } else {
                     studentTable!.indices.length.should.be.equal(1);

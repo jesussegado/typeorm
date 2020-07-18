@@ -1,6 +1,5 @@
 import { expect } from "chai";
 import "reflect-metadata";
-import { CockroachDriver } from "../../../../src/driver/cockroachdb/CockroachDriver";
 import { Category } from "./entity/Category";
 import { Connection } from "../../../../src";
 import {
@@ -10,6 +9,7 @@ import {
 } from "../../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { PostCategory } from "./entity/PostCategory";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("view entity > oracle", () => {
     let connections: Connection[];
@@ -59,14 +59,22 @@ describe("view entity > oracle", () => {
                 );
                 postCategories.length.should.be.equal(2);
 
-                const postId1 =
-                    connection.driver instanceof CockroachDriver ? "1" : 1;
+                const postId1 = isDriverSupported(
+                    ["cockroachdb"],
+                    connection.driver.type
+                )
+                    ? "1"
+                    : 1;
                 postCategories[0].id.should.be.equal(postId1);
                 postCategories[0].postName.should.be.equal("About BMW");
                 postCategories[0].categoryName.should.be.equal("Cars");
 
-                const postId2 =
-                    connection.driver instanceof CockroachDriver ? "2" : 2;
+                const postId2 = isDriverSupported(
+                    ["cockroachdb"],
+                    connection.driver.type
+                )
+                    ? "2"
+                    : 2;
                 postCategories[1].id.should.be.equal(postId2);
                 postCategories[1].postName.should.be.equal("About Boeing");
                 postCategories[1].categoryName.should.be.equal("Airplanes");

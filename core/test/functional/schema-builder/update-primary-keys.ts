@@ -1,13 +1,12 @@
 import "reflect-metadata";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
 import { Category } from "./entity/Category";
 import { Question } from "./entity/Question";
-import { AbstractSqliteDriver } from "../../../src/driver/sqlite-abstract/AbstractSqliteDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("schema builder > update primary keys", () => {
     let connections: Connection[];
@@ -24,7 +23,8 @@ describe("schema builder > update primary keys", () => {
         Promise.all(
             connections.map(async (connection) => {
                 // CockroachDB does not support changing primary key constraint
-                if (connection.driver instanceof CockroachDriver) return;
+                if (isDriverSupported(["cockroachdb"], connection.driver.type))
+                    return;
 
                 const metadata = connection.getMetadata(Category);
                 const nameColumn = metadata.findColumnWithPropertyName("name");
@@ -45,10 +45,17 @@ describe("schema builder > update primary keys", () => {
         Promise.all(
             connections.map(async (connection) => {
                 // Sqlite does not support AUTOINCREMENT on composite primary key
-                if (connection.driver instanceof AbstractSqliteDriver) return;
+                if (
+                    isDriverSupported(
+                        ["sqlite-abstract"],
+                        connection.driver.type
+                    )
+                )
+                    return;
 
                 // CockroachDB does not support changing primary key constraint
-                if (connection.driver instanceof CockroachDriver) return;
+                if (isDriverSupported(["cockroachdb"], connection.driver.type))
+                    return;
 
                 const metadata = connection.getMetadata(Question);
                 const nameColumn = metadata.findColumnWithPropertyName("name");

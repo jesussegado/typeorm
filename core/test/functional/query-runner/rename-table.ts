@@ -1,17 +1,12 @@
 import "reflect-metadata";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
-import { SapDriver } from "../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { SqlServerDriver } from "../../../src/driver/sqlserver/SqlServerDriver";
 import { Table } from "../../../src/schema-builder/table/Table";
-import { AbstractSqliteDriver } from "../../../src/driver/sqlite-abstract/AbstractSqliteDriver";
-import { PostgresDriver } from "../../../src/driver/postgres/PostgresDriver";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("query runner > rename table", () => {
     let connections: Connection[];
@@ -29,7 +24,8 @@ describe("query runner > rename table", () => {
         Promise.all(
             connections.map(async (connection) => {
                 // CockroachDB does not support renaming constraints and removing PK.
-                if (connection.driver instanceof CockroachDriver) return;
+                if (isDriverSupported(["cockroachdb"], connection.driver.type))
+                    return;
 
                 const queryRunner = connection.createQueryRunner();
 
@@ -56,7 +52,8 @@ describe("query runner > rename table", () => {
         Promise.all(
             connections.map(async (connection) => {
                 // CockroachDB does not support renaming constraints and removing PK.
-                if (connection.driver instanceof CockroachDriver) return;
+                if (isDriverSupported(["cockroachdb"], connection.driver.type))
+                    return;
 
                 const queryRunner = connection.createQueryRunner();
 
@@ -71,8 +68,7 @@ describe("query runner > rename table", () => {
 
                 // MySql does not support unique constraints
                 if (
-                    !(connection.driver instanceof MysqlDriver) &&
-                    !(connection.driver instanceof SapDriver)
+                    !isDriverSupported(["mysql", "sap"], connection.driver.type)
                 ) {
                     const newUniqueConstraintName = connection.namingStrategy.uniqueConstraintName(
                         table!,
@@ -99,7 +95,8 @@ describe("query runner > rename table", () => {
         Promise.all(
             connections.map(async (connection) => {
                 // CockroachDB does not support renaming constraints and removing PK.
-                if (connection.driver instanceof CockroachDriver) return;
+                if (isDriverSupported(["cockroachdb"], connection.driver.type))
+                    return;
 
                 const queryRunner = connection.createQueryRunner();
                 let table: Table | undefined;
@@ -110,7 +107,7 @@ describe("query runner > rename table", () => {
                 let renamedCategoryTableName: string = "renamedCategory";
 
                 // create different names to test renaming with custom schema and database.
-                if (connection.driver instanceof SqlServerDriver) {
+                if (isDriverSupported(["mssql"], connection.driver.type)) {
                     questionTableName = "testDB.testSchema.question";
                     renamedQuestionTableName =
                         "testDB.testSchema.renamedQuestion";
@@ -120,15 +117,19 @@ describe("query runner > rename table", () => {
                     await queryRunner.createDatabase("testDB", true);
                     await queryRunner.createSchema("testDB.testSchema", true);
                 } else if (
-                    connection.driver instanceof PostgresDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(
+                        ["postgres", "sap"],
+                        connection.driver.type
+                    )
                 ) {
                     questionTableName = "testSchema.question";
                     renamedQuestionTableName = "testSchema.renamedQuestion";
                     categoryTableName = "testSchema.category";
                     renamedCategoryTableName = "testSchema.renamedCategory";
                     await queryRunner.createSchema("testSchema", true);
-                } else if (connection.driver instanceof MysqlDriver) {
+                } else if (
+                    isDriverSupported(["mysql"], connection.driver.type)
+                ) {
                     questionTableName = "testDB.question";
                     renamedQuestionTableName = "testDB.renamedQuestion";
                     categoryTableName = "testDB.category";
@@ -142,11 +143,12 @@ describe("query runner > rename table", () => {
                         columns: [
                             {
                                 name: "id",
-                                type:
-                                    connection.driver instanceof
-                                    AbstractSqliteDriver
-                                        ? "integer"
-                                        : "int",
+                                type: isDriverSupported(
+                                    ["sqlite-abstract"],
+                                    connection.driver.type
+                                )
+                                    ? "integer"
+                                    : "int",
                                 isPrimary: true,
                                 isGenerated: true,
                                 generationStrategy: "increment",
@@ -167,11 +169,12 @@ describe("query runner > rename table", () => {
                         columns: [
                             {
                                 name: "id",
-                                type:
-                                    connection.driver instanceof
-                                    AbstractSqliteDriver
-                                        ? "integer"
-                                        : "int",
+                                type: isDriverSupported(
+                                    ["sqlite-abstract"],
+                                    connection.driver.type
+                                )
+                                    ? "integer"
+                                    : "int",
                                 isPrimary: true,
                                 isGenerated: true,
                                 generationStrategy: "increment",
