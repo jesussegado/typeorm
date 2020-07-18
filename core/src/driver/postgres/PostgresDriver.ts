@@ -27,8 +27,7 @@ import { AuroraDataApiPostgresQueryRunner } from "../aurora-data-api-pg/AuroraDa
  * Organizes communication with PostgreSQL DBMS.
  */
 export class PostgresDriver implements Driver {
-
-    type :DriverType = "postgres";
+    type: DriverType = "postgres";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

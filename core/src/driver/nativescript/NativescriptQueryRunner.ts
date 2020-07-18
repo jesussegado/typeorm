@@ -33,7 +33,7 @@ export class NativescriptQueryRunner extends AbstractSqliteQueryRunner {
 
         const { connection } = this.driver;
 
-        return new Promise<any[]>( (ok, fail) => {
+        return new Promise<any[]>((ok, fail) => {
             const isInsertQuery = query.substr(0, 11) === "INSERT INTO";
 
             const handler = function (err: any, result: any) {

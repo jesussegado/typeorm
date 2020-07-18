@@ -1,26 +1,21 @@
-import { CockroachDriver } from "../driver/cockroachdb/CockroachDriver";
 import { QueryBuilder } from "./QueryBuilder";
 import { ObjectLiteral } from "../common/ObjectLiteral";
 import { ObjectType } from "../common/ObjectType";
 import { Connection } from "../connection/Connection";
 import { QueryRunner } from "../query-runner/QueryRunner";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
-import { PostgresDriver } from "../driver/postgres/PostgresDriver";
 import { WhereExpression } from "./WhereExpression";
 import { Brackets } from "./Brackets";
 import { UpdateResult } from "./result/UpdateResult";
 import { ReturningStatementNotSupportedError } from "../error/ReturningStatementNotSupportedError";
 import { ReturningResultsEntityUpdator } from "./ReturningResultsEntityUpdator";
 import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
-import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
-import { AbstractSqliteDriver } from "../driver/sqlite-abstract/AbstractSqliteDriver";
 import { OrderByCondition } from "../find-options/OrderByCondition";
 import { LimitOnUpdateNotSupportedError } from "../error/LimitOnUpdateNotSupportedError";
 import { MissingDeleteDateColumnError } from "../error/MissingDeleteDateColumnError";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { UpdateValuesMissingError } from "../error/UpdateValuesMissingError";
 import { EntitySchema } from "../entity-schema/EntitySchema";
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -103,8 +98,8 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
             const result = await queryRunner.query(sql, parameters);
 
             const { driver } = queryRunner.connection;
-            if (driver instanceof PostgresDriver) {
-                [updateResult.raw,updateResult.affected] = result;
+            if (isDriverSupported(["postgres"], driver.type)) {
+                [updateResult.raw, updateResult.affected] = result;
             } else {
                 updateResult.raw = result;
             }
@@ -145,8 +140,10 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
                 try {
                     await queryRunner.rollbackTransaction();
                 } catch (rollbackError) {
-
-                this.connection.logger.log("warn",`Error during transaction rollback. ${rollbackError}`);
+                    this.connection.logger.log(
+                        "warn",
+                        `Error during transaction rollback. ${rollbackError}`
+                    );
                 }
             }
             throw error;
@@ -493,9 +490,10 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         // we re-write parameters this way because we want our "UPDATE ... SET" parameters to be first in the list of "nativeParameters"
         // because some drivers like mysql depend on order of parameters
         if (
-            this.connection.driver instanceof MysqlDriver ||
-            this.connection.driver instanceof OracleDriver ||
-            this.connection.driver instanceof AbstractSqliteDriver
+            isDriverSupported(
+                ["mysql", "oracle", "sqlite-abstract"],
+                this.connection.driver.type
+            )
         ) {
             this.expressionMap.nativeParameters = Object.assign(
                 newParameters,
@@ -510,9 +508,10 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         // generate and return sql update query
         if (
             returningExpression &&
-            (this.connection.driver instanceof PostgresDriver ||
-                this.connection.driver instanceof OracleDriver ||
-                this.connection.driver instanceof CockroachDriver)
+            isDriverSupported(
+                ["postgres", "oracle", "cockroachdb"],
+                this.connection.driver.type
+            )
         ) {
             return `UPDATE ${this.getTableName(
                 this.getMainTableName()
@@ -522,7 +521,7 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         }
         if (
             returningExpression &&
-            this.connection.driver instanceof SqlServerDriver
+            isDriverSupported(["mssql"], this.connection.driver.type)
         ) {
             return `UPDATE ${this.getTableName(
                 this.getMainTableName()
@@ -564,7 +563,7 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         const { limit } = this.expressionMap;
 
         if (limit) {
-            if (this.connection.driver instanceof MysqlDriver) {
+            if (isDriverSupported(["mysql"], this.connection.driver.type)) {
                 return ` LIMIT ${limit}`;
             }
             throw new LimitOnUpdateNotSupportedError();

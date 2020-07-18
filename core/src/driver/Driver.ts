@@ -8,31 +8,32 @@ import { DataTypeDefaults } from "./types/DataTypeDefaults";
 import { BaseConnectionOptions } from "../connection/BaseConnectionOptions";
 import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
-import { DatabaseType } from '..';
+import { DatabaseType } from "..";
 
 export type DriverType = DatabaseType | "sqlite-abstract";
 
-export function isDriverSupported(supportedDrivers: DriverType[],driver: DriverType): boolean {
-    const abstractSqlite:DriverType[] = [
+export function isDriverSupported(
+    supportedDrivers: DriverType[],
+    driver: DriverType
+): boolean {
+    const abstractSqlite: DriverType[] = [
         "cordova",
         "expo",
         "nativescript",
         "react-native",
         "sqlite",
-        "sqljs"
+        "sqljs",
     ];
-    switch (driver) {
-        case "sqlite-abstract":
-            return abstractSqlite.includes(driver);
-        default:
-            return supportedDrivers.includes(driver);
-    }
+    return (
+        supportedDrivers.includes(driver) ||
+        (supportedDrivers.includes("sqlite-abstract") &&
+            abstractSqlite.includes(driver))
+    );
 }
 /**
  * Driver organizes TypeORM communication with specific database management system.
  */
 export interface Driver {
-
     type: DriverType;
     /**
      * Connection options.

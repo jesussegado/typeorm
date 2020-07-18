@@ -5,7 +5,7 @@ import { QueryRunner } from "../../query-runner/QueryRunner";
 import { Connection } from "../../connection/Connection";
 import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
-import { DriverType } from '../Driver';
+import { DriverType } from "../Driver";
 
 // needed for typescript compiler
 interface Window {
@@ -15,8 +15,7 @@ interface Window {
 declare let window: Window;
 
 export class CordovaDriver extends AbstractSqliteDriver {
-    
-    type :DriverType = "cordova";
+    type: DriverType = "cordova";
 
     options: CordovaConnectionOptions;
 

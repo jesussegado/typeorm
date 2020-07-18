@@ -9,8 +9,8 @@ import { DeleteResult } from "./result/DeleteResult";
 import { ReturningStatementNotSupportedError } from "../error/ReturningStatementNotSupportedError";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { EntitySchema } from "../index";
-import { isDriverSupported } from '../driver/Driver';
-import { SqljsDriver } from '../driver/sqljs/SqljsDriver';
+import { isDriverSupported } from "../driver/Driver";
+import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -78,19 +78,20 @@ export class DeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
             const result = await queryRunner.query(sql, parameters);
 
             const { driver } = queryRunner.connection;
-            if (
-                isDriverSupported(["mysql","aurora-data-api"],driver.type)
-            ) {
+            if (isDriverSupported(["mysql", "aurora-data-api"], driver.type)) {
                 deleteResult.raw = result;
                 deleteResult.affected = result.affectedRows;
             } else if (
-                isDriverSupported(["mssql","postgres","cockroachdb"],driver.type)
+                isDriverSupported(
+                    ["mssql", "postgres", "cockroachdb"],
+                    driver.type
+                )
             ) {
                 deleteResult.raw = result[0] ? result[0] : null;
                 // don't return 0 because it could confuse. null means that we did not receive this value
                 deleteResult.affected =
                     typeof result[1] === "number" ? result[1] : null;
-            } else if ( isDriverSupported(["oracle"],driver.type)) {
+            } else if (isDriverSupported(["oracle"], driver.type)) {
                 deleteResult.affected = result;
             } else {
                 deleteResult.raw = result;
@@ -305,14 +306,16 @@ export class DeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
 
         if (
             returningExpression &&
-            (isDriverSupported(["postgres","cockroachdb"],this.connection.driver.type)
+            isDriverSupported(
+                ["postgres", "cockroachdb"],
+                this.connection.driver.type
             )
         ) {
             return `DELETE FROM ${tableName}${whereExpression} RETURNING ${returningExpression}`;
         }
         if (
             returningExpression !== "" &&
-            isDriverSupported(["mssql"],this.connection.driver.type)
+            isDriverSupported(["mssql"], this.connection.driver.type)
         ) {
             return `DELETE FROM ${tableName} OUTPUT ${returningExpression}${whereExpression}`;
         }

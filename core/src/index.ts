@@ -199,7 +199,7 @@ export function getConnectionManager(): ConnectionManager {
  */
 export async function createConnection(
     options: ConnectionOptions
-): Promise<Connection>{
+): Promise<Connection> {
     return getConnectionManager().create(options).connect();
 }
 

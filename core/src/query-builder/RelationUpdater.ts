@@ -1,8 +1,7 @@
-import { SapDriver } from "../driver/sap/SapDriver";
 import { QueryBuilder } from "./QueryBuilder";
 import { ObjectLiteral } from "../common/ObjectLiteral";
 import { QueryExpressionMap } from "./QueryExpressionMap";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Allows to work with entity relations and perform specific operations with those relations.
@@ -161,8 +160,10 @@ export class RelationUpdater {
             if (!bulkInserted.length) return;
 
             if (
-                this.queryBuilder.connection.driver instanceof OracleDriver ||
-                this.queryBuilder.connection.driver instanceof SapDriver
+                isDriverSupported(
+                    ["oracle", "sap"],
+                    this.queryBuilder.connection.driver.type
+                )
             ) {
                 await Promise.all(
                     bulkInserted.map((value) => {

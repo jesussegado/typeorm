@@ -5,7 +5,7 @@ import { ForeignKeyMetadata } from "../metadata/ForeignKeyMetadata";
 import { IndexMetadata } from "../metadata/IndexMetadata";
 import { JoinTableMetadataArgs } from "../metadata-args/JoinTableMetadataArgs";
 import { RelationMetadata } from "../metadata/RelationMetadata";
-import { isDriverSupported } from '../driver/Driver';
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Creates EntityMetadata for junction tables.
@@ -95,8 +95,10 @@ export class JunctionEntityMetadataBuilder {
                         name: columnName,
                         length:
                             !referencedColumn.length &&
-                            (isDriverSupported(["mysql","aurora-data-api"],this.connection.driver.type)
-                                ) &&
+                            isDriverSupported(
+                                ["mysql", "aurora-data-api"],
+                                this.connection.driver.type
+                            ) &&
                             (referencedColumn.generationStrategy === "uuid" ||
                                 referencedColumn.type === "uuid")
                                 ? "36"
@@ -152,7 +154,9 @@ export class JunctionEntityMetadataBuilder {
                         options: {
                             length:
                                 !inverseReferencedColumn.length &&
-                                (isDriverSupported(["mysql","aurora-data-api"],this.connection.driver.type)
+                                isDriverSupported(
+                                    ["mysql", "aurora-data-api"],
+                                    this.connection.driver.type
                                 ) &&
                                 (inverseReferencedColumn.generationStrategy ===
                                     "uuid" ||

@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "../../../../src/connection/Connection";
-import { CockroachDriver } from "../../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -14,6 +13,7 @@ import { PostSpecialColumns } from "./entity/PostSpecialColumns";
 import { PostMultiplePrimaryKeys } from "./entity/PostMultiplePrimaryKeys";
 import { PostComplex } from "./entity/PostComplex";
 import { PostEmbedded } from "./entity/PostEmbedded";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("persistence > entity updation", () => {
     let connections: Connection[];
@@ -31,7 +31,7 @@ describe("persistence > entity updation", () => {
                 post.text = "Hello Post";
                 await connection.manager.save(post);
                 // CockroachDB does not use incremental ids
-                if (!(connection.driver instanceof CockroachDriver))
+                if (!isDriverSupported(["cockroachdb"], connection.driver.type))
                     post.id.should.be.equal(1);
             })
         ));

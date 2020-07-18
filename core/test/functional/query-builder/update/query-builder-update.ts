@@ -7,12 +7,11 @@ import {
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
 import { User } from "./entity/User";
-import { MysqlDriver } from "../../../../src/driver/mysql/MysqlDriver";
-import { SqlServerDriver } from "../../../../src/driver/sqlserver/SqlServerDriver";
 import { LimitOnUpdateNotSupportedError } from "../../../../src/error/LimitOnUpdateNotSupportedError";
 import { Photo } from "./entity/Photo";
 import { EntityColumnNotFound } from "../../../../src/error/EntityColumnNotFound";
 import { UpdateValuesMissingError } from "../../../../src/error/UpdateValuesMissingError";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("query builder > update", () => {
     let connections: Connection[];
@@ -75,7 +74,7 @@ describe("query builder > update", () => {
                     .update(User)
                     .set({
                         name: () =>
-                            connection.driver instanceof SqlServerDriver
+                            isDriverSupported(["mssql"], connection.driver.type)
                                 ? "SUBSTRING('Dima Zotov', 1, 4)"
                                 : "SUBSTR('Dima Zotov', 1, 4)",
                     })
@@ -200,7 +199,7 @@ describe("query builder > update", () => {
                 const limitNum = 2;
                 const nameToFind = "Dima Zotov";
 
-                if (connection.driver instanceof MysqlDriver) {
+                if (isDriverSupported(["mysql"], connection.driver.type)) {
                     await connection
                         .createQueryBuilder()
                         .update(User)

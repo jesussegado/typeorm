@@ -25,7 +25,7 @@ export class MongoDriver implements Driver {
     // Public Properties
     // -------------------------------------------------------------------------
 
-    type :DriverType = "mongodb";
+    type: DriverType = "mongodb";
 
     /**
      * Underlying mongodb library.

@@ -8,7 +8,7 @@ import {
 } from "../../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { SqlServerDriver } from "../../../../src/driver/sqlserver/SqlServerDriver";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("multi-schema-and-database > custom-junction-database", () => {
     let connections: Connection[];
@@ -25,7 +25,7 @@ describe("multi-schema-and-database > custom-junction-database", () => {
         Promise.all(
             connections.map(async (connection) => {
                 const queryRunner = connection.createQueryRunner();
-                if (connection.driver instanceof SqlServerDriver) {
+                if (isDriverSupported(["mssql"], connection.driver.type)) {
                     const postTable = await queryRunner.getTable("yoman..post");
                     const categoryTable = await queryRunner.getTable(
                         "yoman..category"

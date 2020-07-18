@@ -28,8 +28,8 @@ export class CockroachDriver implements Driver {
     // Public Properties
     // -------------------------------------------------------------------------
 
-    type :DriverType = "cockroachdb";
-    
+    type: DriverType = "cockroachdb";
+
     /**
      * Connection used by driver.
      */

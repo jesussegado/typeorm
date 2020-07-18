@@ -7,8 +7,7 @@ import {
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { PostgresDriver } from "../../../../src/driver/postgres/PostgresDriver";
-import { MysqlDriver } from "../../../../src/driver/mysql/MysqlDriver";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("query builder > order-by", () => {
     let connections: Connection[];
@@ -61,7 +60,7 @@ describe("query builder > order-by", () => {
     it("should be always in right order(custom order)", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (!(connection.driver instanceof PostgresDriver))
+                if (!isDriverSupported(["postgres"], connection.driver.type))
                     // NULLS FIRST / LAST only supported by postgres
                     return;
 
@@ -91,7 +90,7 @@ describe("query builder > order-by", () => {
     it("should be always in right order(custom order)", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (!(connection.driver instanceof MysqlDriver))
+                if (!isDriverSupported(["mysql"], connection.driver.type))
                     // IS NULL / IS NOT NULL only supported by mysql
                     return;
 
@@ -121,7 +120,8 @@ describe("query builder > order-by", () => {
     it("should be able to order by sql statement", () =>
         Promise.all(
             connections.map(async (connection) => {
-                if (!(connection.driver instanceof MysqlDriver)) return; // DIV statement does not supported by all drivers
+                if (!isDriverSupported(["mysql"], connection.driver.type))
+                    return; // DIV statement does not supported by all drivers
 
                 const post1 = new Post();
                 post1.myOrder = 1;

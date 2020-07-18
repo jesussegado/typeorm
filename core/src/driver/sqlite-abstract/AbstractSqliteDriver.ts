@@ -21,7 +21,7 @@ export abstract class AbstractSqliteDriver implements Driver {
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
-    abstract type:DriverType;
+    abstract type: DriverType;
 
     /**
      * Connection used by driver.

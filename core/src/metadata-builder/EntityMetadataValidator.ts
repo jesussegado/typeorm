@@ -98,7 +98,7 @@ export class EntityMetadataValidator {
                 );
         });
 
-        if (!(isDriverSupported(["mongodb"],driver.type))) {
+        if (!isDriverSupported(["mongodb"], driver.type)) {
             entityMetadata.columns.forEach((column) => {
                 const normalizedColumn = driver.normalizeType(
                     column
@@ -120,9 +120,7 @@ export class EntityMetadataValidator {
             });
         }
 
-        if (
-            isDriverSupported(["mysql","aurora-data-api"],driver.type)
-        ) {
+        if (isDriverSupported(["mysql", "aurora-data-api"], driver.type)) {
             const generatedColumns = entityMetadata.columns.filter(
                 (column) =>
                     column.isGenerated && column.generationStrategy !== "uuid"
@@ -136,7 +134,7 @@ export class EntityMetadataValidator {
         // for mysql we are able to not define a default selected database, instead all entities can have their database
         // defined in their decorators. To make everything work either all entities must have database define and we
         // can live without database set in the connection options, either database in the connection options must be set
-        if (isDriverSupported(["mysql"],driver.type)) {
+        if (isDriverSupported(["mysql"], driver.type)) {
             const metadatasWithDatabase = allEntityMetadatas.filter(
                 (metadata) => metadata.database
             );
@@ -144,7 +142,7 @@ export class EntityMetadataValidator {
                 throw new NoConnectionOptionError("database");
         }
 
-        if (isDriverSupported(["mssql"],driver.type)) {
+        if (isDriverSupported(["mssql"], driver.type)) {
             const charsetColumns = entityMetadata.columns.filter(
                 (column) => column.charset
             );

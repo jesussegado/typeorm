@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { SapDriver } from "../../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -8,8 +7,7 @@ import {
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
 import { PersonSchema } from "./entity/Person";
-import { MysqlDriver } from "../../../../src/driver/mysql/MysqlDriver";
-import { AbstractSqliteDriver } from "../../../../src/driver/sqlite-abstract/AbstractSqliteDriver";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("entity-schema > uniques", () => {
     let connections: Connection[];
@@ -30,8 +28,7 @@ describe("entity-schema > uniques", () => {
                 await queryRunner.release();
 
                 if (
-                    connection.driver instanceof MysqlDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(["mysql", "sap"], connection.driver.type)
                 ) {
                     expect(table!.indices.length).to.be.equal(1);
                     expect(table!.indices[0].name).to.be.equal("UNIQUE_TEST");
@@ -40,7 +37,12 @@ describe("entity-schema > uniques", () => {
                     expect(
                         table!.indices[0].columnNames
                     ).to.deep.include.members(["FirstName", "LastName"]);
-                } else if (connection.driver instanceof AbstractSqliteDriver) {
+                } else if (
+                    isDriverSupported(
+                        ["sqlite-abstract"],
+                        connection.driver.type
+                    )
+                ) {
                     expect(table!.uniques.length).to.be.equal(1);
                     expect(table!.uniques[0].columnNames.length).to.be.equal(2);
                     expect(

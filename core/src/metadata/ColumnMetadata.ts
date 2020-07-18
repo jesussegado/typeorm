@@ -10,7 +10,7 @@ import { ValueTransformer } from "../decorator/options/ValueTransformer";
 import { PromiseUtils } from "../util/PromiseUtils";
 import { FindOperator } from "../find-options/FindOperator";
 import { ApplyValueTransformers } from "../util/ApplyValueTransformers";
-import { isDriverSupported } from '../driver/Driver';
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * This metadata contains all information about entity's column.

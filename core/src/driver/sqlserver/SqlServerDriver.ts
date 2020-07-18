@@ -24,8 +24,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  * Organizes communication with SQL Server DBMS.
  */
 export class SqlServerDriver implements Driver {
-
-    type :DriverType = "mssql";
+    type: DriverType = "mssql";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

@@ -200,7 +200,7 @@ export class SubjectTopoligicalSorter {
                 return edge[0] === node;
             });
             if (outgoing.length) {
-                i=outgoing.length;
+                i = outgoing.length;
                 const preds = predecessors.concat(node);
                 do {
                     const child = outgoing[--i][1];

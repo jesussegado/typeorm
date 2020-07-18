@@ -6,7 +6,7 @@ import {
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
 import { PersonSchema } from "./entity/Person";
-import { MysqlDriver } from "../../../../src/driver/mysql/MysqlDriver";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("entity-schema > checks", () => {
     let connections: Connection[];
@@ -23,7 +23,8 @@ describe("entity-schema > checks", () => {
         Promise.all(
             connections.map(async (connection) => {
                 // Mysql does not support check constraints.
-                if (connection.driver instanceof MysqlDriver) return;
+                if (isDriverSupported(["mysql"], connection.driver.type))
+                    return;
 
                 const queryRunner = connection.createQueryRunner();
                 const table = await queryRunner.getTable("person");

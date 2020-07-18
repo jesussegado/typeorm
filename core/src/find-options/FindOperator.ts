@@ -1,7 +1,7 @@
 import { FindOperatorType } from "./FindOperatorType";
 import { Connection } from "..";
 import { assertUnreachable } from "../util/GeneralUtils";
-import { isDriverSupported } from '../driver/Driver';
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Find Operator used in Find Conditions.
@@ -121,7 +121,10 @@ export class FindOperator<T> {
                 return `${aliasPath} BETWEEN ${parameters[0]} AND ${parameters[1]}`;
             case "in":
                 if (
-                    isDriverSupported(["oracle","mysql"], connection.driver.type) &&
+                    isDriverSupported(
+                        ["oracle", "mysql"],
+                        connection.driver.type
+                    ) &&
                     parameters.length === 0
                 ) {
                     return `${aliasPath} IN (null)`;

@@ -23,8 +23,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  * Organizes communication with MySQL DBMS.
  */
 export class MysqlDriver implements Driver {
-
-    type :DriverType = "mysql";
+    type: DriverType = "mysql";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

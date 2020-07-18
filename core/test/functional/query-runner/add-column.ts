@@ -1,14 +1,12 @@
 import { expect } from "chai";
 import "reflect-metadata";
 import { Connection } from "../../../src/connection/Connection";
-import { CockroachDriver } from "../../../src/driver/cockroachdb/CockroachDriver";
-import { MysqlDriver } from "../../../src/driver/mysql/MysqlDriver";
-import { AbstractSqliteDriver } from "../../../src/driver/sqlite-abstract/AbstractSqliteDriver";
 import { TableColumn } from "../../../src/schema-builder/table/TableColumn";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
+import { isDriverSupported } from "../../../src/driver/Driver";
 
 describe("query runner > add column", () => {
     let connections: Connection[];
@@ -35,14 +33,17 @@ describe("query runner > add column", () => {
                 });
 
                 // CockroachDB does not support altering primary key constraint
-                if (!(connection.driver instanceof CockroachDriver))
+                if (!isDriverSupported(["cockroachdb"], connection.driver.type))
                     column1.isPrimary = true;
 
                 // MySql and Sqlite does not supports autoincrement composite primary keys.
                 if (
-                    !(connection.driver instanceof MysqlDriver) &&
-                    !(connection.driver instanceof AbstractSqliteDriver) &&
-                    !(connection.driver instanceof CockroachDriver)
+                    !isDriverSupported(["mysql"], connection.driver.type) &&
+                    !isDriverSupported(
+                        ["sqlite-abstract"],
+                        connection.driver.type
+                    ) &&
+                    !isDriverSupported(["cockroachdb"], connection.driver.type)
                 ) {
                     column1.isGenerated = true;
                     column1.generationStrategy = "increment";
@@ -65,14 +66,17 @@ describe("query runner > add column", () => {
                 column1!.isNullable.should.be.false;
 
                 // CockroachDB does not support altering primary key constraint
-                if (!(connection.driver instanceof CockroachDriver))
+                if (!isDriverSupported(["cockroachdb"], connection.driver.type))
                     column1!.isPrimary.should.be.true;
 
                 // MySql and Sqlite does not supports autoincrement composite primary keys.
                 if (
-                    !(connection.driver instanceof MysqlDriver) &&
-                    !(connection.driver instanceof AbstractSqliteDriver) &&
-                    !(connection.driver instanceof CockroachDriver)
+                    !isDriverSupported(["mysql"], connection.driver.type) &&
+                    !isDriverSupported(
+                        ["sqlite-abstract"],
+                        connection.driver.type
+                    ) &&
+                    !isDriverSupported(["cockroachdb"], connection.driver.type)
                 ) {
                     column1!.isGenerated.should.be.true;
                     column1!.generationStrategy!.should.be.equal("increment");

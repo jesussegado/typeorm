@@ -5,7 +5,7 @@ import { QueryExpressionMap } from "./QueryExpressionMap";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { UpdateResult } from "./result/UpdateResult";
 import { InsertResult } from "./result/InsertResult";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Updates entity with returning results in the entity insert and update operations.
@@ -40,18 +40,22 @@ export class ReturningResultsEntityUpdator {
                     this.queryRunner.connection.driver.isReturningSqlSupported()
                 ) {
                     if (
-                        this.queryRunner.connection.driver instanceof
-                            OracleDriver &&
+                        isDriverSupported(
+                            ["oracle"],
+                            this.queryRunner.connection.driver.type
+                        ) &&
                         Array.isArray(updateResult.raw) &&
                         this.expressionMap.extraReturningColumns.length > 0
                     ) {
                         updateResult.raw = updateResult.raw.reduce(
                             (newRaw, rawItem, rawItemIndex) => {
-                                [newRaw[
-                                    this.expressionMap.extraReturningColumns[
-                                        rawItemIndex
-                                    ].databaseName
-                                ]] = rawItem;
+                                [
+                                    newRaw[
+                                        this.expressionMap
+                                            .extraReturningColumns[rawItemIndex]
+                                            .databaseName
+                                    ],
+                                ] = rawItem;
                                 return newRaw;
                             },
                             {} as ObjectLiteral
@@ -133,17 +137,22 @@ export class ReturningResultsEntityUpdator {
 
         const generatedMaps = entities.map((entity, entityIndex) => {
             if (
-                this.queryRunner.connection.driver instanceof OracleDriver &&
+                isDriverSupported(
+                    ["oracle"],
+                    this.queryRunner.connection.driver.type
+                ) &&
                 Array.isArray(insertResult.raw) &&
                 this.expressionMap.extraReturningColumns.length > 0
             ) {
                 insertResult.raw = insertResult.raw.reduce(
                     (newRaw, rawItem, rawItemIndex) => {
-                        [newRaw[
-                            this.expressionMap.extraReturningColumns[
-                                rawItemIndex
-                            ].databaseName
-                        ]] = rawItem;
+                        [
+                            newRaw[
+                                this.expressionMap.extraReturningColumns[
+                                    rawItemIndex
+                                ].databaseName
+                            ],
+                        ] = rawItem;
                         return newRaw;
                     },
                     {} as ObjectLiteral

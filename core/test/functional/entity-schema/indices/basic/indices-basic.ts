@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { CockroachDriver } from "../../../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -10,6 +9,7 @@ import { Connection } from "../../../../../src/connection/Connection";
 import { EntityMetadata } from "../../../../../src/metadata/EntityMetadata";
 import { IndexMetadata } from "../../../../../src/metadata/IndexMetadata";
 import { PersonSchema } from "./entity/Person";
+import { isDriverSupported } from "../../../../../src/driver/Driver";
 
 describe("entity-schema > indices > basic", () => {
     let connections: Connection[];
@@ -58,7 +58,9 @@ describe("entity-schema > indices > basic", () => {
                 await queryRunner.release();
 
                 // CockroachDB stores unique indices as UNIQUE constraints
-                if (connection.driver instanceof CockroachDriver) {
+                if (
+                    isDriverSupported(["cockroachdb"], connection.driver.type)
+                ) {
                     expect(table!.uniques.length).to.be.equal(1);
                     expect(table!.uniques[0].name).to.be.equal("IDX_TEST");
                     expect(table!.uniques[0].columnNames.length).to.be.equal(2);

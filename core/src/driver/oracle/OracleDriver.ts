@@ -23,8 +23,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  * Organizes communication with Oracle RDBMS.
  */
 export class OracleDriver implements Driver {
-
-    type :DriverType = "oracle";
+    type: DriverType = "oracle";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

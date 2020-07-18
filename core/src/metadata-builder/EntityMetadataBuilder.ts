@@ -17,7 +17,7 @@ import { EntityListenerMetadata } from "../metadata/EntityListenerMetadata";
 import { UniqueMetadata } from "../metadata/UniqueMetadata";
 import { CheckMetadata } from "../metadata/CheckMetadata";
 import { ExclusionMetadata } from "../metadata/ExclusionMetadata";
-import { isDriverSupported } from '../driver/Driver';
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Builds EntityMetadata objects and all its sub-metadatas.
@@ -181,7 +181,15 @@ export class EntityMetadataBuilder {
                         }
                         if (uniqueConstraint) {
                             if (
-                                isDriverSupported(["mysql","aurora-data-api","mssql","sap"], this.connection.driver.type)
+                                isDriverSupported(
+                                    [
+                                        "mysql",
+                                        "aurora-data-api",
+                                        "mssql",
+                                        "sap",
+                                    ],
+                                    this.connection.driver.type
+                                )
                             ) {
                                 const index = new IndexMetadata({
                                     entityMetadata:
@@ -196,7 +204,10 @@ export class EntityMetadataBuilder {
                                 });
 
                                 if (
-                                    isDriverSupported(["mssql"], this.connection.driver.type)
+                                    isDriverSupported(
+                                        ["mssql"],
+                                        this.connection.driver.type
+                                    )
                                 ) {
                                     index.where = index.columns
                                         .map((column) => {
@@ -232,7 +243,11 @@ export class EntityMetadataBuilder {
                         }
 
                         if (
-                            foreignKey &&isDriverSupported(["cockroachdb"], this.connection.driver.type)
+                            foreignKey &&
+                            isDriverSupported(
+                                ["cockroachdb"],
+                                this.connection.driver.type
+                            )
                         ) {
                             const index = new IndexMetadata({
                                 entityMetadata: relation.entityMetadata,
@@ -718,7 +733,10 @@ export class EntityMetadataBuilder {
 
         // Mysql and SAP HANA stores unique constraints as unique indices.
         if (
-            isDriverSupported(["mysql", "aurora-data-api", "sap"], this.connection.driver.type)
+            isDriverSupported(
+                ["mysql", "aurora-data-api", "sap"],
+                this.connection.driver.type
+            )
         ) {
             const indices = this.metadataArgsStorage
                 .filterUniques(entityMetadata.inheritanceTree)

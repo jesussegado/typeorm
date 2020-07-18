@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { SapDriver } from "../../../../src/driver/sap/SapDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -8,10 +7,8 @@ import {
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
 import { User } from "./entity/User";
-import { SqlServerDriver } from "../../../../src/driver/sqlserver/SqlServerDriver";
 import { Photo } from "./entity/Photo";
-import { AbstractSqliteDriver } from "../../../../src/driver/sqlite-abstract/AbstractSqliteDriver";
-import { OracleDriver } from "../../../../src/driver/oracle/OracleDriver";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("query builder > insert", () => {
     let connections: Connection[];
@@ -68,8 +65,7 @@ describe("query builder > insert", () => {
             connections.map(async (connection) => {
                 // it is skipped for Oracle and SAP because it does not support bulk insertion
                 if (
-                    connection.driver instanceof OracleDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(["oracle", "sap"], connection.driver.type)
                 )
                     return;
 
@@ -102,7 +98,7 @@ describe("query builder > insert", () => {
                     .into(User)
                     .values({
                         name: () =>
-                            connection.driver instanceof SqlServerDriver
+                            isDriverSupported(["mssql"], connection.driver.type)
                                 ? "SUBSTRING('Dima Zotov', 1, 4)"
                                 : "SUBSTR('Dima Zotov', 1, 4)",
                     })
@@ -122,9 +118,10 @@ describe("query builder > insert", () => {
                 // this test is skipped for sqlite based drivers because it does not support DEFAULT values in insertions,
                 // also it is skipped for Oracle and SAP because it does not support bulk insertion
                 if (
-                    connection.driver instanceof AbstractSqliteDriver ||
-                    connection.driver instanceof OracleDriver ||
-                    connection.driver instanceof SapDriver
+                    isDriverSupported(
+                        ["sqlite-abstract", "oracle", "sap"],
+                        connection.driver.type
+                    )
                 )
                     return;
 

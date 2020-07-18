@@ -1,11 +1,8 @@
-import { CockroachDriver } from "../driver/cockroachdb/CockroachDriver";
-import { SapDriver } from "../driver/sap/SapDriver";
 import { QueryBuilder } from "./QueryBuilder";
 import { ObjectLiteral } from "../common/ObjectLiteral";
 import { ObjectType } from "../common/ObjectType";
 import { QueryDeepPartialEntity } from "./QueryPartialEntity";
 import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
-import { PostgresDriver } from "../driver/postgres/PostgresDriver";
 import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { RandomGenerator } from "../util/RandomGenerator";
 import { InsertResult } from "./result/InsertResult";
@@ -13,13 +10,11 @@ import { ReturningStatementNotSupportedError } from "../error/ReturningStatement
 import { InsertValuesMissingError } from "../error/InsertValuesMissingError";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { ReturningResultsEntityUpdator } from "./ReturningResultsEntityUpdator";
-import { AbstractSqliteDriver } from "../driver/sqlite-abstract/AbstractSqliteDriver";
 import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { EntitySchema } from "../entity-schema/EntitySchema";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
-import { isDriverSupported } from '../driver/Driver';
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -320,13 +315,19 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                 .join(", ");
         if (statement && Array.isArray(statement.overwrite)) {
             if (
-                isDriverSupported(["mysql","aurora-data-api"],this.connection.driver.type)
+                isDriverSupported(
+                    ["mysql", "aurora-data-api"],
+                    this.connection.driver.type
+                )
             ) {
                 this.expressionMap.onUpdate.overwrite = statement.overwrite
                     .map((column) => `${column} = VALUES(${column})`)
                     .join(", ");
             } else if (
-                isDriverSupported(["postgres","sqlite-abstract","cockroachdb"],this.connection.driver.type)
+                isDriverSupported(
+                    ["postgres", "sqlite-abstract", "cockroachdb"],
+                    this.connection.driver.type
+                )
             ) {
                 this.expressionMap.onUpdate.overwrite = statement.overwrite
                     .map((column) => `${column} = EXCLUDED.${column}`)
@@ -351,8 +352,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
         let query = "INSERT ";
 
         if (
-            this.connection.driver instanceof MysqlDriver ||
-            this.connection.driver instanceof AuroraDataApiDriver
+            isDriverSupported(
+                ["mysql", "aurora-data-api"],
+                this.connection.driver.type
+            )
         ) {
             query += `${this.expressionMap.onIgnore ? " IGNORE " : ""}`;
         }
@@ -364,8 +367,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
             query += `(${columnsExpression})`;
         } else if (
             !valuesExpression &&
-            (this.connection.driver instanceof MysqlDriver ||
-                this.connection.driver instanceof AuroraDataApiDriver)
+            isDriverSupported(
+                ["mysql", "aurora-data-api"],
+                this.connection.driver.type
+            )
         )
             // special syntax for mysql DEFAULT VALUES insertion
             query += "()";
@@ -373,7 +378,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
         // add OUTPUT expression
         if (
             returningExpression &&
-            this.connection.driver instanceof SqlServerDriver
+            isDriverSupported(["mssql"], this.connection.driver.type)
         ) {
             query += ` OUTPUT ${returningExpression}`;
         }
@@ -382,8 +387,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
         if (valuesExpression) {
             query += ` VALUES ${valuesExpression}`;
         } else if (
-            this.connection.driver instanceof MysqlDriver ||
-            this.connection.driver instanceof AuroraDataApiDriver
+            isDriverSupported(
+                ["mysql", "aurora-data-api"],
+                this.connection.driver.type
+            )
         ) {
             // special syntax for mysql DEFAULT VALUES insertion
             query += " VALUES ()";
@@ -391,9 +398,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
             query += ` DEFAULT VALUES`;
         }
         if (
-            this.connection.driver instanceof PostgresDriver ||
-            this.connection.driver instanceof AbstractSqliteDriver ||
-            this.connection.driver instanceof CockroachDriver
+            isDriverSupported(
+                ["postgres", "sqlite-abstract", "cockroachdb"],
+                this.connection.driver.type
+            )
         ) {
             query += `${
                 this.expressionMap.onIgnore ? " ON CONFLICT DO NOTHING " : ""
@@ -421,8 +429,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                 }`;
             }
         } else if (
-            this.connection.driver instanceof MysqlDriver ||
-            this.connection.driver instanceof AuroraDataApiDriver
+            isDriverSupported(
+                ["mysql", "aurora-data-api"],
+                this.connection.driver.type
+            )
         ) {
             if (this.expressionMap.onUpdate) {
                 const { overwrite, columns } = this.expressionMap.onUpdate;
@@ -438,9 +448,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
         // add RETURNING expression
         if (
             returningExpression &&
-            (this.connection.driver instanceof PostgresDriver ||
-                this.connection.driver instanceof OracleDriver ||
-                this.connection.driver instanceof CockroachDriver)
+            isDriverSupported(
+                ["postgres", "oracle", "cockroachdb"],
+                this.connection.driver.type
+            )
         ) {
             query += ` RETURNING ${returningExpression}`;
         }
@@ -474,10 +485,22 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                 if (
                     column.isGenerated &&
                     column.generationStrategy === "increment" &&
-                    !(this.connection.driver instanceof OracleDriver) &&
-                    !(this.connection.driver instanceof AbstractSqliteDriver) &&
-                    !(this.connection.driver instanceof MysqlDriver) &&
-                    !(this.connection.driver instanceof AuroraDataApiDriver)
+                    !isDriverSupported(
+                        ["oracle"],
+                        this.connection.driver.type
+                    ) &&
+                    !isDriverSupported(
+                        ["sqlite-abstract"],
+                        this.connection.driver.type
+                    ) &&
+                    !isDriverSupported(
+                        ["mysql"],
+                        this.connection.driver.type
+                    ) &&
+                    !isDriverSupported(
+                        ["aurora-data-api"],
+                        this.connection.driver.type
+                    )
                 )
                     return false;
 
@@ -579,9 +602,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                         // if value for this column was not provided then insert default value
                     } else if (value === undefined) {
                         if (
-                            this.connection.driver instanceof
-                                AbstractSqliteDriver ||
-                            this.connection.driver instanceof SapDriver
+                            isDriverSupported(
+                                ["sqlite-abstract", "sap"],
+                                this.connection.driver.type
+                            )
                         ) {
                             // unfortunately sqlite does not support DEFAULT expression in INSERT queries
                             if (column.default !== undefined) {
@@ -638,7 +662,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                                 )})`;
                             }
                         } else if (
-                            this.connection.driver instanceof PostgresDriver &&
+                            isDriverSupported(
+                                ["postgres"],
+                                this.connection.driver.type
+                            ) &&
                             this.connection.driver.spatialTypes.indexOf(
                                 column.type
                             ) !== -1
@@ -655,7 +682,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                                 )})::${column.type}`;
                             }
                         } else if (
-                            this.connection.driver instanceof SqlServerDriver &&
+                            isDriverSupported(
+                                ["mssql"],
+                                this.connection.driver.type
+                            ) &&
                             this.connection.driver.spatialTypes.indexOf(
                                 column.type
                             ) !== -1
@@ -712,9 +742,10 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                     // if value for this column was not provided then insert default value
                 } else if (value === undefined) {
                     if (
-                        this.connection.driver instanceof
-                            AbstractSqliteDriver ||
-                        this.connection.driver instanceof SapDriver
+                        isDriverSupported(
+                            ["sqlite-abstract", "sap"],
+                            this.connection.driver.type
+                        )
                     ) {
                         expression += "NULL";
                     } else {

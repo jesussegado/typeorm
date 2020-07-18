@@ -1046,7 +1046,10 @@ export class MongoEntityManager extends EntityManager {
             if (callback) {
                 ParentCursor.prototype.toArray.call(
                     this,
-                    async (error: MongoError, results: Entity[]): Promise<void> => {
+                    async (
+                        error: MongoError,
+                        results: Entity[]
+                    ): Promise<void> => {
                         if (error) {
                             callback(error, results);
                             return;
@@ -1099,7 +1102,10 @@ export class MongoEntityManager extends EntityManager {
             if (callback) {
                 ParentCursor.prototype.next.call(
                     this,
-                    async (error: MongoError, result: CursorResult): Promise<void> => {
+                    async (
+                        error: MongoError,
+                        result: CursorResult
+                    ): Promise<void> => {
                         if (error || !result) {
                             callback(error, result);
                             return;

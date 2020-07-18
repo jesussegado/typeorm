@@ -8,7 +8,7 @@ import { Connection } from "../connection/Connection";
 import { EntityListenerMetadata } from "./EntityListenerMetadata";
 import { IndexMetadata } from "./IndexMetadata";
 import { UniqueMetadata } from "./UniqueMetadata";
-import { isDriverSupported } from '../driver/Driver';
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Contains all information about entity's embedded property.
@@ -239,7 +239,8 @@ export class EmbeddedMetadata {
     }
 
     protected buildPrefix(connection: Connection): string {
-        if (isDriverSupported(["mongodb"], connection.driver.type)) return this.propertyName;
+        if (isDriverSupported(["mongodb"], connection.driver.type))
+            return this.propertyName;
 
         const prefixes: string[] = [];
         if (this.parentEmbeddedMetadata)

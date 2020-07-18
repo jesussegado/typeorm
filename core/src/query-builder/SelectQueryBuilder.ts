@@ -1,7 +1,5 @@
-import { SapDriver } from "../driver/sap/SapDriver";
 import { RawSqlResultsToEntityTransformer } from "./transformer/RawSqlResultsToEntityTransformer";
 import { ObjectLiteral } from "../common/ObjectLiteral";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
 import { PessimisticLockTransactionRequiredError } from "../error/PessimisticLockTransactionRequiredError";
 import { NoVersionOrUpdateDateColumnError } from "../error/NoVersionOrUpdateDateColumnError";
 import { OptimisticLockVersionMismatchError } from "../error/OptimisticLockVersionMismatchError";
@@ -17,8 +15,6 @@ import { QueryBuilder } from "./QueryBuilder";
 import { ReadStream } from "../platform/PlatformTools";
 import { LockNotSupportedOnGivenDriverError } from "../error/LockNotSupportedOnGivenDriverError";
 import { MysqlDriver } from "../driver/mysql/MysqlDriver";
-import { PostgresDriver } from "../driver/postgres/PostgresDriver";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { SelectQuery } from "./SelectQuery";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
@@ -28,7 +24,6 @@ import { ObjectType } from "../common/ObjectType";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { WhereExpression } from "./WhereExpression";
 import { Brackets } from "./Brackets";
-import { AbstractSqliteDriver } from "../driver/sqlite-abstract/AbstractSqliteDriver";
 import { QueryResultCacheOptions } from "../cache/QueryResultCacheOptions";
 import { OffsetWithoutLimitNotSupportedError } from "../error/OffsetWithoutLimitNotSupportedError";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
@@ -36,6 +31,7 @@ import { SelectQueryBuilderOption } from "./SelectQueryBuilderOption";
 import { ObjectUtils } from "../util/ObjectUtils";
 import { DriverUtils } from "../driver/DriverUtils";
 import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -1976,7 +1972,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         if (allSelects.length === 0) allSelects.push({ selection: "*" });
 
         let lock: string = "";
-        if (this.connection.driver instanceof SqlServerDriver) {
+        if (isDriverSupported(["mssql"], this.connection.driver.type)) {
             switch (this.expressionMap.lockMode) {
                 case "pessimistic_read":
                     lock = " WITH (HOLDLOCK, ROWLOCK)";
@@ -2025,10 +2021,11 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
      */
     protected createSelectDistinctExpression(): string {
         const { selectDistinct, selectDistinctOn } = this.expressionMap;
-        const { driver } = this.connection;
-
         let select = "SELECT ";
-        if (driver instanceof PostgresDriver && selectDistinctOn.length > 0) {
+        if (
+            isDriverSupported(["postgres"], this.connection.driver.type) &&
+            selectDistinctOn.length > 0
+        ) {
             const selectDistinctOnMap = selectDistinctOn
                 .map((on) => this.replacePropertyNames(on))
                 .join(", ");
@@ -2238,7 +2235,7 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
             limit = this.expressionMap.take;
         }
 
-        if (this.connection.driver instanceof SqlServerDriver) {
+        if (isDriverSupported(["mssql"], this.connection.driver.type)) {
             // Due to a limitation in SQL Server's parser implementation it does not support using
             // OFFSET or FETCH NEXT without an ORDER BY clause being provided. In cases where the
             // user does not request one we insert a dummy ORDER BY that does nothing and should
@@ -2258,18 +2255,21 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                 return `${prefix} OFFSET 0 ROWS FETCH NEXT ${limit} ROWS ONLY`;
             if (offset) return `${prefix} OFFSET ${offset} ROWS`;
         } else if (
-            this.connection.driver instanceof MysqlDriver ||
-            this.connection.driver instanceof AuroraDataApiDriver ||
-            this.connection.driver instanceof SapDriver
+            isDriverSupported(
+                ["mysql", "aurora-data-api", "sap"],
+                this.connection.driver.type
+            )
         ) {
             if (limit && offset) return ` LIMIT ${limit} OFFSET ${offset}`;
             if (limit) return ` LIMIT ${limit}`;
             if (offset) throw new OffsetWithoutLimitNotSupportedError();
-        } else if (this.connection.driver instanceof AbstractSqliteDriver) {
+        } else if (
+            isDriverSupported(["sqlite-abstract"], this.connection.driver.type)
+        ) {
             if (limit && offset) return ` LIMIT ${limit} OFFSET ${offset}`;
             if (limit) return ` LIMIT ${limit}`;
             if (offset) return ` LIMIT -1 OFFSET ${offset}`;
-        } else if (this.connection.driver instanceof OracleDriver) {
+        } else if (isDriverSupported(["oracle"], this.connection.driver.type)) {
             if (limit && offset)
                 return ` OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`;
             if (limit) return ` FETCH NEXT ${limit} ROWS ONLY`;
@@ -2291,50 +2291,56 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         switch (this.expressionMap.lockMode) {
             case "pessimistic_read":
                 if (
-                    driver instanceof MysqlDriver ||
-                    driver instanceof AuroraDataApiDriver
+                    isDriverSupported(
+                        ["mysql", "aurora-data-api"],
+                        this.connection.driver.type
+                    )
                 ) {
                     return " LOCK IN SHARE MODE";
                 }
-                if (driver instanceof PostgresDriver) {
+                if (
+                    isDriverSupported(["postgres"], this.connection.driver.type)
+                ) {
                     return " FOR SHARE";
                 }
-                if (driver instanceof OracleDriver) {
+                if (
+                    isDriverSupported(["oracle"], this.connection.driver.type)
+                ) {
                     return " FOR UPDATE";
                 }
-                if (driver instanceof SqlServerDriver) {
+                if (isDriverSupported(["mssql"], this.connection.driver.type)) {
                     return "";
                 }
                 throw new LockNotSupportedOnGivenDriverError();
 
             case "pessimistic_write":
                 if (
-                    driver instanceof MysqlDriver ||
-                    driver instanceof AuroraDataApiDriver ||
-                    driver instanceof PostgresDriver ||
-                    driver instanceof OracleDriver
+                    isDriverSupported(
+                        ["mysql", "aurora-data-api", "postgres", "oracle"],
+                        this.connection.driver.type
+                    )
                 ) {
                     return " FOR UPDATE";
                 }
-                if (driver instanceof SqlServerDriver) {
+                if (isDriverSupported(["mssql"], driver.type)) {
                     return "";
                 }
                 throw new LockNotSupportedOnGivenDriverError();
 
             case "pessimistic_partial_write":
-                if (driver instanceof PostgresDriver) {
+                if (isDriverSupported(["postgres"], driver.type)) {
                     return " FOR UPDATE SKIP LOCKED";
                 }
                 throw new LockNotSupportedOnGivenDriverError();
 
             case "pessimistic_write_or_fail":
-                if (driver instanceof PostgresDriver) {
+                if (isDriverSupported(["postgres"], driver.type)) {
                     return " FOR UPDATE NOWAIT";
                 }
                 throw new LockNotSupportedOnGivenDriverError();
 
             case "for_no_key_update":
-                if (driver instanceof PostgresDriver) {
+                if (isDriverSupported(["postgres"], driver.type)) {
                     return " FOR NO KEY UPDATE";
                 }
                 throw new LockNotSupportedOnGivenDriverError();
@@ -2432,11 +2438,13 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                     selectionPath = `${asText}(${selectionPath})`;
                 }
 
-                if (this.connection.driver instanceof PostgresDriver)
+                if (
+                    isDriverSupported(["postgres"], this.connection.driver.type)
+                )
                     // cast to JSON to trigger parsing in the driver
                     selectionPath = `ST_AsGeoJSON(${selectionPath})::json`;
 
-                if (this.connection.driver instanceof SqlServerDriver)
+                if (isDriverSupported(["mssql"], this.connection.driver.type))
                     selectionPath = `${selectionPath}.ToString()`;
             }
             return {
@@ -2481,7 +2489,12 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         const distinctAlias = this.escape(mainAlias);
         let countSql: string = "";
         if (metadata.hasMultiplePrimaryKeys) {
-            if (this.connection.driver instanceof AbstractSqliteDriver) {
+            if (
+                isDriverSupported(
+                    ["sqlite-abstract"],
+                    this.connection.driver.type
+                )
+            ) {
                 countSql = `COUNT(DISTINCT(${metadata.primaryColumns
                     .map((primaryColumn, index) => {
                         const propertyName = this.escape(

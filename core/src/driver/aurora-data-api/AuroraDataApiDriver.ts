@@ -21,7 +21,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  * Organizes communication with MySQL DBMS.
  */
 export class AuroraDataApiDriver implements Driver {
-    type :DriverType = "aurora-data-api";
+    type: DriverType = "aurora-data-api";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------

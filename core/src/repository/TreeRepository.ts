@@ -1,7 +1,7 @@
 import { Repository } from "./Repository";
 import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
 import { ObjectLiteral } from "../common/ObjectLiteral";
-import { AbstractSqliteDriver } from "../driver/sqlite-abstract/AbstractSqliteDriver";
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Repository with additional functions to work with trees.
@@ -183,8 +183,10 @@ export class TreeRepository<Entity> extends Repository<Entity> {
 
                 qb.setNativeParameters(subQuery.expressionMap.nativeParameters);
                 if (
-                    this.manager.connection.driver instanceof
-                    AbstractSqliteDriver
+                    isDriverSupported(
+                        ["sqlite-abstract"],
+                        this.manager.connection.driver.type
+                    )
                 ) {
                     return `${alias}.${
                         this.metadata.materializedPathColumn!.propertyPath
@@ -329,8 +331,10 @@ export class TreeRepository<Entity> extends Repository<Entity> {
 
                 qb.setNativeParameters(subQuery.expressionMap.nativeParameters);
                 if (
-                    this.manager.connection.driver instanceof
-                    AbstractSqliteDriver
+                    isDriverSupported(
+                        ["sqlite-abstract"],
+                        this.manager.connection.driver.type
+                    )
                 ) {
                     return `${subQuery.getQuery()} LIKE ${alias}.${
                         this.metadata.materializedPathColumn!.propertyPath

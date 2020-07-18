@@ -1,12 +1,9 @@
-import { CockroachDriver } from "../driver/cockroachdb/CockroachDriver";
-import { SapDriver } from "../driver/sap/SapDriver";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { QueryBuilder } from "./QueryBuilder";
 import { ObjectLiteral } from "../common/ObjectLiteral";
 import { Connection } from "../connection/Connection";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
-import { PostgresDriver } from "../driver/postgres/PostgresDriver";
 import { WhereExpression } from "./WhereExpression";
 import { Brackets } from "./Brackets";
 import { EntityMetadata } from "../metadata/EntityMetadata";
@@ -16,14 +13,13 @@ import { ReturningResultsEntityUpdator } from "./ReturningResultsEntityUpdator";
 import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
 import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
-import { AbstractSqliteDriver } from "../driver/sqlite-abstract/AbstractSqliteDriver";
 import { OrderByCondition } from "../find-options/OrderByCondition";
 import { LimitOnUpdateNotSupportedError } from "../error/LimitOnUpdateNotSupportedError";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { UpdateValuesMissingError } from "../error/UpdateValuesMissingError";
 import { EntityColumnNotFound } from "../error/EntityColumnNotFound";
 import { QueryDeepPartialEntity } from "./QueryPartialEntity";
 import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -124,9 +120,11 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                 parameters
             );
 
-            if (this.connection.driver instanceof PostgresDriver) {
+            if (isDriverSupported(["postgres"], this.connection.driver.type)) {
                 [updateResult.raw, updateResult.affected] = result;
-            } else if (this.connection.driver instanceof MysqlDriver) {
+            } else if (
+                isDriverSupported(["mysql"], this.connection.driver.type)
+            ) {
                 updateResult.raw = result;
                 updateResult.affected = result.affectedRows;
             } else {
@@ -464,14 +462,12 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
         const updateColumnAndValues: string[] = [];
         const updatedColumns: ColumnMetadata[] = [];
         const newParameters: ObjectLiteral = {};
-        let parametersCount =
-            this.connection.driver instanceof MysqlDriver ||
-            this.connection.driver instanceof AuroraDataApiDriver ||
-            this.connection.driver instanceof OracleDriver ||
-            this.connection.driver instanceof AbstractSqliteDriver ||
-            this.connection.driver instanceof SapDriver
-                ? 0
-                : Object.keys(this.expressionMap.nativeParameters).length;
+        let parametersCount = isDriverSupported(
+            ["mysql", "aurora-data-api", "oracle", "sqlite-abstract", "sap"],
+            this.connection.driver.type
+        )
+            ? 0
+            : Object.keys(this.expressionMap.nativeParameters).length;
         if (metadata) {
             EntityMetadata.createPropertyPath(metadata, valuesSet).forEach(
                 (propertyPath) => {
@@ -517,7 +513,10 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                                 )} = ${value()}`
                             );
                         } else if (
-                            this.connection.driver instanceof SapDriver &&
+                            isDriverSupported(
+                                ["sap"],
+                                this.connection.driver.type
+                            ) &&
                             value === null
                         ) {
                             updateColumnAndValues.push(
@@ -538,14 +537,16 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                             }
 
                             if (
-                                this.connection.driver instanceof MysqlDriver ||
-                                this.connection.driver instanceof
-                                    AuroraDataApiDriver ||
-                                this.connection.driver instanceof
-                                    OracleDriver ||
-                                this.connection.driver instanceof
-                                    AbstractSqliteDriver ||
-                                this.connection.driver instanceof SapDriver
+                                isDriverSupported(
+                                    [
+                                        "mysql",
+                                        "aurora-data-api",
+                                        "oracle",
+                                        "sqlite-abstract",
+                                        "sap",
+                                    ],
+                                    this.connection.driver.type
+                                )
                             ) {
                                 newParameters[paramName] = value;
                             } else {
@@ -581,8 +582,10 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                                     )})`;
                                 }
                             } else if (
-                                this.connection.driver instanceof
-                                    PostgresDriver &&
+                                isDriverSupported(
+                                    ["postgres"],
+                                    this.connection.driver.type
+                                ) &&
                                 this.connection.driver.spatialTypes.indexOf(
                                     column.type
                                 ) !== -1
@@ -599,8 +602,10 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                                     )})::${column.type}`;
                                 }
                             } else if (
-                                this.connection.driver instanceof
-                                    SqlServerDriver &&
+                                isDriverSupported(
+                                    ["mssql"],
+                                    this.connection.driver.type
+                                ) &&
                                 this.connection.driver.spatialTypes.indexOf(
                                     column.type
                                 ) !== -1
@@ -659,7 +664,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                         `${this.escape(key)} = ${value()}`
                     );
                 } else if (
-                    this.connection.driver instanceof SapDriver &&
+                    isDriverSupported(["sap"], this.connection.driver.type) &&
                     value === null
                 ) {
                     updateColumnAndValues.push(`${this.escape(key)} = NULL`);
@@ -669,12 +674,16 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                     //     value = new ArrayParameter(value);
 
                     if (
-                        this.connection.driver instanceof MysqlDriver ||
-                        this.connection.driver instanceof AuroraDataApiDriver ||
-                        this.connection.driver instanceof OracleDriver ||
-                        this.connection.driver instanceof
-                            AbstractSqliteDriver ||
-                        this.connection.driver instanceof SapDriver
+                        isDriverSupported(
+                            [
+                                "mysql",
+                                "aurora-data-api",
+                                "oracle",
+                                "sqlite-abstract",
+                                "sap",
+                            ],
+                            this.connection.driver.type
+                        )
                     ) {
                         newParameters[key] = value;
                     } else {
@@ -701,11 +710,16 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
         // we re-write parameters this way because we want our "UPDATE ... SET" parameters to be first in the list of "nativeParameters"
         // because some drivers like mysql depend on order of parameters
         if (
-            this.connection.driver instanceof MysqlDriver ||
-            this.connection.driver instanceof AuroraDataApiDriver ||
-            this.connection.driver instanceof OracleDriver ||
-            this.connection.driver instanceof AbstractSqliteDriver ||
-            this.connection.driver instanceof SapDriver
+            isDriverSupported(
+                [
+                    "mysql",
+                    "aurora-data-api",
+                    "oracle",
+                    "sqlite-abstract",
+                    "sap",
+                ],
+                this.connection.driver.type
+            )
         ) {
             this.expressionMap.nativeParameters = Object.assign(
                 newParameters,
@@ -720,9 +734,10 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
         // generate and return sql update query
         if (
             returningExpression &&
-            (this.connection.driver instanceof PostgresDriver ||
-                this.connection.driver instanceof OracleDriver ||
-                this.connection.driver instanceof CockroachDriver)
+            isDriverSupported(
+                ["postgres", "oracle", "cockroachdb"],
+                this.connection.driver.type
+            )
         ) {
             return `UPDATE ${this.getTableName(
                 this.getMainTableName()
@@ -732,7 +747,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
         }
         if (
             returningExpression &&
-            this.connection.driver instanceof SqlServerDriver
+            isDriverSupported(["mssql"], this.connection.driver.type)
         ) {
             return `UPDATE ${this.getTableName(
                 this.getMainTableName()
@@ -775,8 +790,10 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
 
         if (limit) {
             if (
-                this.connection.driver instanceof MysqlDriver ||
-                this.connection.driver instanceof AuroraDataApiDriver
+                isDriverSupported(
+                    ["mysql", "aurora-data-api"],
+                    this.connection.driver.type
+                )
             ) {
                 return ` LIMIT ${limit}`;
             }

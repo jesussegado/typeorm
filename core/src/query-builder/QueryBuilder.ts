@@ -15,12 +15,12 @@ import { QueryDeepPartialEntity } from "./QueryPartialEntity";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
 import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { EntitySchema } from "../";
 import { FindOperator } from "../find-options/FindOperator";
 import { In } from "../find-options/operator/In";
 import { EntityColumnNotFound } from "../error/EntityColumnNotFound";
+import { isDriverSupported } from "../driver/Driver";
 
 // todo: completely cover query builder with tests
 // todo: entityOrProperty can be target name. implement proper behaviour if it is.
@@ -816,7 +816,12 @@ export abstract class QueryBuilder<Entity> {
             let columnsExpression = columns
                 .map((column) => {
                     const name = this.escape(column.databaseName);
-                    if (driver instanceof SqlServerDriver) {
+                    if (
+                        isDriverSupported(
+                            ["mssql"],
+                            this.connection.driver.type
+                        )
+                    ) {
                         if (
                             this.expressionMap.queryType === "insert" ||
                             this.expressionMap.queryType === "update" ||
@@ -861,7 +866,7 @@ export abstract class QueryBuilder<Entity> {
                         .join(", ");
             }
 
-            if (driver instanceof SqlServerDriver) {
+            if (isDriverSupported(["mssql"], this.connection.driver.type)) {
                 if (
                     this.expressionMap.queryType === "insert" ||
                     this.expressionMap.queryType === "update"

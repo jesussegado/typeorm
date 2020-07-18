@@ -259,7 +259,10 @@ export class Connection {
         const queryRunner = this.createQueryRunner("master");
         try {
             if (
-                isDriverSupported(["mssql","mysql","aurora-data-api"], this.driver.type)
+                isDriverSupported(
+                    ["mssql", "mysql", "aurora-data-api"],
+                    this.driver.type
+                )
             ) {
                 const databases: string[] = this.driver.database
                     ? [this.driver.database]
@@ -372,7 +375,7 @@ export class Connection {
     getMongoRepository<Entity>(
         target: ObjectType<Entity> | EntitySchema<Entity> | string
     ): MongoRepository<Entity> {
-        if (!(isDriverSupported(["mongodb"], this.driver.type)))
+        if (!isDriverSupported(["mongodb"], this.driver.type))
             throw new Error(
                 `You can use getMongoRepository only for MongoDB connections.`
             );

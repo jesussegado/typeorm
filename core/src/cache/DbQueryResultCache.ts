@@ -7,7 +7,7 @@ import { QueryRunner } from "../query-runner/QueryRunner";
 import { Table } from "../schema-builder/table/Table";
 import { QueryResultCache } from "./QueryResultCache";
 import { QueryResultCacheOptions } from "./QueryResultCacheOptions";
-import { isDriverSupported } from '../driver/Driver';
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Caches query result into current database, into separate table called "query-result-cache".
@@ -145,10 +145,12 @@ export class DbQueryResultCache implements QueryResultCache {
                     )} = :identifier`
                 )
                 .setParameters({
-                    identifier:
-                    isDriverSupported(["mssql"], this.connection.driver.type)
-                            ? new MssqlParameter(options.identifier, "nvarchar")
-                            : options.identifier,
+                    identifier: isDriverSupported(
+                        ["mssql"],
+                        this.connection.driver.type
+                    )
+                        ? new MssqlParameter(options.identifier, "nvarchar")
+                        : options.identifier,
                 })
                 .getRawOne();
         }
@@ -167,10 +169,12 @@ export class DbQueryResultCache implements QueryResultCache {
             return qb
                 .where(`${qb.escape("cache")}.${qb.escape("query")} = :query`)
                 .setParameters({
-                    query:
-                    isDriverSupported(["mssql"], this.connection.driver.type)
-                            ? new MssqlParameter(options.query, "nvarchar")
-                            : options.query,
+                    query: isDriverSupported(
+                        ["mssql"],
+                        this.connection.driver.type
+                    )
+                        ? new MssqlParameter(options.query, "nvarchar")
+                        : options.query,
                 })
                 .getRawOne();
         }

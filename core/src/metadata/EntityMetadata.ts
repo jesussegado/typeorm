@@ -22,7 +22,7 @@ import { RelationMetadata } from "./RelationMetadata";
 import { TableType } from "./types/TableTypes";
 import { TreeType } from "./types/TreeTypes";
 import { UniqueMetadata } from "./UniqueMetadata";
-import { isDriverSupported } from '../driver/Driver';
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Contains all entity metadata.
@@ -975,14 +975,17 @@ export class EntityMetadata {
         let tablePath = this.tableName;
         if (
             this.schema &&
-            (isDriverSupported(["postgres","mssql","sap"], this.connection.driver.type))
+            isDriverSupported(
+                ["postgres", "mssql", "sap"],
+                this.connection.driver.type
+            )
         ) {
             tablePath = `${this.schema}.${tablePath}`;
         }
 
         if (
             this.database &&
-            !(isDriverSupported(["postgres"], this.connection.driver.type))
+            !isDriverSupported(["postgres"], this.connection.driver.type)
         ) {
             if (
                 !this.schema &&
@@ -1004,7 +1007,7 @@ export class EntityMetadata {
         if (!this.schema) return undefined;
 
         return this.database &&
-            !(isDriverSupported(["postgres"], this.connection.driver.type))
+            !isDriverSupported(["postgres"], this.connection.driver.type)
             ? `${this.database}.${this.schema}`
             : this.schema;
     }

@@ -15,7 +15,7 @@ import { NestedSetSubjectExecutor } from "./tree/NestedSetSubjectExecutor";
 import { ClosureSubjectExecutor } from "./tree/ClosureSubjectExecutor";
 import { MaterializedPathSubjectExecutor } from "./tree/MaterializedPathSubjectExecutor";
 import { OrmUtils } from "../util/OrmUtils";
-import { isDriverSupported } from '../driver/Driver';
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Executes all database operations (inserts, updated, deletes) that must be executed
@@ -369,7 +369,12 @@ export class SubjectExecutor {
                 const bulkInsertMaps: ObjectLiteral[] = [];
                 const bulkInsertSubjects: Subject[] = [];
                 const singleInsertSubjects: Subject[] = [];
-                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
+                if (
+                    isDriverSupported(
+                        ["mongodb"],
+                        this.queryRunner.connection.driver.type
+                    )
+                ) {
                     subjects.forEach((subject) => {
                         if (
                             subject.metadata.createDateColumn &&
@@ -395,7 +400,10 @@ export class SubjectExecutor {
                         bulkInsertMaps.push(subject.entity!);
                     });
                 } else if (
-                    isDriverSupported(["oracle"],this.queryRunner.connection.driver.type)
+                    isDriverSupported(
+                        ["oracle"],
+                        this.queryRunner.connection.driver.type
+                    )
                 ) {
                     subjects.forEach((subject) => {
                         singleInsertSubjects.push(subject);
@@ -409,7 +417,10 @@ export class SubjectExecutor {
                         if (
                             subject.changeMaps.length === 0 ||
                             subject.metadata.treeType ||
-                            isDriverSupported(["oracle","sap"],this.queryRunner.connection.driver.type)
+                            isDriverSupported(
+                                ["oracle", "sap"],
+                                this.queryRunner.connection.driver.type
+                            )
                         ) {
                             singleInsertSubjects.push(subject);
                         } else {
@@ -488,10 +499,12 @@ export class SubjectExecutor {
                                     .callListeners(false)
                                     .execute()
                                     .then((insertResult) => {
-                                        [subject.identifier] =
-                                            insertResult.identifiers;
-                                        [subject.generatedMap] =
-                                            insertResult.generatedMaps;
+                                        [
+                                            subject.identifier,
+                                        ] = insertResult.identifiers;
+                                        [
+                                            subject.generatedMap,
+                                        ] = insertResult.generatedMaps;
                                     });
 
                                 // for tree tables we execute additional queries

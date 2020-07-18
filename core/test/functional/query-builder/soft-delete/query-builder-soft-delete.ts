@@ -7,12 +7,12 @@ import {
 } from "../../../utils/test-utils";
 import { Connection } from "../../../../src/connection/Connection";
 import { User } from "./entity/User";
-import { MysqlDriver } from "../../../../src/driver/mysql/MysqlDriver";
 import { LimitOnUpdateNotSupportedError } from "../../../../src/error/LimitOnUpdateNotSupportedError";
 import { Not, IsNull } from "../../../../src";
 import { MissingDeleteDateColumnError } from "../../../../src/error/MissingDeleteDateColumnError";
 import { UserWithoutDeleteDateColumn } from "./entity/UserWithoutDeleteDateColumn";
 import { Photo } from "./entity/Photo";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("query builder > soft-delete", () => {
     let connections: Connection[];
@@ -156,7 +156,7 @@ describe("query builder > soft-delete", () => {
 
                 const limitNum = 2;
 
-                if (connection.driver instanceof MysqlDriver) {
+                if (isDriverSupported(["mysql"], connection.driver.type)) {
                     await connection
                         .createQueryBuilder()
                         .softDelete()
@@ -200,7 +200,7 @@ describe("query builder > soft-delete", () => {
 
                 const limitNum = 2;
 
-                if (connection.driver instanceof MysqlDriver) {
+                if (isDriverSupported(["mysql"], connection.driver.type)) {
                     await connection
                         .createQueryBuilder()
                         .softDelete()

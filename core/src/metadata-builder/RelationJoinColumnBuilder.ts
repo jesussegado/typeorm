@@ -4,7 +4,7 @@ import { ForeignKeyMetadata } from "../metadata/ForeignKeyMetadata";
 import { RelationMetadata } from "../metadata/RelationMetadata";
 import { JoinColumnMetadataArgs } from "../metadata-args/JoinColumnMetadataArgs";
 import { Connection } from "../connection/Connection";
-import { isDriverSupported } from '../driver/Driver';
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Builds join column for the many-to-one and one-to-one owner relations.
@@ -82,8 +82,7 @@ export class RelationJoinColumnBuilder {
 
         // Oracle does not allow both primary and unique constraints on the same column
         if (
-            isDriverSupported(["oracle"],this.connection.driver.type)
-            &&
+            isDriverSupported(["oracle"], this.connection.driver.type) &&
             columns.every((column) => column.isPrimary)
         )
             return { foreignKey, uniqueConstraint: undefined };
@@ -189,8 +188,10 @@ export class RelationJoinColumnBuilder {
                             type: referencedColumn.type,
                             length:
                                 !referencedColumn.length &&
-                                (isDriverSupported(["mysql","aurora-data-api"],this.connection.driver.type)
-                                    ) &&
+                                isDriverSupported(
+                                    ["mysql", "aurora-data-api"],
+                                    this.connection.driver.type
+                                ) &&
                                 (referencedColumn.generationStrategy ===
                                     "uuid" ||
                                     referencedColumn.type === "uuid")

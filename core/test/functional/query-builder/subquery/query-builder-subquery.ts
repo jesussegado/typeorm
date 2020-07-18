@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import { CockroachDriver } from "../../../../src/driver/cockroachdb/CockroachDriver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,6 +8,7 @@ import { Connection } from "../../../../src/connection/Connection";
 import { User } from "./entity/User";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
+import { isDriverSupported } from "../../../../src/driver/Driver";
 
 describe("query builder > sub-query", () => {
     // -------------------------------------------------------------------------
@@ -352,7 +352,9 @@ describe("query builder > sub-query", () => {
                     .getRawMany();
 
                 // CockroachDB returns numeric data types as string
-                if (connection.driver instanceof CockroachDriver) {
+                if (
+                    isDriverSupported(["cockroachdb"], connection.driver.type)
+                ) {
                     posts.should.be.eql([
                         { id: "1", name: "Alex Messer" },
                         { id: "2", name: "Alex Messer" },
@@ -388,7 +390,9 @@ describe("query builder > sub-query", () => {
                     .getRawMany();
 
                 // CockroachDB returns numeric data types as string
-                if (connection.driver instanceof CockroachDriver) {
+                if (
+                    isDriverSupported(["cockroachdb"], connection.driver.type)
+                ) {
                     posts.should.be.eql([
                         { id: "1", name: "Alex Messer" },
                         { id: "2", name: "Alex Messer" },

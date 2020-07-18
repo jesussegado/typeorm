@@ -24,8 +24,7 @@ import { SapQueryRunner } from "./SapQueryRunner";
  * todo: looks like there is no built in support for connection pooling, we need to figure out something
  */
 export class SapDriver implements Driver {
-
-    type :DriverType = "sap";
+    type: DriverType = "sap";
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
