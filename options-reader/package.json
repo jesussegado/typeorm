@@ -2,13 +2,14 @@
   "name": "typeorm-options-reader",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./build/compiled/src/index.js",
   "scripts": {
-    "compile": "rimraf ./build/compiled/* && tsc && cp ./package.json build/compiled/src ",
+    "clean":"rimraf ./build/compiled/* ",
+    "compile": "tsc",
     "watch": "./node_modules/.bin/tsc -w",
     "lint": "eslint {src,test}/**/*.ts",
     "prettier": "prettier --write {src,test}/**/*.ts",
-    "test": "rimraf ./build/compiled/* && tsc && mocha --file ./build/compiled/test/utils/test-setup.js --bail --recursive --timeout 60000 ./build/compiled/test"
+    "test": "mocha --file ./build/compiled/test/utils/test-setup.js --bail --recursive --timeout 60000 ./build/compiled/test"
   },
   "keywords": [],
   "author": "",
@@ -17,14 +18,15 @@
     "app-root-path": "^3.0.0",
     "dotenv": "^8.2.0",
     "js-yaml": "^3.14.0",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.4.23",
+    "typeorm-core":"*"
   },
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",
     "@types/chai": "^4.2.11",
     "@types/js-yaml": "^3.12.5",
     "@types/mocha": "^8.0.0",
-    "@types/node": "14.0.4",
+    "@types/node": "14.0.23",
     "@types/source-map-support": "^0.5.2",
     "@types/xml2js": "^0.4.5",
     "@types/yargs": "^15.0.5",
@@ -43,6 +45,7 @@
     "rimraf": "^3.0.2",
     "sinon-chai": "^3.5.0",
     "source-map-support": "^0.5.19",
-    "typescript": "^3.6.5"
+    "typescript": "^3.6.5",
+    "nyc":"*"
   }
 }

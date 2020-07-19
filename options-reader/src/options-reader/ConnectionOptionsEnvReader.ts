@@ -1,5 +1,5 @@
 import { ConnectionOptions } from "typeorm-core";
-import { OrmUtils } from "typeorm-core/util/OrmUtils";
+import { OrmUtils } from "typeorm-core/build/compiled/src/util/OrmUtils";
 import { getEnvVariable } from "..";
 
 /**

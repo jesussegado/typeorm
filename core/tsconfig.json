@@ -19,11 +19,13 @@
         "pretty": true,
         "strictNullChecks": true,
         "noUnusedLocals": true,
+        "composite": true
     },
     "exclude": [
         "tmp",
         "temp",
         "build",
         "node_modules"
-    ]
+    ],
+
 }

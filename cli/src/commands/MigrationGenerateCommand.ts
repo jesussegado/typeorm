@@ -1,11 +1,8 @@
 import * as yargs from "yargs";
-import {
-    Connection,
-    createConnection,
-} from "typeorm-core";
-import { camelCase } from "typeorm-core/util/StringUtils";
-import { ConnectionOptionsReader } from 'typeorm-options-reader';
-import { isDriverSupported } from 'typeorm-core/driver/Driver';
+import { Connection, createConnection } from "typeorm-core";
+import { camelCase } from "typeorm-core/build/compiled/src/util/StringUtils";
+import { ConnectionOptionsReader } from "typeorm-options-reader";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import { CommandUtils } from "./CommandUtils";
 
 const chalk = require("chalk");
@@ -97,7 +94,10 @@ export class MigrationGenerateCommand implements yargs.CommandModule {
             // mysql is exceptional here because it uses ` character in to escape names in queries, that's why for mysql
             // we are using simple quoted string instead of template string syntax
             if (
-                isDriverSupported(["mysql","aurora-data-api"],connection.driver.type)
+                isDriverSupported(
+                    ["mysql", "aurora-data-api"],
+                    connection.driver.type
+                )
             ) {
                 sqlInMemory.upQueries.forEach((upQuery) => {
                     upSqls.push(

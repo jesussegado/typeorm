@@ -4,12 +4,11 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "lint": "cd options-reader && npm run lint && cd ../cli && npm run lint && cd ../core && npm run lint",
-    "test": "cd options-reader && npx nyc npm test && cd .. && cd core && npx nyc npm test && cd ..",
-    "compile": "cd core && npm run compile && npm run package && cd ../options-reader && npm run compile && cd ../cli && npm run compile",
-    "package": "cd core && npm run package",
-    "install": "cd options-reader && npm install && cd ../cli && npm install && cd ../core && npm install",
-    "link": "cd core && npm i && npm run package && cd build/package && npm link && cd ../../.. && cd options-reader && npm i && npm link typeorm-core && npm run compile && cd build/compiled/src/ && npm link && cd ../../../../cli && npm link typeorm-core"
+    "lint": "yarn workspaces run lint",
+    "test": "yarn workspaces run test",
+    "compile": "yarn workspaces run compile",
+    "clean": "yarn workspaces run clean",
+    "prettier": "yarn workspaces run prettier"
   },
   "repository": {
     "type": "git",
@@ -21,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/Kononnable/typeorm/issues"
   },
-  "homepage": "https://github.com/Kononnable/typeorm#readme"
+  "homepage": "https://github.com/Kononnable/typeorm#readme",
+  "workspaces": [
+    "core",
+    "options-reader",
+    "cli"
+  ],
+  "dependencies": {
+    "typescript": "^3.6.5"
+  }
 }

@@ -1,6 +1,6 @@
 import * as yargs from "yargs";
-import { camelCase } from "typeorm-core/util/StringUtils";
-import { ConnectionOptionsReader } from 'typeorm-options-reader';
+import { camelCase } from "typeorm-core/build/compiled/src/util/StringUtils";
+import { ConnectionOptionsReader } from "typeorm-options-reader";
 import { CommandUtils } from "./CommandUtils";
 
 const chalk = require("chalk");

@@ -1,9 +1,6 @@
 import * as yargs from "yargs";
-import {ConnectionOptionsReader} from "typeorm-options-reader"
-import {
-    createConnection,
-    Connection,
-} from "typeorm-core";
+import { ConnectionOptionsReader } from "typeorm-options-reader";
+import { createConnection, Connection } from "typeorm-core";
 
 const chalk = require("chalk");
 

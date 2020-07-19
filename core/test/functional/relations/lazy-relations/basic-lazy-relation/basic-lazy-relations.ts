@@ -15,7 +15,7 @@ import { EntitySchema } from "../../../../../src";
  */
 describe("basic-lazy-relations", () => {
     const appRoot = require("app-root-path");
-    const resourceDir = `${appRoot}/test/functional/relations/lazy-relations/basic-lazy-relation/`;
+    const resourceDir = `${appRoot}/core/test/functional/relations/lazy-relations/basic-lazy-relation/`;
     const userSchema = new EntitySchema<any>(
         require(`${resourceDir}schema/user.json`)
     );

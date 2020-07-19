@@ -178,7 +178,11 @@ export function setupSingleTestingConnection(
 export function getTypeOrmConfig(): TestingConnectionOptions[] {
     try {
         try {
-            return require(`${__dirname}/../../../../ormconfig.json`);
+            try {
+                return require(`${__dirname}/../../../../../ormconfig.json`);
+            } catch (err) {
+                return require(`${__dirname}/../../../ormconfig.json`);
+            }
         } catch (err) {
             return require(`${__dirname}/../../ormconfig.json`);
         }
