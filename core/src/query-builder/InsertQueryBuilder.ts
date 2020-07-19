@@ -2,19 +2,15 @@ import { QueryBuilder } from "./QueryBuilder";
 import { ObjectLiteral } from "../common/ObjectLiteral";
 import { ObjectType } from "../common/ObjectType";
 import { QueryDeepPartialEntity } from "./QueryPartialEntity";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
-import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { RandomGenerator } from "../util/RandomGenerator";
 import { InsertResult } from "./result/InsertResult";
 import { ReturningStatementNotSupportedError } from "../error/ReturningStatementNotSupportedError";
 import { InsertValuesMissingError } from "../error/InsertValuesMissingError";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { ReturningResultsEntityUpdator } from "./ReturningResultsEntityUpdator";
-import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { EntitySchema } from "../entity-schema/EntitySchema";
-import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
-import { isDriverSupported } from "../driver/Driver";
+import { isDriverSupported, isMssql, isSqljs, isMysql, isAuroraDataApi } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -90,7 +86,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
 
                 if (
                     this.expressionMap.extraReturningColumns.length > 0 &&
-                    this.connection.driver instanceof SqlServerDriver
+                    isMssql(this.connection.driver)
                 ) {
                     declareSql = this.connection.driver.buildTableVariableDeclaration(
                         "@OutputTable",
@@ -172,7 +168,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                 await queryRunner.release();
             }
             if (
-                this.connection.driver instanceof SqljsDriver &&
+                isSqljs(this.connection.driver) &&
                 !queryRunner.isTransactionActive
             ) {
                 await this.connection.driver.autoSave();
@@ -626,7 +622,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
 
                         // just any other regular value
                     } else {
-                        if (this.connection.driver instanceof SqlServerDriver)
+                        if (isMssql(this.connection.driver))
                             value = this.connection.driver.parametrizeValue(
                                 column,
                                 value
@@ -638,9 +634,8 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
 
                         this.expressionMap.nativeParameters[paramName] = value;
                         if (
-                            (this.connection.driver instanceof MysqlDriver ||
-                                this.connection.driver instanceof
-                                    AuroraDataApiDriver) &&
+                            (isMysql(this.connection.driver) ||
+                                isAuroraDataApi(this.connection.driver)) &&
                             this.connection.driver.spatialTypes.indexOf(
                                 column.type
                             ) !== -1

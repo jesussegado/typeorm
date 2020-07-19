@@ -3,23 +3,19 @@ import { QueryBuilder } from "./QueryBuilder";
 import { ObjectLiteral } from "../common/ObjectLiteral";
 import { Connection } from "../connection/Connection";
 import { QueryRunner } from "../query-runner/QueryRunner";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
 import { WhereExpression } from "./WhereExpression";
 import { Brackets } from "./Brackets";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { UpdateResult } from "./result/UpdateResult";
 import { ReturningStatementNotSupportedError } from "../error/ReturningStatementNotSupportedError";
 import { ReturningResultsEntityUpdator } from "./ReturningResultsEntityUpdator";
-import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
-import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { OrderByCondition } from "../find-options/OrderByCondition";
 import { LimitOnUpdateNotSupportedError } from "../error/LimitOnUpdateNotSupportedError";
 import { UpdateValuesMissingError } from "../error/UpdateValuesMissingError";
 import { EntityColumnNotFound } from "../error/EntityColumnNotFound";
 import { QueryDeepPartialEntity } from "./QueryPartialEntity";
-import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
-import { isDriverSupported } from "../driver/Driver";
+import { isDriverSupported, isMssql, isSqljs, isMysql, isAuroraDataApi } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -101,7 +97,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
 
                 if (
                     this.expressionMap.extraReturningColumns.length > 0 &&
-                    this.connection.driver instanceof SqlServerDriver
+                   isMssql(this.connection.driver)
                 ) {
                     declareSql = this.connection.driver.buildTableVariableDeclaration(
                         "@OutputTable",
@@ -180,7 +176,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                 await queryRunner.release();
             }
             if (
-                this.connection.driver instanceof SqljsDriver &&
+               isSqljs(this.connection.driver) &&
                 !queryRunner.isTransactionActive
             ) {
                 await this.connection.driver.autoSave();
@@ -524,8 +520,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                             );
                         } else {
                             if (
-                                this.connection.driver instanceof
-                                SqlServerDriver
+                              isMssql(this.connection.driver)
                             ) {
                                 value = this.connection.driver.parametrizeValue(
                                     column,
@@ -557,10 +552,8 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
 
                             let expression = null;
                             if (
-                                (this.connection.driver instanceof
-                                    MysqlDriver ||
-                                    this.connection.driver instanceof
-                                        AuroraDataApiDriver) &&
+                                (isMysql(this.connection.driver)||
+                                    isAuroraDataApi(this.connection.driver)) &&
                                 this.connection.driver.spatialTypes.indexOf(
                                     column.type
                                 ) !== -1

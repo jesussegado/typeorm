@@ -14,7 +14,6 @@ import { RelationCountMetadataToAttributeTransformer } from "./relation-count/Re
 import { QueryBuilder } from "./QueryBuilder";
 import { ReadStream } from "../platform/PlatformTools";
 import { LockNotSupportedOnGivenDriverError } from "../error/LockNotSupportedOnGivenDriverError";
-import { MysqlDriver } from "../driver/mysql/MysqlDriver";
 import { SelectQuery } from "./SelectQuery";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
@@ -30,8 +29,7 @@ import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { SelectQueryBuilderOption } from "./SelectQueryBuilderOption";
 import { ObjectUtils } from "../util/ObjectUtils";
 import { DriverUtils } from "../driver/DriverUtils";
-import { AuroraDataApiDriver } from "../driver/aurora-data-api/AuroraDataApiDriver";
-import { isDriverSupported } from "../driver/Driver";
+import { isDriverSupported, isMysql, isAuroraDataApi } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -2429,8 +2427,8 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                 this.connection.driver.spatialTypes.indexOf(column.type) !== -1
             ) {
                 if (
-                    this.connection.driver instanceof MysqlDriver ||
-                    this.connection.driver instanceof AuroraDataApiDriver
+                   isMysql(this.connection.driver) ||
+                   isAuroraDataApi(this.connection.driver)
                 ) {
                     const useLegacy = this.connection.driver.options
                         .legacySpatialSupport;

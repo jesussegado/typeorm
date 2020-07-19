@@ -8,14 +8,13 @@ import { Brackets } from "./Brackets";
 import { UpdateResult } from "./result/UpdateResult";
 import { ReturningStatementNotSupportedError } from "../error/ReturningStatementNotSupportedError";
 import { ReturningResultsEntityUpdator } from "./ReturningResultsEntityUpdator";
-import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { OrderByCondition } from "../find-options/OrderByCondition";
 import { LimitOnUpdateNotSupportedError } from "../error/LimitOnUpdateNotSupportedError";
 import { MissingDeleteDateColumnError } from "../error/MissingDeleteDateColumnError";
 import { UpdateValuesMissingError } from "../error/UpdateValuesMissingError";
 import { EntitySchema } from "../entity-schema/EntitySchema";
-import { isDriverSupported } from "../driver/Driver";
+import { isDriverSupported, isSqljs } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -153,7 +152,7 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
                 await queryRunner.release();
             }
             if (
-                this.connection.driver instanceof SqljsDriver &&
+               isSqljs(this.connection.driver) &&
                 !queryRunner.isTransactionActive
             ) {
                 await this.connection.driver.autoSave();

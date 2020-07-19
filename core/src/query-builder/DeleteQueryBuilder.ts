@@ -9,8 +9,7 @@ import { DeleteResult } from "./result/DeleteResult";
 import { ReturningStatementNotSupportedError } from "../error/ReturningStatementNotSupportedError";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { EntitySchema } from "../index";
-import { isDriverSupported } from "../driver/Driver";
-import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
+import { isDriverSupported, isSqljs } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -134,7 +133,7 @@ export class DeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
                 await queryRunner.release();
             }
             if (
-                this.connection.driver instanceof SqljsDriver &&
+                isSqljs(this.connection.driver) &&
                 !queryRunner.isTransactionActive
             ) {
                 await this.connection.driver.autoSave();

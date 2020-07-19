@@ -1,7 +1,5 @@
 import { Connection } from "../../src/connection/Connection";
 import { ConnectionOptions } from "../../src/connection/ConnectionOptions";
-import { PostgresDriver } from "../../src/driver/postgres/PostgresDriver";
-import { SqlServerDriver } from "../../src/driver/sqlserver/SqlServerDriver";
 import { DatabaseType } from "../../src/driver/types/DatabaseType";
 import { EntitySchema } from "../../src/entity-schema/EntitySchema";
 import { createConnections } from "../../src/index";
@@ -9,6 +7,7 @@ import { NamingStrategyInterface } from "../../src/naming-strategy/NamingStrateg
 import { PromiseUtils } from "../../src/util/PromiseUtils";
 import { QueryResultCache } from "../../src/cache/QueryResultCache";
 import { Logger } from "../../src/logger/Logger";
+import { isPostgres, isMssql } from '../../src/driver/Driver';
 
 /**
  * Interface in which data is stored in ormconfig.json of the project.
@@ -301,8 +300,8 @@ export async function createTestingConnections(
 
             // create new schemas
             if (
-                connection.driver instanceof PostgresDriver ||
-                connection.driver instanceof SqlServerDriver
+               isPostgres(connection.driver) ||
+               isMssql(connection.driver)
             ) {
                 const schemaPaths: string[] = [];
                 connection.entityMetadatas

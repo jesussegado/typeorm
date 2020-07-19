@@ -14,13 +14,11 @@ import { Brackets } from "./Brackets";
 import { QueryDeepPartialEntity } from "./QueryPartialEntity";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
-import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
-import { OracleDriver } from "../driver/oracle/OracleDriver";
 import { EntitySchema } from "../";
 import { FindOperator } from "../find-options/FindOperator";
 import { In } from "../find-options/operator/In";
 import { EntityColumnNotFound } from "../error/EntityColumnNotFound";
-import { isDriverSupported } from "../driver/Driver";
+import { isDriverSupported, isSqljs, isOracle } from "../driver/Driver";
 
 // todo: completely cover query builder with tests
 // todo: entityOrProperty can be target name. implement proper behaviour if it is.
@@ -500,7 +498,7 @@ export abstract class QueryBuilder<Entity> {
                 // means we created our own query runner
                 await queryRunner.release();
             }
-            if (this.connection.driver instanceof SqljsDriver) {
+            if (isSqljs(this.connection.driver)) {
                 await this.connection.driver.autoSave();
             }
         }
@@ -842,7 +840,7 @@ export abstract class QueryBuilder<Entity> {
                 })
                 .join(", ");
 
-            if (driver instanceof OracleDriver) {
+            if ( isOracle(driver)) {
                 columnsExpression +=
                     " INTO " +
                     columns
