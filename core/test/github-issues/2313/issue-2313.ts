@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { PromiseUtils } from "typeorm-base";
 import { Connection } from "../../../src/connection/Connection";
-import { PromiseUtils } from "../../../src/util/PromiseUtils";
 import {
     closeTestingConnections,
     createTestingConnections,

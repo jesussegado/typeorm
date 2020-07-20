@@ -1,8 +1,7 @@
+import { ObjectLiteral, DeepPartial } from "typeorm-base";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { FindManyOptions } from "../find-options/FindManyOptions";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { FindOneOptions } from "../find-options/FindOneOptions";
-import { DeepPartial } from "../common/DeepPartial";
 import { SaveOptions } from "./SaveOptions";
 import { RemoveOptions } from "./RemoveOptions";
 import { EntityManager } from "../entity-manager/EntityManager";

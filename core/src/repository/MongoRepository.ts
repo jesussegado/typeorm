@@ -1,4 +1,4 @@
-import { ObjectLiteral } from "../common/ObjectLiteral";
+import { ObjectLiteral } from "typeorm-base";
 import { Repository } from "./Repository";
 import { FindManyOptions } from "../find-options/FindManyOptions";
 import { FindOneOptions } from "../find-options/FindOneOptions";

@@ -1,5 +1,5 @@
+import { ObjectLiteral, OrmUtils, VersionUtils } from "typeorm-base";
 import { QueryRunner } from "../../query-runner/QueryRunner";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
 import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
@@ -11,7 +11,7 @@ import { View } from "../../schema-builder/view/View";
 import { Query } from "../Query";
 import { MysqlDriver } from "./MysqlDriver";
 import { ReadStream } from "../../platform/PlatformTools";
-import { OrmUtils } from "../../util/OrmUtils";
+
 import { QueryFailedError } from "../../error/QueryFailedError";
 import { TableIndexOptions } from "../../schema-builder/options/TableIndexOptions";
 import { TableUnique } from "../../schema-builder/table/TableUnique";
@@ -21,7 +21,6 @@ import { ColumnType, PromiseUtils } from "../../index";
 import { TableCheck } from "../../schema-builder/table/TableCheck";
 import { IsolationLevel } from "../types/IsolationLevel";
 import { TableExclusion } from "../../schema-builder/table/TableExclusion";
-import { VersionUtils } from "../../util/VersionUtils";
 
 /**
  * Runs queries on a single mysql database connection.

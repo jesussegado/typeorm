@@ -1,4 +1,4 @@
-import { ObjectLiteral } from "../../common/ObjectLiteral";
+import { ObjectLiteral } from "typeorm-base";
 import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
 import { QueryFailedError } from "../../error/QueryFailedError";
 import { AbstractSqliteQueryRunner } from "../sqlite-abstract/AbstractSqliteQueryRunner";

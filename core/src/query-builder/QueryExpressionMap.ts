@@ -1,5 +1,5 @@
+import { ObjectLiteral } from "typeorm-base";
 import { Alias } from "./Alias";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { OrderByCondition } from "../find-options/OrderByCondition";
 import { JoinAttribute } from "./JoinAttribute";
 import { RelationIdAttribute } from "./relation-id/RelationIdAttribute";

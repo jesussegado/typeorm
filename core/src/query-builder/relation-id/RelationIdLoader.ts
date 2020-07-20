@@ -1,7 +1,7 @@
+import { ObjectLiteral } from "typeorm-base";
 import { RelationIdAttribute } from "./RelationIdAttribute";
 import { Connection } from "../../connection/Connection";
 import { RelationIdLoadResult } from "./RelationIdLoadResult";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { DriverUtils } from "../../driver/DriverUtils";
 

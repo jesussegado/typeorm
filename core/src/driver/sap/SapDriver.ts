@@ -1,3 +1,4 @@
+import { DateUtils, OrmUtils } from "typeorm-base";
 import {
     ColumnType,
     Connection,
@@ -10,8 +11,7 @@ import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { PlatformTools } from "../../platform/PlatformTools";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
-import { DateUtils } from "../../util/DateUtils";
-import { OrmUtils } from "../../util/OrmUtils";
+
 import { Driver, DriverType } from "../Driver";
 import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
@@ -440,7 +440,7 @@ export class SapDriver implements Driver {
         } else if (columnMetadata.type === "simple-json") {
             value = DateUtils.stringToSimpleJson(value);
         } else if (columnMetadata.type === "simple-enum") {
-            value = DateUtils.stringToSimpleEnum(value, columnMetadata);
+            value = DateUtils.stringToSimpleEnum(value, columnMetadata.enum);
         }
 
         if (columnMetadata.transformer)

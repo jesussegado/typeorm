@@ -1,5 +1,5 @@
+import { ObjectLiteral } from "typeorm-base";
 import { Subject } from "../Subject";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 
 /**
  * Finds all cascade operations of the given subject and cascade operations of the found cascaded subjects,

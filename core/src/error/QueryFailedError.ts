@@ -1,4 +1,4 @@
-import { ObjectUtils } from "../util/ObjectUtils";
+import { ObjectUtils } from "typeorm-base";
 
 /**
  * Thrown when query execution has failed.

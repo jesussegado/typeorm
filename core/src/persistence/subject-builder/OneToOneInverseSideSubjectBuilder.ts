@@ -1,6 +1,6 @@
+import { OrmUtils, ObjectLiteral } from "typeorm-base";
+
 import { Subject } from "../Subject";
-import { OrmUtils } from "../../util/OrmUtils";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { RelationMetadata } from "../../metadata/RelationMetadata";
 
 /**

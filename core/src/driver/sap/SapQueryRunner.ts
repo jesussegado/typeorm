@@ -1,4 +1,4 @@
-import { ObjectLiteral } from "../../common/ObjectLiteral";
+import { ObjectLiteral, OrmUtils } from "typeorm-base";
 import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
 import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
@@ -16,7 +16,7 @@ import { TableIndex } from "../../schema-builder/table/TableIndex";
 import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { View } from "../../schema-builder/view/View";
 import { Broadcaster } from "../../subscriber/Broadcaster";
-import { OrmUtils } from "../../util/OrmUtils";
+
 import { Query } from "../Query";
 import { IsolationLevel } from "../types/IsolationLevel";
 import { SapDriver } from "./SapDriver";

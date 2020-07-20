@@ -1,4 +1,4 @@
-import { ObjectLiteral } from "../common/ObjectLiteral";
+import { ObjectLiteral, OrmUtils, PromiseUtils } from "typeorm-base";
 import { SaveOptions } from "../repository/SaveOptions";
 import { RemoveOptions } from "../repository/RemoveOptions";
 import { MustBeEntityError } from "../error/MustBeEntityError";
@@ -12,8 +12,6 @@ import { OneToOneInverseSideSubjectBuilder } from "./subject-builder/OneToOneInv
 import { ManyToManySubjectBuilder } from "./subject-builder/ManyToManySubjectBuilder";
 import { SubjectDatabaseEntityLoader } from "./SubjectDatabaseEntityLoader";
 import { CascadesSubjectBuilder } from "./subject-builder/CascadesSubjectBuilder";
-import { OrmUtils } from "../util/OrmUtils";
-import { PromiseUtils } from "../util/PromiseUtils";
 
 /**
  * Persists a single entity or multiple entities - saves or removes them.

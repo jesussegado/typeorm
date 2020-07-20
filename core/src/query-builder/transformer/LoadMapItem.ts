@@ -1,4 +1,4 @@
-import { ObjectLiteral } from "../../common/ObjectLiteral";
+import { ObjectLiteral } from "typeorm-base";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { RelationMetadata } from "../../metadata/RelationMetadata";
 /**

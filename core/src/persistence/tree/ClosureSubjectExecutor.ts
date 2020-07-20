@@ -1,6 +1,6 @@
+import { ObjectLiteral } from "typeorm-base";
 import { Subject } from "../Subject";
 import { QueryRunner } from "../../query-runner/QueryRunner";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { CannotAttachTreeChildrenEntityError } from "../../error/CannotAttachTreeChildrenEntityError";
 
 /**

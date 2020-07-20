@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { PromiseUtils } from "typeorm-base";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -8,7 +9,6 @@ import {
 import { Connection } from "../../../src/connection/Connection";
 import { Parent } from "./entity/Parent";
 import { Child } from "./entity/Child";
-import { PromiseUtils } from "../../../src/util/PromiseUtils";
 
 describe("github issues > #1055 ind with relations not working, correct syntax causes type error", () => {
     let connections: Connection[];

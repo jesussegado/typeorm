@@ -1,18 +1,17 @@
 /*!
  */
 import "reflect-metadata";
+import { PromiseUtils, ObjectType } from "typeorm-base";
 import { ConnectionManager } from "./connection/ConnectionManager";
 import { Connection } from "./connection/Connection";
 import { MetadataArgsStorage } from "./metadata-args/MetadataArgsStorage";
 import { ConnectionOptions } from "./connection/ConnectionOptions";
 import { getFromContainer } from "./container";
-import { ObjectType } from "./common/ObjectType";
 import { Repository } from "./repository/Repository";
 import { EntityManager } from "./entity-manager/EntityManager";
 import { PlatformTools } from "./platform/PlatformTools";
 import { TreeRepository } from "./repository/TreeRepository";
 import { MongoRepository } from "./repository/MongoRepository";
-import { PromiseUtils } from "./util/PromiseUtils";
 import { MongoEntityManager } from "./entity-manager/MongoEntityManager";
 import { SqljsEntityManager } from "./entity-manager/SqljsEntityManager";
 import { SelectQueryBuilder } from "./query-builder/SelectQueryBuilder";
@@ -23,9 +22,12 @@ import { EntitySchema } from "./entity-schema/EntitySchema";
 // -------------------------------------------------------------------------
 
 export * from "./container";
-export * from "./common/ObjectType";
-export * from "./common/ObjectLiteral";
-export * from "./common/DeepPartial";
+export {
+    PromiseUtils,
+    DeepPartial,
+    ObjectLiteral,
+    ObjectType,
+} from "typeorm-base";
 export * from "./error/QueryFailedError";
 export * from "./decorator/columns/Column";
 export * from "./decorator/columns/CreateDateColumn";
@@ -158,7 +160,6 @@ export { EntitySchemaColumnOptions } from "./entity-schema/EntitySchemaColumnOpt
 export { EntitySchemaIndexOptions } from "./entity-schema/EntitySchemaIndexOptions";
 export { EntitySchemaRelationOptions } from "./entity-schema/EntitySchemaRelationOptions";
 export { ColumnType } from "./driver/types/ColumnTypes";
-export { PromiseUtils } from "./util/PromiseUtils";
 
 // -------------------------------------------------------------------------
 // Deprecated

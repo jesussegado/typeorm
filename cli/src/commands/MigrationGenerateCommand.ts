@@ -1,6 +1,6 @@
 import * as yargs from "yargs";
 import { Connection, createConnection } from "typeorm-core";
-import { camelCase } from "typeorm-core/build/compiled/src/util/StringUtils";
+import { camelCase } from "typeorm-base";
 import { ConnectionOptionsReader } from "typeorm-options-reader";
 import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import { CommandUtils } from "./CommandUtils";

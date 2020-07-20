@@ -1,5 +1,5 @@
+import { ObjectLiteral } from "typeorm-base";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 
 /**
  * Transforms plain old javascript object

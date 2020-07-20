@@ -1,5 +1,5 @@
+import { ObjectUtils } from "typeorm-base";
 import { EntityMetadata } from "../metadata/EntityMetadata";
-import { ObjectUtils } from "../util/ObjectUtils";
 
 /**
  */

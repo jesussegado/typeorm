@@ -1,5 +1,5 @@
+import { ObjectLiteral, ObjectType, ObjectUtils } from "typeorm-base";
 import { RawSqlResultsToEntityTransformer } from "./transformer/RawSqlResultsToEntityTransformer";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { PessimisticLockTransactionRequiredError } from "../error/PessimisticLockTransactionRequiredError";
 import { NoVersionOrUpdateDateColumnError } from "../error/NoVersionOrUpdateDateColumnError";
 import { OptimisticLockVersionMismatchError } from "../error/OptimisticLockVersionMismatchError";
@@ -19,7 +19,7 @@ import { EntityMetadata } from "../metadata/EntityMetadata";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { OrderByCondition } from "../find-options/OrderByCondition";
 import { QueryExpressionMap } from "./QueryExpressionMap";
-import { ObjectType } from "../common/ObjectType";
+
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { WhereExpression } from "./WhereExpression";
 import { Brackets } from "./Brackets";
@@ -27,7 +27,6 @@ import { QueryResultCacheOptions } from "../cache/QueryResultCacheOptions";
 import { OffsetWithoutLimitNotSupportedError } from "../error/OffsetWithoutLimitNotSupportedError";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { SelectQueryBuilderOption } from "./SelectQueryBuilderOption";
-import { ObjectUtils } from "../util/ObjectUtils";
 import { DriverUtils } from "../driver/DriverUtils";
 import { isDriverSupported, isMysql, isAuroraDataApi } from "../driver/Driver";
 
@@ -2427,8 +2426,8 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                 this.connection.driver.spatialTypes.indexOf(column.type) !== -1
             ) {
                 if (
-                   isMysql(this.connection.driver) ||
-                   isAuroraDataApi(this.connection.driver)
+                    isMysql(this.connection.driver) ||
+                    isAuroraDataApi(this.connection.driver)
                 ) {
                     const useLegacy = this.connection.driver.options
                         .legacySpatialSupport;

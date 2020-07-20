@@ -1,10 +1,10 @@
+import { ObjectUtils } from "typeorm-base";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { Connection } from "../connection/Connection";
 import { RelationMetadata } from "../metadata/RelationMetadata";
 import { QueryBuilderUtils } from "./QueryBuilderUtils";
 import { QueryExpressionMap } from "./QueryExpressionMap";
 import { Alias } from "./Alias";
-import { ObjectUtils } from "../util/ObjectUtils";
 
 /**
  * Stores all join attributes which will be used to build a JOIN query.

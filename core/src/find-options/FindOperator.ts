@@ -1,6 +1,6 @@
+import { assertUnreachable } from "typeorm-base";
 import { FindOperatorType } from "./FindOperatorType";
 import { Connection } from "..";
-import { assertUnreachable } from "../util/GeneralUtils";
 import { isDriverSupported } from "../driver/Driver";
 
 /**

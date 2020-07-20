@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { DeepPartial } from "typeorm-base";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -12,7 +13,6 @@ import questionSchema from "./model-schema/QuestionSchema";
 import { Question } from "./model/Question";
 import { Blog } from "./entity/Blog";
 import { Category } from "./entity/Category";
-import { DeepPartial } from "../../../../src/common/DeepPartial";
 import { EntitySchema } from "../../../../src";
 
 describe("repository > basic methods", () => {

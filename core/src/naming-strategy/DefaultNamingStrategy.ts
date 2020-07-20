@@ -1,6 +1,5 @@
+import { camelCase, snakeCase, titleCase, RandomGenerator } from "typeorm-base";
 import { NamingStrategyInterface } from "./NamingStrategyInterface";
-import { RandomGenerator } from "../util/RandomGenerator";
-import { camelCase, snakeCase, titleCase } from "../util/StringUtils";
 import { Table } from "../schema-builder/table/Table";
 
 /**

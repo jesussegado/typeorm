@@ -1,4 +1,4 @@
-import { ObjectLiteral } from "../../../../src/common/ObjectLiteral";
+import { ObjectLiteral } from "typeorm-base";
 import { Connection } from "../../../../src/connection/Connection";
 import { PostgresConnectionOptions } from "../../../../src/driver/postgres/PostgresConnectionOptions";
 import { MssqlParameter } from "../../../../src/driver/sqlserver/MssqlParameter";

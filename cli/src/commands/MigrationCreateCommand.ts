@@ -1,5 +1,5 @@
 import * as yargs from "yargs";
-import { camelCase } from "typeorm-core/build/compiled/src/util/StringUtils";
+import { camelCase } from "typeorm-base";
 import { ConnectionOptionsReader } from "typeorm-options-reader";
 import { CommandUtils } from "./CommandUtils";
 

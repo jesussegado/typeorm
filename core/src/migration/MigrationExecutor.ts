@@ -1,8 +1,8 @@
+import { ObjectLiteral, PromiseUtils } from "typeorm-base";
 import { Table } from "../schema-builder/table/Table";
 import { Connection } from "../connection/Connection";
 import { Migration } from "./Migration";
-import { ObjectLiteral } from "../common/ObjectLiteral";
-import { PromiseUtils } from "../util/PromiseUtils";
+
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { MssqlParameter } from "../driver/sqlserver/MssqlParameter";
 import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";

@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { DateUtils } from "typeorm-base";
 import { Post } from "./entity/Post";
 import { Connection } from "../../../../../src/connection/Connection";
 import {
@@ -8,7 +9,6 @@ import {
 } from "../../../../utils/test-utils";
 import { PostWithOptions } from "./entity/PostWithOptions";
 import { PostWithoutTypes } from "./entity/PostWithoutTypes";
-import { DateUtils } from "../../../../../src/util/DateUtils";
 import { FruitEnum } from "./enum/FruitEnum";
 
 describe("database schema > column types > mssql", () => {

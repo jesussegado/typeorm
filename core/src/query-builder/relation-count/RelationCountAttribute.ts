@@ -1,9 +1,9 @@
+import { ObjectUtils } from "typeorm-base";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { QueryBuilderUtils } from "../QueryBuilderUtils";
 import { RelationMetadata } from "../../metadata/RelationMetadata";
 import { QueryExpressionMap } from "../QueryExpressionMap";
 import { SelectQueryBuilder } from "../SelectQueryBuilder";
-import { ObjectUtils } from "../../util/ObjectUtils";
 
 export class RelationCountAttribute {
     /**

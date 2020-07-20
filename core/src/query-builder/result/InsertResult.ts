@@ -1,4 +1,4 @@
-import { ObjectLiteral } from "../../common/ObjectLiteral";
+import { ObjectLiteral } from "typeorm-base";
 
 /**
  * Result object returned by InsertQueryBuilder execution.

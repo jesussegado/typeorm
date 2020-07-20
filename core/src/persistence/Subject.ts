@@ -1,7 +1,7 @@
-import { ObjectLiteral } from "../common/ObjectLiteral";
+import { ObjectLiteral, OrmUtils } from "typeorm-base";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { SubjectChangeMap } from "./SubjectChangeMap";
-import { OrmUtils } from "../util/OrmUtils";
+
 import { RelationMetadata } from "../metadata/RelationMetadata";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 

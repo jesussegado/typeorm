@@ -1,8 +1,8 @@
+import { ObjectLiteral, ObjectUtils } from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { MongoQueryRunner } from "./MongoQueryRunner";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
@@ -14,7 +14,6 @@ import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { ConnectionOptions } from "../../connection/ConnectionOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { ObjectUtils } from "../../util/ObjectUtils";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 
 /**

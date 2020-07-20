@@ -1,6 +1,6 @@
+import { camelCase } from "typeorm-base";
 import { DefaultNamingStrategy } from "../../../../src/naming-strategy/DefaultNamingStrategy";
 import { NamingStrategyInterface } from "../../../../src/naming-strategy/NamingStrategyInterface";
-import { camelCase } from "../../../../src/util/StringUtils";
 
 export class NamingStrategyUnderTest extends DefaultNamingStrategy
     implements NamingStrategyInterface {

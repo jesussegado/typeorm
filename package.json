@@ -8,7 +8,8 @@
     "test": "yarn workspaces run test",
     "compile": "yarn workspaces run compile",
     "clean": "yarn workspaces run clean",
-    "prettier": "yarn workspaces run prettier"
+    "prettier": "yarn workspaces run prettier",
+    "eslint": "yarn workspaces run lint"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/Kononnable/typeorm#readme",
   "workspaces": [
+    "base",
     "core",
     "options-reader",
     "cli"

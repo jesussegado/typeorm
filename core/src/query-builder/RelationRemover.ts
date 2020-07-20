@@ -1,5 +1,5 @@
+import { ObjectLiteral } from "typeorm-base";
 import { QueryBuilder } from "./QueryBuilder";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { QueryExpressionMap } from "./QueryExpressionMap";
 
 /**

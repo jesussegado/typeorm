@@ -1,5 +1,5 @@
+import { ObjectLiteral, OrmUtils } from "typeorm-base";
 import { QueryRunner } from "../../query-runner/QueryRunner";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
 import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
@@ -11,7 +11,7 @@ import { View } from "../../schema-builder/view/View";
 import { Query } from "../Query";
 import { AuroraDataApiDriver } from "./AuroraDataApiDriver";
 import { ReadStream } from "../../platform/PlatformTools";
-import { OrmUtils } from "../../util/OrmUtils";
+
 import { TableIndexOptions } from "../../schema-builder/options/TableIndexOptions";
 import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";

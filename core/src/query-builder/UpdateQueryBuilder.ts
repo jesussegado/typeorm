@@ -1,6 +1,6 @@
+import { ObjectLiteral } from "typeorm-base";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { QueryBuilder } from "./QueryBuilder";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { Connection } from "../connection/Connection";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { WhereExpression } from "./WhereExpression";
@@ -15,7 +15,13 @@ import { LimitOnUpdateNotSupportedError } from "../error/LimitOnUpdateNotSupport
 import { UpdateValuesMissingError } from "../error/UpdateValuesMissingError";
 import { EntityColumnNotFound } from "../error/EntityColumnNotFound";
 import { QueryDeepPartialEntity } from "./QueryPartialEntity";
-import { isDriverSupported, isMssql, isSqljs, isMysql, isAuroraDataApi } from "../driver/Driver";
+import {
+    isDriverSupported,
+    isMssql,
+    isSqljs,
+    isMysql,
+    isAuroraDataApi,
+} from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -97,7 +103,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
 
                 if (
                     this.expressionMap.extraReturningColumns.length > 0 &&
-                   isMssql(this.connection.driver)
+                    isMssql(this.connection.driver)
                 ) {
                     declareSql = this.connection.driver.buildTableVariableDeclaration(
                         "@OutputTable",
@@ -176,7 +182,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                 await queryRunner.release();
             }
             if (
-               isSqljs(this.connection.driver) &&
+                isSqljs(this.connection.driver) &&
                 !queryRunner.isTransactionActive
             ) {
                 await this.connection.driver.autoSave();
@@ -519,9 +525,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
                                 `${this.escape(column.databaseName)} = NULL`
                             );
                         } else {
-                            if (
-                              isMssql(this.connection.driver)
-                            ) {
+                            if (isMssql(this.connection.driver)) {
                                 value = this.connection.driver.parametrizeValue(
                                     column,
                                     value
@@ -552,7 +556,7 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
 
                             let expression = null;
                             if (
-                                (isMysql(this.connection.driver)||
+                                (isMysql(this.connection.driver) ||
                                     isAuroraDataApi(this.connection.driver)) &&
                                 this.connection.driver.spatialTypes.indexOf(
                                     column.type

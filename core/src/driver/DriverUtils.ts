@@ -1,5 +1,5 @@
+import { hash } from "typeorm-base";
 import { Driver } from "./Driver";
-import { hash } from "../util/StringUtils";
 
 /**
  * Common driver utility functions.

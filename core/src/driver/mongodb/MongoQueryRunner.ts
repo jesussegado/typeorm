@@ -1,5 +1,5 @@
+import { ObjectLiteral } from "typeorm-base";
 import { QueryRunner } from "../../query-runner/QueryRunner";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { Table } from "../../schema-builder/table/Table";
 import { TableForeignKey } from "../../schema-builder/table/TableForeignKey";

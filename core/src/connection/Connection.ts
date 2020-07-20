@@ -1,7 +1,7 @@
+import { ObjectType, ObjectUtils } from "typeorm-base";
 import { Driver, isDriverSupported } from "../driver/Driver";
 import { Repository } from "../repository/Repository";
 import { EntitySubscriberInterface } from "../subscriber/EntitySubscriberInterface";
-import { ObjectType } from "../common/ObjectType";
 import { EntityManager } from "../entity-manager/EntityManager";
 import { DefaultNamingStrategy } from "../naming-strategy/DefaultNamingStrategy";
 import { CannotExecuteNotConnectedError } from "../error/CannotExecuteNotConnectedError";
@@ -31,7 +31,6 @@ import { SqljsEntityManager } from "../entity-manager/SqljsEntityManager";
 import { RelationLoader } from "../query-builder/RelationLoader";
 import { RelationIdLoader } from "../query-builder/RelationIdLoader";
 import { EntitySchema, PromiseUtils } from "..";
-import { ObjectUtils } from "../util/ObjectUtils";
 
 import { IsolationLevel } from "../driver/types/IsolationLevel";
 import { DriverUtils } from "../driver/DriverUtils";

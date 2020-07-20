@@ -1,7 +1,7 @@
+import { ObjectLiteral } from "typeorm-base";
 import { RelationType } from "./types/RelationTypes";
 import { EntityMetadata } from "./EntityMetadata";
 import { ForeignKeyMetadata } from "./ForeignKeyMetadata";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { ColumnMetadata } from "./ColumnMetadata";
 import { EmbeddedMetadata } from "./EmbeddedMetadata";
 import { RelationMetadataArgs } from "../metadata-args/RelationMetadataArgs";

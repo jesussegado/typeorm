@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { PromiseUtils } from "typeorm-base";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -7,7 +8,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { TestEntity } from "./entity/TestEntity";
-import { PromiseUtils } from "../../../src/util/PromiseUtils";
 
 describe("github issues > #1014 Transaction doesn't rollback", () => {
     let connections: Connection[];

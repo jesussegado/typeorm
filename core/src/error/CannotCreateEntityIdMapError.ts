@@ -1,5 +1,5 @@
+import { ObjectLiteral } from "typeorm-base";
 import { EntityMetadata } from "../metadata/EntityMetadata";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 
 /**
  * Thrown when user tries to create entity id map from the mixed id value,

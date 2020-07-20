@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { PromiseUtils } from "typeorm-base";
 import { Connection } from "../../../src/connection/Connection";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
 import { User } from "./entity/User";
-import { PromiseUtils } from "../../../src";
 
 describe("github issues > #3422 cannot save to nested-tree table if schema is used in postgres", () => {
     let connections: Connection[];

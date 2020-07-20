@@ -1,5 +1,5 @@
+import { ObjectLiteral } from "typeorm-base";
 import { EntitySubscriberInterface } from "./EntitySubscriberInterface";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { BroadcasterResult } from "./BroadcasterResult";

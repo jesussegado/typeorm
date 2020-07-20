@@ -1,18 +1,16 @@
+import { ObjectType, ObjectUtils, DeepPartial } from "typeorm-base";
 import { Repository } from "./Repository";
 import { FindConditions, getConnection } from "../index";
-import { DeepPartial } from "../common/DeepPartial";
 import { SaveOptions } from "./SaveOptions";
 import { FindOneOptions } from "../find-options/FindOneOptions";
 import { RemoveOptions } from "./RemoveOptions";
 import { FindManyOptions } from "../find-options/FindManyOptions";
 import { Connection } from "../connection/Connection";
-import { ObjectType } from "../common/ObjectType";
 import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
 import { InsertResult } from "../query-builder/result/InsertResult";
 import { UpdateResult } from "../query-builder/result/UpdateResult";
 import { DeleteResult } from "../query-builder/result/DeleteResult";
 import { ObjectID } from "../driver/mongodb/typings";
-import { ObjectUtils } from "../util/ObjectUtils";
 import { QueryDeepPartialEntity } from "../query-builder/QueryPartialEntity";
 
 /**

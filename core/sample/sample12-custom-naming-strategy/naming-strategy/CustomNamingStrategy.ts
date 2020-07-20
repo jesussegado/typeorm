@@ -1,6 +1,6 @@
 import {NamingStrategyInterface} from "../../../src/naming-strategy/NamingStrategyInterface";
 import {DefaultNamingStrategy} from "../../../src/naming-strategy/DefaultNamingStrategy";
-import {snakeCase} from "../../../src/util/StringUtils";
+import {snakeCase} from "typeorm-base";
 
 export class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
 

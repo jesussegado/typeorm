@@ -1,7 +1,7 @@
+import { assertUnreachable } from "typeorm-base";
 import { Logger } from "./Logger";
 import { QueryRunner } from "..";
 import { PlatformTools } from "../platform/PlatformTools";
-import { assertUnreachable } from "../util/GeneralUtils";
 
 /**
  * Performs logging of the events in TypeORM via debug library.

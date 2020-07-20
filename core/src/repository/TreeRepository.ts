@@ -1,6 +1,6 @@
+import { ObjectLiteral } from "typeorm-base";
 import { Repository } from "./Repository";
 import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { isDriverSupported } from "../driver/Driver";
 
 /**

@@ -1,6 +1,6 @@
+import { ObjectLiteral, ObjectType } from "typeorm-base";
+
 import { QueryBuilder } from "./QueryBuilder";
-import { ObjectLiteral } from "../common/ObjectLiteral";
-import { ObjectType } from "../common/ObjectType";
 import { Connection } from "../connection/Connection";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { WhereExpression } from "./WhereExpression";
@@ -152,7 +152,7 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
                 await queryRunner.release();
             }
             if (
-               isSqljs(this.connection.driver) &&
+                isSqljs(this.connection.driver) &&
                 !queryRunner.isTransactionActive
             ) {
                 await this.connection.driver.autoSave();

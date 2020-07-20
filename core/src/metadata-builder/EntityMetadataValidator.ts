@@ -1,7 +1,7 @@
+import { DepGraph } from "typeorm-base";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { MissingPrimaryColumnError } from "../error/MissingPrimaryColumnError";
 import { CircularRelationsError } from "../error/CircularRelationsError";
-import { DepGraph } from "../util/DepGraph";
 import { Driver, isDriverSupported } from "../driver/Driver";
 import { DataTypeNotSupportedError } from "../error/DataTypeNotSupportedError";
 import { ColumnType } from "../driver/types/ColumnTypes";

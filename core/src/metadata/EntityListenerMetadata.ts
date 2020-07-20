@@ -1,6 +1,6 @@
+import { ObjectLiteral } from "typeorm-base";
 import { EventListenerType } from "./types/EventListenerTypes";
 import { EntityListenerMetadataArgs } from "../metadata-args/EntityListenerMetadataArgs";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { EntityMetadata } from "./EntityMetadata";
 import { EmbeddedMetadata } from "./EmbeddedMetadata";
 

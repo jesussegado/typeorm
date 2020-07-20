@@ -1,11 +1,11 @@
+import { ObjectLiteral, DateUtils, OrmUtils } from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { DriverUtils } from "../DriverUtils";
 import { SqlServerQueryRunner } from "./SqlServerQueryRunner";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-import { DateUtils } from "../../util/DateUtils";
+
 import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
@@ -17,7 +17,7 @@ import { MssqlParameter } from "./MssqlParameter";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { SqlServerConnectionCredentialsOptions } from "./SqlServerConnectionCredentialsOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { OrmUtils } from "../../util/OrmUtils";
+
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 
 /**
@@ -447,7 +447,7 @@ export class SqlServerDriver implements Driver {
         } else if (columnMetadata.type === "simple-json") {
             value = DateUtils.stringToSimpleJson(value);
         } else if (columnMetadata.type === "simple-enum") {
-            value = DateUtils.stringToSimpleEnum(value, columnMetadata);
+            value = DateUtils.stringToSimpleEnum(value, columnMetadata.enum);
         }
 
         if (columnMetadata.transformer)

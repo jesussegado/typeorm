@@ -1,12 +1,12 @@
+import { ObjectLiteral, DateUtils, OrmUtils } from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { DriverUtils } from "../DriverUtils";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { CockroachConnectionCredentialsOptions } from "./CockroachConnectionCredentialsOptions";
 import { CockroachConnectionOptions } from "./CockroachConnectionOptions";
-import { DateUtils } from "../../util/DateUtils";
+
 import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
@@ -16,7 +16,7 @@ import { QueryRunner } from "../../query-runner/QueryRunner";
 import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { OrmUtils } from "../../util/OrmUtils";
+
 import { CockroachQueryRunner } from "./CockroachQueryRunner";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 

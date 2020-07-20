@@ -1,14 +1,13 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { ObjectLiteral, DateUtils } from "typeorm-base";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { ObjectLiteral } from "../../../src/common/ObjectLiteral";
 import { Post } from "./entity/Post";
-import { DateUtils } from "../../../src/util/DateUtils";
 
 describe("github issues > #513 Incorrect time/datetime types for SQLite", () => {
     let connections: Connection[];

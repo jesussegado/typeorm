@@ -1,10 +1,10 @@
+import { assertUnreachable } from "typeorm-base";
 import { Logger } from "./Logger";
 import { LoggerOptions } from "./LoggerOptions";
 import { SimpleConsoleLogger } from "./SimpleConsoleLogger";
 import { AdvancedConsoleLogger } from "./AdvancedConsoleLogger";
 import { FileLogger } from "./FileLogger";
 import { DebugLogger } from "./DebugLogger";
-import { assertUnreachable } from "../util/GeneralUtils";
 
 /**
  * Helps to create logger instances.

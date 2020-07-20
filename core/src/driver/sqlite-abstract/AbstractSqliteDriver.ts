@@ -1,7 +1,7 @@
+import { ObjectLiteral, DateUtils, OrmUtils } from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-import { DateUtils } from "../../util/DateUtils";
+
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
@@ -11,7 +11,7 @@ import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { OrmUtils } from "../../util/OrmUtils";
+
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 
 /**
@@ -338,7 +338,7 @@ export abstract class AbstractSqliteDriver implements Driver {
         } else if (columnMetadata.type === "simple-json") {
             value = DateUtils.stringToSimpleJson(value);
         } else if (columnMetadata.type === "simple-enum") {
-            value = DateUtils.stringToSimpleEnum(value, columnMetadata);
+            value = DateUtils.stringToSimpleEnum(value, columnMetadata.enum);
         }
 
         if (columnMetadata.transformer)

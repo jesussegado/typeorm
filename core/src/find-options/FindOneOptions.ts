@@ -1,5 +1,5 @@
+import { ObjectLiteral } from "typeorm-base";
 import { JoinOptions } from "./JoinOptions";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { FindConditions } from "./FindConditions";
 
 /**

@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { PromiseUtils } from "typeorm-base";
 import { Connection } from "../../../src/connection/Connection";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { PromiseUtils } from "../../../src";
 import { Teacher } from "./entity/Teacher";
 import { Post } from "./entity/Post";
 import { CheckMetadata } from "../../../src/metadata/CheckMetadata";

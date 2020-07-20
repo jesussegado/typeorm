@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { PromiseUtils } from "typeorm-base";
 import { Connection } from "../../../src/connection/Connection";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { PromiseUtils } from "../../../src";
 import { IndexMetadata } from "../../../src/metadata/IndexMetadata";
 import { Teacher } from "./entity/Teacher";
 import { Student } from "./entity/Student";

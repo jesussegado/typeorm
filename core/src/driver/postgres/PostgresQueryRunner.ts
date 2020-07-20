@@ -1,5 +1,5 @@
+import { ObjectLiteral, OrmUtils } from "typeorm-base";
 import { PromiseUtils, ColumnType } from "../..";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { QueryFailedError } from "../../error/QueryFailedError";
 import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
@@ -18,7 +18,7 @@ import { TableIndex } from "../../schema-builder/table/TableIndex";
 import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { View } from "../../schema-builder/view/View";
 import { Broadcaster } from "../../subscriber/Broadcaster";
-import { OrmUtils } from "../../util/OrmUtils";
+
 import { Query } from "../Query";
 import { IsolationLevel } from "../types/IsolationLevel";
 import { PostgresDriver } from "./PostgresDriver";

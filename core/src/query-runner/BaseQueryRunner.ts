@@ -1,9 +1,9 @@
+import { PromiseUtils } from "typeorm-base";
 import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
 import { Query } from "../driver/Query";
 import { SqlInMemory } from "../driver/SqlInMemory";
 import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";
 import { View } from "../schema-builder/view/View";
-import { PromiseUtils } from "../util/PromiseUtils";
 import { Connection } from "../connection/Connection";
 import { Table } from "../schema-builder/table/Table";
 import { EntityManager } from "../entity-manager/EntityManager";

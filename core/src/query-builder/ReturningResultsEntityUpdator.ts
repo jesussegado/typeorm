@@ -1,6 +1,6 @@
-import { ObjectLiteral } from "../common/ObjectLiteral";
+import { ObjectLiteral, OrmUtils } from "typeorm-base";
 import { QueryRunner } from "../query-runner/QueryRunner";
-import { OrmUtils } from "../util/OrmUtils";
+
 import { QueryExpressionMap } from "./QueryExpressionMap";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { UpdateResult } from "./result/UpdateResult";

@@ -1,3 +1,4 @@
+import { PromiseUtils } from "typeorm-base";
 import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
 import { SapDriver } from "../driver/sap/SapDriver";
 import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";
@@ -8,7 +9,6 @@ import { TableIndex } from "./table/TableIndex";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { EntityMetadata } from "../metadata/EntityMetadata";
-import { PromiseUtils } from "../util/PromiseUtils";
 import { Connection } from "../connection/Connection";
 import { SchemaBuilder } from "./SchemaBuilder";
 import { SqlInMemory } from "../driver/SqlInMemory";

@@ -1,12 +1,11 @@
 /* eslint-disable-next-line  max-classes-per-file */
+import { ObjectLiteral, DateUtils, OrmUtils } from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { DriverUtils } from "../DriverUtils";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { PostgresQueryRunner } from "./PostgresQueryRunner";
-import { DateUtils } from "../../util/DateUtils";
 import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
@@ -18,7 +17,6 @@ import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { PostgresConnectionCredentialsOptions } from "./PostgresConnectionCredentialsOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { OrmUtils } from "../../util/OrmUtils";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 import { AuroraDataApiPostgresConnectionOptions } from "../aurora-data-api-pg/AuroraDataApiPostgresConnectionOptions";
 import { AuroraDataApiPostgresQueryRunner } from "../aurora-data-api-pg/AuroraDataApiPostgresQueryRunner";

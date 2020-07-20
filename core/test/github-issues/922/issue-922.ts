@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { ObjectLiteral } from "typeorm-base";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -6,7 +7,6 @@ import {
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
 import { Post } from "./entity/Post";
-import { ObjectLiteral } from "../../../src";
 
 describe("github issues > #922 Support HSTORE column type", () => {
     let connections: Connection[];

@@ -1,6 +1,6 @@
+import { ObjectType, ObjectLiteral, DeepPartial } from "typeorm-base";
 import { Connection } from "../connection/Connection";
 import { EntityManager } from "./EntityManager";
-import { ObjectType } from "../common/ObjectType";
 import {
     AggregationCursor,
     BulkWriteOpResultObject,
@@ -37,7 +37,7 @@ import {
     UnorderedBulkOperation,
     UpdateWriteOpResult,
 } from "../driver/mongodb/typings";
-import { ObjectLiteral } from "../common/ObjectLiteral";
+
 import { MongoQueryRunner } from "../driver/mongodb/MongoQueryRunner";
 import { MongoDriver } from "../driver/mongodb/MongoDriver";
 import { DocumentToEntityTransformer } from "../query-builder/transformer/DocumentToEntityTransformer";
@@ -45,7 +45,6 @@ import { FindManyOptions } from "../find-options/FindManyOptions";
 import { FindOptionsUtils } from "../find-options/FindOptionsUtils";
 import { FindOneOptions } from "../find-options/FindOneOptions";
 import { PlatformTools } from "../platform/PlatformTools";
-import { DeepPartial } from "../common/DeepPartial";
 import { QueryDeepPartialEntity } from "../query-builder/QueryPartialEntity";
 import { InsertResult } from "../query-builder/result/InsertResult";
 import { UpdateResult } from "../query-builder/result/UpdateResult";

@@ -1,20 +1,20 @@
+import { PromiseUtils, ObjectLiteral, OrmUtils } from "typeorm-base";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { Subject } from "./Subject";
-import { PromiseUtils } from "../util/PromiseUtils";
 import { SubjectTopoligicalSorter } from "./SubjectTopoligicalSorter";
 import { SubjectChangedColumnsComputer } from "./SubjectChangedColumnsComputer";
 import { SubjectWithoutIdentifierError } from "../error/SubjectWithoutIdentifierError";
 import { SubjectRemovedAndUpdatedError } from "../error/SubjectRemovedAndUpdatedError";
 import { MongoQueryRunner } from "../driver/mongodb/MongoQueryRunner";
 import { MongoEntityManager } from "../entity-manager/MongoEntityManager";
-import { ObjectLiteral } from "../common/ObjectLiteral";
+
 import { SaveOptions } from "../repository/SaveOptions";
 import { RemoveOptions } from "../repository/RemoveOptions";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { NestedSetSubjectExecutor } from "./tree/NestedSetSubjectExecutor";
 import { ClosureSubjectExecutor } from "./tree/ClosureSubjectExecutor";
 import { MaterializedPathSubjectExecutor } from "./tree/MaterializedPathSubjectExecutor";
-import { OrmUtils } from "../util/OrmUtils";
+
 import { isDriverSupported } from "../driver/Driver";
 
 /**

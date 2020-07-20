@@ -1,4 +1,4 @@
-import { ObjectType } from "../common/ObjectType";
+import { ObjectType } from "typeorm-base";
 import { EntitySchema } from "../index";
 
 /**

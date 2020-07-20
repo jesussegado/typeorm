@@ -1,8 +1,8 @@
-import { ObjectLiteral } from "../common/ObjectLiteral";
+import { ObjectLiteral, ObjectType } from "typeorm-base";
 import { EntityManager } from "../entity-manager/EntityManager";
 import { Repository } from "./Repository";
 import { TreeRepository } from "./TreeRepository";
-import { ObjectType } from "../common/ObjectType";
+
 import { CustomRepositoryDoesNotHaveEntityError } from "../error/CustomRepositoryDoesNotHaveEntityError";
 import { getMetadataArgsStorage } from "../index";
 import { CustomRepositoryNotFoundError } from "../error/CustomRepositoryNotFoundError";

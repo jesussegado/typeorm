@@ -1,8 +1,8 @@
+import { ObjectLiteral } from "typeorm-base";
 import { RelationIdMetadataArgs } from "../metadata-args/RelationIdMetadataArgs";
 import { EntityMetadata } from "./EntityMetadata";
 import { RelationMetadata } from "./RelationMetadata";
 import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 
 /**
  * Contains all information about entity's relation count.

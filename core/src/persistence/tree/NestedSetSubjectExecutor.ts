@@ -1,6 +1,6 @@
+import { OrmUtils } from "typeorm-base";
 import { Subject } from "../Subject";
 import { QueryRunner } from "../../query-runner/QueryRunner";
-import { OrmUtils } from "../../util/OrmUtils";
 
 /**
  * Executes subject operations for nested set tree entities.

@@ -1,6 +1,6 @@
+import { ObjectLiteral } from "typeorm-base";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { ColumnType } from "./types/ColumnTypes";
 import { MappedColumnTypes } from "./types/MappedColumnTypes";
 import { SchemaBuilder } from "../schema-builder/SchemaBuilder";
@@ -9,12 +9,12 @@ import { BaseConnectionOptions } from "../connection/BaseConnectionOptions";
 import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { DatabaseType } from "..";
-import type { SqljsDriver } from './sqljs/SqljsDriver';
-import type { SqlServerDriver } from './sqlserver/SqlServerDriver';
-import type { MysqlDriver } from './mysql/MysqlDriver';
-import type { AuroraDataApiDriver } from './aurora-data-api/AuroraDataApiDriver';
-import type { OracleDriver } from './oracle/OracleDriver';
-import type { PostgresDriver } from './postgres/PostgresDriver';
+import type { SqljsDriver } from "./sqljs/SqljsDriver";
+import type { SqlServerDriver } from "./sqlserver/SqlServerDriver";
+import type { MysqlDriver } from "./mysql/MysqlDriver";
+import type { AuroraDataApiDriver } from "./aurora-data-api/AuroraDataApiDriver";
+import type { OracleDriver } from "./oracle/OracleDriver";
+import type { PostgresDriver } from "./postgres/PostgresDriver";
 
 export type DriverType = DatabaseType | "sqlite-abstract";
 
@@ -38,22 +38,22 @@ export function isDriverSupported(
 }
 
 export function isSqljs(driver: Driver): driver is SqljsDriver {
-    return driver.type === "sqljs"
+    return driver.type === "sqljs";
 }
 export function isMssql(driver: Driver): driver is SqlServerDriver {
-    return driver.type === "mssql"
+    return driver.type === "mssql";
 }
 export function isMysql(driver: Driver): driver is MysqlDriver {
-    return driver.type === "mysql"
+    return driver.type === "mysql";
 }
 export function isAuroraDataApi(driver: Driver): driver is AuroraDataApiDriver {
-    return driver.type === "aurora-data-api"
+    return driver.type === "aurora-data-api";
 }
 export function isOracle(driver: Driver): driver is OracleDriver {
-    return driver.type === "oracle"
+    return driver.type === "oracle";
 }
 export function isPostgres(driver: Driver): driver is PostgresDriver {
-    return driver.type === "postgres"
+    return driver.type === "postgres";
 }
 
 /**

@@ -1,5 +1,3 @@
-import { ColumnMetadata } from "../metadata/ColumnMetadata";
-
 /**
  * Provides utilities to transform hydrated and persisted data.
  */
@@ -222,11 +220,14 @@ export class DateUtils {
         return `${value}`;
     }
 
-    static stringToSimpleEnum(value: any, columnMetadata: ColumnMetadata) {
+    static stringToSimpleEnum(
+        value: any,
+        enumColumn: (string | number)[] | undefined
+    ) {
         if (
-            columnMetadata.enum &&
+            enumColumn &&
             !Number.isNaN(value) &&
-            columnMetadata.enum.indexOf(parseInt(value)) >= 0
+            enumColumn.indexOf(parseInt(value)) >= 0
         ) {
             // convert to number if that exists in poosible enum options
             value = parseInt(value);

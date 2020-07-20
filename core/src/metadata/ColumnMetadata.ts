@@ -1,13 +1,13 @@
+import { ObjectLiteral, OrmUtils, PromiseUtils } from "typeorm-base";
 import { ColumnType } from "../driver/types/ColumnTypes";
 import { EntityMetadata } from "./EntityMetadata";
 import { EmbeddedMetadata } from "./EmbeddedMetadata";
 import { RelationMetadata } from "./RelationMetadata";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { ColumnMetadataArgs } from "../metadata-args/ColumnMetadataArgs";
 import { Connection } from "../connection/Connection";
-import { OrmUtils } from "../util/OrmUtils";
+
 import { ValueTransformer } from "../decorator/options/ValueTransformer";
-import { PromiseUtils } from "../util/PromiseUtils";
+
 import { FindOperator } from "../find-options/FindOperator";
 import { ApplyValueTransformers } from "../util/ApplyValueTransformers";
 import { isDriverSupported } from "../driver/Driver";

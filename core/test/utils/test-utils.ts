@@ -1,13 +1,13 @@
+import { PromiseUtils } from "typeorm-base";
 import { Connection } from "../../src/connection/Connection";
 import { ConnectionOptions } from "../../src/connection/ConnectionOptions";
 import { DatabaseType } from "../../src/driver/types/DatabaseType";
 import { EntitySchema } from "../../src/entity-schema/EntitySchema";
 import { createConnections } from "../../src/index";
 import { NamingStrategyInterface } from "../../src/naming-strategy/NamingStrategyInterface";
-import { PromiseUtils } from "../../src/util/PromiseUtils";
 import { QueryResultCache } from "../../src/cache/QueryResultCache";
 import { Logger } from "../../src/logger/Logger";
-import { isPostgres, isMssql } from '../../src/driver/Driver';
+import { isPostgres, isMssql } from "../../src/driver/Driver";
 
 /**
  * Interface in which data is stored in ormconfig.json of the project.
@@ -299,10 +299,7 @@ export async function createTestingConnections(
             );
 
             // create new schemas
-            if (
-               isPostgres(connection.driver) ||
-               isMssql(connection.driver)
-            ) {
+            if (isPostgres(connection.driver) || isMssql(connection.driver)) {
                 const schemaPaths: string[] = [];
                 connection.entityMetadatas
                     .filter((entityMetadata) => !!entityMetadata.schemaPath)

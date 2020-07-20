@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { PromiseUtils } from "typeorm-base";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,7 +10,6 @@ import { Connection } from "../../../../src/connection/Connection";
 import { Post } from "./entity/Post";
 import { PostWithoutDeleteDateColumn } from "./entity/PostWithoutDeleteDateColumn";
 import { MissingDeleteDateColumnError } from "../../../../src/error/MissingDeleteDateColumnError";
-import { PromiseUtils } from "../../../../src";
 
 describe("entity > soft-remove", () => {
     let connections: Connection[];

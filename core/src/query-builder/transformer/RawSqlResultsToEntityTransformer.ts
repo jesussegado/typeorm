@@ -1,11 +1,10 @@
+import { ObjectLiteral, OrmUtils } from "typeorm-base";
 import { Driver } from "../../driver/Driver";
 import { RelationIdLoadResult } from "../relation-id/RelationIdLoadResult";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { Alias } from "../Alias";
 import { RelationCountLoadResult } from "../relation-count/RelationCountLoadResult";
 import { RelationMetadata } from "../../metadata/RelationMetadata";
-import { OrmUtils } from "../../util/OrmUtils";
 import { QueryExpressionMap } from "../QueryExpressionMap";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { QueryRunner } from "../..";

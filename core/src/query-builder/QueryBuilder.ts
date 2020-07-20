@@ -1,4 +1,4 @@
-import { ObjectLiteral } from "../common/ObjectLiteral";
+import { ObjectLiteral } from "typeorm-base";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { Connection } from "../connection/Connection";
 import { QueryExpressionMap } from "./QueryExpressionMap";
@@ -8,7 +8,7 @@ import { DeleteQueryBuilder } from "./DeleteQueryBuilder";
 import { SoftDeleteQueryBuilder } from "./SoftDeleteQueryBuilder";
 import { InsertQueryBuilder } from "./InsertQueryBuilder";
 import { RelationQueryBuilder } from "./RelationQueryBuilder";
-import { ObjectType } from "../common/ObjectType";
+import { ObjectType } from "typeorm-base";
 import { Alias } from "./Alias";
 import { Brackets } from "./Brackets";
 import { QueryDeepPartialEntity } from "./QueryPartialEntity";
@@ -840,7 +840,7 @@ export abstract class QueryBuilder<Entity> {
                 })
                 .join(", ");
 
-            if ( isOracle(driver)) {
+            if (isOracle(driver)) {
                 columnsExpression +=
                     " INTO " +
                     columns

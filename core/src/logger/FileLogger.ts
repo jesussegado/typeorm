@@ -1,8 +1,8 @@
+import { assertUnreachable } from "typeorm-base";
 import { LoggerOptions } from "./LoggerOptions";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { Logger } from "./Logger";
 import { PlatformTools } from "../platform/PlatformTools";
-import { assertUnreachable } from "../util/GeneralUtils";
 
 /**
  * Performs logging of the events in TypeORM.

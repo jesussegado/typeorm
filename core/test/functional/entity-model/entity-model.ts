@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { PromiseUtils } from "typeorm-base";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
 import {
@@ -7,7 +8,6 @@ import {
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Connection } from "../../../src/connection/Connection";
-import { PromiseUtils } from "../../../src/util/PromiseUtils";
 
 describe("entity-model", () => {
     let connections: Connection[];

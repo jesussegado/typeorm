@@ -1,5 +1,5 @@
+import { OrmUtils } from "typeorm-base";
 import { importClassesFromDirectories } from "../util/DirectoryExportedClassesLoader";
-import { OrmUtils } from "../util/OrmUtils";
 import { getFromContainer } from "../container";
 import { MigrationInterface } from "../migration/MigrationInterface";
 import { getMetadataArgsStorage } from "../index";

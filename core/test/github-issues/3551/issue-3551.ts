@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { PromiseUtils } from "typeorm-base";
 import { Connection } from "../../../src/connection/Connection";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
-import { PromiseUtils } from "../../../src";
 import { Book } from "./entity/Book";
 
 describe("github issues > #3551 array of embedded documents through multiple levels are not handled", () => {

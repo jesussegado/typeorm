@@ -1,5 +1,5 @@
+import { ObjectLiteral, OrmUtils } from "typeorm-base";
 import { QueryRunner } from "../../query-runner/QueryRunner";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
 import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
@@ -15,7 +15,7 @@ import { QueryFailedError } from "../../error/QueryFailedError";
 import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { Broadcaster } from "../../subscriber/Broadcaster";
 import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";
-import { OrmUtils } from "../../util/OrmUtils";
+
 import { TableCheck } from "../../schema-builder/table/TableCheck";
 import { ColumnType, PromiseUtils } from "../../index";
 import { IsolationLevel } from "../types/IsolationLevel";

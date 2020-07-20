@@ -1,7 +1,6 @@
+import { DateUtils, ObjectLiteral, OrmUtils } from "typeorm-base";
+
 import { Subject } from "./Subject";
-import { DateUtils } from "../util/DateUtils";
-import { ObjectLiteral } from "../common/ObjectLiteral";
-import { OrmUtils } from "../util/OrmUtils";
 import { ApplyValueTransformers } from "../util/ApplyValueTransformers";
 
 /**

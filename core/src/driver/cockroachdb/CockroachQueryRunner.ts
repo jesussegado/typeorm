@@ -1,5 +1,5 @@
+import { ObjectLiteral, OrmUtils } from "typeorm-base";
 import { QueryRunner } from "../../query-runner/QueryRunner";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
 import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
@@ -16,7 +16,7 @@ import { Broadcaster } from "../../subscriber/Broadcaster";
 import { TableIndexOptions } from "../../schema-builder/options/TableIndexOptions";
 import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";
-import { OrmUtils } from "../../util/OrmUtils";
+
 import { PromiseUtils, ColumnType } from "../..";
 import { TableCheck } from "../../schema-builder/table/TableCheck";
 

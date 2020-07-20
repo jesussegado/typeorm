@@ -1,3 +1,4 @@
+import { OrmUtils, ObjectLiteral } from "typeorm-base";
 import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
 import { SqljsConnectionOptions } from "./SqljsConnectionOptions";
 import { SqljsQueryRunner } from "./SqljsQueryRunner";
@@ -7,8 +8,7 @@ import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInst
 import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
 import { PlatformTools } from "../../platform/PlatformTools";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { OrmUtils } from "../../util/OrmUtils";
-import { ObjectLiteral } from "../../common/ObjectLiteral";
+
 import { DriverType } from "../Driver";
 
 // This is needed to satisfy the typescript compiler.

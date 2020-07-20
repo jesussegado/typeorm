@@ -1,10 +1,9 @@
+import { ObjectType, DeepPartial, ObjectUtils } from "typeorm-base";
 import { Connection } from "../connection/Connection";
 import { FindManyOptions } from "../find-options/FindManyOptions";
-import { ObjectType } from "../common/ObjectType";
 import { EntityNotFoundError } from "../error/EntityNotFoundError";
 import { QueryRunnerProviderAlreadyReleasedError } from "../error/QueryRunnerProviderAlreadyReleasedError";
 import { FindOneOptions } from "../find-options/FindOneOptions";
-import { DeepPartial } from "../common/DeepPartial";
 import { RemoveOptions } from "../repository/RemoveOptions";
 import { SaveOptions } from "../repository/SaveOptions";
 import { NoNeedToReleaseEntityManagerError } from "../error/NoNeedToReleaseEntityManagerError";
@@ -32,7 +31,6 @@ import { UpdateResult } from "../query-builder/result/UpdateResult";
 import { DeleteResult } from "../query-builder/result/DeleteResult";
 import { FindConditions } from "../find-options/FindConditions";
 import { IsolationLevel } from "../driver/types/IsolationLevel";
-import { ObjectUtils } from "../util/ObjectUtils";
 import { isDriverSupported } from "../driver/Driver";
 
 /**

@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { PromiseUtils } from "typeorm-base";
 import { Post } from "./entity/Post";
 import { Guest as GuestV1 } from "./entity/v1/Guest";
 import { Comment as CommentV1 } from "./entity/v1/Comment";
@@ -21,7 +22,6 @@ import { EntityManager } from "../../../src/entity-manager/EntityManager";
 import { CannotGetEntityManagerNotConnectedError } from "../../../src/error/CannotGetEntityManagerNotConnectedError";
 import { ConnectionOptions } from "../../../src/connection/ConnectionOptions";
 import { PostgresConnectionOptions } from "../../../src/driver/postgres/PostgresConnectionOptions";
-import { PromiseUtils } from "../../../src/util/PromiseUtils";
 
 describe("Connection", () => {
     // const resourceDir = __dirname + "/../../../../../test/functional/connection/";

@@ -1,5 +1,5 @@
+import { ObjectLiteral } from "typeorm-base";
 import { Subject } from "./Subject";
-import { ObjectLiteral } from "../common/ObjectLiteral";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { FindManyOptions } from "../find-options/FindManyOptions";
 

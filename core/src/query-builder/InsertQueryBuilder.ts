@@ -1,8 +1,7 @@
+import { ObjectLiteral, ObjectType, RandomGenerator } from "typeorm-base";
+
 import { QueryBuilder } from "./QueryBuilder";
-import { ObjectLiteral } from "../common/ObjectLiteral";
-import { ObjectType } from "../common/ObjectType";
 import { QueryDeepPartialEntity } from "./QueryPartialEntity";
-import { RandomGenerator } from "../util/RandomGenerator";
 import { InsertResult } from "./result/InsertResult";
 import { ReturningStatementNotSupportedError } from "../error/ReturningStatementNotSupportedError";
 import { InsertValuesMissingError } from "../error/InsertValuesMissingError";
@@ -10,7 +9,13 @@ import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { ReturningResultsEntityUpdator } from "./ReturningResultsEntityUpdator";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { EntitySchema } from "../entity-schema/EntitySchema";
-import { isDriverSupported, isMssql, isSqljs, isMysql, isAuroraDataApi } from "../driver/Driver";
+import {
+    isDriverSupported,
+    isMssql,
+    isSqljs,
+    isMysql,
+    isAuroraDataApi,
+} from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
