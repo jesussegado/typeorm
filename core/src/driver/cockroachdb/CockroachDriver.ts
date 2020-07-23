@@ -6,8 +6,6 @@ import { DriverUtils } from "../DriverUtils";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { CockroachConnectionCredentialsOptions } from "./CockroachConnectionCredentialsOptions";
 import { CockroachConnectionOptions } from "./CockroachConnectionOptions";
-
-import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
@@ -735,7 +733,7 @@ export class CockroachDriver implements Driver {
      */
     loadStreamDependency() {
         try {
-            return PlatformTools.load("pg-query-stream");
+            return require("pg-query-stream");
         } catch (e) {
             // todo: better error for browser env
             throw new Error(
@@ -753,9 +751,9 @@ export class CockroachDriver implements Driver {
      */
     protected loadDependencies(): void {
         try {
-            this.postgres = PlatformTools.load("pg");
+            this.postgres = require("pg");
             try {
-                const pgNative = PlatformTools.load("pg-native");
+                const pgNative = require("pg-native");
                 if (pgNative && this.postgres.native)
                     this.postgres = this.postgres.native;
                 // eslint-disable-next-line no-empty

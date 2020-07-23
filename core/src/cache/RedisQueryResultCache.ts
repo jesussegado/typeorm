@@ -1,6 +1,6 @@
+import { assertUnreachable } from "typeorm-base";
 import { QueryResultCache } from "./QueryResultCache";
 import { QueryResultCacheOptions } from "./QueryResultCacheOptions";
-import { PlatformTools } from "../platform/PlatformTools";
 import { Connection } from "../connection/Connection";
 import { QueryRunner } from "../query-runner/QueryRunner";
 
@@ -220,7 +220,15 @@ export class RedisQueryResultCache implements QueryResultCache {
      */
     protected loadRedis(): any {
         try {
-            return PlatformTools.load(this.clientType);
+            switch (this.clientType) {
+                case "redis":
+                    return require("redis");
+                case "ioredis":
+                case "ioredis/cluster":
+                    return require("ioredis");
+                default:
+                    assertUnreachable(this.clientType);
+            }
         } catch (e) {
             throw new Error(
                 `Cannot use cache because ${this.clientType} is not installed. Please run "npm i ${this.clientType} --save".`

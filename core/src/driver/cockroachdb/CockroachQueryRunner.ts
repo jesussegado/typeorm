@@ -1,4 +1,5 @@
 import { ObjectLiteral, OrmUtils } from "typeorm-base";
+import { ReadStream } from "fs";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
 import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
@@ -10,7 +11,7 @@ import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyR
 import { View } from "../../schema-builder/view/View";
 import { Query } from "../Query";
 import { CockroachDriver } from "./CockroachDriver";
-import { ReadStream } from "../../platform/PlatformTools";
+
 import { QueryFailedError } from "../../error/QueryFailedError";
 import { Broadcaster } from "../../subscriber/Broadcaster";
 import { TableIndexOptions } from "../../schema-builder/options/TableIndexOptions";

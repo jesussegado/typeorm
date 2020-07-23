@@ -4,8 +4,6 @@ import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { OracleQueryRunner } from "./OracleQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-
-import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { OracleConnectionOptions } from "./OracleConnectionOptions";
@@ -734,7 +732,7 @@ export class OracleDriver implements Driver {
      */
     protected loadDependencies(): void {
         try {
-            this.oracle = PlatformTools.load("oracledb");
+            this.oracle = require("oracledb");
         } catch (e) {
             throw new DriverPackageNotInstalledError("Oracle", "oracledb");
         }

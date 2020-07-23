@@ -8,7 +8,6 @@ import {
 } from "../..";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-import { PlatformTools } from "../../platform/PlatformTools";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 
@@ -702,14 +701,14 @@ export class SapDriver implements Driver {
      */
     protected loadDependencies(): void {
         try {
-            this.client = PlatformTools.load("hdb-pool");
+            this.client = require("hdb-pool");
         } catch (e) {
             // todo: better error for browser env
             throw new DriverPackageNotInstalledError("SAP Hana", "hdb-pool");
         }
 
         try {
-            PlatformTools.load("@sap/hana-client");
+            require("@sap/hana-client");
         } catch (e) {
             // todo: better error for browser env
             throw new DriverPackageNotInstalledError(

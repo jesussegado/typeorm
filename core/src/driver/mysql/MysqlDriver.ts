@@ -5,8 +5,6 @@ import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInst
 import { DriverUtils } from "../DriverUtils";
 import { MysqlQueryRunner } from "./MysqlQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-
-import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { MysqlConnectionOptions } from "./MysqlConnectionOptions";
@@ -913,7 +911,7 @@ export class MysqlDriver implements Driver {
      */
     protected loadDependencies(): void {
         try {
-            this.mysql = PlatformTools.load("mysql"); // try to load first supported package
+            this.mysql = require("mysql"); // try to load first supported package
             /*
              * Some frameworks (such as Jest) may mess up Node's require cache and provide garbage for the 'mysql' module
              * if it was not installed. We check that the object we got actually contains something otherwise we treat
@@ -928,7 +926,7 @@ export class MysqlDriver implements Driver {
             }
         } catch (e) {
             try {
-                this.mysql = PlatformTools.load("mysql2"); // try to load second supported package
+                this.mysql = require("mysql2"); // try to load second supported package
             } catch (e) {
                 throw new DriverPackageNotInstalledError("Mysql", "mysql");
             }

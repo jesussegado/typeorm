@@ -1,10 +1,10 @@
 import { ObjectLiteral } from "typeorm-base";
+import { ReadStream } from "fs";
 import { TableColumn } from "../schema-builder/table/TableColumn";
 import { Table } from "../schema-builder/table/Table";
 import { TableForeignKey } from "../schema-builder/table/TableForeignKey";
 import { TableIndex } from "../schema-builder/table/TableIndex";
 import { Connection } from "../connection/Connection";
-import { ReadStream } from "../platform/PlatformTools";
 import { EntityManager } from "../entity-manager/EntityManager";
 import { SqlInMemory } from "../driver/SqlInMemory";
 import { TableUnique } from "../schema-builder/table/TableUnique";

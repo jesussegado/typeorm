@@ -6,7 +6,6 @@ import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInst
 import { DriverUtils } from "../DriverUtils";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { PostgresQueryRunner } from "./PostgresQueryRunner";
-import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { PostgresConnectionOptions } from "./PostgresConnectionOptions";
@@ -1067,7 +1066,7 @@ export class PostgresDriver implements Driver {
      */
     loadStreamDependency() {
         try {
-            return PlatformTools.load("pg-query-stream");
+            return require("pg-query-stream");
         } catch (e) {
             // todo: better error for browser env
             throw new Error(
@@ -1085,9 +1084,9 @@ export class PostgresDriver implements Driver {
      */
     protected loadDependencies(): void {
         try {
-            this.postgres = PlatformTools.load("pg");
+            this.postgres = require("pg");
             try {
-                const pgNative = PlatformTools.load("pg-native");
+                const pgNative = require("pg-native");
                 if (pgNative && this.postgres.native)
                     this.postgres = this.postgres.native;
                 // eslint-disable-next-line no-empty
@@ -1269,7 +1268,7 @@ export class AuroraDataApiPostgresDriver extends PostgresWrapper {
      * If driver dependency is not given explicitly, then try to load it via "require".
      */
     protected loadDependencies(): void {
-        const { pg } = PlatformTools.load("typeorm-aurora-data-api-driver");
+        const { pg } = require("typeorm-aurora-data-api-driver");
 
         this.DataApiDriver = pg;
     }

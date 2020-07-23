@@ -5,8 +5,6 @@ import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInst
 import { DriverUtils } from "../DriverUtils";
 import { SqlServerQueryRunner } from "./SqlServerQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-
-import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { SqlServerConnectionOptions } from "./SqlServerConnectionOptions";
@@ -800,7 +798,7 @@ export class SqlServerDriver implements Driver {
      */
     protected loadDependencies(): void {
         try {
-            this.mssql = PlatformTools.load("mssql");
+            this.mssql = require("mssql");
         } catch (e) {
             // todo: better error for browser env
             throw new DriverPackageNotInstalledError("SQL Server", "mssql");

@@ -1,4 +1,5 @@
 import { ObjectLiteral, OrmUtils } from "typeorm-base";
+import { ReadStream } from "fs";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
 import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
@@ -10,11 +11,9 @@ import { TableForeignKey } from "../../schema-builder/table/TableForeignKey";
 import { View } from "../../schema-builder/view/View";
 import { Query } from "../Query";
 import { AbstractSqliteDriver } from "./AbstractSqliteDriver";
-import { ReadStream } from "../../platform/PlatformTools";
 import { TableIndexOptions } from "../../schema-builder/options/TableIndexOptions";
 import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";
-
 import { TableCheck } from "../../schema-builder/table/TableCheck";
 import { IsolationLevel } from "../types/IsolationLevel";
 import { TableExclusion } from "../../schema-builder/table/TableExclusion";

@@ -1,4 +1,5 @@
 import { ObjectLiteral, ObjectType, ObjectUtils } from "typeorm-base";
+import { ReadStream } from "fs";
 import { RawSqlResultsToEntityTransformer } from "./transformer/RawSqlResultsToEntityTransformer";
 import { PessimisticLockTransactionRequiredError } from "../error/PessimisticLockTransactionRequiredError";
 import { NoVersionOrUpdateDateColumnError } from "../error/NoVersionOrUpdateDateColumnError";
@@ -12,14 +13,12 @@ import { RelationIdMetadataToAttributeTransformer } from "./relation-id/Relation
 import { RelationCountLoader } from "./relation-count/RelationCountLoader";
 import { RelationCountMetadataToAttributeTransformer } from "./relation-count/RelationCountMetadataToAttributeTransformer";
 import { QueryBuilder } from "./QueryBuilder";
-import { ReadStream } from "../platform/PlatformTools";
 import { LockNotSupportedOnGivenDriverError } from "../error/LockNotSupportedOnGivenDriverError";
 import { SelectQuery } from "./SelectQuery";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { OrderByCondition } from "../find-options/OrderByCondition";
 import { QueryExpressionMap } from "./QueryExpressionMap";
-
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { WhereExpression } from "./WhereExpression";
 import { Brackets } from "./Brackets";

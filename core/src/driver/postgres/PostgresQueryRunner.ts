@@ -1,11 +1,10 @@
 import { ObjectLiteral, OrmUtils } from "typeorm-base";
+import { ReadStream } from "fs";
 import { PromiseUtils, ColumnType } from "../..";
 import { QueryFailedError } from "../../error/QueryFailedError";
 import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
 import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
-
-import { ReadStream } from "../../platform/PlatformTools";
 import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { TableIndexOptions } from "../../schema-builder/options/TableIndexOptions";
@@ -18,7 +17,6 @@ import { TableIndex } from "../../schema-builder/table/TableIndex";
 import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { View } from "../../schema-builder/view/View";
 import { Broadcaster } from "../../subscriber/Broadcaster";
-
 import { Query } from "../Query";
 import { IsolationLevel } from "../types/IsolationLevel";
 import { PostgresDriver } from "./PostgresDriver";

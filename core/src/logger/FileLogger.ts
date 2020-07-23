@@ -1,9 +1,9 @@
+import * as fs from "fs";
+import appRootPath from "app-root-path";
 import { assertUnreachable } from "typeorm-base";
 import { LoggerOptions } from "./LoggerOptions";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { Logger } from "./Logger";
-import { PlatformTools } from "../platform/PlatformTools";
-
 /**
  * Performs logging of the events in TypeORM.
  * This version of logger logs everything into ormlogs.log file.
@@ -147,11 +147,11 @@ export class FileLogger implements Logger {
      */
     protected write(strings: string | string[]) {
         strings = Array.isArray(strings) ? strings : [strings];
-        const basePath = PlatformTools.load("app-root-path").path;
+        const basePath = appRootPath.path;
         strings = (strings as string[]).map(
             (str) => `[${new Date().toISOString()}]${str}`
         );
-        PlatformTools.appendFileSync(
+        fs.appendFileSync(
             `${basePath}/ormlogs.log`,
             `${strings.join("\r\n")}\r\n`
         ); // todo: use async or implement promises?

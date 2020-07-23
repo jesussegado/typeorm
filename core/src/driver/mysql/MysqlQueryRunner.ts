@@ -1,4 +1,5 @@
 import { ObjectLiteral, OrmUtils, VersionUtils } from "typeorm-base";
+import { ReadStream } from "fs";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
 import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
@@ -10,8 +11,6 @@ import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyR
 import { View } from "../../schema-builder/view/View";
 import { Query } from "../Query";
 import { MysqlDriver } from "./MysqlDriver";
-import { ReadStream } from "../../platform/PlatformTools";
-
 import { QueryFailedError } from "../../error/QueryFailedError";
 import { TableIndexOptions } from "../../schema-builder/options/TableIndexOptions";
 import { TableUnique } from "../../schema-builder/table/TableUnique";

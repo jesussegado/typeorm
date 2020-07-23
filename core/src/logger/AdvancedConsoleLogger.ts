@@ -1,4 +1,5 @@
 import { assertUnreachable } from "typeorm-base";
+import chalk from "chalk";
 import { LoggerOptions } from "./LoggerOptions";
 import { PlatformTools } from "../platform/PlatformTools";
 import { QueryRunner } from "../query-runner/QueryRunner";
@@ -34,7 +35,7 @@ export class AdvancedConsoleLogger implements Logger {
                 (parameters && parameters.length
                     ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                     : "");
-            PlatformTools.logInfo("query:", PlatformTools.highlightSql(sql));
+            logInfo("query:", PlatformTools.highlightSql(sql));
         }
     }
 
@@ -58,11 +59,8 @@ export class AdvancedConsoleLogger implements Logger {
                 (parameters && parameters.length
                     ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                     : "");
-            PlatformTools.logError(
-                `query failed:`,
-                PlatformTools.highlightSql(sql)
-            );
-            PlatformTools.logError(`error:`, error);
+            logError(`query failed:`, PlatformTools.highlightSql(sql));
+            logError(`error:`, error);
         }
     }
 
@@ -80,11 +78,8 @@ export class AdvancedConsoleLogger implements Logger {
             (parameters && parameters.length
                 ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
                 : "");
-        PlatformTools.logWarn(
-            `query is slow:`,
-            PlatformTools.highlightSql(sql)
-        );
-        PlatformTools.logWarn(`execution time:`, time);
+        logWarn(`query is slow:`, PlatformTools.highlightSql(sql));
+        logWarn(`execution time:`, time);
     }
 
     /**
@@ -96,7 +91,7 @@ export class AdvancedConsoleLogger implements Logger {
             (Array.isArray(this.options) &&
                 this.options.indexOf("schema") !== -1)
         ) {
-            PlatformTools.log(message);
+            log(message);
         }
     }
 
@@ -104,7 +99,7 @@ export class AdvancedConsoleLogger implements Logger {
      * Logs events from the migration run process.
      */
     logMigration(message: string, queryRunner?: QueryRunner) {
-        PlatformTools.log(message);
+        log(message);
     }
 
     /**
@@ -123,7 +118,7 @@ export class AdvancedConsoleLogger implements Logger {
                     (Array.isArray(this.options) &&
                         this.options.indexOf("log") !== -1)
                 )
-                    PlatformTools.log(message);
+                    log(message);
                 break;
             case "info":
                 if (
@@ -131,7 +126,7 @@ export class AdvancedConsoleLogger implements Logger {
                     (Array.isArray(this.options) &&
                         this.options.indexOf("info") !== -1)
                 )
-                    PlatformTools.logInfo("INFO:", message);
+                    logInfo("INFO:", message);
                 break;
             case "warn":
                 if (
@@ -139,7 +134,7 @@ export class AdvancedConsoleLogger implements Logger {
                     (Array.isArray(this.options) &&
                         this.options.indexOf("warn") !== -1)
                 )
-                    console.warn(PlatformTools.warn(message));
+                    console.warn(chalk.yellow(message));
                 break;
 
             default:
@@ -163,4 +158,23 @@ export class AdvancedConsoleLogger implements Logger {
             return parameters;
         }
     }
+}
+
+/**
+ * Logging functions needed by AdvancedConsoleLogger
+ */
+function logInfo(prefix: string, info: any) {
+    console.log(chalk.gray.underline(prefix), info);
+}
+
+function logError(prefix: string, error: any) {
+    console.log(chalk.underline.red(prefix), error);
+}
+
+function logWarn(prefix: string, warning: any) {
+    console.log(chalk.underline.yellow(prefix), warning);
+}
+
+function log(message: string) {
+    console.log(chalk.underline(message));
 }

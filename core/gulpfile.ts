@@ -63,16 +63,6 @@ export class Gulpfile {
     }
 
     /**
-     * Replaces PlatformTools with browser-specific implementation called BrowserPlatformTools.
-     */
-    @Task()
-    browserCopyPlatformTools() {
-        return gulp.src("./src/platform/BrowserPlatformTools.template")
-            .pipe(rename("PlatformTools.ts"))
-            .pipe(gulp.dest("./build/browser/src/platform"));
-    }
-
-    /**
      * Adds dummy classes for disabled drivers (replacement is done via browser entry point in package.json)
      */
     @Task()
@@ -227,7 +217,7 @@ export class Gulpfile {
     package() {
         return [
             "clean",
-            ["browserCopySources", "browserCopyPlatformTools", "browserCopyDisabledDriversDummy"],
+            ["browserCopySources", "browserCopyDisabledDriversDummy"],
             ["packageCompile", "browserCompile"],
             "packageMoveCompiledFiles",
             [

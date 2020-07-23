@@ -1,3 +1,5 @@
+import * as path from "path";
+import glob from "glob";
 import { PlatformTools } from "../platform/PlatformTools";
 import { EntitySchema } from "../index";
 import { Logger } from "../logger/Logger";
@@ -30,9 +32,7 @@ export function importClassesFromDirectories(
     }
 
     const allFiles = directories.reduce((allDirs, dir) => {
-        return allDirs.concat(
-            PlatformTools.load("glob").sync(PlatformTools.pathNormalize(dir))
-        );
+        return allDirs.concat(glob.sync(path.normalize(dir)));
     }, [] as string[]);
 
     if (directories.length > 0 && allFiles.length === 0) {
@@ -47,11 +47,11 @@ export function importClassesFromDirectories(
         .filter((file) => {
             const dtsExtension = file.substring(file.length - 5, file.length);
             return (
-                formats.indexOf(PlatformTools.pathExtname(file)) !== -1 &&
+                formats.indexOf(path.extname(file)) !== -1 &&
                 dtsExtension !== ".d.ts"
             );
         })
-        .map((file) => PlatformTools.load(PlatformTools.pathResolve(file)));
+        .map((file) => PlatformTools.load(path.resolve(file)));
 
     return loadFileClasses(dirs, []);
 }
@@ -64,12 +64,10 @@ export function importJsonsFromDirectories(
     format = ".json"
 ): any[] {
     const allFiles = directories.reduce((allDirs, dir) => {
-        return allDirs.concat(
-            PlatformTools.load("glob").sync(PlatformTools.pathNormalize(dir))
-        );
+        return allDirs.concat(glob.sync(path.normalize(dir)));
     }, [] as string[]);
 
     return allFiles
-        .filter((file) => PlatformTools.pathExtname(file) === format)
-        .map((file) => PlatformTools.load(PlatformTools.pathResolve(file)));
+        .filter((file) => path.extname(file) === format)
+        .map((file) => PlatformTools.load(path.resolve(file)));
 }

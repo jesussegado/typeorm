@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import * as fs from "fs";
 import * as path from "path";
 import { expect } from "chai";
 import { Post } from "./entity/Post";
@@ -8,7 +9,6 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { PlatformTools } from "../../../src/platform/PlatformTools";
 
 describe("sqljs driver > startup", () => {
     let connections: Connection[];
@@ -47,7 +47,7 @@ describe("sqljs driver > startup", () => {
                 const repository = connection.getRepository(Post);
                 await repository.save(post);
 
-                expect(PlatformTools.fileExist(pathToSqlite)).to.be.true;
+                expect(fs.existsSync(pathToSqlite)).to.be.true;
             })
         ));
 });

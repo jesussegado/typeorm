@@ -3,8 +3,6 @@ import { Driver, DriverType } from "../Driver";
 import { DriverUtils } from "../DriverUtils";
 import { AuroraDataApiQueryRunner } from "./AuroraDataApiQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-
-import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { AuroraDataApiConnectionOptions } from "./AuroraDataApiConnectionOptions";
@@ -850,9 +848,7 @@ export class AuroraDataApiDriver implements Driver {
      * Loads all driver dependencies.
      */
     protected loadDependencies(): void {
-        this.DataApiDriver = PlatformTools.load(
-            "typeorm-aurora-data-api-driver"
-        );
+        this.DataApiDriver = require("typeorm-aurora-data-api-driver");
 
         // Driver uses rollup for publishing, which has issues when using typeorm in combination with webpack
         // See https://github.com/webpack/webpack/issues/4742#issuecomment-295556787

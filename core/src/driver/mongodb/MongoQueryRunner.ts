@@ -1,4 +1,5 @@
 import { ObjectLiteral } from "typeorm-base";
+import { ReadStream } from "fs";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { Table } from "../../schema-builder/table/Table";
@@ -39,7 +40,6 @@ import {
     UpdateWriteOpResult,
 } from "./typings";
 import { Connection } from "../../connection/Connection";
-import { ReadStream } from "../../platform/PlatformTools";
 import { MongoEntityManager } from "../../entity-manager/MongoEntityManager";
 import { SqlInMemory } from "../SqlInMemory";
 import { TableUnique } from "../../schema-builder/table/TableUnique";

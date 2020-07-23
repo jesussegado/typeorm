@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import { OrmUtils, ObjectLiteral } from "typeorm-base";
 import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
 import { SqljsConnectionOptions } from "./SqljsConnectionOptions";
@@ -6,10 +7,9 @@ import { QueryRunner } from "../../query-runner/QueryRunner";
 import { Connection } from "../../connection/Connection";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
-import { PlatformTools } from "../../platform/PlatformTools";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
-
 import { DriverType } from "../Driver";
+import { PlatformTools } from "../../platform/PlatformTools";
 
 // This is needed to satisfy the typescript compiler.
 interface Window {
@@ -93,8 +93,8 @@ export class SqljsDriver extends AbstractSqliteDriver {
             if (PlatformTools.type === "node") {
                 // Node.js
                 // fileNameOrLocalStorageOrData should be a path to the file
-                if (PlatformTools.fileExist(fileNameOrLocalStorageOrData)) {
-                    const database = PlatformTools.readFileSync(
+                if (fs.existsSync(fileNameOrLocalStorageOrData)) {
+                    const database = fs.readFileSync(
                         fileNameOrLocalStorageOrData
                     );
                     return this.createDatabaseConnectionWithImport(database);
@@ -175,7 +175,7 @@ export class SqljsDriver extends AbstractSqliteDriver {
         if (PlatformTools.type === "node") {
             try {
                 const content = Buffer.from(this.databaseConnection.export());
-                await PlatformTools.writeFile(path, content);
+                await writeFile(path, content);
             } catch (e) {
                 throw new Error(`Could not save database, error: ${e}`);
             }
@@ -313,10 +313,19 @@ export class SqljsDriver extends AbstractSqliteDriver {
             this.sqlite = window.SQL;
         } else {
             try {
-                this.sqlite = PlatformTools.load("sql.js");
+                this.sqlite = require("sql.js");
             } catch (e) {
                 throw new DriverPackageNotInstalledError("sql.js", "sql.js");
             }
         }
     }
+}
+
+async function writeFile(path: string, data: any): Promise<void> {
+    return new Promise<void>((ok, fail) => {
+        fs.writeFile(path, data, (err) => {
+            if (err) fail(err);
+            ok();
+        });
+    });
 }

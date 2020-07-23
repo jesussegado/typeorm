@@ -1,14 +1,14 @@
+import mkdirp from "mkdirp";
+import path from "path";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { SqliteQueryRunner } from "./SqliteQueryRunner";
 import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
-import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { SqliteConnectionOptions } from "./SqliteConnectionOptions";
 import { ColumnType } from "../types/ColumnTypes";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
 import { DriverType } from "../Driver";
-
 /**
  * Organizes communication with sqlite DBMS.
  */
@@ -132,7 +132,7 @@ export class SqliteDriver extends AbstractSqliteDriver {
      */
     protected loadDependencies(): void {
         try {
-            this.sqlite = PlatformTools.load("sqlite3").verbose();
+            this.sqlite = require("sqlite3").verbose();
         } catch (e) {
             throw new DriverPackageNotInstalledError("SQLite", "sqlite3");
         }
@@ -141,9 +141,9 @@ export class SqliteDriver extends AbstractSqliteDriver {
     /**
      * Auto creates database directory if it does not exist.
      */
-    protected createDatabaseDirectory(fullPath: string): Promise<void> {
-        const mkdirp = PlatformTools.load("mkdirp");
-        const path = PlatformTools.load("path");
+    protected createDatabaseDirectory(
+        fullPath: string
+    ): Promise<string | undefined> {
         return mkdirp(path.dirname(fullPath));
     }
 }

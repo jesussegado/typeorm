@@ -1,29 +1,27 @@
+import debug from "debug";
 import { assertUnreachable } from "typeorm-base";
 import { Logger } from "./Logger";
 import { QueryRunner } from "..";
 import { PlatformTools } from "../platform/PlatformTools";
-
 /**
  * Performs logging of the events in TypeORM via debug library.
  */
 export class DebugLogger implements Logger {
-    private debug = PlatformTools.load("debug");
+    private debugQueryLog = debug("typeorm:query:log");
 
-    private debugQueryLog = this.debug("typeorm:query:log");
+    private debugQueryError = debug("typeorm:query:error");
 
-    private debugQueryError = this.debug("typeorm:query:error");
+    private debugQuerySlow = debug("typeorm:query:slow");
 
-    private debugQuerySlow = this.debug("typeorm:query:slow");
+    private debugSchemaBuild = debug("typeorm:schema");
 
-    private debugSchemaBuild = this.debug("typeorm:schema");
+    private debugMigration = debug("typeorm:migration");
 
-    private debugMigration = this.debug("typeorm:migration");
+    private debugLog = debug("typeorm:log");
 
-    private debugLog = this.debug("typeorm:log");
+    private debugInfo = debug("typeorm:info");
 
-    private debugInfo = this.debug("typeorm:info");
-
-    private debugWarn = this.debug("typeorm:warn");
+    private debugWarn = debug("typeorm:warn");
 
     /**
      * Logs query and parameters used in it.

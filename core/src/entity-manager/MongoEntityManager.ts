@@ -44,7 +44,6 @@ import { DocumentToEntityTransformer } from "../query-builder/transformer/Docume
 import { FindManyOptions } from "../find-options/FindManyOptions";
 import { FindOptionsUtils } from "../find-options/FindOptionsUtils";
 import { FindOneOptions } from "../find-options/FindOneOptions";
-import { PlatformTools } from "../platform/PlatformTools";
 import { QueryDeepPartialEntity } from "../query-builder/QueryPartialEntity";
 import { InsertResult } from "../query-builder/result/InsertResult";
 import { UpdateResult } from "../query-builder/result/UpdateResult";
@@ -165,7 +164,7 @@ export class MongoEntityManager extends EntityManager {
             this.convertFindManyOptionsOrConditionsToMongodbQuery(
                 optionsOrConditions
             ) || {};
-        const objectIdInstance = PlatformTools.load("mongodb").ObjectID;
+        const objectIdInstance = require("mongodb").ObjectID;
         query._id = {
             $in: ids.map((id) => {
                 if (id instanceof objectIdInstance) return id;
@@ -213,7 +212,7 @@ export class MongoEntityManager extends EntityManager {
             | DeepPartial<Entity>,
         maybeOptions?: FindOneOptions<Entity>
     ): Promise<Entity | undefined> {
-        const ObjectIdInstance = PlatformTools.load("mongodb").ObjectID;
+        const ObjectIdInstance = require("mongodb").ObjectID;
         const id =
             optionsOrConditions instanceof ObjectIdInstance ||
             typeof optionsOrConditions === "string"
@@ -1023,7 +1022,7 @@ export class MongoEntityManager extends EntityManager {
         }
 
         // means idMap is just object id
-        const ObjectIdInstance = PlatformTools.load("mongodb").ObjectID;
+        const ObjectIdInstance = require("mongodb").ObjectID;
         return {
             _id:
                 idMap instanceof ObjectIdInstance
@@ -1039,7 +1038,7 @@ export class MongoEntityManager extends EntityManager {
         metadata: EntityMetadata,
         cursor: Cursor<Entity> | AggregationCursor<Entity>
     ) {
-        const ParentCursor = PlatformTools.load("mongodb").Cursor;
+        const ParentCursor = require("mongodb").Cursor;
         const { queryRunner } = this;
         cursor.toArray = function (callback?: MongoCallback<Entity[]>) {
             if (callback) {

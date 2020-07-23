@@ -4,7 +4,6 @@ import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { MongoQueryRunner } from "./MongoQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-import { PlatformTools } from "../../platform/PlatformTools";
 import { Connection } from "../../connection/Connection";
 import { MongoConnectionOptions } from "./MongoConnectionOptions";
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
@@ -456,7 +455,7 @@ export class MongoDriver implements Driver {
      */
     protected loadDependencies(): any {
         try {
-            this.mongodb = PlatformTools.load("mongodb"); // try to load native driver dynamically
+            this.mongodb = require("mongodb"); // try to load native driver dynamically
         } catch (e) {
             throw new DriverPackageNotInstalledError("MongoDB", "mongodb");
         }
