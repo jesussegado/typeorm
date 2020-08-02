@@ -7,6 +7,10 @@ node_js:
 services:
   - docker
 
+install:
+  - export DISPLAY=':99.0'
+  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+
 before_script:
   - sudo service mysql stop
   - sudo service postgresql stop

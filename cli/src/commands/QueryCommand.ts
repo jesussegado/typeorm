@@ -2,7 +2,7 @@ import * as yargs from "yargs";
 import { Connection, QueryRunner, createConnection } from "typeorm-core";
 import { PlatformTools } from "typeorm-core/build/compiled/src/platform/PlatformTools";
 import { ConnectionOptionsReader } from "typeorm-options-reader";
-import highlight from 'cli-highlight';
+import highlight from "cli-highlight";
 
 const chalk = require("chalk");
 
@@ -58,9 +58,9 @@ export class QueryCommand implements yargs.CommandModule {
             const queryResult = await queryRunner.query(args._[1]);
             console.log(chalk.green("Query has been executed. Result: "));
             console.log(
-                highlight(
-                    JSON.stringify(queryResult, undefined, 2)
-                    , { language: "json" })
+                highlight(JSON.stringify(queryResult, undefined, 2), {
+                    language: "json",
+                })
             );
 
             await queryRunner.release();
