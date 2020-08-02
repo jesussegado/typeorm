@@ -27,7 +27,8 @@
     "core",
     "options-reader",
     "cli",
-    "examples/electron"
+    "examples/electron",
+    "examples/typescript"
   ],
   "dependencies": {
     "typescript": "^3.6.5"

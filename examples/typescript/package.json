@@ -1,20 +1,19 @@
 {
-  "name": "typeorm-electron-example",
+  "name": "typeorm-typescript-example",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha",
+    "test": "echo empty",
     "clean": "rimraf ./{src,test}/**/*.{js,d.ts,js.map}",
     "compile": "tsc",
     "watch": "./node_modules/.bin/tsc -w",
     "lint": "eslint {src,test}/**/*.ts",
     "prettier": "prettier --write {src,test}/**/*.ts",
-    "electron": "yarn compile && electron ./src/index.js"
+    "start": "node ./src/index.js"
   },
   "devDependencies": {
     "@types/node": "12.12.21",
-    "@types/source-map-support": "^0.5.2",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^3.4.0",
     "@typescript-eslint/typescript-estree": "^3.4.0",
@@ -22,15 +21,13 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
-    "mocha": "^8.1.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "spectron": "^11.1.0",
     "typescript": "^3.6.5"
   },
   "dependencies": {
-    "electron": "^9.1.2",
-    "sqlite3": "^5.0.0",
+    "mysql": "^2.18.1",
+    "reflect-metadata": "^0.1.13",
     "typeorm-core": "*"
   }
 }

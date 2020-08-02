@@ -45,10 +45,10 @@ describe("Connects to database", function () {
         const rendererSuccess = mainLogs.some((line) => {
             return line.includes("renderer success");
         });
-        assert.equal(rendererSuccess, true,"Renderer error");
+        assert.equal(rendererSuccess, true, "Renderer error");
         const mainProcessSuccess = mainLogs.some((line) => {
             return line.includes("main process success");
         });
-        assert.equal(mainProcessSuccess, true,"Main process error");
+        assert.equal(mainProcessSuccess, true, "Main process error");
     });
 });
