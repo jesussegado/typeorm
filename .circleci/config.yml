@@ -5,7 +5,7 @@ jobs:
   common:
     working_directory: ~/typeorm
     docker:
-      - image: circleci/node:10.16.0
+      - image: circleci/node:10-browsers
       - image: mysql:5.7.24
         environment:
           MYSQL_ROOT_PASSWORD: "admin"
@@ -47,7 +47,7 @@ jobs:
   cockroachdb:
     working_directory: ~/typeorm
     docker:
-      - image: circleci/node:10.15.0
+      - image: circleci/node:10-browsers
       - image: cockroachdb/cockroach:latest
         command: start --insecure
     steps:
@@ -71,7 +71,7 @@ jobs:
   oracle:
     working_directory: ~/typeorm
     docker:
-    - image: circleci/node:10.16.0
+    - image: circleci/node:10-browsers
     - image: "store/oracle/database-enterprise:12.2.0.1-slim"
       auth:
         username: $DOCKER_USER

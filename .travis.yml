@@ -18,6 +18,7 @@ before_script:
   - cp ormconfig.travis.json ormconfig.json
 
 script:
+  - yarn --frozen-lockfile
   - yarn compile
   - yarn test
   - yarn lint
