@@ -9,10 +9,11 @@ import { ColumnType } from "../types/ColumnTypes";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
+import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
+import { DriverUtils } from '../DriverUtils';
 
 /**
  * Organizes communication with sqlite DBMS.
@@ -45,7 +46,7 @@ export abstract class AbstractSqliteDriver implements Driver {
     /**
      * Connection options.
      */
-    options: BaseConnectionOptions;
+    options: TypeORMOptions;
 
     /**
      * Master database used to perform all write queries.
@@ -185,7 +186,7 @@ export abstract class AbstractSqliteDriver implements Driver {
 
     constructor(connection: Connection) {
         this.connection = connection;
-        this.options = connection.options as BaseConnectionOptions;
+        this.options = connection.options as TypeORMOptions;
     }
 
     // -------------------------------------------------------------------------
@@ -661,5 +662,9 @@ export abstract class AbstractSqliteDriver implements Driver {
      */
     protected loadDependencies(): void {
         // dependencies have to be loaded in the specific driver
+    }
+    // This database name property is nested for replication configs.
+    getDatabaseName(): string {
+        return DriverUtils.buildDriverOptions(this.options).database;
     }
 }

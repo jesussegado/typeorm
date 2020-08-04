@@ -14,6 +14,7 @@ import { ConnectionOptions } from "../../connection/ConnectionOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 import { MongoClient } from 'mongodb';
+import { DriverUtils } from '../DriverUtils';
 
 /**
  * Organizes communication with MongoDB.
@@ -204,7 +205,7 @@ export class MongoDriver implements Driver {
         this.options = connection.options as MongoConnectionOptions;
 
         // validate options to make sure everything is correct and driver will be able to establish connection
-        this.validateOptions(connection.options);
+        this.validateOptions(this.options);
 
         // load mongodb package
         this.loadDependencies();
@@ -493,5 +494,9 @@ export class MongoDriver implements Driver {
         }
 
         return mongoOptions;
+    }
+    // This database name property is nested for replication configs.
+    getDatabaseName(): string {
+        return DriverUtils.buildDriverOptions(this.options).database;
     }
 }

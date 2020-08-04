@@ -1,10 +1,10 @@
-import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
+import { TypeORMOptions } from "../../connection/TypeORMOptions";
 
 /**
  * Postgres-specific connection options.
  */
 export interface AuroraDataApiPostgresConnectionOptions
-    extends BaseConnectionOptions {
+    extends TypeORMOptions {
     /**
      * Database type.
      */

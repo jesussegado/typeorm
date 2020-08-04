@@ -9,7 +9,7 @@ import { QueryResultCache } from "../cache/QueryResultCache";
 /**
  * BaseConnectionOptions is set of connection options shared by all database types.
  */
-export interface BaseConnectionOptions {
+export interface TypeORMOptions {
     /**
      * Database type. This value is required.
      */

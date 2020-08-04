@@ -1,11 +1,11 @@
-import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
+import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { ReadPreference } from 'mongodb';
 
 /**
  * MongoDB specific connection options.
  * Synced with http://mongodb.github.io/node-mongodb-native/3.1/api/MongoClient.html
  */
-export interface MongoConnectionOptions extends BaseConnectionOptions {
+export interface MongoConnectionOptions extends TypeORMOptions {
     /**
      * Database type.
      */

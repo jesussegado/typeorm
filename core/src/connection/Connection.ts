@@ -31,9 +31,8 @@ import { SqljsEntityManager } from "../entity-manager/SqljsEntityManager";
 import { RelationLoader } from "../query-builder/RelationLoader";
 import { RelationIdLoader } from "../query-builder/RelationIdLoader";
 import { EntitySchema, PromiseUtils } from "..";
-
 import { IsolationLevel } from "../driver/types/IsolationLevel";
-import { DriverUtils } from "../driver/DriverUtils";
+import { TypeORMOptions } from './TypeORMOptions';
 
 /**
  * Connection is a single database ORM connection to a specific database.
@@ -53,7 +52,7 @@ export class Connection {
     /**
      * Connection options.
      */
-    readonly options: ConnectionOptions;
+    readonly options: TypeORMOptions;
 
     /**
      * Indicates if connection is initialized or not.
@@ -585,7 +584,7 @@ export class Connection {
         );
         ObjectUtils.assign(this, { migrations });
 
-        this.driver.database = this.getDatabaseName();
+        this.driver.database = this.driver.getDatabaseName();
 
         // validate all created entity metadatas to make sure user created entities are valid and correct
         entityMetadataValidator.validateMany(
@@ -596,21 +595,4 @@ export class Connection {
         );
     }
 
-    // This database name property is nested for replication configs.
-    protected getDatabaseName(): string {
-        const { options } = this;
-        switch (options.type) {
-            case "mysql":
-            case "mariadb":
-            case "postgres":
-            case "cockroachdb":
-            case "mssql":
-            case "oracle":
-                return DriverUtils.buildDriverOptions(
-                    options.replication ? options.replication.master : options
-                ).database;
-            default:
-                return DriverUtils.buildDriverOptions(options).database;
-        }
-    }
 }

@@ -927,4 +927,8 @@ export class AuroraDataApiDriver implements Driver {
 
         return columnMetadataValue === databaseValue;
     }
+    // This database name property is nested for replication configs.
+    getDatabaseName(): string {
+        return DriverUtils.buildDriverOptions(this.options).database;
+    }
 }

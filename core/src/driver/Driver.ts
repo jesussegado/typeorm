@@ -5,7 +5,7 @@ import { ColumnType } from "./types/ColumnTypes";
 import { MappedColumnTypes } from "./types/MappedColumnTypes";
 import { SchemaBuilder } from "../schema-builder/SchemaBuilder";
 import { DataTypeDefaults } from "./types/DataTypeDefaults";
-import { BaseConnectionOptions } from "../connection/BaseConnectionOptions";
+import { TypeORMOptions } from "../connection/TypeORMOptions";
 import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { DatabaseType } from "..";
@@ -64,7 +64,7 @@ export interface Driver {
     /**
      * Connection options.
      */
-    options: BaseConnectionOptions;
+    options: TypeORMOptions;
 
     /**
      * Master database used to perform all write queries.
@@ -264,4 +264,8 @@ export interface Driver {
      * Creates an escaped parameter.
      */
     createParameter(parameterName: string, index: number): string;
+
+
+    // This database name property is nested for replication configs.
+    getDatabaseName(): string;
 }

@@ -779,4 +779,10 @@ export class OracleDriver implements Driver {
             pool = undefined;
         });
     }
+    // This database name property is nested for replication configs.
+    getDatabaseName(): string {
+        return DriverUtils.buildDriverOptions(
+            this.options.replication ? this.options.replication.master : this.options
+           ).database;
+    }
 }

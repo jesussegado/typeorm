@@ -1171,6 +1171,13 @@ export class PostgresDriver implements Driver {
             });
         });
     }
+    // This database name property is nested for replication configs.
+    getDatabaseName(): string {
+        return DriverUtils.buildDriverOptions(
+            this.options.replication ? this.options.replication.master : this.options
+           ).database;
+    }
+
 }
 
 abstract class PostgresWrapper extends PostgresDriver {

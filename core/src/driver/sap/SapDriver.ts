@@ -16,6 +16,7 @@ import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
 import { SapConnectionOptions } from "./SapConnectionOptions";
 import { SapQueryRunner } from "./SapQueryRunner";
+import { DriverUtils } from '../DriverUtils';
 
 /**
  * Organizes communication with SAP Hana DBMS.
@@ -716,5 +717,9 @@ export class SapDriver implements Driver {
                 "@sap/hana-client"
             );
         }
+    }
+    // This database name property is nested for replication configs.
+    getDatabaseName(): string {
+        return DriverUtils.buildDriverOptions(this.options).database;
     }
 }

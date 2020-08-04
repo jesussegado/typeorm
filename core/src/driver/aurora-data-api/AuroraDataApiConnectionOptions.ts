@@ -1,4 +1,4 @@
-import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
+import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { AuroraDataApiConnectionCredentialsOptions } from "./AuroraDataApiConnectionCredentialsOptions";
 
 /**
@@ -7,7 +7,7 @@ import { AuroraDataApiConnectionCredentialsOptions } from "./AuroraDataApiConnec
  * @see https://github.com/mysqljs/mysql#connection-options
  */
 export interface AuroraDataApiConnectionOptions
-    extends BaseConnectionOptions,
+    extends TypeORMOptions,
         AuroraDataApiConnectionCredentialsOptions {
     /**
      * Database type.

@@ -1,9 +1,9 @@
-import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
+import { TypeORMOptions } from "../../connection/TypeORMOptions";
 
 /**
  * Sqlite-specific connection options.
  */
-export interface CordovaConnectionOptions extends BaseConnectionOptions {
+export interface CordovaConnectionOptions extends TypeORMOptions {
     /**
      * Database type.
      */

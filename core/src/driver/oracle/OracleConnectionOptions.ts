@@ -1,11 +1,11 @@
-import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
+import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { OracleConnectionCredentialsOptions } from "./OracleConnectionCredentialsOptions";
 
 /**
  * Oracle-specific connection options.
  */
 export interface OracleConnectionOptions
-    extends BaseConnectionOptions,
+    extends TypeORMOptions,
         OracleConnectionCredentialsOptions {
     /**
      * Database type.

@@ -1,11 +1,11 @@
-import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
+import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { SapConnectionCredentialsOptions } from "./SapConnectionCredentialsOptions";
 
 /**
  * SAP Hana specific connection options.
  */
 export interface SapConnectionOptions
-    extends BaseConnectionOptions,
+    extends TypeORMOptions,
         SapConnectionCredentialsOptions {
     /**
      * Database type.

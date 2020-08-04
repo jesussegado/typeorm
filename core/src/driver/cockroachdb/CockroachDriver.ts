@@ -824,4 +824,10 @@ export class CockroachDriver implements Driver {
             pool.end((err: any) => (err ? fail(err) : ok()));
         });
     }
+    // This database name property is nested for replication configs.
+    getDatabaseName(): string {
+        return DriverUtils.buildDriverOptions(
+            this.options.replication ? this.options.replication.master : this.options
+           ).database;
+    }
 }

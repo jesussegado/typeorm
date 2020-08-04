@@ -1,11 +1,11 @@
-import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
+import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { CockroachConnectionCredentialsOptions } from "./CockroachConnectionCredentialsOptions";
 
 /**
  * Cockroachdb-specific connection options.
  */
 export interface CockroachConnectionOptions
-    extends BaseConnectionOptions,
+    extends TypeORMOptions,
         CockroachConnectionCredentialsOptions {
     /**
      * Database type.
