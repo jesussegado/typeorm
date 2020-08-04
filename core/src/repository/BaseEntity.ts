@@ -1,6 +1,6 @@
 import { ObjectType, ObjectUtils, DeepPartial } from "typeorm-base";
 import { Repository } from "./Repository";
-import { FindConditions, getConnection } from "../index";
+import { FindConditions, getConnection, ObjectID } from "../index";
 import { SaveOptions } from "./SaveOptions";
 import { FindOneOptions } from "../find-options/FindOneOptions";
 import { RemoveOptions } from "./RemoveOptions";
@@ -10,7 +10,6 @@ import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
 import { InsertResult } from "../query-builder/result/InsertResult";
 import { UpdateResult } from "../query-builder/result/UpdateResult";
 import { DeleteResult } from "../query-builder/result/DeleteResult";
-import { ObjectID } from "../driver/mongodb/typings";
 import { QueryDeepPartialEntity } from "../query-builder/QueryPartialEntity";
 
 /**

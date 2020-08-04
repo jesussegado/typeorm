@@ -1,7 +1,6 @@
 import { ObjectLiteral, ObjectUtils } from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
-import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { MongoQueryRunner } from "./MongoQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { Connection } from "../../connection/Connection";
@@ -14,6 +13,7 @@ import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { ConnectionOptions } from "../../connection/ConnectionOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
+import { MongoClient } from 'mongodb';
 
 /**
  * Organizes communication with MongoDB.
@@ -28,7 +28,6 @@ export class MongoDriver implements Driver {
     /**
      * Underlying mongodb library.
      */
-    mongodb: any;
 
     /**
      * Mongodb does not require to dynamically create query runner each time,
@@ -220,10 +219,10 @@ export class MongoDriver implements Driver {
      */
     connect(): Promise<void> {
         return new Promise<void>((ok, fail) => {
-            this.mongodb.MongoClient.connect(
+            MongoClient.connect(
                 this.buildConnectionUrl(),
                 this.buildConnectionOptions(),
-                (err: any, client: any) => {
+                (err, client) => {
                     if (err) return fail(err);
 
                     this.queryRunner = new MongoQueryRunner(
@@ -454,11 +453,11 @@ export class MongoDriver implements Driver {
      * Loads all driver dependencies.
      */
     protected loadDependencies(): any {
-        try {
-            this.mongodb = require("mongodb"); // try to load native driver dynamically
-        } catch (e) {
-            throw new DriverPackageNotInstalledError("MongoDB", "mongodb");
-        }
+        // try {
+        //     this.mongodb = require("mongodb"); // try to load native driver dynamically
+        // } catch (e) {
+        //     throw new DriverPackageNotInstalledError("MongoDB", "mongodb");
+        // }
     }
 
     /**

@@ -2,7 +2,7 @@ import { Connection } from "../connection/Connection";
 import { SchemaBuilder } from "./SchemaBuilder";
 import { MongoDriver } from "../driver/mongodb/MongoDriver";
 import { SqlInMemory } from "../driver/SqlInMemory";
-import { MongodbIndexOptions } from "../driver/mongodb/typings";
+import { IndexOptions } from 'mongodb';
 
 /**
  * Creates complete tables schemas in the database based on the entity metadatas.
@@ -38,7 +38,7 @@ export class MongoSchemaBuilder implements SchemaBuilder {
         const promises: Promise<any>[] = [];
         this.connection.entityMetadatas.forEach((metadata) => {
             metadata.indices.forEach((index) => {
-                const options: MongodbIndexOptions = {
+                const options: IndexOptions = {
                     name: index.name,
                     unique: index.isUnique,
                     sparse: index.isSparse,
@@ -59,7 +59,7 @@ export class MongoSchemaBuilder implements SchemaBuilder {
                 const options = {
                     name: unique.name,
                     unique: true,
-                } as MongodbIndexOptions;
+                } as IndexOptions;
                 promises.push(
                     queryRunner.createCollectionIndex(
                         metadata.tableName,

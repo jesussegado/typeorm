@@ -1,5 +1,5 @@
 import { BaseConnectionOptions } from "../../connection/BaseConnectionOptions";
-import { ReadPreference } from "./typings";
+import { ReadPreference } from 'mongodb';
 
 /**
  * MongoDB specific connection options.

@@ -1,43 +1,6 @@
 import { ObjectType, ObjectLiteral, DeepPartial } from "typeorm-base";
 import { Connection } from "../connection/Connection";
 import { EntityManager } from "./EntityManager";
-import {
-    AggregationCursor,
-    BulkWriteOpResultObject,
-    ChangeStream,
-    ChangeStreamOptions,
-    Code,
-    Collection,
-    CollectionAggregationOptions,
-    CollectionBulkWriteOptions,
-    CollectionInsertManyOptions,
-    CollectionInsertOneOptions,
-    CollectionOptions,
-    CollStats,
-    CommandCursor,
-    Cursor,
-    CursorResult,
-    DeleteWriteOpResultObject,
-    FindAndModifyWriteOpResultObject,
-    FindOneAndReplaceOption,
-    GeoHaystackSearchOptions,
-    GeoNearOptions,
-    InsertOneWriteOpResult,
-    InsertWriteOpResult,
-    MapReduceOptions,
-    MongoCallback,
-    MongoCountPreferences,
-    MongodbIndexOptions,
-    MongoError,
-    ObjectID,
-    OrderedBulkOperation,
-    ParallelCollectionScanOptions,
-    ReadPreference,
-    ReplaceOneOptions,
-    UnorderedBulkOperation,
-    UpdateWriteOpResult,
-} from "../driver/mongodb/typings";
-
 import { MongoQueryRunner } from "../driver/mongodb/MongoQueryRunner";
 import { MongoDriver } from "../driver/mongodb/MongoDriver";
 import { DocumentToEntityTransformer } from "../query-builder/transformer/DocumentToEntityTransformer";
@@ -49,8 +12,9 @@ import { InsertResult } from "../query-builder/result/InsertResult";
 import { UpdateResult } from "../query-builder/result/UpdateResult";
 import { DeleteResult } from "../query-builder/result/DeleteResult";
 import { EntityMetadata } from "../metadata/EntityMetadata";
-import { EntitySchema, FindConditions } from "../index";
+import { EntitySchema, FindConditions, ObjectID } from "../index";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
+import { Cursor, CollectionAggregationOptions, AggregationCursor, CollectionBulkWriteOptions, BulkWriteOpResultObject, MongoCountPreferences, DeleteWriteOpResultObject, FindAndModifyWriteOpResultObject, FindOneAndReplaceOption, GeoHaystackSearchOptions, Code, OrderedBulkOperation, UnorderedBulkOperation, CollectionInsertManyOptions, InsertWriteOpResult, CollectionInsertOneOptions, InsertOneWriteOpResult, CommandCursor, MapReduceOptions, ParallelCollectionScanOptions, Collection, ReplaceOneOptions, UpdateWriteOpResult, CollStats, ChangeStreamOptions, ChangeStream, MongoCallback, MongoError, CursorResult, CommonOptions, IndexOptions, BulkWriteOperation, IndexSpecification, MongoDistinctPreferences, ReadPreferenceOrMode, ClientSession, CollectionMapFunction, CollectionReduceFunction } from 'mongodb';
 
 /**
  * Entity manager supposed to work with any entity, automatically find its repository and call its methods,
@@ -446,7 +410,7 @@ export class MongoEntityManager extends EntityManager {
      */
     bulkWrite<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        operations: ObjectLiteral[],
+        operations: Array<BulkWriteOperation<Entity>>,
         options?: CollectionBulkWriteOptions
     ): Promise<BulkWriteOpResultObject> {
         const metadata = this.connection.getMetadata(entityClassOrName);
@@ -475,7 +439,7 @@ export class MongoEntityManager extends EntityManager {
     createCollectionIndex<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         fieldOrSpec: string | any,
-        options?: MongodbIndexOptions
+        options?: IndexOptions
     ): Promise<string> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.createCollectionIndex(
@@ -492,7 +456,7 @@ export class MongoEntityManager extends EntityManager {
      */
     createCollectionIndexes<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        indexSpecs: ObjectLiteral[]
+        indexSpecs: IndexSpecification[]
     ): Promise<void> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.createCollectionIndexes(
@@ -507,7 +471,7 @@ export class MongoEntityManager extends EntityManager {
     deleteMany<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         query: ObjectLiteral,
-        options?: CollectionOptions
+        options?: CommonOptions
     ): Promise<DeleteWriteOpResultObject> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.deleteMany(metadata.tableName, query, options);
@@ -519,7 +483,7 @@ export class MongoEntityManager extends EntityManager {
     deleteOne<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         query: ObjectLiteral,
-        options?: CollectionOptions
+        options?: CommonOptions
     ): Promise<DeleteWriteOpResultObject> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.deleteOne(metadata.tableName, query, options);
@@ -532,7 +496,7 @@ export class MongoEntityManager extends EntityManager {
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         key: string,
         query: ObjectLiteral,
-        options?: { readPreference?: ReadPreference | string }
+        options?: MongoDistinctPreferences
     ): Promise<any> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.distinct(
@@ -549,7 +513,7 @@ export class MongoEntityManager extends EntityManager {
     dropCollectionIndex<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         indexName: string,
-        options?: CollectionOptions
+        options?: CommonOptions
     ): Promise<any> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.dropCollectionIndex(
@@ -580,7 +544,7 @@ export class MongoEntityManager extends EntityManager {
             sort?: Record<string, any>;
             maxTimeMS?: number;
         }
-    ): Promise<FindAndModifyWriteOpResultObject> {
+    ): Promise<FindAndModifyWriteOpResultObject<any>> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.findOneAndDelete(
             metadata.tableName,
@@ -597,7 +561,7 @@ export class MongoEntityManager extends EntityManager {
         query: ObjectLiteral,
         replacement: Record<string, any>,
         options?: FindOneAndReplaceOption
-    ): Promise<FindAndModifyWriteOpResultObject> {
+    ): Promise<FindAndModifyWriteOpResultObject<any>> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.findOneAndReplace(
             metadata.tableName,
@@ -615,7 +579,7 @@ export class MongoEntityManager extends EntityManager {
         query: ObjectLiteral,
         update: Record<string, any>,
         options?: FindOneAndReplaceOption
-    ): Promise<FindAndModifyWriteOpResultObject> {
+    ): Promise<FindAndModifyWriteOpResultObject<any>> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.findOneAndUpdate(
             metadata.tableName,
@@ -650,7 +614,7 @@ export class MongoEntityManager extends EntityManager {
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         x: number,
         y: number,
-        options?: GeoNearOptions
+        options?: GeoHaystackSearchOptions
     ): Promise<any> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.geoNear(metadata.tableName, x, y, options);
@@ -667,7 +631,7 @@ export class MongoEntityManager extends EntityManager {
         reduce: Function | Code,
         finalize: Function | Code,
         command: boolean,
-        options?: { readPreference?: ReadPreference | string }
+        options?:{ readPreference?: ReadPreferenceOrMode, session?: ClientSession }
     ): Promise<any> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.group(
@@ -711,7 +675,7 @@ export class MongoEntityManager extends EntityManager {
      */
     collectionIndexInformation<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        options?: { full: boolean }
+        options?: { full: boolean, session: ClientSession }
     ): Promise<any> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.collectionIndexInformation(
@@ -725,7 +689,7 @@ export class MongoEntityManager extends EntityManager {
      */
     initializeOrderedBulkOp<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        options?: CollectionOptions
+        options?: CommonOptions
     ): OrderedBulkOperation {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.initializeOrderedBulkOp(
@@ -739,7 +703,7 @@ export class MongoEntityManager extends EntityManager {
      */
     initializeUnorderedBulkOp<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        options?: CollectionOptions
+        options?: CommonOptions
     ): UnorderedBulkOperation {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.initializeUnorderedBulkOp(
@@ -755,7 +719,7 @@ export class MongoEntityManager extends EntityManager {
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         docs: ObjectLiteral[],
         options?: CollectionInsertManyOptions
-    ): Promise<InsertWriteOpResult> {
+    ): Promise<InsertWriteOpResult<any>> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.insertMany(metadata.tableName, docs, options);
     }
@@ -767,7 +731,7 @@ export class MongoEntityManager extends EntityManager {
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
         doc: ObjectLiteral,
         options?: CollectionInsertOneOptions
-    ): Promise<InsertOneWriteOpResult> {
+    ): Promise<InsertOneWriteOpResult<any>> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.insertOne(metadata.tableName, doc, options);
     }
@@ -787,10 +751,7 @@ export class MongoEntityManager extends EntityManager {
      */
     listCollectionIndexes<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        options?: {
-            batchSize?: number;
-            readPreference?: ReadPreference | string;
-        }
+        options?: { batchSize?: number, readPreference?: ReadPreferenceOrMode, session?: ClientSession }
     ): CommandCursor {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.listCollectionIndexes(
@@ -804,8 +765,8 @@ export class MongoEntityManager extends EntityManager {
      */
     mapReduce<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        map: Function | string,
-        reduce: Function | string,
+        map: string | CollectionMapFunction<any>,
+        reduce: CollectionReduceFunction<any, any> | string,
         options?: MapReduceOptions
     ): Promise<any> {
         const metadata = this.connection.getMetadata(entityClassOrName);
@@ -1038,11 +999,10 @@ export class MongoEntityManager extends EntityManager {
         metadata: EntityMetadata,
         cursor: Cursor<Entity> | AggregationCursor<Entity>
     ) {
-        const ParentCursor = require("mongodb").Cursor;
         const { queryRunner } = this;
         cursor.toArray = function (callback?: MongoCallback<Entity[]>) {
             if (callback) {
-                ParentCursor.prototype.toArray.call(
+                Cursor.prototype.toArray.call(
                     this,
                     async (
                         error: MongoError,
@@ -1073,7 +1033,7 @@ export class MongoEntityManager extends EntityManager {
                     }
                 );
             } else {
-                return ParentCursor.prototype.toArray
+                return Cursor.prototype.toArray
                     .call(this)
                     .then((results: Entity[]) => {
                         const transformer = new DocumentToEntityTransformer();
@@ -1098,7 +1058,7 @@ export class MongoEntityManager extends EntityManager {
         };
         cursor.next = function (callback?: MongoCallback<CursorResult>) {
             if (callback) {
-                ParentCursor.prototype.next.call(
+                Cursor.prototype.next.call(
                     this,
                     async (
                         error: MongoError,
@@ -1126,7 +1086,7 @@ export class MongoEntityManager extends EntityManager {
                     }
                 );
             } else {
-                return ParentCursor.prototype.next
+                return Cursor.prototype.next
                     .call(this)
                     .then((result: Entity) => {
                         if (!result) return result;
@@ -1147,6 +1107,6 @@ export class MongoEntityManager extends EntityManager {
                         );
                     });
             }
-        };
+        } as any;
     }
 }

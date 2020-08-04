@@ -1,5 +1,5 @@
-import { Entity, ObjectIdColumn, Column, ObjectID } from "../../../../src";
 import { Chapter } from "./Chapter";
+import { ObjectID, Entity, ObjectIdColumn, Column } from '../../../../src';
 
 @Entity()
 export class Book {

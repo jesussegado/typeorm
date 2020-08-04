@@ -1,4 +1,4 @@
-import { Entity, ObjectIdColumn, ObjectID, Column } from "../../../../src";
+import { ObjectID, Entity, ObjectIdColumn, Column } from '../../../../src';
 
 /**
  * @deprecated use item config instead
