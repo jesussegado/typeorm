@@ -1,17 +1,24 @@
 import "../sample1-simple-entity/node_modules/reflect-metadata";
-import {ConnectionOptions, createConnection} from "../../src/index";
+import { createConnection} from "../../src/index";
 import {Post} from "./entity/Post";
 import {PostDetails} from "./entity/PostDetails";
+import { TypeormAndConnectionOptions } from '../../src/connection/Connection';
 
-const options: ConnectionOptions = {
-    type: "mssql",
+const options:  TypeormAndConnectionOptions = {
+    connectionOptions:{
+ type: "mssql",
     host: "192.168.1.10",
     username: "sa",
     password: "admin12345",
     database: "test",
-    logging: ["query", "error"],
+    },
+    typeORMOptions:{
+          logging: ["query", "error"],
     synchronize: true,
     entities: [__dirname + "/entity/*"]
+    }
+
+
 };
 
 createConnection(options).then(connection => {

@@ -1,5 +1,5 @@
 import "../sample1-simple-entity/node_modules/reflect-metadata";
-import {ConnectionOptions, createConnection} from "../../src/index";
+import { createConnection} from "../../src/index";
 import {Post} from "./entity/Post";
 import {PostDetails} from "./entity/PostDetails";
 import {PostCategory} from "./entity/PostCategory";
@@ -7,9 +7,11 @@ import {PostMetadata} from "./entity/PostMetadata";
 import {PostImage} from "./entity/PostImage";
 import {PostInformation} from "./entity/PostInformation";
 import {PostAuthor} from "./entity/PostAuthor";
+import { TypeormAndConnectionOptions } from '../../src/connection/Connection';
 
-const options: ConnectionOptions = {
-    // type: "mssql",
+const options:  TypeormAndConnectionOptions = {
+    connectionOptions:{
+ // type: "mssql",
     // host: "192.168.1.10",
     // username: "sa",
     // password: "admin12345",
@@ -20,9 +22,14 @@ const options: ConnectionOptions = {
     password: "oracle",
     port: 1521,
     sid: "xe.oracle.docker",
-    synchronize: true,
+    },
+    typeORMOptions:{
+          synchronize: true,
     logging: ["query", "error"],
     entities: [Post, PostDetails, PostCategory, PostMetadata, PostImage, PostInformation, PostAuthor]
+    }
+
+
 };
 
 createConnection(options).then(connection => {

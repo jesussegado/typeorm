@@ -1,11 +1,10 @@
-import { TypeORMOptions } from "../../connection/TypeORMOptions";
-import { ReadPreference } from 'mongodb';
+import { ReadPreference } from "mongodb";
 
 /**
  * MongoDB specific connection options.
  * Synced with http://mongodb.github.io/node-mongodb-native/3.1/api/MongoClient.html
  */
-export interface MongoConnectionOptions extends TypeORMOptions {
+export interface MongoConnectionOptions {
     /**
      * Database type.
      */
@@ -326,4 +325,11 @@ export interface MongoConnectionOptions extends TypeORMOptions {
      * https://github.com/mongodb/node-mongodb-native/releases/tag/v3.2.1
      */
     readonly useUnifiedTopology?: boolean;
+
+    /**
+     * Extra connection options to be passed to the underlying driver.
+     *
+     * todo: deprecate this and move all database-specific types into hts own connection options object.
+     */
+    readonly extra?: any;
 }

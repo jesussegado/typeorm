@@ -20,7 +20,6 @@ import { getConnectionManager } from "../../../src/index";
 import { NoConnectionForRepositoryError } from "../../../src/error/NoConnectionForRepositoryError";
 import { EntityManager } from "../../../src/entity-manager/EntityManager";
 import { CannotGetEntityManagerNotConnectedError } from "../../../src/error/CannotGetEntityManagerNotConnectedError";
-import { ConnectionOptions } from "../../../src/connection/ConnectionOptions";
 import { PostgresConnectionOptions } from "../../../src/driver/postgres/PostgresConnectionOptions";
 
 describe("Connection", () => {
@@ -88,15 +87,17 @@ describe("Connection", () => {
         it("should throw DriverOptionNotSetError when extra.socketPath and host is missing", function () {
             expect(() => {
                 getConnectionManager().create({
-                    type: "mysql",
-                    username: "test",
-                    password: "test",
-                    database: "test",
-                    entities: [],
-                    dropSchema: false,
-                    schemaCreate: false,
-                    enabledDrivers: ["mysql"],
-                } as ConnectionOptions);
+                    connectionOptions: {
+                        type: "mysql",
+                        username: "test",
+                        password: "test",
+                        database: "test",
+                    },
+                    typeORMOptions: {
+                        entities: [],
+                        dropSchema: false,
+                    },
+                });
             }).to.throw(Error);
         });
     });
@@ -351,8 +352,8 @@ describe("Connection", () => {
             return Promise.all(
                 connections.map(async (connection) => {
                     await connection.synchronize(true);
-                    const schemaName = (connection.options as PostgresConnectionOptions)
-                        .schema;
+                    const schemaName = (connection.driver
+                        .options as PostgresConnectionOptions).schema;
                     const comment = new CommentV1();
                     comment.title = "Change SchemaName";
                     comment.context = `To ${schemaName}`;

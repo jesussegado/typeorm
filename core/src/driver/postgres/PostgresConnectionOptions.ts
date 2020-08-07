@@ -1,12 +1,10 @@
-import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { PostgresConnectionCredentialsOptions } from "./PostgresConnectionCredentialsOptions";
 
 /**
  * Postgres-specific connection options.
  */
 export interface PostgresConnectionOptions
-    extends TypeORMOptions,
-        PostgresConnectionCredentialsOptions {
+    extends PostgresConnectionCredentialsOptions {
     /**
      * Database type.
      */
@@ -50,4 +48,11 @@ export interface PostgresConnectionOptions
      * Defaults to logging error with `warn` level.
      */
     readonly poolErrorHandler?: (err: any) => any;
+
+    /**
+     * Extra connection options to be passed to the underlying driver.
+     *
+     * todo: deprecate this and move all database-specific types into hts own connection options object.
+     */
+    readonly extra?: any;
 }

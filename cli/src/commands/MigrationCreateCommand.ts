@@ -1,6 +1,6 @@
 import * as yargs from "yargs";
 import { camelCase } from "typeorm-base";
-import { ConnectionOptionsReader } from "typeorm-options-reader";
+import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
 import { CommandUtils } from "./CommandUtils";
 
 const chalk = require("chalk");
@@ -57,7 +57,7 @@ export class MigrationCreateCommand implements yargs.CommandModule {
             // if directory is not set then try to open tsconfig and find default path there
             if (!directory) {
                 try {
-                    const connectionOptionsReader = new ConnectionOptionsReader(
+                    const connectionOptionsReader = new TypeormAndConnectionOptionsReader(
                         {
                             root: process.cwd(),
                             configName: args.config as any,
@@ -66,8 +66,8 @@ export class MigrationCreateCommand implements yargs.CommandModule {
                     const connectionOptions = await connectionOptionsReader.get(
                         args.connection as any
                     );
-                    directory = connectionOptions.cli
-                        ? connectionOptions.cli.migrationsDir
+                    directory = connectionOptions.typeORMOptions.cli
+                        ? connectionOptions.typeORMOptions.cli.migrationsDir
                         : undefined;
                     // eslint-disable-next-line no-empty
                 } catch (err) {}

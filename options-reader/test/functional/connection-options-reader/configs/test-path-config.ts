@@ -1,7 +1,11 @@
 module.exports = [
     {
-        type: "sqlite",
-        name: "file",
-        database: "test-js",
+        typeORMOptions: {
+            name: "file",
+        },
+        connectionOptions: {
+            type: "sqlite",
+            database: "test-js",
+        },
     },
 ];

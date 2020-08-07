@@ -1,83 +1,123 @@
 [
   {
+    "typeORMOptions": {
+      "name": "mysql",
+      "logging": false
+    },
+    "connectionOptions": {
+      "type": "mysql",
+      "host": "localhost",
+      "port": 3306,
+      "username": "root",
+      "password": "admin",
+      "database": "test"
+    },
+    "skip": false
+  },
+  {
+    "typeORMOptions": {
+      "name": "mariadb",
+      "logging": false
+    },
+    "connectionOptions": {
+      "type": "mariadb",
+      "host": "localhost",
+      "port": 3307,
+      "username": "root",
+      "password": "admin",
+      "database": "test"
+    },
+    "skip": false
+  },
+  {
+    "typeORMOptions": {
+      "name": "sqlite",
+      "logging": false
+    },
+    "connectionOptions": {
+      "type": "sqlite",
+      "database": "temp/sqlitedb.db"
+    },
+    "skip": false
+  },
+  {
+    "typeORMOptions": {
+      "name": "postgres",
+      "logging": false
+    },
+    "connectionOptions": {
+      "type": "postgres",
+      "host": "localhost",
+      "port": 5432,
+      "username": "test",
+      "password": "test",
+      "database": "test"
+    },
+    "skip": false
+  },
+  {
+    "typeORMOptions": {
+      "name": "sqljs"
+    },
+    "connectionOptions": {
+      "type": "sqljs"
+    },
+    "skip": false
+  },
+  {
+    "typeORMOptions": {
+      "name": "mssql"
+    },
+    "connectionOptions": {
+      "type": "mssql",
+      "host": "localhost",
+      "username": "sa",
+      "password": "Admin12345",
+      "database": "tempdb"
+    },
+    "skip": false
+  },
+  {
+    "typeORMOptions": {
+      "name": "oracle",
+      "logging": false
+    },
+    "connectionOptions": {
+      "type": "oracle",
+      "host": "localhost",
+      "username": "system",
+      "password": "oracle",
+      "port": 1521,
+      "sid": "xe.oracle.docker"
+    },
+    "skip": true
+  },
+  {
+    "typeORMOptions": {
+      "name": "cockroachdb",
+      "logging": false
+    },
+    "connectionOptions": {
+      "type": "cockroachdb",
+      "host": "localhost",
+      "port": 26257,
+      "username": "root",
+      "password": "",
+      "database": "defaultdb"
+    },
+    "skip": true
+  },
+  {
+    "typeORMOptions": {
+      "name": "mongodb"
+    },
+    "connectionOptions": {
+      "type": "mongodb",
+      "database": "test",
+      "useNewUrlParser": true,
+      "useUnifiedTopology": true
+    },
     "skip": false,
-    "name": "mysql",
-    "type": "mysql",
-    "host": "localhost",
-    "port": 3306,
-    "username": "root",
-    "password": "admin",
-    "database": "test",
-    "logging": false
-  },
-  {
-    "skip": false,
-    "name": "mariadb",
-    "type": "mariadb",
-    "host": "localhost",
-    "port": 3307,
-    "username": "root",
-    "password": "admin",
-    "database": "test",
-    "logging": false
-  },
-  {
-    "skip": false,
-    "name": "sqlite",
-    "type": "sqlite",
-    "database": "temp/sqlitedb.db",
-    "logging": false
-  },
-  {
-    "skip": false,
-    "name": "postgres",
-    "type": "postgres",
-    "host": "localhost",
-    "port": 5432,
-    "username": "test",
-    "password": "test",
-    "database": "test",
-    "logging": false
-  },
-  {
-    "skip": true,
-    "name": "mssql",
-    "type": "mssql",
-    "host": "localhost",
-    "username": "sa",
-    "password": "Admin12345",
-    "database": "tempdb",
-    "logging": false
-  },
-  {
-    "skip": true,
-    "name": "oracle",
-    "type": "oracle",
-    "host": "localhost",
-    "username": "system",
-    "password": "oracle",
-    "port": 1521,
-    "sid": "xe.oracle.docker",
-    "logging": false
-  },
-  {
-    "skip": true,
-    "name": "cockroachdb",
-    "type": "cockroachdb",
-    "host": "localhost",
-    "port": 26257,
-    "username": "root",
-    "password": "",
-    "database": "defaultdb"
-  },
-  {
-    "skip": true,
-    "disabledIfNotEnabledImplicitly": true,
-    "name": "mongodb",
-    "type": "mongodb",
-    "database": "test",
-    "logging": false,
-    "useNewUrlParser": true,
-    "useUnifiedTopology": true
+    "disabledIfNotEnabledImplicitly": true
   }
 ]

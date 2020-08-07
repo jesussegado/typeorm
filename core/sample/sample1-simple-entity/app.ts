@@ -1,18 +1,23 @@
 import "reflect-metadata";
-import {ConnectionOptions, createConnection} from "../../src/index";
+import { createConnection} from "../../src/index";
 import {Post} from "./entity/Post";
+import { TypeormAndConnectionOptions } from '../../src/connection/Connection';
 
-const options: ConnectionOptions = {
-    "name": "sap",
-    "type": "sap",
-    "host": "192.168.56.102",
-    "port": 39015,
-    "username": "SYSTEM",
-    "password": "MySuperHanaPwd123!",
-    "database": "HXE",
-    "logging": true,
-    synchronize: true,
-    entities: [Post]
+const options: TypeormAndConnectionOptions = {
+    connectionOptions:{
+        host: "192.168.56.102",
+        port: 39015,
+        username: "SYSTEM",
+        password: "MySuperHanaPwd123!",
+        database: "HXE",
+        type: "sap",
+    },
+    typeORMOptions:{
+        name: "sap",
+        logging: true,
+        synchronize: true,
+        entities: [Post]
+    }
 };
 
 createConnection(options).then(async connection => {

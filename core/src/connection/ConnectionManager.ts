@@ -1,6 +1,5 @@
-import { Connection } from "./Connection";
+import { Connection, TypeormAndConnectionOptions } from "./Connection";
 import { ConnectionNotFoundError } from "../error/ConnectionNotFoundError";
-import { ConnectionOptions } from "./ConnectionOptions";
 import { AlreadyHasActiveConnectionError } from "../error/AlreadyHasActiveConnectionError";
 
 /**
@@ -48,16 +47,17 @@ export class ConnectionManager {
      * Creates a new connection based on the given connection options and registers it in the manager.
      * Connection won't be established, you'll need to manually call connect method to establish connection.
      */
-    create(options: ConnectionOptions): Connection {
+    create(options: TypeormAndConnectionOptions): Connection {
         // check if such connection is already registered
         const existConnection = this.connections.find(
-            (connection) => connection.name === (options.name || "default")
+            (connection) =>
+                connection.name === (options.typeORMOptions.name || "default")
         );
         if (existConnection) {
             // if connection is registered and its not closed then throw an error
             if (existConnection.isConnected)
                 throw new AlreadyHasActiveConnectionError(
-                    options.name || "default"
+                    options.typeORMOptions.name || "default"
                 );
 
             // if its registered but closed then simply remove it from the manager

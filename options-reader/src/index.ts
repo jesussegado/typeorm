@@ -1,10 +1,10 @@
 import * as fs from "fs";
 import * as dotenv from "dotenv";
-import { ConnectionOptions } from "typeorm-core";
+import { TypeormAndConnectionOptions } from "typeorm-core";
 import * as appRootPath from "app-root-path";
-import { ConnectionOptionsEnvReader } from "./options-reader/ConnectionOptionsEnvReader";
-import { ConnectionOptionsYmlReader } from "./options-reader/ConnectionOptionsYmlReader";
-import { ConnectionOptionsXmlReader } from "./options-reader/ConnectionOptionsXmlReader";
+import { TypeormAndConnectionOptionsEnvReader } from "./options-reader/TypeormAndConnectionOptionsEnvReader";
+import { TypeormAndConnectionOptionsYmlReader } from "./options-reader/TypeormAndConnectionOptionsYmlReader";
+import { TypeormAndConnectionOptionsXmlReader } from "./options-reader/TypeormAndConnectionOptionsXmlReader";
 /**
  * Reads connection options from the ormconfig.
  * Can read from multiple file extensions including env, json, js, xml and yml.
@@ -16,13 +16,13 @@ export function getEnvVariable(name: string): any {
 export function fileExist(pathStr: string): boolean {
     return fs.existsSync(pathStr);
 }
-export async function getConnectionOptions(
+export async function getTypeormAndConnectionOptions(
     connectionName: string = "default"
-): Promise<ConnectionOptions> {
-    return new ConnectionOptionsReader().get(connectionName);
+): Promise<TypeormAndConnectionOptions> {
+    return new TypeormAndConnectionOptionsReader().get(connectionName);
 }
 
-export class ConnectionOptionsReader {
+export class TypeormAndConnectionOptionsReader {
     // -------------------------------------------------------------------------
     // Constructor
     // -------------------------------------------------------------------------
@@ -49,7 +49,7 @@ export class ConnectionOptionsReader {
     /**
      * Returns all connection options read from the ormconfig.
      */
-    async all(): Promise<ConnectionOptions[]> {
+    async all(): Promise<TypeormAndConnectionOptions[]> {
         const options = await this.load();
         if (!options)
             throw new Error(
@@ -63,11 +63,12 @@ export class ConnectionOptionsReader {
      * Gets a connection with a given name read from ormconfig.
      * If connection with such name would not be found then it throw error.
      */
-    async get(name: string): Promise<ConnectionOptions> {
+    async get(name: string): Promise<TypeormAndConnectionOptions> {
         const allOptions = await this.all();
         const targetOptions = allOptions.find(
             (options) =>
-                options.name === name || (name === "default" && !options.name)
+                options.typeORMOptions.name === name ||
+                (name === "default" && !options.typeORMOptions.name)
         );
         if (!targetOptions)
             throw new Error(
@@ -86,7 +87,8 @@ export class ConnectionOptionsReader {
 
         const targetOptions = allOptions.find(
             (options) =>
-                options.name === name || (name === "default" && !options.name)
+                options.typeORMOptions.name === name ||
+                (name === "default" && !options.typeORMOptions.name)
         );
         return !!targetOptions;
     }
@@ -100,10 +102,10 @@ export class ConnectionOptionsReader {
      *
      * todo: get in count NODE_ENV somehow
      */
-    protected async load(): Promise<ConnectionOptions[] | undefined> {
-        let connectionOptions:
-            | ConnectionOptions
-            | ConnectionOptions[]
+    protected async load(): Promise<TypeormAndConnectionOptions[] | undefined> {
+        let TypeormAndConnectionOptions:
+            | TypeormAndConnectionOptions
+            | TypeormAndConnectionOptions[]
             | undefined;
 
         const fileFormats = [
@@ -149,30 +151,32 @@ export class ConnectionOptionsReader {
             getEnvVariable("TYPEORM_CONNECTION") ||
             getEnvVariable("TYPEORM_URL")
         ) {
-            connectionOptions = new ConnectionOptionsEnvReader().read();
+            TypeormAndConnectionOptions = new TypeormAndConnectionOptionsEnvReader().read();
         } else if (foundFileFormat === "js" || foundFileFormat === "cjs") {
-            connectionOptions = await require(configFile);
+            TypeormAndConnectionOptions = await require(configFile);
         } else if (foundFileFormat === "ts") {
-            connectionOptions = await require(configFile);
+            TypeormAndConnectionOptions = await require(configFile);
         } else if (foundFileFormat === "json") {
-            connectionOptions = require(configFile);
+            TypeormAndConnectionOptions = require(configFile);
         } else if (foundFileFormat === "yml") {
-            connectionOptions = new ConnectionOptionsYmlReader().read(
+            TypeormAndConnectionOptions = new TypeormAndConnectionOptionsYmlReader().read(
                 configFile
             );
         } else if (foundFileFormat === "yaml") {
-            connectionOptions = new ConnectionOptionsYmlReader().read(
+            TypeormAndConnectionOptions = new TypeormAndConnectionOptionsYmlReader().read(
                 configFile
             );
         } else if (foundFileFormat === "xml") {
-            connectionOptions = await new ConnectionOptionsXmlReader().read(
+            TypeormAndConnectionOptions = await new TypeormAndConnectionOptionsXmlReader().read(
                 configFile
             );
         }
 
         // normalize and return connection options
-        if (connectionOptions) {
-            return this.normalizeConnectionOptions(connectionOptions);
+        if (TypeormAndConnectionOptions) {
+            return this.normalizeTypeormAndConnectionOptions(
+                TypeormAndConnectionOptions
+            );
         }
 
         return undefined;
@@ -181,70 +185,72 @@ export class ConnectionOptionsReader {
     /**
      * Normalize connection options.
      */
-    protected normalizeConnectionOptions(
-        connectionOptions: ConnectionOptions | ConnectionOptions[]
-    ): ConnectionOptions[] {
-        if (!Array.isArray(connectionOptions))
-            connectionOptions = [connectionOptions];
+    protected normalizeTypeormAndConnectionOptions(
+        TypeormAndConnectionOptions:
+            | TypeormAndConnectionOptions
+            | TypeormAndConnectionOptions[]
+    ): TypeormAndConnectionOptions[] {
+        if (!Array.isArray(TypeormAndConnectionOptions))
+            TypeormAndConnectionOptions = [TypeormAndConnectionOptions];
 
-        connectionOptions.forEach((options) => {
-            if (options.entities) {
-                const entities = (options.entities as any[]).map((entity) => {
+        TypeormAndConnectionOptions.forEach((options) => {
+            if (options.typeORMOptions?.entities) {
+                const entities = (options.typeORMOptions.entities as any[]).map(
+                    (entity) => {
+                        if (
+                            typeof entity === "string" &&
+                            entity.substr(0, 1) !== "/"
+                        )
+                            return `${this.baseDirectory}/${entity}`;
+
+                        return entity;
+                    }
+                );
+                Object.assign(TypeormAndConnectionOptions, { entities });
+            }
+            if (options.typeORMOptions?.subscribers) {
+                const subscribers = (options.typeORMOptions
+                    .subscribers as any[]).map((subscriber) => {
                     if (
-                        typeof entity === "string" &&
-                        entity.substr(0, 1) !== "/"
+                        typeof subscriber === "string" &&
+                        subscriber.substr(0, 1) !== "/"
                     )
-                        return `${this.baseDirectory}/${entity}`;
+                        return `${this.baseDirectory}/${subscriber}`;
 
-                    return entity;
+                    return subscriber;
                 });
-                Object.assign(connectionOptions, { entities });
+                Object.assign(TypeormAndConnectionOptions, { subscribers });
             }
-            if (options.subscribers) {
-                const subscribers = (options.subscribers as any[]).map(
-                    (subscriber) => {
-                        if (
-                            typeof subscriber === "string" &&
-                            subscriber.substr(0, 1) !== "/"
-                        )
-                            return `${this.baseDirectory}/${subscriber}`;
+            if (options.typeORMOptions?.migrations) {
+                const migrations = (options.typeORMOptions
+                    .migrations as any[]).map((migration) => {
+                    if (
+                        typeof migration === "string" &&
+                        migration.substr(0, 1) !== "/"
+                    )
+                        return `${this.baseDirectory}/${migration}`;
 
-                        return subscriber;
-                    }
-                );
-                Object.assign(connectionOptions, { subscribers });
-            }
-            if (options.migrations) {
-                const migrations = (options.migrations as any[]).map(
-                    (migration) => {
-                        if (
-                            typeof migration === "string" &&
-                            migration.substr(0, 1) !== "/"
-                        )
-                            return `${this.baseDirectory}/${migration}`;
-
-                        return migration;
-                    }
-                );
-                Object.assign(connectionOptions, { migrations });
+                    return migration;
+                });
+                Object.assign(TypeormAndConnectionOptions, { migrations });
             }
 
             // make database path file in sqlite relative to package.json
-            if (options.type === "sqlite") {
+            if (options.connectionOptions?.type === "sqlite") {
                 if (
-                    typeof options.database === "string" &&
-                    options.database.substr(0, 1) !== "/" && // unix absolute
-                    options.database.substr(1, 2) !== ":\\" && // windows absolute
-                    options.database !== ":memory:"
+                    typeof options.connectionOptions.database === "string" &&
+                    options.connectionOptions.database.substr(0, 1) !== "/" && // unix absolute
+                    options.connectionOptions.database.substr(1, 2) !== ":\\" && // windows absolute
+                    options.connectionOptions.database !== ":memory:"
                 ) {
-                    Object.assign(options, {
-                        database: `${this.baseDirectory}/${options.database}`,
+                    Object.assign(options.connectionOptions, {
+                        database: `${this.baseDirectory}/${options.connectionOptions.database}`,
                     });
                 }
             }
         });
 
-        return connectionOptions;
+        return TypeormAndConnectionOptions;
     }
 
     /**

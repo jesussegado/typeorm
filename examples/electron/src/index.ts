@@ -18,12 +18,16 @@ electron.app.on("ready", async () => {
     );
     console.log("You can also get posts from the second process:");
     const connection = await createConnection({
-        type: "sqlite",
-        synchronize: true,
-        logging: true,
-        logger: "simple-console",
-        database: "database.sqlite",
-        entities: ["src/entity/*.js"],
+        connectionOptions: {
+            type: "sqlite",
+            database: "database.sqlite",
+        },
+        typeORMOptions: {
+            synchronize: true,
+            logging: true,
+            logger: "simple-console",
+            entities: ["src/entity/*.js"],
+        },
     });
     const posts = await connection.getRepository("Post").find();
     console.log("posts:", posts);

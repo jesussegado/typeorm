@@ -1,6 +1,6 @@
 import { Entity } from "../../../../../../src/decorator/entity/Entity";
 import { Column } from "../../../../../../src/decorator/columns/Column";
-import { ObjectID, ObjectIdColumn } from '../../../../../../src';
+import { ObjectID, ObjectIdColumn } from "../../../../../../src";
 
 @Entity()
 export class Post {

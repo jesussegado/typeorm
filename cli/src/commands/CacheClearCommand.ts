@@ -1,5 +1,5 @@
 import * as yargs from "yargs";
-import { ConnectionOptionsReader } from "typeorm-options-reader";
+import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
 import { createConnection, Connection } from "typeorm-core";
 
 const chalk = require("chalk");
@@ -29,10 +29,12 @@ export class CacheClearCommand implements yargs.CommandModule {
     async handler(args: yargs.Arguments) {
         let connection: Connection | undefined;
         try {
-            const connectionOptionsReader = new ConnectionOptionsReader({
-                root: process.cwd(),
-                configName: args.config as any,
-            });
+            const connectionOptionsReader = new TypeormAndConnectionOptionsReader(
+                {
+                    root: process.cwd(),
+                    configName: args.config as any,
+                }
+            );
             const connectionOptions = await connectionOptionsReader.get(
                 args.connection as any
             );

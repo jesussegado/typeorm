@@ -1,14 +1,20 @@
 import "../sample1-simple-entity/node_modules/reflect-metadata";
-import {ConnectionOptions, createConnection} from "../../src/index";
+import { createConnection} from "../../src/index";
 import {Post} from "./entity/Post";
 import {Category} from "./entity/Category";
+import { TypeormAndConnectionOptions } from '../../src/connection/Connection';
 
-const options: ConnectionOptions = {
-    type: "sqlite",
+const options:  TypeormAndConnectionOptions = {
+    connectionOptions:{
+ type: "sqlite",
     database: "temp/sqlitedb.db",
-    logging: ["query", "error"],
+    },
+    typeORMOptions:{
+      logging: ["query", "error"],
     synchronize: true,
     entities: [Post, Category]
+    }
+
 };
 
 createConnection(options).then(async connection => {

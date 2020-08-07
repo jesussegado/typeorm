@@ -1,7 +1,7 @@
 import * as yargs from "yargs";
 import { Connection, createConnection } from "typeorm-core";
 import { camelCase } from "typeorm-base";
-import { ConnectionOptionsReader } from "typeorm-options-reader";
+import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
 import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import { CommandUtils } from "./CommandUtils";
 
@@ -55,15 +55,17 @@ export class MigrationGenerateCommand implements yargs.CommandModule {
         // if directory is not set then try to open tsconfig and find default path there
         if (!directory) {
             try {
-                const connectionOptionsReader = new ConnectionOptionsReader({
-                    root: process.cwd(),
-                    configName: args.config as any,
-                });
+                const connectionOptionsReader = new TypeormAndConnectionOptionsReader(
+                    {
+                        root: process.cwd(),
+                        configName: args.config as any,
+                    }
+                );
                 const connectionOptions = await connectionOptionsReader.get(
                     args.connection as any
                 );
-                directory = connectionOptions.cli
-                    ? connectionOptions.cli.migrationsDir
+                directory = connectionOptions.typeORMOptions.cli
+                    ? connectionOptions.typeORMOptions.cli.migrationsDir
                     : undefined;
                 // eslint-disable-next-line no-empty
             } catch (err) {}
@@ -71,10 +73,12 @@ export class MigrationGenerateCommand implements yargs.CommandModule {
 
         let connection: Connection | undefined;
         try {
-            const connectionOptionsReader = new ConnectionOptionsReader({
-                root: process.cwd(),
-                configName: args.config as any,
-            });
+            const connectionOptionsReader = new TypeormAndConnectionOptionsReader(
+                {
+                    root: process.cwd(),
+                    configName: args.config as any,
+                }
+            );
             const connectionOptions = await connectionOptionsReader.get(
                 args.connection as any
             );

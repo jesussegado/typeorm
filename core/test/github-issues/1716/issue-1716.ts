@@ -1,7 +1,9 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { Connection } from "../../../src/connection/Connection";
-import { ConnectionOptions } from "../../../src/connection/ConnectionOptions";
+import {
+    Connection,
+    TypeormAndConnectionOptions,
+} from "../../../src/connection/Connection";
 import {
     createTestingConnections,
     closeTestingConnections,
@@ -25,7 +27,8 @@ const convertPropsToISOStrings = (obj: any, props: string[]) => {
 const isDriverEnabled = (driver: string) => {
     const ormConfigConnectionOptionsArray = getTypeOrmConfig();
     const config = ormConfigConnectionOptionsArray.find(
-        (options: ConnectionOptions) => options.name === driver
+        (options: TypeormAndConnectionOptions) =>
+            options.typeORMOptions.name === driver
     );
     return config && !config.skip;
 };

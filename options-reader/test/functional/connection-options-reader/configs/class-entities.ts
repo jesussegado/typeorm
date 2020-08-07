@@ -15,13 +15,17 @@ export class Post {
 }
 
 module.exports = {
-    type: "mysql",
-    name: "test-conn",
-    host: "localhost",
-    port: 3306,
-    username: "test",
-    password: "test",
-    database: "test",
-    logging: false,
-    entities: [Post],
+    typeORMOptions: {
+        name: "test-conn",
+        logging: false,
+        entities: [Post],
+    },
+    connectionOptions: {
+        type: "mysql",
+        host: "localhost",
+        port: 3306,
+        username: "test",
+        password: "test",
+        database: "test",
+    },
 };

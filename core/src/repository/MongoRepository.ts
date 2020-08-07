@@ -1,19 +1,53 @@
 import { ObjectLiteral } from "typeorm-base";
+import {
+    Cursor,
+    CollectionAggregationOptions,
+    AggregationCursor,
+    CollectionBulkWriteOptions,
+    BulkWriteOpResultObject,
+    MongoCountPreferences,
+    DeleteWriteOpResultObject,
+    FindAndModifyWriteOpResultObject,
+    FindOneAndReplaceOption,
+    GeoHaystackSearchOptions,
+    Code,
+    OrderedBulkOperation,
+    UnorderedBulkOperation,
+    CollectionInsertManyOptions,
+    InsertWriteOpResult,
+    CollectionInsertOneOptions,
+    InsertOneWriteOpResult,
+    CommandCursor,
+    MapReduceOptions,
+    ParallelCollectionScanOptions,
+    Collection,
+    ReplaceOneOptions,
+    UpdateWriteOpResult,
+    CollStats,
+    CommonOptions,
+    IndexOptions,
+    BulkWriteOperation,
+    IndexSpecification,
+    MongoDistinctPreferences,
+    ReadPreferenceOrMode,
+    ClientSession,
+    CollectionMapFunction,
+    CollectionReduceFunction,
+} from "mongodb";
 import { Repository } from "./Repository";
 import { FindManyOptions } from "../find-options/FindManyOptions";
 import { FindOneOptions } from "../find-options/FindOneOptions";
 import { MongoEntityManager } from "../entity-manager/MongoEntityManager";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
-import { ObjectID } from '..';
-import { Cursor, CollectionAggregationOptions, AggregationCursor, CollectionBulkWriteOptions, BulkWriteOpResultObject, MongoCountPreferences, DeleteWriteOpResultObject, FindAndModifyWriteOpResultObject, FindOneAndReplaceOption, GeoHaystackSearchOptions, Code, OrderedBulkOperation, UnorderedBulkOperation, CollectionInsertManyOptions, InsertWriteOpResult, CollectionInsertOneOptions, InsertOneWriteOpResult, CommandCursor, MapReduceOptions, ParallelCollectionScanOptions, Collection, ReplaceOneOptions, UpdateWriteOpResult, CollStats, CommonOptions, IndexOptions, BulkWriteOperation, IndexSpecification, MongoDistinctPreferences, ReadPreferenceOrMode, ClientSession, CollectionMapFunction, CollectionReduceFunction } from 'mongodb';
+import { ObjectID } from "..";
 
 /**
  * Repository used to manage mongodb documents of a single entity type.
  */
 export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
     Entity
-    > {
+> {
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -324,7 +358,11 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
     /**
      * Execute the geoNear command to search for items in the collection.
      */
-    geoNear(x: number, y: number, options?: GeoHaystackSearchOptions): Promise<any> {
+    geoNear(
+        x: number,
+        y: number,
+        options?: GeoHaystackSearchOptions
+    ): Promise<any> {
         return this.manager.geoNear(this.metadata.tableName, x, y, options);
     }
 
@@ -338,7 +376,10 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
         reduce: Function | Code,
         finalize: Function | Code,
         command: boolean,
-        options?: { readPreference?: ReadPreferenceOrMode, session?: ClientSession }
+        options?: {
+            readPreference?: ReadPreferenceOrMode;
+            session?: ClientSession;
+        }
     ): Promise<any> {
         return this.manager.group(
             this.metadata.tableName,
@@ -372,7 +413,10 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
     /**
      * Retrieves this collections index info.
      */
-    collectionIndexInformation(options?: { full: boolean, session: ClientSession }): Promise<any> {
+    collectionIndexInformation(options?: {
+        full: boolean;
+        session: ClientSession;
+    }): Promise<any> {
         return this.manager.collectionIndexInformation(
             this.metadata.tableName,
             options
@@ -392,9 +436,7 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
     /**
      * Initiate a Out of order batch write operation. All operations will be buffered into insert/update/remove commands executed out of order.
      */
-    initializeUnorderedBulkOp(
-        options?: CommonOptions
-    ): UnorderedBulkOperation {
+    initializeUnorderedBulkOp(options?: CommonOptions): UnorderedBulkOperation {
         return this.manager.initializeUnorderedBulkOp(
             this.metadata.tableName,
             options
@@ -431,7 +473,11 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
     /**
      * Get the list of all indexes information for the collection.
      */
-    listCollectionIndexes(options?: { batchSize?: number, readPreference?: ReadPreferenceOrMode, session?: ClientSession }): CommandCursor {
+    listCollectionIndexes(options?: {
+        batchSize?: number;
+        readPreference?: ReadPreferenceOrMode;
+        session?: ClientSession;
+    }): CommandCursor {
         return this.manager.listCollectionIndexes(
             this.metadata.tableName,
             options
@@ -442,7 +488,7 @@ export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
      * Run Map Reduce across a collection. Be aware that the inline option for out will return an array of results not a collection.
      */
     mapReduce(
-        map:string | CollectionMapFunction<any>,
+        map: string | CollectionMapFunction<any>,
         reduce: CollectionReduceFunction<any, any> | string,
         options?: MapReduceOptions
     ): Promise<any> {

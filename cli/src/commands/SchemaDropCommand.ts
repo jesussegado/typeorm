@@ -1,6 +1,6 @@
 import * as yargs from "yargs";
 import { Connection, createConnection } from "typeorm-core";
-import { ConnectionOptionsReader } from "typeorm-options-reader";
+import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
 
 const chalk = require("chalk");
 
@@ -31,10 +31,12 @@ export class SchemaDropCommand implements yargs.CommandModule {
     async handler(args: yargs.Arguments) {
         let connection: Connection | undefined;
         try {
-            const connectionOptionsReader = new ConnectionOptionsReader({
-                root: process.cwd(),
-                configName: args.config as any,
-            });
+            const connectionOptionsReader = new TypeormAndConnectionOptionsReader(
+                {
+                    root: process.cwd(),
+                    configName: args.config as any,
+                }
+            );
             const connectionOptions = await connectionOptionsReader.get(
                 args.connection as any
             );

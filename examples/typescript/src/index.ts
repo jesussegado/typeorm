@@ -1,19 +1,23 @@
-import { createConnection, ConnectionOptions } from "typeorm-core";
+import { createConnection, TypeormAndConnectionOptions } from "typeorm-core";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
 
 async function run() {
-    const connectionOptions: ConnectionOptions = {
-        name: "default",
-        type: "mysql",
-        host: "localhost",
-        port: 3306,
-        username: "test",
-        password: "test",
-        database: "test",
-        synchronize: true,
-        logging: false,
-        entities: ["src/entity/*.js"],
+    const connectionOptions: TypeormAndConnectionOptions = {
+        connectionOptions: {
+            type: "mysql",
+            host: "localhost",
+            port: 3306,
+            username: "test",
+            password: "test",
+            database: "test",
+        },
+        typeORMOptions: {
+            name: "default",
+            synchronize: true,
+            logging: false,
+            entities: ["src/entity/*.js"],
+        },
     };
 
     const connection = await createConnection(connectionOptions);

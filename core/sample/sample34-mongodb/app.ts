@@ -1,14 +1,21 @@
 import "../sample1-simple-entity/node_modules/reflect-metadata";
-import {ConnectionOptions, createConnection} from "../../src/index";
+import { createConnection} from "../../src/index";
 import {Post} from "./entity/Post";
+import { TypeormAndConnectionOptions } from '../../src/connection/Connection';
 
-const options: ConnectionOptions = {
-    type: "mongodb",
+const options:  TypeormAndConnectionOptions = {
+    connectionOptions:{
+ type: "mongodb",
     host: "localhost",
     database: "test",
-    logging: ["query", "error"],
+    },
+    typeORMOptions:{
+          logging: ["query", "error"],
     // synchronize: true,
     entities: [Post]
+    }
+
+
 };
 
 createConnection(options).then(async connection => {

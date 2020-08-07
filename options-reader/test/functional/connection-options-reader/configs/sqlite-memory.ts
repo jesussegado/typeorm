@@ -1,12 +1,20 @@
 module.exports = [
     {
-        type: "sqlite",
-        name: "file",
-        database: "test",
+        typeORMOptions: {
+            name: "file",
+        },
+        connectionOptions: {
+            type: "sqlite",
+            database: "test",
+        },
     },
     {
-        type: "sqlite",
-        name: "memory",
-        database: ":memory:",
+        typeORMOptions: {
+            name: "memory",
+        },
+        connectionOptions: {
+            type: "sqlite",
+            database: ":memory:",
+        },
     },
 ];

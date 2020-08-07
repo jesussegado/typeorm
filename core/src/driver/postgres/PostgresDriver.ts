@@ -242,13 +242,17 @@ export class PostgresDriver implements Driver {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(connection?: Connection) {
-        if (!connection) {
+    constructor(
+        connection?: Connection,
+        connectionOptions?: PostgresConnectionOptions
+    ) {
+        // TODO: Check if necessary
+        if (!connection || !connectionOptions) {
             return;
         }
 
         this.connection = connection;
-        this.options = connection.options as PostgresConnectionOptions;
+        this.options = connectionOptions;
         this.isReplicated = !!this.options.replication;
 
         // load postgres package
@@ -1171,13 +1175,15 @@ export class PostgresDriver implements Driver {
             });
         });
     }
+
     // This database name property is nested for replication configs.
     getDatabaseName(): string {
         return DriverUtils.buildDriverOptions(
-            this.options.replication ? this.options.replication.master : this.options
-           ).database;
+            this.options.replication
+                ? this.options.replication.master
+                : this.options
+        ).database;
     }
-
 }
 
 abstract class PostgresWrapper extends PostgresDriver {
@@ -1224,10 +1230,13 @@ export class AuroraDataApiPostgresDriver extends PostgresWrapper {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(connection: Connection) {
+    constructor(
+        connection: Connection,
+        connectionOptions: AuroraDataApiPostgresConnectionOptions
+    ) {
         super();
         this.connection = connection;
-        this.options = connection.options as AuroraDataApiPostgresConnectionOptions;
+        this.options = connectionOptions;
         this.isReplicated = false;
 
         // load data-api package

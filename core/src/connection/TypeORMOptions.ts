@@ -1,7 +1,6 @@
 import { EntitySchema } from "../entity-schema/EntitySchema";
 import { LoggerOptions } from "../logger/LoggerOptions";
 import { NamingStrategyInterface } from "../naming-strategy/NamingStrategyInterface";
-import { DatabaseType } from "../driver/types/DatabaseType";
 import { Logger } from "../logger/Logger";
 import { Connection } from "./Connection";
 import { QueryResultCache } from "../cache/QueryResultCache";
@@ -10,11 +9,6 @@ import { QueryResultCache } from "../cache/QueryResultCache";
  * BaseConnectionOptions is set of connection options shared by all database types.
  */
 export interface TypeORMOptions {
-    /**
-     * Database type. This value is required.
-     */
-    readonly type: DatabaseType;
-
     /**
      * Connection name. If connection name is not given then it will be called "default".
      * Different connections must have different names.
@@ -106,13 +100,6 @@ export interface TypeORMOptions {
      * Prefix to use on all tables (collections) of this connection in the database.
      */
     readonly entityPrefix?: string;
-
-    /**
-     * Extra connection options to be passed to the underlying driver.
-     *
-     * todo: deprecate this and move all database-specific types into hts own connection options object.
-     */
-    readonly extra?: any;
 
     /**
      * Allows to setup cache options.

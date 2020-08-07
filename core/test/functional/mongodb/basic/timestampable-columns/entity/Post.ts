@@ -3,7 +3,7 @@ import { Column } from "../../../../../../src/decorator/columns/Column";
 import { ObjectIdColumn } from "../../../../../../src/decorator/columns/ObjectIdColumn";
 import { CreateDateColumn } from "../../../../../../src/decorator/columns/CreateDateColumn";
 import { UpdateDateColumn } from "../../../../../../src/decorator/columns/UpdateDateColumn";
-import { ObjectID } from '../../../../../../src';
+import { ObjectID } from "../../../../../../src";
 
 @Entity()
 export class Post {

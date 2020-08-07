@@ -1,20 +1,26 @@
 import "../sample1-simple-entity/node_modules/reflect-metadata";
-import {ConnectionOptions, createConnection} from "../../src/index";
+import { createConnection} from "../../src/index";
 import {Post} from "./entity/Post";
 import {PostCategory} from "./entity/PostCategory";
 import {PostAuthor} from "./entity/PostAuthor";
 import {Blog} from "./entity/Blog";
+import { TypeormAndConnectionOptions } from '../../src/connection/Connection';
 
-const options: ConnectionOptions = {
-    type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "root",
-    password: "admin",
-    database: "test",
-    logging: ["query", "error"],
-    synchronize: true,
-    entities: [__dirname + "/entity/*"]
+const options: TypeormAndConnectionOptions = {
+    connectionOptions:{
+        type: "mysql",
+        host: "localhost",
+        port: 3306,
+        username: "root",
+        password: "admin",
+        database: "test",
+
+    },
+    typeORMOptions:{
+        logging: ["query", "error"],
+        synchronize: true,
+        entities: [__dirname + "/entity/*"]
+    }
 };
 
 createConnection(options).then(connection => {

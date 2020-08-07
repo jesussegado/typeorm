@@ -32,11 +32,14 @@ export class SqliteDriver extends AbstractSqliteDriver {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(connection: Connection) {
+    constructor(
+        connection: Connection,
+        connectionOptions: SqliteConnectionOptions
+    ) {
         super(connection);
 
         this.connection = connection;
-        this.options = connection.options as SqliteConnectionOptions;
+        this.options = connectionOptions;
         this.database = this.options.database;
 
         // validate options to make sure everything is set

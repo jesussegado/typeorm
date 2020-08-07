@@ -14,7 +14,6 @@ import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { MysqlConnectionCredentialsOptions } from "./MysqlConnectionCredentialsOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
-
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 
 /**
@@ -295,12 +294,15 @@ export class MysqlDriver implements Driver {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(connection: Connection) {
+    constructor(
+        connection: Connection,
+        connectionOptions: MysqlConnectionOptions
+    ) {
         this.connection = connection;
         this.options = {
             legacySpatialSupport: true,
-            ...connection.options,
-        } as MysqlConnectionOptions;
+            ...connectionOptions,
+        };
         this.isReplicated = !!this.options.replication;
 
         // load mysql package
@@ -1033,10 +1035,13 @@ export class MysqlDriver implements Driver {
 
         return columnMetadataValue === databaseValue;
     }
+
     // This database name property is nested for replication configs.
- getDatabaseName(): string {
+    getDatabaseName(): string {
         return DriverUtils.buildDriverOptions(
-            this.options.replication ? this.options.replication.master : this.options
-           ).database;
+            this.options.replication
+                ? this.options.replication.master
+                : this.options
+        ).database;
     }
 }

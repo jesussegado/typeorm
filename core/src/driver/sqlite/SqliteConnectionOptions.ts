@@ -1,9 +1,7 @@
-import { TypeORMOptions } from "../../connection/TypeORMOptions";
-
 /**
  * Sqlite-specific connection options.
  */
-export interface SqliteConnectionOptions extends TypeORMOptions {
+export interface SqliteConnectionOptions {
     /**
      * Database type.
      */

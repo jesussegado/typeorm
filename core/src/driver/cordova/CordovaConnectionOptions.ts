@@ -1,9 +1,7 @@
-import { TypeORMOptions } from "../../connection/TypeORMOptions";
-
 /**
  * Sqlite-specific connection options.
  */
-export interface CordovaConnectionOptions extends TypeORMOptions {
+export interface CordovaConnectionOptions {
     /**
      * Database type.
      */
@@ -18,4 +16,11 @@ export interface CordovaConnectionOptions extends TypeORMOptions {
      * Storage Location
      */
     readonly location: string;
+
+    /**
+     * Extra connection options to be passed to the underlying driver.
+     *
+     * todo: deprecate this and move all database-specific types into hts own connection options object.
+     */
+    readonly extra?: any;
 }

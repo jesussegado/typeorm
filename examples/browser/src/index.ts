@@ -4,12 +4,16 @@ import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
 
 createConnection({
-    type: "sqljs",
-    location: "test",
-    autoSave: true,
-    entities: [Author, Post, Category],
-    logging: ["query", "schema"],
-    synchronize: true,
+    typeORMOptions: {
+        entities: [Author, Post, Category],
+        logging: ["query", "schema"],
+        synchronize: true,
+    },
+    connectionOptions: {
+        type: "sqljs",
+        location: "test",
+        autoSave: true,
+    }
 })
     .then(async (connection) => {
         // TODO: Enable compilation & setup test

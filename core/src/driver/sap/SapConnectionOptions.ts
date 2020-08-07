@@ -1,12 +1,9 @@
-import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { SapConnectionCredentialsOptions } from "./SapConnectionCredentialsOptions";
 
 /**
  * SAP Hana specific connection options.
  */
-export interface SapConnectionOptions
-    extends TypeORMOptions,
-        SapConnectionCredentialsOptions {
+export interface SapConnectionOptions extends SapConnectionCredentialsOptions {
     /**
      * Database type.
      */
@@ -54,4 +51,11 @@ export interface SapConnectionOptions
          */
         readonly poolErrorHandler?: (err: any) => any;
     };
+
+    /**
+     * Extra connection options to be passed to the underlying driver.
+     *
+     * todo: deprecate this and move all database-specific types into hts own connection options object.
+     */
+    readonly extra?: any;
 }

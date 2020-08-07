@@ -32,7 +32,13 @@ import { RelationLoader } from "../query-builder/RelationLoader";
 import { RelationIdLoader } from "../query-builder/RelationIdLoader";
 import { EntitySchema, PromiseUtils } from "..";
 import { IsolationLevel } from "../driver/types/IsolationLevel";
-import { TypeORMOptions } from './TypeORMOptions';
+import { TypeORMOptions } from "./TypeORMOptions";
+
+// TODO: rename
+export type TypeormAndConnectionOptions = {
+    typeORMOptions: TypeORMOptions;
+    connectionOptions: ConnectionOptions;
+};
 
 /**
  * Connection is a single database ORM connection to a specific database.
@@ -113,18 +119,21 @@ export class Connection {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(options: ConnectionOptions) {
-        this.name = options.name || "default";
-        this.options = options;
+    constructor(config: TypeormAndConnectionOptions) {
+        this.name = config.typeORMOptions.name || "default";
+        this.options = config.typeORMOptions;
         this.logger = new LoggerFactory().create(
             this.options.logger,
             this.options.logging
         );
-        this.driver = new DriverFactory().create(this);
+        this.driver = new DriverFactory().create(
+            this,
+            config.connectionOptions
+        );
         this.manager = this.createEntityManager();
         this.namingStrategy =
-            options.namingStrategy || new DefaultNamingStrategy();
-        this.queryResultCache = options.cache
+            config.typeORMOptions.namingStrategy || new DefaultNamingStrategy();
+        this.queryResultCache = config.typeORMOptions.cache
             ? new QueryResultCacheFactory(this).create()
             : undefined;
         this.relationLoader = new RelationLoader(this);
@@ -594,5 +603,4 @@ export class Connection {
             this.driver
         );
     }
-
 }

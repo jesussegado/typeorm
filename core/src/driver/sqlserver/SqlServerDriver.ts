@@ -205,9 +205,12 @@ export class SqlServerDriver implements Driver {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(connection: Connection) {
+    constructor(
+        connection: Connection,
+        connectionOptions: SqlServerConnectionOptions
+    ) {
         this.connection = connection;
-        this.options = connection.options as SqlServerConnectionOptions;
+        this.options = connectionOptions;
         this.isReplicated = !!this.options.replication;
 
         // load mssql package
@@ -866,8 +869,9 @@ export class SqlServerDriver implements Driver {
     // This database name property is nested for replication configs.
     getDatabaseName(): string {
         return DriverUtils.buildDriverOptions(
-            this.options.replication ? this.options.replication.master : this.options
-           ).database;
-
+            this.options.replication
+                ? this.options.replication.master
+                : this.options
+        ).database;
     }
 }

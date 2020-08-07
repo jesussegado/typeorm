@@ -1,4 +1,5 @@
 import { ObjectLiteral, ObjectUtils } from "typeorm-base";
+import { MongoClient } from "mongodb";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { MongoQueryRunner } from "./MongoQueryRunner";
@@ -13,8 +14,7 @@ import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { ConnectionOptions } from "../../connection/ConnectionOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
-import { MongoClient } from 'mongodb';
-import { DriverUtils } from '../DriverUtils';
+import { DriverUtils } from "../DriverUtils";
 
 /**
  * Organizes communication with MongoDB.
@@ -201,8 +201,11 @@ export class MongoDriver implements Driver {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(protected connection: Connection) {
-        this.options = connection.options as MongoConnectionOptions;
+    constructor(
+        protected connection: Connection,
+        connectionOptions: MongoConnectionOptions
+    ) {
+        this.options = connectionOptions;
 
         // validate options to make sure everything is correct and driver will be able to establish connection
         this.validateOptions(this.options);
@@ -495,6 +498,7 @@ export class MongoDriver implements Driver {
 
         return mongoOptions;
     }
+
     // This database name property is nested for replication configs.
     getDatabaseName(): string {
         return DriverUtils.buildDriverOptions(this.options).database;

@@ -1,4 +1,3 @@
-import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { MysqlConnectionCredentialsOptions } from "./MysqlConnectionCredentialsOptions";
 
 /**
@@ -7,8 +6,7 @@ import { MysqlConnectionCredentialsOptions } from "./MysqlConnectionCredentialsO
  * @see https://github.com/mysqljs/mysql#connection-options
  */
 export interface MysqlConnectionOptions
-    extends TypeORMOptions,
-        MysqlConnectionCredentialsOptions {
+    extends MysqlConnectionCredentialsOptions {
     /**
      * Database type.
      */
@@ -135,4 +133,11 @@ export interface MysqlConnectionOptions
          */
         readonly selector?: "RR" | "RANDOM" | "ORDER";
     };
+
+    /**
+     * Extra connection options to be passed to the underlying driver.
+     *
+     * todo: deprecate this and move all database-specific types into hts own connection options object.
+     */
+    readonly extra?: any;
 }

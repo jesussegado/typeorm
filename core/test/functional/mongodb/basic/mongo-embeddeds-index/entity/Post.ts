@@ -3,7 +3,7 @@ import { Column } from "../../../../../../src/decorator/columns/Column";
 import { ObjectIdColumn } from "../../../../../../src/decorator/columns/ObjectIdColumn";
 import { Index } from "../../../../../../src/decorator/Index";
 import { Information } from "./Information";
-import { ObjectID } from '../../../../../../src';
+import { ObjectID } from "../../../../../../src";
 
 @Entity()
 @Index("info_description", ["info.description"])

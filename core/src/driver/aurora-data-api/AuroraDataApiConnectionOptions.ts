@@ -1,4 +1,3 @@
-import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { AuroraDataApiConnectionCredentialsOptions } from "./AuroraDataApiConnectionCredentialsOptions";
 
 /**
@@ -7,8 +6,7 @@ import { AuroraDataApiConnectionCredentialsOptions } from "./AuroraDataApiConnec
  * @see https://github.com/mysqljs/mysql#connection-options
  */
 export interface AuroraDataApiConnectionOptions
-    extends TypeORMOptions,
-        AuroraDataApiConnectionCredentialsOptions {
+    extends AuroraDataApiConnectionCredentialsOptions {
     /**
      * Database type.
      */
@@ -29,4 +27,11 @@ export interface AuroraDataApiConnectionOptions
      * (Default: true)
      */
     readonly legacySpatialSupport?: boolean;
+
+    /**
+     * Extra connection options to be passed to the underlying driver.
+     *
+     * todo: deprecate this and move all database-specific types into hts own connection options object.
+     */
+    readonly extra?: any;
 }

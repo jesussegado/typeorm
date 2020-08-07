@@ -1,92 +1,132 @@
 [
   {
-    "skip": true,
-    "name": "mysql",
-    "type": "mysql",
-    "host": "localhost",
-    "port": 3306,
-    "username": "root",
-    "password": "admin",
-    "database": "test"
+    "typeORMOptions": {
+      "name": "mysql"
+    },
+    "connectionOptions": {
+      "type": "mysql",
+      "host": "localhost",
+      "port": 3306,
+      "username": "root",
+      "password": "admin",
+      "database": "test"
+    },
+    "skip": true
   },
   {
-    "skip": true,
-    "name": "mariadb",
-    "type": "mariadb",
-    "host": "mariadb",
-    "port": 3306,
-    "username": "root",
-    "password": "admin",
-    "database": "test"
+    "typeORMOptions": {
+      "name": "mariadb"
+    },
+    "connectionOptions": {
+      "type": "mariadb",
+      "host": "mariadb",
+      "port": 3306,
+      "username": "root",
+      "password": "admin",
+      "database": "test"
+    },
+    "skip": true
   },
   {
-    "skip": true,
-    "name": "sqlite",
-    "type": "sqlite",
-    "database": "temp/sqlitedb.db"
+    "typeORMOptions": {
+      "name": "sqlite"
+    },
+    "connectionOptions": {
+      "type": "sqlite",
+      "database": "temp/sqlitedb.db"
+    },
+    "skip": true
   },
   {
-    "skip": true,
-    "name": "postgres",
-    "type": "postgres",
-    "host": "localhost",
-    "port": 5432,
-    "username": "test",
-    "password": "test",
-    "database": "test"
+    "typeORMOptions": {
+      "name": "postgres"
+    },
+    "connectionOptions": {
+      "type": "postgres",
+      "host": "localhost",
+      "port": 5432,
+      "username": "test",
+      "password": "test",
+      "database": "test"
+    },
+    "skip": true
   },
   {
-    "skip": true,
-    "name": "sqljs",
-    "type": "sqljs"
+    "typeORMOptions": {
+      "name": "sqljs"
+    },
+    "connectionOptions": {
+      "type": "sqljs"
+    },
+    "skip": true
   },
   {
-    "skip": true,
-    "name": "mssql",
-    "type": "mssql",
-    "host": "localhost",
-    "username": "sa",
-    "password": "Admin12345",
-    "database": "tempdb"
+    "typeORMOptions": {
+      "name": "mssql"
+    },
+    "connectionOptions": {
+      "type": "mssql",
+      "host": "localhost",
+      "username": "sa",
+      "password": "Admin12345",
+      "database": "tempdb"
+    },
+    "skip": true
   },
   {
-    "skip": true,
-    "name": "sap",
-    "type": "sap",
-    "host": "localhost",
-    "port": 39015,
-    "username": "SYSTEM",
-    "password": "HXEHana1",
-    "database": "HXE",
-    "logging": false
+    "typeORMOptions": {
+      "name": "sap",
+      "logging": false
+    },
+    "connectionOptions": {
+      "type": "sap",
+      "host": "localhost",
+      "port": 39015,
+      "username": "SYSTEM",
+      "password": "HXEHana1",
+      "database": "HXE"
+    },
+    "skip": true
   },
   {
+    "typeORMOptions": {
+      "name": "mongodb"
+    },
+    "connectionOptions": {
+      "type": "mongodb",
+      "database": "test",
+      "useNewUrlParser": true,
+      "useUnifiedTopology": true
+    },
     "skip": true,
-    "disabledIfNotEnabledImplicitly": true,
-    "name": "mongodb",
-    "type": "mongodb",
-    "database": "test",
-    "useNewUrlParser": true,
-    "useUnifiedTopology": true
+    "disabledIfNotEnabledImplicitly": true
   },
   {
-    "skip": true,
-    "name": "cockroachdb",
-    "type": "cockroachdb",
-    "host": "localhost",
-    "port": 26257,
-    "username": "root",
-    "password": "",
-    "database": "defaultdb"
+    "typeORMOptions": {
+      "name": "cockroachdb"
+    },
+    "connectionOptions": {
+      "type": "cockroachdb",
+      "host": "localhost",
+      "port": 26257,
+      "username": "root",
+      "password": "",
+      "database": "defaultdb"
+    },
+    "skip": true
   },
   {
-    "skip": false,
-    "name": "oracle",
-    "type": "oracle",
-    "host": "localhost",
-    "username": "typeorm",
-    "password": "Passw0rd",
-    "port": 1521,
-    "sid": "orclpdb1.localdomain"
+    "typeORMOptions": {
+      "name": "oracle"
+    },
+    "connectionOptions": {
+      "type": "oracle",
+      "host": "localhost",
+      "username": "typeorm",
+      "password": "Passw0rd",
+      "port": 1521,
+      "sid": "orclpdb1.localdomain"
+    },
+    "skip": false
   }
 ]

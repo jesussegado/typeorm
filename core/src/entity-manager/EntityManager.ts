@@ -14,7 +14,12 @@ import { FindOptionsUtils } from "../find-options/FindOptionsUtils";
 import { PlainObjectToNewEntityTransformer } from "../query-builder/transformer/PlainObjectToNewEntityTransformer";
 import { PlainObjectToDatabaseEntityTransformer } from "../query-builder/transformer/PlainObjectToDatabaseEntityTransformer";
 import { CustomRepositoryNotFoundError } from "../error/CustomRepositoryNotFoundError";
-import { EntitySchema, getMetadataArgsStorage, ObjectLiteral, ObjectID } from "../index";
+import {
+    EntitySchema,
+    getMetadataArgsStorage,
+    ObjectLiteral,
+    ObjectID,
+} from "../index";
 import { AbstractRepository } from "../repository/AbstractRepository";
 import { CustomRepositoryCannotInheritRepositoryError } from "../error/CustomRepositoryCannotInheritRepositoryError";
 import { QueryRunner } from "../query-runner/QueryRunner";

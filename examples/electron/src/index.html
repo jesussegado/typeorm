@@ -1,55 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Electron App</title>
 </head>
+
 <body>
 
-<h1>Posts:</h1>
+    <h1>Posts:</h1>
 
-<ul id="postList"></ul>
+    <ul id="postList"></ul>
 
-<small>Refresh and you'll see a new post added.</small>
+    <small>Refresh and you'll see a new post added.</small>
+    <script>
+        var typeorm = require("typeorm-core");
+        typeorm.createConnection({
+            "typeORMOptions": {
+                "logging": true,
+                "synchronize": true,
+                "logger": "simple-console",
+                "entities": [
+                    "src/entity/*.js"
+                ],
+            },
+            "connectionOptions": {
+                "type": "sqlite",
+                "database": "database.sqlite"
+            }
+        }).then(() => {
+            var post = {
+                title: "post title",
+                text: "post text"
 
-<script>
-    var typeorm = require("typeorm-core");
-    typeorm.createConnection({
-            "type": "sqlite",
-            "synchronize": true,
-            "logging": true,
-            "logger": "simple-console",
-            "database": "database.sqlite",
-            "entities": [
-              "src/entity/*.js"
-            ]
-          }).then(() => {
-        var post = {
-            title: "post title",
-            text: "post text"
+            };
+            return typeorm.getRepository("Post").save(post);
 
-        };
-        return typeorm.getRepository("Post").save(post);
+        }).then(() => {
+            console.log("Saved successfully!");
+            return typeorm.getRepository("Post").find();
 
-    }).then(() => {
-        console.log("Saved successfully!");
-        return typeorm.getRepository("Post").find();
+        }).then(posts => {
+            console.log("Posts: ", posts);
 
-    }).then(posts => {
-        console.log("Posts: ", posts);
-
-        let ul = document.getElementById("postList");
-        posts.forEach(post => {
-            var li = document.createElement('li');
-            li.innerText = post.id + ". " + post.title;
-            ul.appendChild(li);
+            let ul = document.getElementById("postList");
+            posts.forEach(post => {
+                var li = document.createElement('li');
+                li.innerText = post.id + ". " + post.title;
+                ul.appendChild(li);
+            });
+            console.log("renderer success")
+        }).catch(error => {
+            console.error("Error: ", error);
         });
-        console.log("renderer success")
-    }).catch(error => {
-        console.error("Error: ", error);
-    });
-</script>
+    </script>
 
 </body>
-</html>
 
+</html>

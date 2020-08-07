@@ -291,9 +291,12 @@ export class AuroraDataApiDriver implements Driver {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(connection: Connection) {
+    constructor(
+        connection: Connection,
+        connectionOptions: AuroraDataApiConnectionOptions
+    ) {
         this.connection = connection;
-        this.options = connection.options as AuroraDataApiConnectionOptions;
+        this.options = connectionOptions;
 
         // load mysql package
         this.loadDependencies();
@@ -867,21 +870,23 @@ export class AuroraDataApiDriver implements Driver {
             ...DriverUtils.buildDriverOptions(credentials),
         }; // todo: do it better way
 
-        // build connection options for the driver
-        return {
-            resourceArn: options.resourceArn,
-            secretArn: options.secretArn,
-            region: options.region,
-            type: options.type,
-            host: credentials.host,
-            user: credentials.username,
-            password: credentials.password,
-            database: credentials.database || options.database, // TODO: Check if that's what we want
-            port: credentials.port,
-            ssl: options.ssl,
+        return Promise.resolve(
+            // build connection options for the driver
+            {
+                resourceArn: options.resourceArn,
+                secretArn: options.secretArn,
+                region: options.region,
+                type: options.type,
+                host: credentials.host,
+                user: credentials.username,
+                password: credentials.password,
+                database: credentials.database || options.database, // TODO: Check if that's what we want
+                port: credentials.port,
+                ssl: options.ssl,
 
-            ...(options.extra || {}),
-        };
+                ...(options.extra || {}),
+            }
+        );
     }
 
     /**
@@ -927,6 +932,7 @@ export class AuroraDataApiDriver implements Driver {
 
         return columnMetadataValue === databaseValue;
     }
+
     // This database name property is nested for replication configs.
     getDatabaseName(): string {
         return DriverUtils.buildDriverOptions(this.options).database;

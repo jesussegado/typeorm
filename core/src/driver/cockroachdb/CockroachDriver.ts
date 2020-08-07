@@ -202,9 +202,12 @@ export class CockroachDriver implements Driver {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(connection: Connection) {
+    constructor(
+        connection: Connection,
+        connectionOptions: CockroachConnectionOptions
+    ) {
         this.connection = connection;
-        this.options = connection.options as CockroachConnectionOptions;
+        this.options = connectionOptions;
         this.isReplicated = !!this.options.replication;
 
         // load postgres package
@@ -824,10 +827,13 @@ export class CockroachDriver implements Driver {
             pool.end((err: any) => (err ? fail(err) : ok()));
         });
     }
+
     // This database name property is nested for replication configs.
     getDatabaseName(): string {
         return DriverUtils.buildDriverOptions(
-            this.options.replication ? this.options.replication.master : this.options
-           ).database;
+            this.options.replication
+                ? this.options.replication.master
+                : this.options
+        ).database;
     }
 }

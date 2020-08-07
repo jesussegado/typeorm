@@ -15,13 +15,17 @@ describe("persistence > order of persistence execution operations", () => {
     describe("should throw exception when non-resolvable circular relations found", function () {
         it("should throw CircularRelationsError", () => {
             const connection = new Connection({
-                // dummy connection options, connection won't be established anyway
-                type: "mysql",
-                host: "localhost",
-                username: "test",
-                password: "test",
-                database: "test",
-                entities: [`${__dirname}/entity/*{.js,.ts}`],
+                connectionOptions: {
+                    // dummy connection options, connection won't be established anyway
+                    type: "mysql",
+                    host: "localhost",
+                    username: "test",
+                    password: "test",
+                    database: "test",
+                },
+                typeORMOptions: {
+                    entities: [`${__dirname}/entity/*{.js,.ts}`],
+                },
             });
             const connectionMetadataBuilder = new ConnectionMetadataBuilder(
                 connection

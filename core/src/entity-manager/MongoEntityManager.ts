@@ -1,4 +1,44 @@
 import { ObjectType, ObjectLiteral, DeepPartial } from "typeorm-base";
+import {
+    Cursor,
+    CollectionAggregationOptions,
+    AggregationCursor,
+    CollectionBulkWriteOptions,
+    BulkWriteOpResultObject,
+    MongoCountPreferences,
+    DeleteWriteOpResultObject,
+    FindAndModifyWriteOpResultObject,
+    FindOneAndReplaceOption,
+    GeoHaystackSearchOptions,
+    Code,
+    OrderedBulkOperation,
+    UnorderedBulkOperation,
+    CollectionInsertManyOptions,
+    InsertWriteOpResult,
+    CollectionInsertOneOptions,
+    InsertOneWriteOpResult,
+    CommandCursor,
+    MapReduceOptions,
+    ParallelCollectionScanOptions,
+    Collection,
+    ReplaceOneOptions,
+    UpdateWriteOpResult,
+    CollStats,
+    ChangeStreamOptions,
+    ChangeStream,
+    MongoCallback,
+    MongoError,
+    CursorResult,
+    CommonOptions,
+    IndexOptions,
+    BulkWriteOperation,
+    IndexSpecification,
+    MongoDistinctPreferences,
+    ReadPreferenceOrMode,
+    ClientSession,
+    CollectionMapFunction,
+    CollectionReduceFunction,
+} from "mongodb";
 import { Connection } from "../connection/Connection";
 import { EntityManager } from "./EntityManager";
 import { MongoQueryRunner } from "../driver/mongodb/MongoQueryRunner";
@@ -14,7 +54,6 @@ import { DeleteResult } from "../query-builder/result/DeleteResult";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { EntitySchema, FindConditions, ObjectID } from "../index";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
-import { Cursor, CollectionAggregationOptions, AggregationCursor, CollectionBulkWriteOptions, BulkWriteOpResultObject, MongoCountPreferences, DeleteWriteOpResultObject, FindAndModifyWriteOpResultObject, FindOneAndReplaceOption, GeoHaystackSearchOptions, Code, OrderedBulkOperation, UnorderedBulkOperation, CollectionInsertManyOptions, InsertWriteOpResult, CollectionInsertOneOptions, InsertOneWriteOpResult, CommandCursor, MapReduceOptions, ParallelCollectionScanOptions, Collection, ReplaceOneOptions, UpdateWriteOpResult, CollStats, ChangeStreamOptions, ChangeStream, MongoCallback, MongoError, CursorResult, CommonOptions, IndexOptions, BulkWriteOperation, IndexSpecification, MongoDistinctPreferences, ReadPreferenceOrMode, ClientSession, CollectionMapFunction, CollectionReduceFunction } from 'mongodb';
 
 /**
  * Entity manager supposed to work with any entity, automatically find its repository and call its methods,
@@ -631,7 +670,10 @@ export class MongoEntityManager extends EntityManager {
         reduce: Function | Code,
         finalize: Function | Code,
         command: boolean,
-        options?:{ readPreference?: ReadPreferenceOrMode, session?: ClientSession }
+        options?: {
+            readPreference?: ReadPreferenceOrMode;
+            session?: ClientSession;
+        }
     ): Promise<any> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.group(
@@ -675,7 +717,7 @@ export class MongoEntityManager extends EntityManager {
      */
     collectionIndexInformation<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        options?: { full: boolean, session: ClientSession }
+        options?: { full: boolean; session: ClientSession }
     ): Promise<any> {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.collectionIndexInformation(
@@ -751,7 +793,11 @@ export class MongoEntityManager extends EntityManager {
      */
     listCollectionIndexes<Entity>(
         entityClassOrName: ObjectType<Entity> | EntitySchema<Entity> | string,
-        options?: { batchSize?: number, readPreference?: ReadPreferenceOrMode, session?: ClientSession }
+        options?: {
+            batchSize?: number;
+            readPreference?: ReadPreferenceOrMode;
+            session?: ClientSession;
+        }
     ): CommandCursor {
         const metadata = this.connection.getMetadata(entityClassOrName);
         return this.queryRunner.listCollectionIndexes(

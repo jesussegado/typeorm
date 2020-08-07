@@ -1,5 +1,43 @@
 import { ObjectLiteral } from "typeorm-base";
 import { ReadStream } from "fs";
+import {
+    IndexOptions,
+    Cursor,
+    CollectionAggregationOptions,
+    AggregationCursor,
+    CollectionBulkWriteOptions,
+    BulkWriteOpResultObject,
+    MongoCountPreferences,
+    DeleteWriteOpResultObject,
+    FindAndModifyWriteOpResultObject,
+    FindOneAndReplaceOption,
+    GeoHaystackSearchOptions,
+    Code,
+    OrderedBulkOperation,
+    UnorderedBulkOperation,
+    CollectionInsertManyOptions,
+    InsertWriteOpResult,
+    CollectionInsertOneOptions,
+    InsertOneWriteOpResult,
+    CommandCursor,
+    MapReduceOptions,
+    ParallelCollectionScanOptions,
+    Collection,
+    ReplaceOneOptions,
+    UpdateWriteOpResult,
+    CollStats,
+    ChangeStreamOptions,
+    ChangeStream,
+    CommonOptions,
+    MongoClient,
+    BulkWriteOperation,
+    IndexSpecification,
+    MongoDistinctPreferences,
+    ReadPreferenceOrMode,
+    ClientSession,
+    CollectionMapFunction,
+    CollectionReduceFunction,
+} from "mongodb";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
 import { Table } from "../../schema-builder/table/Table";
@@ -13,7 +51,6 @@ import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { Broadcaster } from "../../subscriber/Broadcaster";
 import { TableCheck } from "../../schema-builder/table/TableCheck";
 import { TableExclusion } from "../../schema-builder/table/TableExclusion";
-import { IndexOptions , Cursor, CollectionAggregationOptions, AggregationCursor, CollectionBulkWriteOptions, BulkWriteOpResultObject, MongoCountPreferences, DeleteWriteOpResultObject, FindAndModifyWriteOpResultObject, FindOneAndReplaceOption, GeoHaystackSearchOptions, Code, OrderedBulkOperation, UnorderedBulkOperation, CollectionInsertManyOptions, InsertWriteOpResult, CollectionInsertOneOptions, InsertOneWriteOpResult, CommandCursor, MapReduceOptions, ParallelCollectionScanOptions, Collection, ReplaceOneOptions, UpdateWriteOpResult, CollStats, ChangeStreamOptions, ChangeStream, CommonOptions, MongoClient, BulkWriteOperation, IndexSpecification, MongoDistinctPreferences, ReadPreferenceOrMode, ClientSession, CollectionMapFunction, CollectionReduceFunction } from 'mongodb';
 
 /**
  * Runs queries on a single MongoDB connection.
@@ -284,7 +321,11 @@ export class MongoQueryRunner implements QueryRunner {
         y: number,
         options?: GeoHaystackSearchOptions
     ): Promise<any> {
-        return this.getCollection(collectionName).geoHaystackSearch(x, y, options);
+        return this.getCollection(collectionName).geoHaystackSearch(
+            x,
+            y,
+            options
+        );
     }
 
     /**
@@ -298,7 +339,10 @@ export class MongoQueryRunner implements QueryRunner {
         reduce: Function | Code,
         finalize: Function | Code,
         command: boolean,
-        options?: { readPreference?: ReadPreferenceOrMode, session?: ClientSession }
+        options?: {
+            readPreference?: ReadPreferenceOrMode;
+            session?: ClientSession;
+        }
     ): Promise<any> {
         return this.getCollection(collectionName).group(
             keys,
@@ -333,7 +377,7 @@ export class MongoQueryRunner implements QueryRunner {
      */
     async collectionIndexInformation(
         collectionName: string,
-        options?: { full: boolean, session: ClientSession }
+        options?: { full: boolean; session: ClientSession }
     ): Promise<any> {
         return this.getCollection(collectionName).indexInformation(options);
     }
@@ -396,7 +440,11 @@ export class MongoQueryRunner implements QueryRunner {
      */
     listCollectionIndexes(
         collectionName: string,
-        options?: { batchSize?: number, readPreference?: ReadPreferenceOrMode, session?: ClientSession }
+        options?: {
+            batchSize?: number;
+            readPreference?: ReadPreferenceOrMode;
+            session?: ClientSession;
+        }
     ): CommandCursor {
         return this.getCollection(collectionName).listIndexes(options);
     }

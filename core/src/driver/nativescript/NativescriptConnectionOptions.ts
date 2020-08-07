@@ -1,9 +1,7 @@
-import { TypeORMOptions } from "../../connection/TypeORMOptions";
-
 /**
  * NativeScript-specific connection options.
  */
-export interface NativescriptConnectionOptions extends TypeORMOptions {
+export interface NativescriptConnectionOptions {
     /**
      * Database type.
      */
@@ -50,4 +48,11 @@ export interface NativescriptConnectionOptions extends TypeORMOptions {
      * Flags to pass to SQLite when opening the database on Android. (see https://developer.android.com/reference/android/database/sqlite/SQLiteDatabase.html)
      */
     readonly androidFlags?: number;
+
+    /**
+     * Extra connection options to be passed to the underlying driver.
+     *
+     * todo: deprecate this and move all database-specific types into hts own connection options object.
+     */
+    readonly extra?: any;
 }

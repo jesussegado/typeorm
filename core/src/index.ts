@@ -3,9 +3,11 @@
 import "reflect-metadata";
 import { PromiseUtils, ObjectType } from "typeorm-base";
 import { ConnectionManager } from "./connection/ConnectionManager";
-import { Connection } from "./connection/Connection";
+import {
+    Connection,
+    TypeormAndConnectionOptions,
+} from "./connection/Connection";
 import { MetadataArgsStorage } from "./metadata-args/MetadataArgsStorage";
-import { ConnectionOptions } from "./connection/ConnectionOptions";
 import { getFromContainer } from "./container";
 import { Repository } from "./repository/Repository";
 import { EntityManager } from "./entity-manager/EntityManager";
@@ -120,11 +122,14 @@ export * from "./schema-builder/table/TableUnique";
 export * from "./schema-builder/table/Table";
 export * from "./driver/types/DatabaseType";
 export * from "./driver/sqlserver/MssqlParameter";
-export {ObjectID} from "mongodb";
+export { ObjectID } from "mongodb";
 
-export { Connection } from "./connection/Connection";
+export {
+    Connection,
+    TypeormAndConnectionOptions,
+} from "./connection/Connection";
 export { ConnectionManager } from "./connection/ConnectionManager";
-export { ConnectionOptions } from "./connection/ConnectionOptions";
+export { TypeORMOptions } from "./connection/TypeORMOptions";
 export { Driver } from "./driver/Driver";
 export { QueryBuilder } from "./query-builder/QueryBuilder";
 export { SelectQueryBuilder } from "./query-builder/SelectQueryBuilder";
@@ -199,7 +204,7 @@ export function getConnectionManager(): ConnectionManager {
  * Creates a new connection and registers it in the manager.
  */
 export async function createConnection(
-    options: ConnectionOptions
+    options: TypeormAndConnectionOptions
 ): Promise<Connection> {
     return getConnectionManager().create(options).connect();
 }
@@ -212,7 +217,7 @@ export async function createConnection(
  * All connections from the ormconfig will be created.
  */
 export async function createConnections(
-    options: ConnectionOptions[]
+    options: TypeormAndConnectionOptions[]
 ): Promise<Connection[]> {
     const connections = options.map((options) =>
         getConnectionManager().create(options)

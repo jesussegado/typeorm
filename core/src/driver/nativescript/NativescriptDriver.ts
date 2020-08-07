@@ -33,11 +33,14 @@ export class NativescriptDriver extends AbstractSqliteDriver {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(connection: Connection) {
+    constructor(
+        connection: Connection,
+        connectionOptions: NativescriptConnectionOptions
+    ) {
         super(connection);
 
         this.connection = connection;
-        this.options = connection.options as NativescriptConnectionOptions;
+        this.options = connectionOptions;
         this.database = this.options.database;
         this.driver = this.options.driver;
 

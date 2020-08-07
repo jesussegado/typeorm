@@ -1,18 +1,22 @@
-import { PromiseUtils } from "typeorm-base";
-import { Connection } from "../../src/connection/Connection";
-import { ConnectionOptions } from "../../src/connection/ConnectionOptions";
+import { PromiseUtils , Mutable } from "typeorm-base";
+import {
+    Connection,
+    TypeormAndConnectionOptions,
+} from "../../src/connection/Connection";
 import { DatabaseType } from "../../src/driver/types/DatabaseType";
 import { EntitySchema } from "../../src/entity-schema/EntitySchema";
-import { createConnections } from "../../src/index";
+import { createConnections, TypeORMOptions } from "../../src/index";
 import { NamingStrategyInterface } from "../../src/naming-strategy/NamingStrategyInterface";
 import { QueryResultCache } from "../../src/cache/QueryResultCache";
 import { Logger } from "../../src/logger/Logger";
 import { isPostgres, isMssql } from "../../src/driver/Driver";
+import { ConnectionOptions } from "../../src/connection/ConnectionOptions";
+
 
 /**
  * Interface in which data is stored in ormconfig.json of the project.
  */
-export type TestingConnectionOptions = ConnectionOptions & {
+export type TestingConnectionOptions = TypeormAndConnectionOptions & {
     /**
      * Indicates if this connection should be skipped.
      */
@@ -152,7 +156,7 @@ export interface TestingOptions {
 export function setupSingleTestingConnection(
     driverType: DatabaseType,
     options: TestingOptions
-): ConnectionOptions | undefined {
+): TypeormAndConnectionOptions | undefined {
     const testingConnections = setupTestingConnections({
         name: options.name ? options.name : undefined,
         entities: options.entities ? options.entities : [],
@@ -200,7 +204,7 @@ export function getTypeOrmConfig(): TestingConnectionOptions[] {
  */
 export function setupTestingConnections(
     options?: TestingOptions
-): ConnectionOptions[] {
+): TypeormAndConnectionOptions[] {
     const ormConfigConnectionOptionsArray = getTypeOrmConfig();
 
     if (!ormConfigConnectionOptionsArray.length)
@@ -218,8 +222,9 @@ export function setupTestingConnections(
                 options.enabledDrivers.length
             )
                 return (
-                    options.enabledDrivers.indexOf(connectionOptions.type!) !==
-                    -1
+                    options.enabledDrivers.indexOf(
+                        connectionOptions.connectionOptions.type!
+                    ) !== -1
                 ); // ! is temporary
 
             if (connectionOptions.disabledIfNotEnabledImplicitly === true)
@@ -228,45 +233,59 @@ export function setupTestingConnections(
             return true;
         })
         .map((connectionOptions) => {
-            let newOptions: any = {
-                ...(connectionOptions as ConnectionOptions),
-                name:
-                    options && options.name
-                        ? options.name
-                        : connectionOptions.name,
-                entities: options && options.entities ? options.entities : [],
-                migrations:
-                    options && options.migrations ? options.migrations : [],
-                subscribers:
-                    options && options.subscribers ? options.subscribers : [],
-                dropSchema:
-                    options && options.dropSchema !== undefined
-                        ? options.dropSchema
-                        : false,
-                cache: options ? options.cache : undefined,
+            const newOptions: {
+                typeORMOptions: Mutable<TypeORMOptions>;
+                connectionOptions: Mutable<ConnectionOptions>;
+            } = {
+                connectionOptions: {
+                    ...(connectionOptions as TypeormAndConnectionOptions)
+                        .connectionOptions,
+                },
+                typeORMOptions: {
+                    ...connectionOptions.typeORMOptions,
+                    name:
+                        options && options.name
+                            ? options.name
+                            : connectionOptions.typeORMOptions.name,
+                    entities:
+                        options && options.entities ? options.entities : [],
+                    migrations:
+                        options && options.migrations ? options.migrations : [],
+                    subscribers:
+                        options && options.subscribers
+                            ? options.subscribers
+                            : [],
+                    dropSchema:
+                        options && options.dropSchema !== undefined
+                            ? options.dropSchema
+                            : false,
+                    cache: options ? options.cache : undefined,
+                },
             };
             if (options && options.driverSpecific)
-                newOptions = {
+                newOptions.connectionOptions = {
                     ...options.driverSpecific,
-                    ...newOptions,
+                    ...newOptions.connectionOptions,
                 };
             if (options && options.schemaCreate)
-                newOptions.synchronize = options.schemaCreate;
-            if (options && options.schema) newOptions.schema = options.schema;
+                newOptions.typeORMOptions.synchronize = options.schemaCreate;
+            if (options && options.schema)
+                (newOptions.connectionOptions as any).schema = options.schema;
             if (options && options.logging !== undefined)
-                newOptions.logging = options.logging;
+                newOptions.typeORMOptions.logging = options.logging;
             if (options && options.createLogger !== undefined)
-                newOptions.logger = options.createLogger();
+                newOptions.typeORMOptions.logger = options.createLogger();
             if (options && options.__dirname)
-                newOptions.entities = [
+                newOptions.typeORMOptions.entities = [
                     `${options.__dirname}/entity/*{.js,.ts}`,
                 ];
             if (options && options.__dirname)
-                newOptions.migrations = [
+                newOptions.typeORMOptions.migrations = [
                     `${options.__dirname}/migration/*{.js,.ts}`,
                 ];
             if (options && options.namingStrategy)
-                newOptions.namingStrategy = options.namingStrategy;
+                newOptions.typeORMOptions.namingStrategy =
+                    options.namingStrategy;
             return newOptions;
         });
 }

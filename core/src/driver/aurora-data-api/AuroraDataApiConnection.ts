@@ -1,6 +1,9 @@
 import { AuroraDataApiQueryRunner } from "./AuroraDataApiQueryRunner";
-import { Connection } from "../../connection/Connection";
-import { ConnectionOptions, QueryRunner } from "../..";
+import {
+    Connection,
+    TypeormAndConnectionOptions,
+} from "../../connection/Connection";
+import { QueryRunner } from "../..";
 
 /**
  * Organizes communication with MySQL DBMS.
@@ -9,7 +12,7 @@ export class AuroraDataApiConnection extends Connection {
     queryRunnter: AuroraDataApiQueryRunner;
 
     constructor(
-        options: ConnectionOptions,
+        options: TypeormAndConnectionOptions,
         queryRunner: AuroraDataApiQueryRunner
     ) {
         super(options);

@@ -3,8 +3,7 @@ import { TypeORMOptions } from "../../connection/TypeORMOptions";
 /**
  * Postgres-specific connection options.
  */
-export interface AuroraDataApiPostgresConnectionOptions
-    extends TypeORMOptions {
+export interface AuroraDataApiPostgresConnectionOptions extends TypeORMOptions {
     /**
      * Database type.
      */

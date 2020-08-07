@@ -7,13 +7,17 @@ import { EntityMetadataValidator } from "../../../../src/metadata-builder/Entity
 describe("entity-metadata-validator", () => {
     it("should throw error if relation count decorator used with ManyToOne or OneToOne relations", () => {
         const connection = new Connection({
-            // dummy connection options, connection won't be established anyway
-            type: "mysql",
-            host: "localhost",
-            username: "test",
-            password: "test",
-            database: "test",
-            entities: [`${__dirname}/entity/*{.js,.ts}`],
+            connectionOptions: {
+                // dummy connection options, connection won't be established anyway
+                type: "mysql",
+                host: "localhost",
+                username: "test",
+                password: "test",
+                database: "test",
+            },
+            typeORMOptions: {
+                entities: [`${__dirname}/entity/*{.js,.ts}`],
+            },
         });
         const connectionMetadataBuilder = new ConnectionMetadataBuilder(
             connection

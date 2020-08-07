@@ -852,7 +852,7 @@ export class EntityMetadata {
         ) {
             this.schema = this.parentEntityMetadata.schema;
         } else {
-            this.schema = (this.connection.options as
+            this.schema = (this.connection.driver.options as
                 | PostgresConnectionOptions
                 | SqlServerConnectionOptions).schema;
         }

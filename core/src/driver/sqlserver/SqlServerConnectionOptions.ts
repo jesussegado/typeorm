@@ -1,12 +1,10 @@
-import { TypeORMOptions } from "../../connection/TypeORMOptions";
 import { SqlServerConnectionCredentialsOptions } from "./SqlServerConnectionCredentialsOptions";
 
 /**
  * Microsoft Sql Server specific connection options.
  */
 export interface SqlServerConnectionOptions
-    extends TypeORMOptions,
-        SqlServerConnectionCredentialsOptions {
+    extends SqlServerConnectionCredentialsOptions {
     /**
      * Database type.
      */
@@ -287,4 +285,11 @@ export interface SqlServerConnectionOptions
          */
         readonly slaves: SqlServerConnectionCredentialsOptions[];
     };
+
+    /**
+     * Extra connection options to be passed to the underlying driver.
+     *
+     * todo: deprecate this and move all database-specific types into hts own connection options object.
+     */
+    readonly extra?: any;
 }

@@ -373,7 +373,7 @@ describe("basic-lazy-relations", () => {
             connections
                 .filter((connection) =>
                     new Set(["mysql", "sqlite", "postgres"]).has(
-                        connection.options.type
+                        connection.driver.options.type
                     )
                 )
                 .map(async (connection) => {
@@ -404,7 +404,7 @@ describe("basic-lazy-relations", () => {
             connections
                 .filter((connection) =>
                     new Set(["mysql", "sqlite", "postgres"]).has(
-                        connection.options.type
+                        connection.driver.options.type
                     )
                 )
                 .map(async (connection) => {

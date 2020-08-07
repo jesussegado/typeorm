@@ -1,16 +1,23 @@
 import "../sample1-simple-entity/node_modules/reflect-metadata";
-import {ConnectionOptions, createConnection} from "../../src/index";
+import { createConnection} from "../../src/index";
 import {Post} from "./entity/Post";
 import {Author} from "./entity/Author";
 import {Category} from "./entity/Category";
+import { TypeormAndConnectionOptions } from '../../src/connection/Connection';
 
-const options: ConnectionOptions = {
-    type: "sqlite",
+const options:  TypeormAndConnectionOptions = {
+    connectionOptions:{
+  type: "sqlite",
     database: "temp/sqlitedb.db",
-    entityPrefix: "samples_", // pay attention on this prefix
+    },
+    typeORMOptions:{
+            entityPrefix: "samples_", // pay attention on this prefix
     synchronize: true,
     logging: ["query", "error"],
     entities: [Post, Author, Category],
+    }
+
+
 };
 
 createConnection(options).then(async connection => {

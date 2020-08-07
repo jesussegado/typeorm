@@ -1,7 +1,7 @@
 import * as yargs from "yargs";
 import { Connection, QueryRunner, createConnection } from "typeorm-core";
 import { PlatformTools } from "typeorm-core/build/compiled/src/platform/PlatformTools";
-import { ConnectionOptionsReader } from "typeorm-options-reader";
+import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
 import highlight from "cli-highlight";
 
 const chalk = require("chalk");
@@ -34,10 +34,12 @@ export class QueryCommand implements yargs.CommandModule {
         let queryRunner: QueryRunner | undefined;
         try {
             // create a connection
-            const connectionOptionsReader = new ConnectionOptionsReader({
-                root: process.cwd(),
-                configName: args.config as any,
-            });
+            const connectionOptionsReader = new TypeormAndConnectionOptionsReader(
+                {
+                    root: process.cwd(),
+                    configName: args.config as any,
+                }
+            );
             const connectionOptions = await connectionOptionsReader.get(
                 args.connection as any
             );
