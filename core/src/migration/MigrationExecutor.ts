@@ -9,8 +9,7 @@ import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnect
 import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
 import { isDriverSupported } from "../driver/Driver";
 
-
-export type MigrationExecutorConditions = {timestamp:any, name:any};
+export type MigrationExecutorConditions = { timestamp: any; name: any };
 
 /**
  * Executes migrations: runs pending and reverts previously executed migrations.
@@ -453,7 +452,6 @@ export abstract class MigrationExecutor {
         queryRunner: QueryRunner
     ): Promise<Migration[]>;
 
-
     /**
      * Gets all migrations that setup for this connection.
      */
@@ -529,7 +527,10 @@ export abstract class MigrationExecutor {
         queryRunner: QueryRunner,
         migration: Migration
     ): Promise<void> {
-        const values: MigrationExecutorConditions = {name:undefined, timestamp:undefined};
+        const values: MigrationExecutorConditions = {
+            name: undefined,
+            timestamp: undefined,
+        };
         if (isDriverSupported(["mssql"], this.connection.driver.type)) {
             values.timestamp = new MssqlParameter(
                 migration.timestamp,
@@ -550,7 +551,11 @@ export abstract class MigrationExecutor {
         }
         await this.insertExecutedMigrationExecute(queryRunner, values);
     }
-    protected abstract async insertExecutedMigrationExecute(queryRunner: QueryRunner, values:MigrationExecutorConditions): Promise<void>;
+
+    protected abstract async insertExecutedMigrationExecute(
+        queryRunner: QueryRunner,
+        values: MigrationExecutorConditions
+    ): Promise<void>;
 
     /**
      * Delete previously executed migration's data from the migrations table.
@@ -559,7 +564,10 @@ export abstract class MigrationExecutor {
         queryRunner: QueryRunner,
         migration: Migration
     ): Promise<void> {
-        const conditions: MigrationExecutorConditions = {name:undefined, timestamp:undefined};
+        const conditions: MigrationExecutorConditions = {
+            name: undefined,
+            timestamp: undefined,
+        };
         if (isDriverSupported(["mssql"], this.connection.driver.type)) {
             conditions.timestamp = new MssqlParameter(
                 migration.timestamp,
@@ -578,9 +586,13 @@ export abstract class MigrationExecutor {
             conditions.timestamp = migration.timestamp;
             conditions.name = migration.name;
         }
-        await this.deleteExecutedMigrationExecute(queryRunner,conditions);
+        await this.deleteExecutedMigrationExecute(queryRunner, conditions);
     }
-    protected abstract async deleteExecutedMigrationExecute(queryRunner: QueryRunner, values:MigrationExecutorConditions): Promise<void>;
+
+    protected abstract async deleteExecutedMigrationExecute(
+        queryRunner: QueryRunner,
+        values: MigrationExecutorConditions
+    ): Promise<void>;
 
     protected async withQueryRunner<T extends any>(
         callback: (queryRunner: QueryRunner) => T

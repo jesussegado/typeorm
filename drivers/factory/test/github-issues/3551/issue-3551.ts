@@ -48,9 +48,7 @@ describe("github issues > #3551 array of embedded documents through multiple lev
                 ],
             };
 
-            await connection.mongoManager
-                .getRepository(Book)
-                .insert(bookInput);
+            await connection.mongoManager.getRepository(Book).insert(bookInput);
 
             const books = await connection.mongoManager
                 .getRepository(Book)

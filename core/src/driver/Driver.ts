@@ -15,8 +15,8 @@ import type { AuroraDataApiDriver } from "./aurora-data-api/AuroraDataApiDriver"
 import type { OracleDriver } from "./oracle/OracleDriver";
 import type { PostgresDriver } from "./postgres/PostgresDriver";
 import { ConnectionOptions } from "../connection/ConnectionOptions";
-import { RdbmsMigrationExecutor } from '../migration/RdbmsMigrationExecutor';
-import { MigrationExecutor } from '../migration/MigrationExecutor';
+import { RdbmsMigrationExecutor } from "../migration/RdbmsMigrationExecutor";
+import { MigrationExecutor } from "../migration/MigrationExecutor";
 
 export type DriverType = DatabaseType | "sqlite-abstract";
 
@@ -63,6 +63,7 @@ export function isPostgres(driver: Driver): driver is PostgresDriver {
  */
 export abstract class Driver {
     type: DriverType;
+
     /**
      * Connection options.
      */
@@ -270,13 +271,17 @@ export abstract class Driver {
     // This database name property is nested for replication configs.
     abstract getDatabaseName(): string;
 
-    createEntityManager(connection: Connection, queryRunner?: QueryRunner): EntityManager {
-          return new EntityManager(connection, queryRunner);
+    createEntityManager(
+        connection: Connection,
+        queryRunner?: QueryRunner
+    ): EntityManager {
+        return new EntityManager(connection, queryRunner);
     }
+
     createMigrationExecutor(
         connection: Connection,
         queryRunner?: QueryRunner
-    ):MigrationExecutor{
-        return new RdbmsMigrationExecutor(connection,queryRunner);
+    ): MigrationExecutor {
+        return new RdbmsMigrationExecutor(connection, queryRunner);
     }
 }

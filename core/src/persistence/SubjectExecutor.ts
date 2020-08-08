@@ -430,9 +430,13 @@ export class SubjectExecutor {
                 }
 
                 // for mongodb we have a bit different insertion logic
-                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
-                    const manager = this.queryRunner
-                        .manager;
+                if (
+                    isDriverSupported(
+                        ["mongodb"],
+                        this.queryRunner.connection.driver.type
+                    )
+                ) {
+                    const { manager } = this.queryRunner;
                     const insertResult = await manager.insert(
                         subjects[0].metadata.target,
                         bulkInsertMaps
@@ -559,7 +563,12 @@ export class SubjectExecutor {
 
                 // for mongodb we have a bit different updation logic
 
-                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
+                if (
+                    isDriverSupported(
+                        ["mongodb"],
+                        this.queryRunner.connection.driver.type
+                    )
+                ) {
                     const partialEntity = OrmUtils.mergeDeep(
                         {},
                         subject.entity!
@@ -591,8 +600,7 @@ export class SubjectExecutor {
                         ] = new Date();
                     }
 
-                    const manager = this.queryRunner
-                        .manager;
+                    const { manager } = this.queryRunner;
 
                     await manager.update(
                         subject.metadata.target,
@@ -682,9 +690,13 @@ export class SubjectExecutor {
                 });
 
                 // for mongodb we have a bit different updation logic
-                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
-                    const manager = this.queryRunner
-                        .manager;
+                if (
+                    isDriverSupported(
+                        ["mongodb"],
+                        this.queryRunner.connection.driver.type
+                    )
+                ) {
+                    const { manager } = this.queryRunner;
                     await manager.delete(
                         subjects[0].metadata.target,
                         deleteMaps
@@ -716,7 +728,12 @@ export class SubjectExecutor {
                     throw new SubjectWithoutIdentifierError(subject);
 
                 // for mongodb we have a bit different updation logic
-                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
+                if (
+                    isDriverSupported(
+                        ["mongodb"],
+                        this.queryRunner.connection.driver.type
+                    )
+                ) {
                     const partialEntity = OrmUtils.mergeDeep(
                         {},
                         subject.entity!
@@ -757,8 +774,7 @@ export class SubjectExecutor {
                         ] = new Date();
                     }
 
-                    const manager = this.queryRunner
-                        .manager;
+                    const { manager } = this.queryRunner;
 
                     await manager.update(
                         subject.metadata.target,
@@ -832,7 +848,12 @@ export class SubjectExecutor {
                     throw new SubjectWithoutIdentifierError(subject);
 
                 // for mongodb we have a bit different updation logic
-                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
+                if (
+                    isDriverSupported(
+                        ["mongodb"],
+                        this.queryRunner.connection.driver.type
+                    )
+                ) {
                     const partialEntity = OrmUtils.mergeDeep(
                         {},
                         subject.entity!
@@ -873,8 +894,7 @@ export class SubjectExecutor {
                         ] = null;
                     }
 
-                    const manager = this.queryRunner
-                        .manager;
+                    const { manager } = this.queryRunner;
 
                     await manager.update(
                         subject.metadata.target,
@@ -987,7 +1007,12 @@ export class SubjectExecutor {
             });
 
             // mongo _id remove
-            if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
+            if (
+                isDriverSupported(
+                    ["mongodb"],
+                    this.queryRunner.connection.driver.type
+                )
+            ) {
                 if (
                     subject.metadata.objectIdColumn &&
                     subject.metadata.objectIdColumn.databaseName &&

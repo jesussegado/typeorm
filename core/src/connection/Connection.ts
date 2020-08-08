@@ -432,7 +432,7 @@ export class Connection {
         parameters?: any[],
         queryRunner?: QueryRunner
     ): Promise<any> {
-        if (isDriverSupported(["mongodb"],this.driver.type))
+        if (isDriverSupported(["mongodb"], this.driver.type))
             throw new Error(`Queries aren't supported by MongoDB.`);
 
         if (queryRunner && queryRunner.isReleased)
@@ -478,7 +478,7 @@ export class Connection {
         alias?: string,
         queryRunner?: QueryRunner
     ): SelectQueryBuilder<Entity> {
-        if (isDriverSupported(["mongodb"],this.driver.type))
+        if (isDriverSupported(["mongodb"], this.driver.type))
             throw new Error(`Query Builder is not supported by MongoDB.`);
 
         if (alias) {
@@ -507,7 +507,7 @@ export class Connection {
      */
     createQueryRunner(mode: "master" | "slave" = "master"): QueryRunner {
         const queryRunner = this.driver.createQueryRunner(mode);
-        const manager = this.driver.createEntityManager(this,queryRunner);
+        const manager = this.driver.createEntityManager(this, queryRunner);
         Object.assign(queryRunner, { manager });
         return queryRunner;
     }

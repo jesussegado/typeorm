@@ -1,11 +1,15 @@
-import { MigrationExecutor, MigrationExecutorConditions } from './MigrationExecutor';
-import { QueryRunner, Migration } from '..';
-import { ObjectLiteral } from 'typeorm-base';
+import { ObjectLiteral } from "typeorm-base";
+import {
+    MigrationExecutor,
+    MigrationExecutorConditions,
+} from "./MigrationExecutor";
+import { QueryRunner, Migration } from "..";
 
-export class RdbmsMigrationExecutor extends MigrationExecutor{
-    protected async loadExecutedMigrations(queryRunner: QueryRunner): Promise<Migration[]> {
-
-                const migrationsRaw: ObjectLiteral[] = await this.connection.manager
+export class RdbmsMigrationExecutor extends MigrationExecutor {
+    protected async loadExecutedMigrations(
+        queryRunner: QueryRunner
+    ): Promise<Migration[]> {
+        const migrationsRaw: ObjectLiteral[] = await this.connection.manager
             .createQueryBuilder(queryRunner)
             .select()
             .orderBy(this.connection.driver.escape("id"), "DESC")
@@ -19,23 +23,26 @@ export class RdbmsMigrationExecutor extends MigrationExecutor{
             );
         });
     }
-    protected async insertExecutedMigrationExecute(queryRunner: QueryRunner, values: MigrationExecutorConditions): Promise<void> {
+
+    protected async insertExecutedMigrationExecute(
+        queryRunner: QueryRunner,
+        values: MigrationExecutorConditions
+    ): Promise<void> {
         const qb = queryRunner.manager.createQueryBuilder();
-            await qb
-                .insert()
-                .into(this.migrationsTable)
-                .values(values)
-                .execute();
-    }
-    protected async deleteExecutedMigrationExecute(queryRunner: QueryRunner,conditions:MigrationExecutorConditions): Promise<void> {
-        const qb = queryRunner.manager.createQueryBuilder();
-            await qb
-                .delete()
-                .from(this.migrationsTable)
-                .where(`${qb.escape("timestamp")} = :timestamp`)
-                .andWhere(`${qb.escape("name")} = :name`)
-                .setParameters(conditions)
-                .execute();
+        await qb.insert().into(this.migrationsTable).values(values).execute();
     }
 
+    protected async deleteExecutedMigrationExecute(
+        queryRunner: QueryRunner,
+        conditions: MigrationExecutorConditions
+    ): Promise<void> {
+        const qb = queryRunner.manager.createQueryBuilder();
+        await qb
+            .delete()
+            .from(this.migrationsTable)
+            .where(`${qb.escape("timestamp")} = :timestamp`)
+            .andWhere(`${qb.escape("name")} = :name`)
+            .setParameters(conditions)
+            .execute();
+    }
 }

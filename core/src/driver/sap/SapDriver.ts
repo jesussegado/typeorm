@@ -195,7 +195,7 @@ export class SapDriver extends Driver {
     constructor(
         connection: Connection,
         connectionOptions: SapConnectionOptions
-        ) {
+    ) {
         super();
         this.connection = connection;
         this.options = connectionOptions;

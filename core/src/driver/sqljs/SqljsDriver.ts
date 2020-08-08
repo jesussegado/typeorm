@@ -10,7 +10,7 @@ import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { DriverType } from "../Driver";
 import { PlatformTools } from "../../platform/PlatformTools";
-import { SqljsEntityManager } from '../../entity-manager/SqljsEntityManager';
+import { SqljsEntityManager } from "../../entity-manager/SqljsEntityManager";
 
 // This is needed to satisfy the typescript compiler.
 interface Window {
@@ -324,7 +324,11 @@ export class SqljsDriver extends AbstractSqliteDriver {
             }
         }
     }
-    createEntityManager(connection: Connection, queryRunner: QueryRunner): SqljsEntityManager {
+
+    createEntityManager(
+        connection: Connection,
+        queryRunner: QueryRunner
+    ): SqljsEntityManager {
         return new SqljsEntityManager(connection, queryRunner);
     }
 }

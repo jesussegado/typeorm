@@ -15,8 +15,8 @@ import { ConnectionOptions } from "../../connection/ConnectionOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 import { DriverUtils } from "../DriverUtils";
-import { MongoEntityManager, QueryRunner, MigrationExecutor } from '../..';
-import { MongoMigrationExecutor } from './MongoMigrationExecutor';
+import { MongoEntityManager, QueryRunner, MigrationExecutor } from "../..";
+import { MongoMigrationExecutor } from "./MongoMigrationExecutor";
 
 export { ObjectID } from "mongodb";
 
@@ -482,7 +482,7 @@ export class MongoDriver extends Driver {
 
         return `mongodb://${credentialsUrlPart}${
             this.options.host || "127.0.0.1"
-            }:${this.options.port || "27017"}/${this.options.database}`;
+        }:${this.options.port || "27017"}/${this.options.database}`;
     }
 
     /**
@@ -512,10 +512,11 @@ export class MongoDriver extends Driver {
     createEntityManager(connection: Connection): MongoEntityManager {
         return new MongoEntityManager(connection);
     }
+
     createMigrationExecutor(
         connection: Connection,
         queryRunner?: QueryRunner
-    ):MigrationExecutor{
-        return new MongoMigrationExecutor(connection,queryRunner);
+    ): MigrationExecutor {
+        return new MongoMigrationExecutor(connection, queryRunner);
     }
 }
