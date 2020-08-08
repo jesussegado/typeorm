@@ -5,9 +5,6 @@ import { SubjectTopoligicalSorter } from "./SubjectTopoligicalSorter";
 import { SubjectChangedColumnsComputer } from "./SubjectChangedColumnsComputer";
 import { SubjectWithoutIdentifierError } from "../error/SubjectWithoutIdentifierError";
 import { SubjectRemovedAndUpdatedError } from "../error/SubjectRemovedAndUpdatedError";
-import { MongoQueryRunner } from "../driver/mongodb/MongoQueryRunner";
-import { MongoEntityManager } from "../driver/mongodb/MongoEntityManager";
-
 import { SaveOptions } from "../repository/SaveOptions";
 import { RemoveOptions } from "../repository/RemoveOptions";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
@@ -433,9 +430,9 @@ export class SubjectExecutor {
                 }
 
                 // for mongodb we have a bit different insertion logic
-                if (this.queryRunner instanceof MongoQueryRunner) {
+                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
                     const manager = this.queryRunner
-                        .manager as MongoEntityManager;
+                        .manager;
                     const insertResult = await manager.insert(
                         subjects[0].metadata.target,
                         bulkInsertMaps
@@ -561,7 +558,8 @@ export class SubjectExecutor {
                     throw new SubjectWithoutIdentifierError(subject);
 
                 // for mongodb we have a bit different updation logic
-                if (this.queryRunner instanceof MongoQueryRunner) {
+
+                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
                     const partialEntity = OrmUtils.mergeDeep(
                         {},
                         subject.entity!
@@ -594,7 +592,7 @@ export class SubjectExecutor {
                     }
 
                     const manager = this.queryRunner
-                        .manager as MongoEntityManager;
+                        .manager;
 
                     await manager.update(
                         subject.metadata.target,
@@ -684,9 +682,9 @@ export class SubjectExecutor {
                 });
 
                 // for mongodb we have a bit different updation logic
-                if (this.queryRunner instanceof MongoQueryRunner) {
+                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
                     const manager = this.queryRunner
-                        .manager as MongoEntityManager;
+                        .manager;
                     await manager.delete(
                         subjects[0].metadata.target,
                         deleteMaps
@@ -718,7 +716,7 @@ export class SubjectExecutor {
                     throw new SubjectWithoutIdentifierError(subject);
 
                 // for mongodb we have a bit different updation logic
-                if (this.queryRunner instanceof MongoQueryRunner) {
+                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
                     const partialEntity = OrmUtils.mergeDeep(
                         {},
                         subject.entity!
@@ -760,7 +758,7 @@ export class SubjectExecutor {
                     }
 
                     const manager = this.queryRunner
-                        .manager as MongoEntityManager;
+                        .manager;
 
                     await manager.update(
                         subject.metadata.target,
@@ -834,7 +832,7 @@ export class SubjectExecutor {
                     throw new SubjectWithoutIdentifierError(subject);
 
                 // for mongodb we have a bit different updation logic
-                if (this.queryRunner instanceof MongoQueryRunner) {
+                if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
                     const partialEntity = OrmUtils.mergeDeep(
                         {},
                         subject.entity!
@@ -876,7 +874,7 @@ export class SubjectExecutor {
                     }
 
                     const manager = this.queryRunner
-                        .manager as MongoEntityManager;
+                        .manager;
 
                     await manager.update(
                         subject.metadata.target,
@@ -989,7 +987,7 @@ export class SubjectExecutor {
             });
 
             // mongo _id remove
-            if (this.queryRunner instanceof MongoQueryRunner) {
+            if (isDriverSupported(["mongodb"],this.queryRunner.connection.driver.type)) {
                 if (
                     subject.metadata.objectIdColumn &&
                     subject.metadata.objectIdColumn.databaseName &&

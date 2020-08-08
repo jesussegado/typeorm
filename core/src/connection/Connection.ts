@@ -12,7 +12,6 @@ import { EntityMetadata } from "../metadata/EntityMetadata";
 import { Logger } from "../logger/Logger";
 import { EntityMetadataNotFoundError } from "../error/EntityMetadataNotFoundError";
 import { MigrationInterface } from "../migration/MigrationInterface";
-import { MigrationExecutor } from "../migration/MigrationExecutor";
 import { Migration } from "../migration/Migration";
 import { MongoRepository } from "../driver/mongodb/MongoRepository";
 import { MongoEntityManager } from "../driver/mongodb/MongoEntityManager";
@@ -305,7 +304,7 @@ export class Connection {
         if (!this.isConnected)
             throw new CannotExecuteNotConnectedError(this.name);
 
-        const migrationExecutor = new MigrationExecutor(this);
+        const migrationExecutor = this.driver.createMigrationExecutor(this);
         migrationExecutor.transaction =
             (options && options.transaction) || "all";
 
@@ -323,7 +322,7 @@ export class Connection {
         if (!this.isConnected)
             throw new CannotExecuteNotConnectedError(this.name);
 
-        const migrationExecutor = new MigrationExecutor(this);
+        const migrationExecutor = this.driver.createMigrationExecutor(this);
         migrationExecutor.transaction =
             (options && options.transaction) || "all";
 
@@ -338,7 +337,7 @@ export class Connection {
         if (!this.isConnected) {
             throw new CannotExecuteNotConnectedError(this.name);
         }
-        const migrationExecutor = new MigrationExecutor(this);
+        const migrationExecutor = this.driver.createMigrationExecutor(this);
         return migrationExecutor.showMigrations();
     }
 
@@ -433,7 +432,7 @@ export class Connection {
         parameters?: any[],
         queryRunner?: QueryRunner
     ): Promise<any> {
-        if (this instanceof MongoEntityManager)
+        if (isDriverSupported(["mongodb"],this.driver.type))
             throw new Error(`Queries aren't supported by MongoDB.`);
 
         if (queryRunner && queryRunner.isReleased)
@@ -479,7 +478,7 @@ export class Connection {
         alias?: string,
         queryRunner?: QueryRunner
     ): SelectQueryBuilder<Entity> {
-        if (this instanceof MongoEntityManager)
+        if (isDriverSupported(["mongodb"],this.driver.type))
             throw new Error(`Query Builder is not supported by MongoDB.`);
 
         if (alias) {

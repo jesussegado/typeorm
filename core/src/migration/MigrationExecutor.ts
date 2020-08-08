@@ -1,4 +1,4 @@
-import { ObjectLiteral, PromiseUtils } from "typeorm-base";
+import { PromiseUtils } from "typeorm-base";
 import { Table } from "../schema-builder/table/Table";
 import { Connection } from "../connection/Connection";
 import { Migration } from "./Migration";
@@ -7,13 +7,15 @@ import { QueryRunner } from "../query-runner/QueryRunner";
 import { MssqlParameter } from "../driver/sqlserver/MssqlParameter";
 import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";
 import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
-import { MongoQueryRunner } from "../driver/mongodb/MongoQueryRunner";
 import { isDriverSupported } from "../driver/Driver";
+
+
+export type MigrationExecutorConditions = {timestamp:any, name:any};
 
 /**
  * Executes migrations: runs pending and reverts previously executed migrations.
  */
-export class MigrationExecutor {
+export abstract class MigrationExecutor {
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -30,9 +32,9 @@ export class MigrationExecutor {
     // Private Properties
     // -------------------------------------------------------------------------
 
-    private readonly migrationsTable: string;
+    protected readonly migrationsTable: string;
 
-    private readonly migrationsTableName: string;
+    protected readonly migrationsTableName: string;
 
     // -------------------------------------------------------------------------
     // Constructor
@@ -447,32 +449,10 @@ export class MigrationExecutor {
     /**
      * Loads all migrations that were executed and saved into the database (sorts by id).
      */
-    protected async loadExecutedMigrations(
+    protected abstract async loadExecutedMigrations(
         queryRunner: QueryRunner
-    ): Promise<Migration[]> {
-        if (isDriverSupported(["mongodb"], this.connection.driver.type)) {
-            const mongoRunner = queryRunner as MongoQueryRunner;
-            return mongoRunner.databaseConnection
-                .db(this.connection.driver.database!)
-                .collection(this.migrationsTableName)
-                .find<Migration>()
-                .sort({ _id: -1 })
-                .toArray();
-        }
-        const migrationsRaw: ObjectLiteral[] = await this.connection.manager
-            .createQueryBuilder(queryRunner)
-            .select()
-            .orderBy(this.connection.driver.escape("id"), "DESC")
-            .from(this.migrationsTable, this.migrationsTableName)
-            .getRawMany();
-        return migrationsRaw.map((migrationRaw) => {
-            return new Migration(
-                parseInt(migrationRaw.id),
-                parseInt(migrationRaw.timestamp),
-                migrationRaw.name
-            );
-        });
-    }
+    ): Promise<Migration[]>;
+
 
     /**
      * Gets all migrations that setup for this connection.
@@ -549,7 +529,7 @@ export class MigrationExecutor {
         queryRunner: QueryRunner,
         migration: Migration
     ): Promise<void> {
-        const values: ObjectLiteral = {};
+        const values: MigrationExecutorConditions = {name:undefined, timestamp:undefined};
         if (isDriverSupported(["mssql"], this.connection.driver.type)) {
             values.timestamp = new MssqlParameter(
                 migration.timestamp,
@@ -568,21 +548,9 @@ export class MigrationExecutor {
             values.timestamp = migration.timestamp;
             values.name = migration.name;
         }
-        if (isDriverSupported(["mongodb"], this.connection.driver.type)) {
-            const mongoRunner = queryRunner as MongoQueryRunner;
-            await mongoRunner.databaseConnection
-                .db(this.connection.driver.database!)
-                .collection(this.migrationsTableName)
-                .insert(values);
-        } else {
-            const qb = queryRunner.manager.createQueryBuilder();
-            await qb
-                .insert()
-                .into(this.migrationsTable)
-                .values(values)
-                .execute();
-        }
+        await this.insertExecutedMigrationExecute(queryRunner, values);
     }
+    protected abstract async insertExecutedMigrationExecute(queryRunner: QueryRunner, values:MigrationExecutorConditions): Promise<void>;
 
     /**
      * Delete previously executed migration's data from the migrations table.
@@ -591,7 +559,7 @@ export class MigrationExecutor {
         queryRunner: QueryRunner,
         migration: Migration
     ): Promise<void> {
-        const conditions: ObjectLiteral = {};
+        const conditions: MigrationExecutorConditions = {name:undefined, timestamp:undefined};
         if (isDriverSupported(["mssql"], this.connection.driver.type)) {
             conditions.timestamp = new MssqlParameter(
                 migration.timestamp,
@@ -610,24 +578,9 @@ export class MigrationExecutor {
             conditions.timestamp = migration.timestamp;
             conditions.name = migration.name;
         }
-
-        if (isDriverSupported(["mongodb"], this.connection.driver.type)) {
-            const mongoRunner = queryRunner as MongoQueryRunner;
-            await mongoRunner.databaseConnection
-                .db(this.connection.driver.database!)
-                .collection(this.migrationsTableName)
-                .deleteOne(conditions);
-        } else {
-            const qb = queryRunner.manager.createQueryBuilder();
-            await qb
-                .delete()
-                .from(this.migrationsTable)
-                .where(`${qb.escape("timestamp")} = :timestamp`)
-                .andWhere(`${qb.escape("name")} = :name`)
-                .setParameters(conditions)
-                .execute();
-        }
+        await this.deleteExecutedMigrationExecute(queryRunner,conditions);
     }
+    protected abstract async deleteExecutedMigrationExecute(queryRunner: QueryRunner, values:MigrationExecutorConditions): Promise<void>;
 
     protected async withQueryRunner<T extends any>(
         callback: (queryRunner: QueryRunner) => T

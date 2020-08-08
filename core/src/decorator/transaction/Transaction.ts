@@ -98,12 +98,8 @@ export function Transaction(
                     // detect type of the repository and get instance from transaction entity manager
                     switch (metadata.repositoryType) {
                         case Repository:
-                            repositoryInstance = entityManager.getRepository(
-                                metadata.entityType!
-                            );
-                            break;
                         case MongoRepository:
-                            repositoryInstance = entityManager.getMongoRepository(
+                            repositoryInstance = entityManager.getRepository(
                                 metadata.entityType!
                             );
                             break;

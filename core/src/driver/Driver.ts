@@ -15,6 +15,8 @@ import type { AuroraDataApiDriver } from "./aurora-data-api/AuroraDataApiDriver"
 import type { OracleDriver } from "./oracle/OracleDriver";
 import type { PostgresDriver } from "./postgres/PostgresDriver";
 import { ConnectionOptions } from "../connection/ConnectionOptions";
+import { RdbmsMigrationExecutor } from '../migration/RdbmsMigrationExecutor';
+import { MigrationExecutor } from '../migration/MigrationExecutor';
 
 export type DriverType = DatabaseType | "sqlite-abstract";
 
@@ -270,5 +272,11 @@ export abstract class Driver {
 
     createEntityManager(connection: Connection, queryRunner?: QueryRunner): EntityManager {
           return new EntityManager(connection, queryRunner);
+    }
+    createMigrationExecutor(
+        connection: Connection,
+        queryRunner?: QueryRunner
+    ):MigrationExecutor{
+        return new RdbmsMigrationExecutor(connection,queryRunner);
     }
 }
