@@ -1,6 +1,6 @@
 import { Chapter } from "./Chapter";
-import { ObjectID, Entity, ObjectIdColumn, Column } from "typeorm-core";
-
+import { Entity, ObjectIdColumn, Column } from "typeorm-core";
+import { ObjectID } from "typeorm-core/build/compiled/src/driver/mongodb/MongoDriver";
 @Entity()
 export class Book {
     @ObjectIdColumn()

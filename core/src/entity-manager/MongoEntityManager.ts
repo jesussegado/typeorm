@@ -52,8 +52,9 @@ import { InsertResult } from "../query-builder/result/InsertResult";
 import { UpdateResult } from "../query-builder/result/UpdateResult";
 import { DeleteResult } from "../query-builder/result/DeleteResult";
 import { EntityMetadata } from "../metadata/EntityMetadata";
-import { EntitySchema, FindConditions, ObjectID } from "../index";
+import { EntitySchema, FindConditions } from "../index";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
+import { ObjectID } from '../driver/mongodb/MongoDriver';
 
 /**
  * Entity manager supposed to work with any entity, automatically find its repository and call its methods,

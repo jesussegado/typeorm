@@ -3,7 +3,7 @@ import {  Column  } from "typeorm-core";
 import {  ObjectIdColumn  } from "typeorm-core";
 import {  CreateDateColumn  } from "typeorm-core";
 import {  UpdateDateColumn  } from "typeorm-core";
-import { ObjectID } from "typeorm-core";
+import { ObjectID } from "typeorm-core/build/compiled/src/driver/mongodb/MongoDriver";
 
 @Entity()
 export class Post {

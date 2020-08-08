@@ -1,6 +1,6 @@
 import { ObjectType, ObjectUtils, DeepPartial } from "typeorm-base";
 import { Repository } from "./Repository";
-import { FindConditions, getConnection, ObjectID } from "../index";
+import { FindConditions, getConnection } from "../index";
 import { SaveOptions } from "./SaveOptions";
 import { FindOneOptions } from "../find-options/FindOneOptions";
 import { RemoveOptions } from "./RemoveOptions";
@@ -11,6 +11,7 @@ import { InsertResult } from "../query-builder/result/InsertResult";
 import { UpdateResult } from "../query-builder/result/UpdateResult";
 import { DeleteResult } from "../query-builder/result/DeleteResult";
 import { QueryDeepPartialEntity } from "../query-builder/QueryPartialEntity";
+import { ObjectID } from '../driver/mongodb/MongoDriver';
 
 /**
  * Base abstract entity for all entities, used in ActiveRecord patterns.
