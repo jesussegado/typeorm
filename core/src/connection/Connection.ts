@@ -19,7 +19,6 @@ import { MongoEntityManager } from "../entity-manager/MongoEntityManager";
 import { EntityMetadataValidator } from "../metadata-builder/EntityMetadataValidator";
 import { ConnectionOptions } from "./ConnectionOptions";
 import { QueryRunnerProviderAlreadyReleasedError } from "../error/QueryRunnerProviderAlreadyReleasedError";
-import { EntityManagerFactory } from "../entity-manager/EntityManagerFactory";
 import { ConnectionMetadataBuilder } from "./ConnectionMetadataBuilder";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
@@ -134,7 +133,7 @@ export class Connection {
             this.options.logging
         );
         this.driver = driverFactory(this, config.connectionOptions);
-        this.manager = this.createEntityManager();
+        this.manager = this.driver.createEntityManager(this);
         this.namingStrategy =
             config.typeORMOptions.namingStrategy || new DefaultNamingStrategy();
         this.queryResultCache = config.typeORMOptions.cache
@@ -509,7 +508,7 @@ export class Connection {
      */
     createQueryRunner(mode: "master" | "slave" = "master"): QueryRunner {
         const queryRunner = this.driver.createQueryRunner(mode);
-        const manager = this.createEntityManager(queryRunner);
+        const manager = this.driver.createEntityManager(this,queryRunner);
         Object.assign(queryRunner, { manager });
         return queryRunner;
     }
@@ -535,13 +534,6 @@ export class Connection {
             );
 
         return relationMetadata.junctionEntityMetadata;
-    }
-
-    /**
-     * Creates an Entity Manager for the current connection with the help of the EntityManagerFactory.
-     */
-    createEntityManager(queryRunner?: QueryRunner): EntityManager {
-        return new EntityManagerFactory().create(this, queryRunner);
     }
 
     // -------------------------------------------------------------------------

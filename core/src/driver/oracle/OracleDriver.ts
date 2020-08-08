@@ -20,7 +20,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 /**
  * Organizes communication with Oracle RDBMS.
  */
-export class OracleDriver implements Driver {
+export class OracleDriver extends Driver {
     type: DriverType = "oracle";
     // -------------------------------------------------------------------------
     // Public Properties
@@ -211,6 +211,7 @@ export class OracleDriver implements Driver {
         connection: Connection,
         connectionOptions: OracleConnectionOptions
     ) {
+        super();
         this.connection = connection;
         this.options = connectionOptions;
 

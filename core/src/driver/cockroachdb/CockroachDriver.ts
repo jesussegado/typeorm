@@ -21,7 +21,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 /**
  * Organizes communication with Cockroach DBMS.
  */
-export class CockroachDriver implements Driver {
+export class CockroachDriver extends Driver {
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -206,6 +206,7 @@ export class CockroachDriver implements Driver {
         connection: Connection,
         connectionOptions: CockroachConnectionOptions
     ) {
+        super();
         this.connection = connection;
         this.options = connectionOptions;
         this.isReplicated = !!this.options.replication;

@@ -21,7 +21,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 /**
  * Organizes communication with SQL Server DBMS.
  */
-export class SqlServerDriver implements Driver {
+export class SqlServerDriver extends Driver {
     type: DriverType = "mssql";
     // -------------------------------------------------------------------------
     // Public Properties
@@ -209,6 +209,7 @@ export class SqlServerDriver implements Driver {
         connection: Connection,
         connectionOptions: SqlServerConnectionOptions
     ) {
+        super();
         this.connection = connection;
         this.options = connectionOptions;
         this.isReplicated = !!this.options.replication;

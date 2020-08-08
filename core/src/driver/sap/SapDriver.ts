@@ -23,7 +23,7 @@ import { DriverUtils } from "../DriverUtils";
  *
  * todo: looks like there is no built in support for connection pooling, we need to figure out something
  */
-export class SapDriver implements Driver {
+export class SapDriver extends Driver {
     type: DriverType = "sap";
     // -------------------------------------------------------------------------
     // Public Properties
@@ -195,7 +195,8 @@ export class SapDriver implements Driver {
     constructor(
         connection: Connection,
         connectionOptions: SapConnectionOptions
-    ) {
+        ) {
+        super();
         this.connection = connection;
         this.options = connectionOptions;
         this.loadDependencies();

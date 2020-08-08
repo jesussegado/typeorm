@@ -19,7 +19,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 /**
  * Organizes communication with MySQL DBMS.
  */
-export class MysqlDriver implements Driver {
+export class MysqlDriver extends Driver {
     type: DriverType = "mysql";
     // -------------------------------------------------------------------------
     // Public Properties
@@ -298,6 +298,7 @@ export class MysqlDriver implements Driver {
         connection: Connection,
         connectionOptions: MysqlConnectionOptions
     ) {
+        super();
         this.connection = connection;
         this.options = {
             legacySpatialSupport: true,

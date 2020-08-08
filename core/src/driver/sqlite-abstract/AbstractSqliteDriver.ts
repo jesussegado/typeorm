@@ -18,7 +18,7 @@ import { ConnectionOptions } from "../../connection/ConnectionOptions";
 /**
  * Organizes communication with sqlite DBMS.
  */
-export abstract class AbstractSqliteDriver implements Driver {
+export abstract class AbstractSqliteDriver extends Driver {
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -185,6 +185,7 @@ export abstract class AbstractSqliteDriver implements Driver {
     // -------------------------------------------------------------------------
 
     constructor(connection: Connection) {
+        super();
         this.connection = connection;
     }
 

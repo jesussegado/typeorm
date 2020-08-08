@@ -7,7 +7,7 @@ import { SchemaBuilder } from "../schema-builder/SchemaBuilder";
 import { DataTypeDefaults } from "./types/DataTypeDefaults";
 import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
-import { DatabaseType } from "..";
+import { DatabaseType, Connection, EntityManager } from "..";
 import type { SqljsDriver } from "./sqljs/SqljsDriver";
 import type { SqlServerDriver } from "./sqlserver/SqlServerDriver";
 import type { MysqlDriver } from "./mysql/MysqlDriver";
@@ -59,7 +59,7 @@ export function isPostgres(driver: Driver): driver is PostgresDriver {
 /**
  * Driver organizes TypeORM communication with specific database management system.
  */
-export interface Driver {
+export abstract class Driver {
     type: DriverType;
     /**
      * Connection options.
@@ -129,33 +129,33 @@ export interface Driver {
      * Performs connection to the database.
      * Depend on driver type it may create a connection pool.
      */
-    connect(): Promise<void>;
+    abstract connect(): Promise<void>;
 
     /**
      * Makes any action after connection (e.g. create extensions in Postgres driver).
      */
-    afterConnect(): Promise<void>;
+    abstract afterConnect(): Promise<void>;
 
     /**
      * Closes connection with database and releases all resources.
      */
-    disconnect(): Promise<void>;
+    abstract disconnect(): Promise<void>;
 
     /**
      * Synchronizes database schema (creates tables, indices, etc).
      */
-    createSchemaBuilder(): SchemaBuilder;
+    abstract createSchemaBuilder(): SchemaBuilder;
 
     /**
      * Creates a query runner used for common queries.
      */
-    createQueryRunner(mode: "master" | "slave"): QueryRunner;
+    abstract createQueryRunner(mode: "master" | "slave"): QueryRunner;
 
     /**
      * Replaces parameters in the given sql with special escaping character
      * and an array of parameter names to be passed to a query.
      */
-    escapeQueryWithParameters(
+    abstract escapeQueryWithParameters(
         sql: string,
         parameters: ObjectLiteral,
         nativeParameters: ObjectLiteral
@@ -166,13 +166,13 @@ export interface Driver {
      *
      * todo: probably escape should be able to handle dots in the names and automatically escape them
      */
-    escape(name: string): string;
+    abstract escape(name: string): string;
 
     /**
      * Build full table name with database name, schema name and table name.
      * E.g. "myDB"."mySchema"."myTable"
      */
-    buildTableName(
+    abstract buildTableName(
         tableName: string,
         schema?: string,
         database?: string
@@ -181,17 +181,17 @@ export interface Driver {
     /**
      * Prepares given value to a value to be persisted, based on its column type and metadata.
      */
-    preparePersistentValue(value: any, column: ColumnMetadata): any;
+    abstract preparePersistentValue(value: any, column: ColumnMetadata): any;
 
     /**
      * Prepares given value to a value to be persisted, based on its column type.
      */
-    prepareHydratedValue(value: any, column: ColumnMetadata): any;
+    abstract prepareHydratedValue(value: any, column: ColumnMetadata): any;
 
     /**
      * Transforms type of the given column to a database column type.
      */
-    normalizeType(column: {
+    abstract normalizeType(column: {
         type?: ColumnType | string;
         length?: number | string;
         precision?: number | null;
@@ -202,41 +202,41 @@ export interface Driver {
     /**
      * Normalizes "default" value of the column.
      */
-    normalizeDefault(columnMetadata: ColumnMetadata): string;
+    abstract normalizeDefault(columnMetadata: ColumnMetadata): string;
 
     /**
      * Normalizes "isUnique" value of the column.
      */
-    normalizeIsUnique(column: ColumnMetadata): boolean;
+    abstract normalizeIsUnique(column: ColumnMetadata): boolean;
 
     /**
      * Calculates column length taking into account the default length values.
      */
-    getColumnLength(column: ColumnMetadata): string;
+    abstract getColumnLength(column: ColumnMetadata): string;
 
     /**
      * Normalizes "default" value of the column.
      */
-    createFullType(column: TableColumn): string;
+    abstract createFullType(column: TableColumn): string;
 
     /**
      * Obtains a new database connection to a master server.
      * Used for replication.
      * If replication is not setup then returns default connection's database connection.
      */
-    obtainMasterConnection(): Promise<any>;
+    abstract obtainMasterConnection(): Promise<any>;
 
     /**
      * Obtains a new database connection to a slave server.
      * Used for replication.
      * If replication is not setup then returns master (default) connection's database connection.
      */
-    obtainSlaveConnection(): Promise<any>;
+    abstract obtainSlaveConnection(): Promise<any>;
 
     /**
      * Creates generated map of values generated or returned by database after INSERT query.
      */
-    createGeneratedMap(
+    abstract createGeneratedMap(
         metadata: EntityMetadata,
         insertResult: any
     ): ObjectLiteral | undefined;
@@ -245,7 +245,7 @@ export interface Driver {
      * Differentiate columns of this table and columns from the given column metadatas columns
      * and returns only changed.
      */
-    findChangedColumns(
+    abstract findChangedColumns(
         tableColumns: TableColumn[],
         columnMetadatas: ColumnMetadata[]
     ): ColumnMetadata[];
@@ -253,18 +253,22 @@ export interface Driver {
     /**
      * Returns true if driver supports RETURNING / OUTPUT statement.
      */
-    isReturningSqlSupported(): boolean;
+    abstract isReturningSqlSupported(): boolean;
 
     /**
      * Returns true if driver supports uuid values generation on its own.
      */
-    isUUIDGenerationSupported(): boolean;
+    abstract isUUIDGenerationSupported(): boolean;
 
     /**
      * Creates an escaped parameter.
      */
-    createParameter(parameterName: string, index: number): string;
+    abstract createParameter(parameterName: string, index: number): string;
 
     // This database name property is nested for replication configs.
-    getDatabaseName(): string;
+    abstract getDatabaseName(): string;
+
+    createEntityManager(connection: Connection, queryRunner?: QueryRunner): EntityManager {
+          return new EntityManager(connection, queryRunner);
+    }
 }

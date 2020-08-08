@@ -15,13 +15,14 @@ import { ConnectionOptions } from "../../connection/ConnectionOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 import { DriverUtils } from "../DriverUtils";
+import { MongoEntityManager } from '../..';
 
 export { ObjectID } from "mongodb";
 
 /**
  * Organizes communication with MongoDB.
  */
-export class MongoDriver implements Driver {
+export class MongoDriver extends Driver {
     // -------------------------------------------------------------------------
     // Public Properties
     // -------------------------------------------------------------------------
@@ -207,6 +208,7 @@ export class MongoDriver implements Driver {
         protected connection: Connection,
         connectionOptions: MongoConnectionOptions
     ) {
+        super();
         this.options = connectionOptions;
 
         // validate options to make sure everything is correct and driver will be able to establish connection
@@ -479,7 +481,7 @@ export class MongoDriver implements Driver {
 
         return `mongodb://${credentialsUrlPart}${
             this.options.host || "127.0.0.1"
-        }:${this.options.port || "27017"}/${this.options.database}`;
+            }:${this.options.port || "27017"}/${this.options.database}`;
     }
 
     /**
@@ -504,5 +506,9 @@ export class MongoDriver implements Driver {
     // This database name property is nested for replication configs.
     getDatabaseName(): string {
         return DriverUtils.buildDriverOptions(this.options).database;
+    }
+
+    createEntityManager(connection: Connection): MongoEntityManager {
+        return new MongoEntityManager(connection);
     }
 }
