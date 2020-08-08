@@ -1,7 +1,7 @@
 import { TreeRepository } from "./TreeRepository";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { Repository } from "./Repository";
-import { MongoRepository } from "./MongoRepository";
+import { MongoRepository } from "../driver/mongodb/MongoRepository";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { EntityManager } from "../entity-manager/EntityManager";
 import { isDriverSupported } from "../driver/Driver";

@@ -45,7 +45,7 @@ import { TableForeignKey } from "../../schema-builder/table/TableForeignKey";
 import { TableIndex } from "../../schema-builder/table/TableIndex";
 import { View } from "../../schema-builder/view/View";
 import { Connection } from "../../connection/Connection";
-import { MongoEntityManager } from "../../entity-manager/MongoEntityManager";
+import { MongoEntityManager } from "./MongoEntityManager";
 import { SqlInMemory } from "../SqlInMemory";
 import { TableUnique } from "../../schema-builder/table/TableUnique";
 import { Broadcaster } from "../../subscriber/Broadcaster";

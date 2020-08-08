@@ -7,7 +7,7 @@ import { FindOneOptions } from "../find-options/FindOneOptions";
 import { RemoveOptions } from "../repository/RemoveOptions";
 import { SaveOptions } from "../repository/SaveOptions";
 import { NoNeedToReleaseEntityManagerError } from "../error/NoNeedToReleaseEntityManagerError";
-import { MongoRepository } from "../repository/MongoRepository";
+import { MongoRepository } from "../driver/mongodb/MongoRepository";
 import { TreeRepository } from "../repository/TreeRepository";
 import { Repository } from "../repository/Repository";
 import { FindOptionsUtils } from "../find-options/FindOptionsUtils";

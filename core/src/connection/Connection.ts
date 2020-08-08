@@ -14,8 +14,8 @@ import { EntityMetadataNotFoundError } from "../error/EntityMetadataNotFoundErro
 import { MigrationInterface } from "../migration/MigrationInterface";
 import { MigrationExecutor } from "../migration/MigrationExecutor";
 import { Migration } from "../migration/Migration";
-import { MongoRepository } from "../repository/MongoRepository";
-import { MongoEntityManager } from "../entity-manager/MongoEntityManager";
+import { MongoRepository } from "../driver/mongodb/MongoRepository";
+import { MongoEntityManager } from "../driver/mongodb/MongoEntityManager";
 import { EntityMetadataValidator } from "../metadata-builder/EntityMetadataValidator";
 import { ConnectionOptions } from "./ConnectionOptions";
 import { QueryRunnerProviderAlreadyReleasedError } from "../error/QueryRunnerProviderAlreadyReleasedError";
