@@ -20,7 +20,7 @@ before_script:
 script:
   - yarn --frozen-lockfile
   - yarn compile
-  - yarn test
+  - yarn test --forbid-only
   - yarn lint
 
 after_success:

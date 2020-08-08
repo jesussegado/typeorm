@@ -9,7 +9,7 @@
     "watch": "./node_modules/.bin/tsc -w",
     "lint": "eslint {src,test}/**/*.ts",
     "prettier": "prettier --write {src,test}/**/*.ts",
-    "test": "mocha  -file ./build/compiled/test/utils/test-setup.js --recursive --timeout 60000 ./build/compiled/test"
+    "test": "mocha  --require ./build/compiled/test/utils/test-setup.js --parallel --recursive --timeout 60000 ./build/compiled/test"
   },
   "keywords": [],
   "author": "",

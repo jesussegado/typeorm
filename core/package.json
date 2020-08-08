@@ -117,7 +117,7 @@
     "clean": "rimraf ./build/compiled/* ",
     "compile": "tsc",
     "test-ci": "gulp ci-tests",
-    "test": "mocha --file ./build/compiled/test/utils/test-setup.js --bail --recursive --timeout 60000 ./build/compiled/test",
+    "test": "mocha --require ./build/compiled/test/utils/test-setup.js --bail --recursive --timeout 60000 ./build/compiled/test",
     "watch": "./node_modules/.bin/tsc -w",
     "package": "gulp package",
     "lint": "eslint {src,test}/**/*.ts",
