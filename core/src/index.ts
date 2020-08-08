@@ -6,6 +6,7 @@ import { ConnectionManager } from "./connection/ConnectionManager";
 import {
     Connection,
     TypeormAndConnectionOptions,
+    DriverFactory,
 } from "./connection/Connection";
 import { MetadataArgsStorage } from "./metadata-args/MetadataArgsStorage";
 import { getFromContainer } from "./container";
@@ -204,9 +205,10 @@ export function getConnectionManager(): ConnectionManager {
  * Creates a new connection and registers it in the manager.
  */
 export async function createConnection(
-    options: TypeormAndConnectionOptions
+    options: TypeormAndConnectionOptions,
+    driverFactory: DriverFactory
 ): Promise<Connection> {
-    return getConnectionManager().create(options).connect();
+    return getConnectionManager().create(options,driverFactory).connect();
 }
 
 /**
@@ -217,10 +219,11 @@ export async function createConnection(
  * All connections from the ormconfig will be created.
  */
 export async function createConnections(
-    options: TypeormAndConnectionOptions[]
+    options: TypeormAndConnectionOptions[],
+    driverFactory: DriverFactory
 ): Promise<Connection[]> {
     const connections = options.map((options) =>
-        getConnectionManager().create(options)
+        getConnectionManager().create(options,driverFactory)
     );
     return PromiseUtils.runInSequence(connections, (connection) =>
         connection.connect()

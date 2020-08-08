@@ -1,0 +1,30 @@
+import {  Entity  } from "typeorm-core";
+import {  PrimaryGeneratedColumn  } from "typeorm-core";
+import {  ManyToOne  } from "typeorm-core";
+import { Photo } from "./Photo";
+import { User } from "./User";
+import { Question } from "./Question";
+
+@Entity()
+export class Answer {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @ManyToOne((type) => Question, (question) => question.answers, {
+        cascade: ["insert"],
+        nullable: false,
+    })
+    question: Question;
+
+    @ManyToOne((type) => Photo, {
+        cascade: ["insert"],
+        nullable: false,
+    })
+    photo: Photo;
+
+    @ManyToOne((type) => User, {
+        cascade: ["insert"],
+        nullable: false,
+    })
+    user: User;
+}

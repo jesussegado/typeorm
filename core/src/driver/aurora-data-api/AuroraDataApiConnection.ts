@@ -2,6 +2,7 @@ import { AuroraDataApiQueryRunner } from "./AuroraDataApiQueryRunner";
 import {
     Connection,
     TypeormAndConnectionOptions,
+    DriverFactory,
 } from "../../connection/Connection";
 import { QueryRunner } from "../..";
 
@@ -13,9 +14,10 @@ export class AuroraDataApiConnection extends Connection {
 
     constructor(
         options: TypeormAndConnectionOptions,
+        driverFactory: DriverFactory,
         queryRunner: AuroraDataApiQueryRunner
     ) {
-        super(options);
+        super(options,driverFactory);
         this.queryRunnter = queryRunner;
     }
 

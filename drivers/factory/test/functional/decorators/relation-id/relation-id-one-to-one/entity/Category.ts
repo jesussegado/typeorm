@@ -1,0 +1,21 @@
+import {  Column  } from "typeorm-core";
+import {  PrimaryColumn  } from "typeorm-core";
+import {  Entity  } from "typeorm-core";
+import {  OneToOne  } from "typeorm-core";
+import {  RelationId  } from "typeorm-core";
+import { Post } from "./Post";
+
+@Entity()
+export class Category {
+    @PrimaryColumn()
+    id: number;
+
+    @Column({ unique: true })
+    name: string;
+
+    @OneToOne((type) => Post, (post) => post.category2)
+    post: Post;
+
+    @RelationId((category: Category) => category.post)
+    postId: number;
+}

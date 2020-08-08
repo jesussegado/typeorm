@@ -1,0 +1,17 @@
+import {  Column  } from "typeorm-core";
+import {  PrimaryColumn  } from "typeorm-core";
+import {  OneToMany  } from "typeorm-core";
+import { User } from "./User";
+
+export class Subcounters {
+    @PrimaryColumn()
+    version: number;
+
+    @Column()
+    watches: number;
+
+    @OneToMany((type) => User, (user) => user.post)
+    watchedUsers: User[];
+
+    watchedUserIds: number[];
+}

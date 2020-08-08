@@ -1,0 +1,35 @@
+{
+  "name": "typeorm-driver-factory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./build/compiled/src/index.js",
+  "scripts": {
+    "clean":"rimraf ./build/compiled/* ",
+    "compile": "tsc",
+    "watch": "./node_modules/.bin/tsc -w",
+    "lint": "eslint {src,test}/**/*.ts",
+    "prettier": "prettier --write {src,test}/**/*.ts",
+    "test": "mocha --require ./build/compiled/test/utils/test-setup.js --bail --recursive --timeout 60000 ./build/compiled/test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "typeorm-core":"*"
+
+  },
+  "devDependencies": {
+    "@types/source-map-support": "^0.5.2",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^3.4.0",
+    "@typescript-eslint/typescript-estree": "^3.4.0",
+    "eslint": "^7.3.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "source-map-support": "^0.5.19",
+    "typescript": "^3.6.5"
+  }
+}

@@ -24,7 +24,8 @@
     "yargonaut": "^1.1.2",
     "yargs": "^15.4.0",
     "typeorm-core":"*",
-    "typeorm-options-reader":"*"
+    "typeorm-options-reader":"*",
+    "typeorm-driver-factory": "*"
   },
   "devDependencies": {
     "@types/node": "14.0.23",

@@ -25,6 +25,7 @@
   "workspaces": [
     "base",
     "core",
+    "drivers/factory",
     "options-reader",
     "cli",
     "examples/electron",

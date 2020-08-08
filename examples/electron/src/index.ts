@@ -2,6 +2,8 @@ import { createConnection } from "typeorm-core";
 import electron from "electron";
 import url from "url";
 import path from "path";
+import { SqliteConnectionOptions } from 'typeorm-core/build/compiled/src/driver/sqlite/SqliteConnectionOptions';
+import {SqliteDriver} from "typeorm-core/build/compiled/src/driver/sqlite/SqliteDriver"
 
 electron.app.on("ready", async () => {
     const mainWindow = new electron.BrowserWindow({
@@ -28,7 +30,10 @@ electron.app.on("ready", async () => {
             logger: "simple-console",
             entities: ["src/entity/*.js"],
         },
-    });
+    },(connection,options)=>new SqliteDriver(
+        connection,
+        options as SqliteConnectionOptions
+    ) );
     const posts = await connection.getRepository("Post").find();
     console.log("posts:", posts);
 

@@ -20,7 +20,6 @@ import { EntityMetadataValidator } from "../metadata-builder/EntityMetadataValid
 import { ConnectionOptions } from "./ConnectionOptions";
 import { QueryRunnerProviderAlreadyReleasedError } from "../error/QueryRunnerProviderAlreadyReleasedError";
 import { EntityManagerFactory } from "../entity-manager/EntityManagerFactory";
-import { DriverFactory } from "../driver/DriverFactory";
 import { ConnectionMetadataBuilder } from "./ConnectionMetadataBuilder";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
@@ -39,6 +38,8 @@ export type TypeormAndConnectionOptions = {
     typeORMOptions: TypeORMOptions;
     connectionOptions: ConnectionOptions;
 };
+
+export type DriverFactory = (connection: Connection, options: ConnectionOptions) => Driver;
 
 /**
  * Connection is a single database ORM connection to a specific database.
@@ -119,14 +120,14 @@ export class Connection {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(config: TypeormAndConnectionOptions) {
+    constructor(config: TypeormAndConnectionOptions, driverFactory: DriverFactory) {
         this.name = config.typeORMOptions.name || "default";
         this.options = config.typeORMOptions;
         this.logger = new LoggerFactory().create(
             this.options.logger,
             this.options.logging
         );
-        this.driver = new DriverFactory().create(
+        this.driver = driverFactory(
             this,
             config.connectionOptions
         );

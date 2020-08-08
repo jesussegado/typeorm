@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { TypeormAndConnectionOptions } from "typeorm-core";
-import { TypeormAndConnectionOptionsReader } from "../../../src";
+import { TypeormAndConnectionOptionsReader } from '../../../src';
 
 describe("ConnectionOptionsReader", () => {
     after(() => {

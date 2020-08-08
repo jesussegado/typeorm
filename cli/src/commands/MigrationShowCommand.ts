@@ -2,6 +2,7 @@ import * as process from "process";
 import * as yargs from "yargs";
 import { Connection, createConnection } from "typeorm-core";
 import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
+import { createDriver } from 'typeorm-driver-factory';
 
 const chalk = require("chalk");
 
@@ -46,7 +47,7 @@ export class MigrationShowCommand implements yargs.CommandModule {
                 dropSchema: false,
                 logging: ["query", "error", "schema"],
             });
-            connection = await createConnection(connectionOptions);
+            connection = await createConnection(connectionOptions,createDriver);
             const unappliedMigrations = await connection.showMigrations();
             await connection.close();
 

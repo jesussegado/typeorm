@@ -28,6 +28,7 @@
   "dependencies": {
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
-    "typeorm-core": "*"
+    "typeorm-core": "*",
+    "typeorm-driver-factory":"*"
   }
 }

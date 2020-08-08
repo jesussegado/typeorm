@@ -1,0 +1,59 @@
+import { User } from "./User";
+import { Entity } from "typeorm-core";
+import { PrimaryGeneratedColumn } from "typeorm-core";
+import { ManyToMany } from "typeorm-core";
+import { JoinTable } from "typeorm-core";
+
+@Entity()
+export class Circle {
+    /**
+     * Circle's identifier
+     */
+    @PrimaryGeneratedColumn({ type: "bigint" })
+    private id: string;
+
+    /**
+     * Circle's user
+     *
+     * You have to use getter and setter
+     */
+    @ManyToMany((type) => User, (user) => "circles")
+    @JoinTable({ name: "circle_users_user" })
+    private users: Promise<User[]>;
+
+    /**
+     * Getter identifier
+     *
+     * @returns {number}
+     */
+    public getId(): string {
+        return this.id;
+    }
+
+    /**
+     * Setter identifier
+     *
+     * @param id new identifier value
+     */
+    public setId(id: string): void {
+        this.id = id;
+    }
+
+    /**
+     * Setter user
+     *
+     * @param {Promise<User[]>} users
+     */
+    public setUsers(users: Promise<User[]>): void {
+        this.users = users;
+    }
+
+    /**
+     * Getter user
+     *
+     * @returns {User[]}
+     */
+    public getUsers(): Promise<User[]> {
+        return this.users;
+    }
+}

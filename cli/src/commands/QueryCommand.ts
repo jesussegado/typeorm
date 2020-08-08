@@ -3,6 +3,7 @@ import { Connection, QueryRunner, createConnection } from "typeorm-core";
 import { PlatformTools } from "typeorm-core/build/compiled/src/platform/PlatformTools";
 import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
 import highlight from "cli-highlight";
+import { createDriver } from 'typeorm-driver-factory';
 
 const chalk = require("chalk");
 
@@ -49,7 +50,7 @@ export class QueryCommand implements yargs.CommandModule {
                 dropSchema: false,
                 logging: false,
             });
-            connection = await createConnection(connectionOptions);
+            connection = await createConnection(connectionOptions,createDriver);
 
             // create a query runner and execute query using it
             queryRunner = connection.createQueryRunner("master");

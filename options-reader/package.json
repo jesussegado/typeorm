@@ -46,6 +46,7 @@
     "sinon-chai": "^3.5.0",
     "source-map-support": "^0.5.19",
     "typescript": "^3.6.5",
-    "nyc":"*"
+    "nyc":"*",
+    "typeorm-driver-factory": "*"
   }
 }

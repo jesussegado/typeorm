@@ -1,0 +1,47 @@
+import "../sample1-simple-entity/node_modules/reflect-metadata";
+import { createConnection} from "typeorm-core/build/compiled/src/index";
+import {Post} from "./entity/Post";
+import {Author} from "./entity/Author";
+import {Category} from "./entity/Category";
+import {TypeormAndConnectionOptions} from "typeorm-core/build/compiled/src/index";
+import { createDriver } from '../../src';
+
+const options:  TypeormAndConnectionOptions = {
+    connectionOptions:{
+  type: "sqlite",
+    database: "temp/sqlitedb.db",
+    },
+    typeORMOptions:{
+            entityPrefix: "samples_", // pay attention on this prefix
+    synchronize: true,
+    logging: ["query", "error"],
+    entities: [Post, Author, Category],
+    }
+
+
+};
+
+createConnection(options, createDriver).then(async connection => {
+
+    let category1 = new Category();
+    category1.name = "Animals";
+
+    let category2 = new Category();
+    category2.name = "People";
+
+    let author = new Author();
+    author.firstName = "Umed";
+    author.lastName = "Khudoiberdiev";
+
+    let post = new Post();
+    post.text = "Hello how are you?";
+    post.title = "hello";
+    post.author = author;
+    post.categories = [category1, category2];
+
+    let postRepository = connection.getRepository(Post);
+
+    await postRepository.save(post);
+    console.log("Post has been saved");
+
+}).catch(error => console.log("Error: ", error));

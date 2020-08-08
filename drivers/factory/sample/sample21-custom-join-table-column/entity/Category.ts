@@ -1,0 +1,17 @@
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm-core/build/compiled/src/index";
+import {ManyToMany} from "typeorm-core/build/compiled/src/decorator/relations/ManyToMany";
+import {Post} from "./Post";
+
+@Entity("sample21_category")
+export class Category {
+
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column()
+    name: string;
+
+    @ManyToMany(type => Post, post => post.categories)
+    posts: Post[];
+
+}
