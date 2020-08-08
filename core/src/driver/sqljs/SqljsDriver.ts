@@ -28,10 +28,13 @@ export class SqljsDriver extends AbstractSqliteDriver {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(connection: Connection, connectionOptions: SqljsConnectionOptions) {
+    constructor(
+        connection: Connection,
+        connectionOptions: SqljsConnectionOptions
+    ) {
         super(connection);
 
-        this.options=connectionOptions;
+        this.options = connectionOptions;
         // If autoSave is enabled by user, location or autoSaveCallback have to be set
         // because either autoSave saves to location or calls autoSaveCallback.
         if (

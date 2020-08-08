@@ -1,13 +1,11 @@
 import { ObjectLiteral } from "typeorm-base";
-import {  Connection  } from "typeorm-core";
-import {  MssqlParameter  } from "typeorm-core";
-import {  QueryRunner  } from "typeorm-core";
-import {  Table  } from "typeorm-core";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
-import { QueryResultCache } from 'typeorm-core/build/compiled/src/cache/QueryResultCache';
-import { SqlServerConnectionOptions } from 'typeorm-core/build/compiled/src/driver/sqlserver/SqlServerConnectionOptions';
-import { PostgresConnectionOptions } from 'typeorm-core/build/compiled/src/driver/postgres/PostgresConnectionOptions';
-import { QueryResultCacheOptions } from 'typeorm-core/build/compiled/src/cache/QueryResultCacheOptions';
+import { Connection, MssqlParameter, QueryRunner, Table } from "typeorm-core";
+
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { QueryResultCache } from "typeorm-core/build/compiled/src/cache/QueryResultCache";
+import { SqlServerConnectionOptions } from "typeorm-core/build/compiled/src/driver/sqlserver/SqlServerConnectionOptions";
+import { PostgresConnectionOptions } from "typeorm-core/build/compiled/src/driver/postgres/PostgresConnectionOptions";
+import { QueryResultCacheOptions } from "typeorm-core/build/compiled/src/cache/QueryResultCacheOptions";
 
 /**
  * Caches query result into current database, into separate table called "mock-query-result-cache".

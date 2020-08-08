@@ -1,8 +1,7 @@
-import { Entity } from "typeorm-core";
-import {  ObjectIdColumn  } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { Event } from "./Event";
+import { Entity, ObjectIdColumn, Column } from "typeorm-core";
+
 import { ObjectID } from "typeorm-core/build/compiled/src/driver/mongodb/MongoDriver";
+import { Event } from "./Event";
 
 @Entity()
 export class User {

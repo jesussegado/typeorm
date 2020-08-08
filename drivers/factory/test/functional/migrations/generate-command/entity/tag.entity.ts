@@ -1,9 +1,12 @@
-import {  PrimaryColumn  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
-import {  JoinColumn  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  BaseEntity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
+import {
+    PrimaryColumn,
+    ManyToOne,
+    JoinColumn,
+    Entity,
+    BaseEntity,
+    Column,
+} from "typeorm-core";
+
 import { Post } from "./post.entity";
 
 @Entity("tag_test", { schema: "public" })

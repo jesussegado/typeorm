@@ -1,6 +1,5 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
+import { Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm-core";
+
 import { Photo } from "./Photo";
 import { User } from "./User";
 import { Question } from "./Question";

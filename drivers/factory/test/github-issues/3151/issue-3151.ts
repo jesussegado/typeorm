@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 
 describe("github issues > #3151 'uuid' in PrimaryGeneratedColumn causes Many-to-Many Relationship to Fail", () => {
     let connections: Connection[];

@@ -1,5 +1,5 @@
-import { Entity, PrimaryColumn } from "typeorm-core";
-import { ManyToMany } from "typeorm-core";
+import { Entity, PrimaryColumn, ManyToMany } from "typeorm-core";
+
 import { Post } from "./Post";
 
 @Entity()

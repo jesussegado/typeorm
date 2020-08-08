@@ -1,8 +1,6 @@
-import {  Column  } from "typeorm-core";
+import { Column, OneToOne, JoinColumn } from "typeorm-core";
 import { Category } from "./Category";
 import { Subcounters } from "./Subcounters";
-import {  OneToOne  } from "typeorm-core";
-import {  JoinColumn  } from "typeorm-core";
 
 export class Counters {
     @Column()

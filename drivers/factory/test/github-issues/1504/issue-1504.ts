@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { TestEntity1 } from "./entity/TestEntity1";
 
 describe("github issues > #1504 Cannot eagerly query Entity with relation more than 3 levels deep", () => {

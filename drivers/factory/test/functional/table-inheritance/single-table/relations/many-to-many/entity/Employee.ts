@@ -1,5 +1,5 @@
-import {  Column  } from "typeorm-core";
-import {  ChildEntity  } from "typeorm-core";
+import { Column, ChildEntity } from "typeorm-core";
+
 import { Person } from "./Person";
 
 @ChildEntity()

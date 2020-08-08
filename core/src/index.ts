@@ -207,7 +207,7 @@ export async function createConnection(
     options: TypeormAndConnectionOptions,
     driverFactory: DriverFactory
 ): Promise<Connection> {
-    return getConnectionManager().create(options,driverFactory).connect();
+    return getConnectionManager().create(options, driverFactory).connect();
 }
 
 /**
@@ -222,7 +222,7 @@ export async function createConnections(
     driverFactory: DriverFactory
 ): Promise<Connection[]> {
     const connections = options.map((options) =>
-        getConnectionManager().create(options,driverFactory)
+        getConnectionManager().create(options, driverFactory)
     );
     return PromiseUtils.runInSequence(connections, (connection) =>
         connection.connect()

@@ -6,8 +6,8 @@ import {
     TreeChildren,
     UpdateDateColumn,
     CreateDateColumn,
+    Entity,
 } from "typeorm-core";
-import { Entity } from "typeorm-core";
 
 @Entity()
 @Tree("closure-table")

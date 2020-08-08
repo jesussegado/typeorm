@@ -1,8 +1,9 @@
 import { expect } from "chai";
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import { Album } from "./entity/Album";
 import { Category } from "./entity/Category";
-import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -12,7 +13,6 @@ import { Photo } from "./entity/Photo";
 import { PhotoAlbumCategory } from "./entity/PhotoAlbumCategory";
 import { Post } from "./entity/Post";
 import { PostCategory } from "./entity/PostCategory";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("view entity > general", () => {
     let connections: Connection[];

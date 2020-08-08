@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { DateUtils } from "typeorm-base";
-import { Post } from "./entity/Post";
 import { Connection } from "typeorm-core";
+import { Post } from "./entity/Post";
 import {
     closeTestingConnections,
     createTestingConnections,

@@ -1,10 +1,14 @@
-import { Entity } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    Index,
+} from "typeorm-core";
+
 import { Faculty } from "./Faculty";
-import { ManyToOne  } from "typeorm-core";
+
 import { Teacher } from "./Teacher";
-import { Index} from "typeorm-core";
 
 @Entity()
 @Index("student_name_index", ["name"])

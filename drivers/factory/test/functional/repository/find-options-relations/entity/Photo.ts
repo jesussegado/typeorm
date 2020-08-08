@@ -1,7 +1,10 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToOne,
+} from "typeorm-core";
+
 import { Post } from "./Post";
 import { Counters } from "./Counters";
 import { User } from "./User";

@@ -1,9 +1,12 @@
-import {  ManyToMany  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
-import {  JoinTable  } from "typeorm-core";
+import {
+    ManyToMany,
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToOne,
+    JoinTable,
+} from "typeorm-core";
+
 import { Category } from "./Category";
 import { Tag } from "./Tag";
 

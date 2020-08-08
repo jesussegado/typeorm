@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
+import { ColumnMetadata } from "typeorm-core/build/compiled/src/metadata/ColumnMetadata";
+import { ColumnMetadataArgs } from "typeorm-core/build/compiled/src/metadata-args/ColumnMetadataArgs";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
 import { User } from "./entity/User";
-import { ColumnMetadata } from 'typeorm-core/build/compiled/src/metadata/ColumnMetadata';
-import { ColumnMetadataArgs } from 'typeorm-core/build/compiled/src/metadata-args/ColumnMetadataArgs';
 
 describe("github issues > #1623 NOT NULL constraint failed after a new column is added (SQLite)", () => {
     let connections: Connection[];

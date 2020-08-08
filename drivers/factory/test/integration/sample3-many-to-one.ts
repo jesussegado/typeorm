@@ -1,8 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { Connection  } from "typeorm-core";
-import { createConnection  } from "typeorm-core";
-import { Repository  } from "typeorm-core";
+import { Connection, createConnection, Repository } from "typeorm-core";
+
 import { PostDetails } from "../../sample/sample3-many-to-one/entity/PostDetails";
 import { Post } from "../../sample/sample3-many-to-one/entity/Post";
 import { PostCategory } from "../../sample/sample3-many-to-one/entity/PostCategory";
@@ -11,7 +10,7 @@ import { PostMetadata } from "../../sample/sample3-many-to-one/entity/PostMetada
 import { PostImage } from "../../sample/sample3-many-to-one/entity/PostImage";
 import { PostInformation } from "../../sample/sample3-many-to-one/entity/PostInformation";
 import { setupSingleTestingConnection } from "../utils/test-utils";
-import { createDriver } from '../../src';
+import { createDriver } from "../../src";
 
 describe("many-to-one", function () {
     // -------------------------------------------------------------------------

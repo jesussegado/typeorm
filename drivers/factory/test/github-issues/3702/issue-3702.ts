@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { LetterBox } from "./entity/LetterBox";
 
 // Another related path: test/functional/spatial

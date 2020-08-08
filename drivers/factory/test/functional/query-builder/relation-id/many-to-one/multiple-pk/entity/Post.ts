@@ -1,8 +1,6 @@
-import {  Entity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
+import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm-core";
+
 import { Category } from "./Category";
-import {  ManyToOne  } from "typeorm-core";
 
 @Entity()
 export class Post {

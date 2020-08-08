@@ -1,4 +1,4 @@
-import {  Column, PrimaryGeneratedColumn  } from "typeorm-core";
+import { Column, PrimaryGeneratedColumn } from "typeorm-core";
 
 export abstract class AbstractEntity {
     @PrimaryGeneratedColumn() id: number;

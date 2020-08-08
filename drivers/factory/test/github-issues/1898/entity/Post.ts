@@ -4,8 +4,8 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
+    Column,
 } from "typeorm-core";
-import { Column } from "typeorm-core";
 
 @Entity()
 export class Post extends BaseEntity {

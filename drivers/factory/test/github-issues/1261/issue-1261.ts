@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { PromiseUtils } from "typeorm-base";
+import { Connection, BaseEntity } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import {  BaseEntity  } from "typeorm-core";
+
 import { Bar } from "./entity/Bar";
 
 describe("github issues > #1261 onDelete property on foreign key is not modified on sync", () => {

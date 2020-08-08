@@ -1,9 +1,12 @@
-import {  Entity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
-import {  JoinTable  } from "typeorm-core";
-import {  OneToMany  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
+import {
+    Entity,
+    Column,
+    PrimaryColumn,
+    JoinTable,
+    OneToMany,
+    ManyToOne,
+} from "typeorm-core";
+
 import { Post } from "./Post";
 import { Image } from "./Image";
 

@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import {  Connection  } from "typeorm-core";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -8,7 +9,6 @@ import {
 } from "../../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("multi-schema-and-database > custom-junction-database", () => {
     let connections: Connection[];

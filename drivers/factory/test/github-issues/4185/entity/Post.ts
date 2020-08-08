@@ -1,6 +1,6 @@
-import { PrimaryColumn } from "typeorm-core";
-import { Entity } from "typeorm-core";
-import { LoadEvent } from 'typeorm-core/build/compiled/src/subscriber/event/LoadEvent';
+import { PrimaryColumn, Entity } from "typeorm-core";
+
+import { LoadEvent } from "typeorm-core/build/compiled/src/subscriber/event/LoadEvent";
 
 @Entity()
 export class Post {

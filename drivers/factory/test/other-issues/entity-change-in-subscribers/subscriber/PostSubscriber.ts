@@ -1,6 +1,9 @@
+import {
+    EventSubscriber,
+    EntitySubscriberInterface,
+    UpdateEvent,
+} from "typeorm-core";
 import { Post } from "../entity/Post";
-import { EventSubscriber, EntitySubscriberInterface, UpdateEvent } from 'typeorm-core';
-
 
 @EventSubscriber()
 export class PostSubscriber implements EntitySubscriberInterface<Post> {

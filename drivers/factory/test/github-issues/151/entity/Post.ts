@@ -1,9 +1,13 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Column } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    JoinColumn,
+    OneToOne,
+} from "typeorm-core";
+
 import { Category } from "./Category";
-import { JoinColumn  } from "typeorm-core";
-import { OneToOne  } from "typeorm-core";
+
 import { PostMetadata } from "./PostMetadata";
 
 @Entity()

@@ -1,8 +1,11 @@
-import { Entity } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    OneToMany,
+} from "typeorm-core";
+
 import { Student } from "./Student";
-import { OneToMany  } from "typeorm-core";
 
 @Entity()
 export class Teacher {

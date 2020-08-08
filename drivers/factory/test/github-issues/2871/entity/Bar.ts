@@ -1,6 +1,9 @@
-import { BaseEntity, Column, PrimaryGeneratedColumn } from "typeorm-core";
-
-import { Entity } from "typeorm-core";
+import {
+    BaseEntity,
+    Column,
+    PrimaryGeneratedColumn,
+    Entity,
+} from "typeorm-core";
 
 import { DocumentEnum } from "../documentEnum";
 import { getEnumValues } from "../enumTools";

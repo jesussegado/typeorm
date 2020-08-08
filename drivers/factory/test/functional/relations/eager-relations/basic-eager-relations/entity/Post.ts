@@ -1,12 +1,16 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  ManyToMany  } from "typeorm-core";
-import {  JoinTable  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToMany,
+    JoinTable,
+    ManyToOne,
+    OneToMany,
+} from "typeorm-core";
+
 import { Category } from "./Category";
 import { User } from "./User";
-import {  ManyToOne  } from "typeorm-core";
-import {  OneToMany  } from "typeorm-core";
+
 import { Editor } from "./Editor";
 
 @Entity()

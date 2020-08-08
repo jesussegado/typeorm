@@ -1,5 +1,11 @@
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm-core";
+import {
+    PrimaryGeneratedColumn,
+    Column,
+    Entity,
+    ManyToOne,
+    OneToMany,
+} from "typeorm-core";
+
 import { GroupWithVeryLongName } from "./GroupWithVeryLongName";
 import { PostWithVeryLongName } from "./PostWithVeryLongName";
 

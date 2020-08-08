@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { User } from "./entity/User";
 
 describe("github issues > #3112 default:null should inserts nulls to database", () => {

@@ -1,12 +1,10 @@
 import "reflect-metadata";
-import { Connection, Table } from "typeorm-core";
+import { Connection, Table, TableExclusion } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-
-import {  TableExclusion  } from "typeorm-core";
 
 describe("query runner > create exclusion constraint", () => {
     let connections: Connection[];

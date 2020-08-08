@@ -1,7 +1,8 @@
 import { expect } from "chai";
 import "reflect-metadata";
-import { Category } from "./entity/Category";
 import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { Category } from "./entity/Category";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -10,7 +11,6 @@ import {
 import { Post } from "./entity/Post";
 import { PostCategory } from "./entity/PostCategory";
 import { PostByCategory } from "./entity/PostByCategory";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("view entity > postgres", () => {
     let connections: Connection[];

@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Race } from "./entity/Race";
 
 describe("github issues > support of embeddeds that are not set", () => {

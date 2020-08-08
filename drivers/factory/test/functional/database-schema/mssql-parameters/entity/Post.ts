@@ -1,8 +1,10 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  CreateDateColumn  } from "typeorm-core";
-import {  UpdateDateColumn  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryColumn,
+    Column,
+    CreateDateColumn,
+    UpdateDateColumn,
+} from "typeorm-core";
 
 @Entity()
 export class Post {

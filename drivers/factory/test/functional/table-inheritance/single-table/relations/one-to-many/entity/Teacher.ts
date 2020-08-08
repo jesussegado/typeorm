@@ -1,5 +1,5 @@
-import {  ChildEntity  } from "typeorm-core";
-import {  OneToMany  } from "typeorm-core";
+import { ChildEntity, OneToMany } from "typeorm-core";
+
 import { Employee } from "./Employee";
 import { Specialization } from "./Specialization";
 

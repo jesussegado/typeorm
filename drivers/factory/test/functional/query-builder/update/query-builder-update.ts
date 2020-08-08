@@ -1,17 +1,17 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { LimitOnUpdateNotSupportedError } from "typeorm-core/build/compiled/src/error/LimitOnUpdateNotSupportedError";
+import { UpdateValuesMissingError } from "typeorm-core/build/compiled/src/error/UpdateValuesMissingError";
+import { EntityColumnNotFound } from "typeorm-core/build/compiled/src/error/EntityColumnNotFound";
+import { Photo } from "./entity/Photo";
+import { User } from "./entity/User";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
-import { User } from "./entity/User";
-import { Photo } from "./entity/Photo";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
-import {LimitOnUpdateNotSupportedError} from 'typeorm-core/build/compiled/src/error/LimitOnUpdateNotSupportedError'
-import {UpdateValuesMissingError} from 'typeorm-core/build/compiled/src/error/UpdateValuesMissingError'
-import {EntityColumnNotFound} from 'typeorm-core/build/compiled/src/error/EntityColumnNotFound'
 
 describe("query builder > update", () => {
     let connections: Connection[];

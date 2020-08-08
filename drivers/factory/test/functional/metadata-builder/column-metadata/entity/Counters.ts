@@ -1,4 +1,4 @@
-import {  Column  } from "typeorm-core";
+import { Column } from "typeorm-core";
 import { Subcounters } from "./Subcounters";
 
 export class Counters {

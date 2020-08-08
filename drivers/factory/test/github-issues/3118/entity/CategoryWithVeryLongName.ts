@@ -1,6 +1,11 @@
-import { JoinTable, Entity, ManyToMany } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
+import {
+    JoinTable,
+    Entity,
+    ManyToMany,
+    Column,
+    PrimaryGeneratedColumn,
+} from "typeorm-core";
+
 import { PostWithVeryLongName } from "./PostWithVeryLongName";
 
 @Entity()

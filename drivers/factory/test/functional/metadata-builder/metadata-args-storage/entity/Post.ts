@@ -1,5 +1,5 @@
-import {  Entity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
+import { Entity, Column } from "typeorm-core";
+
 import { ContentModule } from "./ContentModule";
 
 @Entity()

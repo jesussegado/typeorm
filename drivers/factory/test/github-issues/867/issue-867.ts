@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { User } from "./entity/User";
 
 describe("github issues > #867 result of `findAndCount` is wrong when apply `skip` and `take` option", () => {

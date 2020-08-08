@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("query runner > drop column", () => {
     let connections: Connection[];

@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import {  Connection  } from "typeorm-core";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -13,7 +14,6 @@ import { PostSpecialColumns } from "./entity/PostSpecialColumns";
 import { PostMultiplePrimaryKeys } from "./entity/PostMultiplePrimaryKeys";
 import { PostComplex } from "./entity/PostComplex";
 import { PostEmbedded } from "./entity/PostEmbedded";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("persistence > entity updation", () => {
     let connections: Connection[];

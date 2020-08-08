@@ -1,8 +1,7 @@
-import {  Entity  } from "typeorm-core";
-import {  OneToOne  } from "typeorm-core";
-import {  JoinColumn  } from "typeorm-core";
+import { Entity, OneToOne, JoinColumn, ManyToOne } from "typeorm-core";
+
 import { User } from "./User";
-import {  ManyToOne  } from "typeorm-core";
+
 import { Post } from "./Post";
 
 @Entity()

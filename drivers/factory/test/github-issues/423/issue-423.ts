@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("github issues > #423 Cannot use Group as Table name && cannot autoSchemeSync when use alias Entity", () => {
     let connections: Connection[];

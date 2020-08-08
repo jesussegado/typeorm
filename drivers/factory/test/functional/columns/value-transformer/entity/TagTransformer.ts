@@ -1,4 +1,4 @@
-import {  ValueTransformer  } from "typeorm-core";
+import { ValueTransformer } from "typeorm-core";
 
 export class TagTransformer implements ValueTransformer {
     to(value: string[]): string {

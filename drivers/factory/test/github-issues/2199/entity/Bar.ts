@@ -1,5 +1,4 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm-core";
-import { Entity } from "typeorm-core";
+import { Column, PrimaryGeneratedColumn, Entity } from "typeorm-core";
 
 @Entity("bar")
 export class Bar {

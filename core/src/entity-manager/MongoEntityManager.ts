@@ -42,7 +42,7 @@ import {
 import { Connection } from "../connection/Connection";
 import { EntityManager } from "./EntityManager";
 import { MongoQueryRunner } from "../driver/mongodb/MongoQueryRunner";
-import { MongoDriver } from "../driver/mongodb/MongoDriver";
+import { MongoDriver, ObjectID } from "../driver/mongodb/MongoDriver";
 import { DocumentToEntityTransformer } from "../query-builder/transformer/DocumentToEntityTransformer";
 import { FindManyOptions } from "../find-options/FindManyOptions";
 import { FindOptionsUtils } from "../find-options/FindOptionsUtils";
@@ -54,7 +54,6 @@ import { DeleteResult } from "../query-builder/result/DeleteResult";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { EntitySchema, FindConditions } from "../index";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
-import { ObjectID } from '../driver/mongodb/MongoDriver';
 
 /**
  * Entity manager supposed to work with any entity, automatically find its repository and call its methods,

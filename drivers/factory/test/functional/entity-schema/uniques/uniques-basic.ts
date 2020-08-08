@@ -1,13 +1,13 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { PersonSchema } from "./entity/Person";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("entity-schema > uniques", () => {
     let connections: Connection[];

@@ -1,6 +1,5 @@
-import {  Entity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
+import { Entity, Column, PrimaryColumn } from "typeorm-core";
+
 import { Counters } from "./Counters";
 
 @Entity()

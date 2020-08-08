@@ -1,6 +1,5 @@
-import {  Column  } from "typeorm-core";
+import { Column, BeforeInsert } from "typeorm-core";
 import { Information } from "./Information";
-import { BeforeInsert } from "typeorm-core";
 
 export class Counters {
     @Column()

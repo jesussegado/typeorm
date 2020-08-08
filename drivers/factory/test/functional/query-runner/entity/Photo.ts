@@ -1,8 +1,4 @@
-import { Entity } from "typeorm-core";
-import { Column } from "typeorm-core";
-import {  Unique  } from "typeorm-core";
-import { PrimaryColumn } from "typeorm-core";
-import { Index} from "typeorm-core";
+import { Entity, Column, Unique, PrimaryColumn, Index } from "typeorm-core";
 
 @Entity()
 @Unique(["name"])

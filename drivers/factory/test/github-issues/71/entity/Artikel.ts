@@ -1,10 +1,13 @@
-import { Entity } from "typeorm-core";
-import { PrimaryColumn } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { ManyToOne  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryColumn,
+    Column,
+    ManyToOne,
+    JoinColumn,
+    Generated,
+} from "typeorm-core";
+
 import { Kollektion } from "./Kollektion";
-import { JoinColumn  } from "typeorm-core";
-import { Generated} from "typeorm-core";
 
 @Entity("artikel")
 export class Artikel {

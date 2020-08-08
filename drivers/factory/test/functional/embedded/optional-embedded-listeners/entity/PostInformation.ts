@@ -1,5 +1,5 @@
-import {  Column  } from "typeorm-core";
-import { BeforeInsert, BeforeUpdate } from "typeorm-core";
+import { Column, BeforeInsert, BeforeUpdate } from "typeorm-core";
+
 import { PostCounter } from "./PostCounter";
 
 export class PostInformation {

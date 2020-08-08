@@ -1,13 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection, TreeRepository } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { File } from "./entity/file.entity";
-import { TreeRepository } from "typeorm-core";
 
 describe("github issues > #2518 TreeRepository.findDescendantsTree does not load descendants when relationship id property exist", () => {
     let connections: Connection[];

@@ -1,18 +1,18 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection, Not, IsNull } from "typeorm-core";
+import { LimitOnUpdateNotSupportedError } from "typeorm-core/build/compiled/src/error/LimitOnUpdateNotSupportedError";
+import { MissingDeleteDateColumnError } from "typeorm-core/build/compiled/src/error/MissingDeleteDateColumnError";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { User } from "./entity/User";
-import {  LimitOnUpdateNotSupportedError  } from "typeorm-core/build/compiled/src/error/LimitOnUpdateNotSupportedError";
-import { Not, IsNull } from "typeorm-core";
-import {  MissingDeleteDateColumnError  } from "typeorm-core/build/compiled/src/error/MissingDeleteDateColumnError";
+
 import { UserWithoutDeleteDateColumn } from "./entity/UserWithoutDeleteDateColumn";
 import { Photo } from "./entity/Photo";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("query builder > soft-delete", () => {
     let connections: Connection[];

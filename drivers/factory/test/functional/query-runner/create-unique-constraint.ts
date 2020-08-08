@@ -1,12 +1,10 @@
 import "reflect-metadata";
-import { Connection } from "typeorm-core";
+import { Connection, Table, TableUnique } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import {  Table  } from "typeorm-core";
-import {  TableUnique  } from "typeorm-core";
 
 describe("query runner > create unique constraint", () => {
     let connections: Connection[];

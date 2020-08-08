@@ -1,9 +1,12 @@
-import {  Entity  } from "typeorm-core";
-import {  ManyToMany  } from "typeorm-core";
-import {  JoinTable  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
+import {
+    Entity,
+    ManyToMany,
+    JoinTable,
+    PrimaryColumn,
+    Column,
+} from "typeorm-core";
+
 import { Category } from "./Category";
-import {  Column  } from "typeorm-core";
 
 @Entity()
 export class Tag {

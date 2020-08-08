@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { User } from "./entity/User";
 
 describe("github issues > #704 Table alias in WHERE clause is not quoted in PostgreSQL", () => {

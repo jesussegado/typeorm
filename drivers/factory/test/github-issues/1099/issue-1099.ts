@@ -1,13 +1,13 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
+import { OffsetWithoutLimitNotSupportedError } from "typeorm-core/build/compiled/src/error/OffsetWithoutLimitNotSupportedError";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { Animal } from "./entity/Animal";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import { Animal } from "./entity/Animal";
-import {OffsetWithoutLimitNotSupportedError} from "typeorm-core/build/compiled/src/error/OffsetWithoutLimitNotSupportedError"
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("github issues > #1099 BUG - QueryBuilder MySQL skip sql is wrong", () => {
     let connections: Connection[];

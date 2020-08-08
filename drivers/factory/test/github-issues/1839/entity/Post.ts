@@ -1,5 +1,5 @@
-import { Entity, ManyToMany, PrimaryColumn } from "typeorm-core";
-import { JoinTable } from "typeorm-core";
+import { Entity, ManyToMany, PrimaryColumn, JoinTable } from "typeorm-core";
+
 import { Category } from "./Category";
 
 @Entity()

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn   } from "typeorm-core";
+import { Entity, Column, PrimaryColumn } from "typeorm-core";
 
 enum Singleton {
     EMPTY = "",

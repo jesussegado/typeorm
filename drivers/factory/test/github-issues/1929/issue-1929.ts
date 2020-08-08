@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { Product } from "./entity/Product";
 import { Connection } from "typeorm-core";
+import { Product } from "./entity/Product";
 import {
     closeTestingConnections,
     createTestingConnections,

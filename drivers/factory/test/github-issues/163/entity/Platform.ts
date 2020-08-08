@@ -1,8 +1,11 @@
-import { Entity } from "typeorm-core";
-import { Index} from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { ManyToMany } from "typeorm-core";
+import {
+    Entity,
+    Index,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToMany,
+} from "typeorm-core";
+
 import { Game } from "./Game";
 
 @Entity("platforms")

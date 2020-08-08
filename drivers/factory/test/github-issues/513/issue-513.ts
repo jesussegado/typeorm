@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { ObjectLiteral, DateUtils } from "typeorm-base";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post";
 
 describe("github issues > #513 Incorrect time/datetime types for SQLite", () => {

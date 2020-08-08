@@ -1,4 +1,4 @@
-import {  Entity, PrimaryColumn, Column  } from "typeorm-core";
+import { Entity, PrimaryColumn, Column } from "typeorm-core";
 
 @Entity()
 export class Plan {

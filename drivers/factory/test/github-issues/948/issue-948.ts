@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { User } from "./entity/User";
 
 describe("github issues > #948 EntityManager#save always considers a Postgres array-type field to have changed", () => {

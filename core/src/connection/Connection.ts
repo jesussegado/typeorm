@@ -39,7 +39,10 @@ export type TypeormAndConnectionOptions = {
     connectionOptions: ConnectionOptions;
 };
 
-export type DriverFactory = (connection: Connection, options: ConnectionOptions) => Driver;
+export type DriverFactory = (
+    connection: Connection,
+    options: ConnectionOptions
+) => Driver;
 
 /**
  * Connection is a single database ORM connection to a specific database.
@@ -120,17 +123,17 @@ export class Connection {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(config: TypeormAndConnectionOptions, driverFactory: DriverFactory) {
+    constructor(
+        config: TypeormAndConnectionOptions,
+        driverFactory: DriverFactory
+    ) {
         this.name = config.typeORMOptions.name || "default";
         this.options = config.typeORMOptions;
         this.logger = new LoggerFactory().create(
             this.options.logger,
             this.options.logging
         );
-        this.driver = driverFactory(
-            this,
-            config.connectionOptions
-        );
+        this.driver = driverFactory(this, config.connectionOptions);
         this.manager = this.createEntityManager();
         this.namingStrategy =
             config.typeORMOptions.namingStrategy || new DefaultNamingStrategy();

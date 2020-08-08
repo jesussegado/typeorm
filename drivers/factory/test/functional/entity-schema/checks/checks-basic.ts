@@ -1,12 +1,12 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { PersonSchema } from "./entity/Person";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("entity-schema > checks", () => {
     let connections: Connection[];

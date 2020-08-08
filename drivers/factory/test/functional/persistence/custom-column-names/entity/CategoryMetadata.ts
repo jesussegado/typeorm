@@ -1,7 +1,5 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  OneToOne  } from "typeorm-core";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm-core";
+
 import { Category } from "./Category";
 
 @Entity()

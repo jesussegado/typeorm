@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -7,7 +8,6 @@ import {
 } from "../../utils/test-utils";
 import { Author } from "./entity/Author";
 import { Photo } from "./entity/Photo";
-import { Connection } from "typeorm-core";
 import { PhotoMetadata } from "./entity/PhotoMetadata";
 
 describe("github issue > #1416 Wrong behavior when fetching an entity that has a relation with its own eager relations", () => {

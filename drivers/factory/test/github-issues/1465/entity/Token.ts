@@ -1,7 +1,9 @@
-import { Column } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Entity } from "typeorm-core";
-import {  TableInheritance  } from "typeorm-core";
+import {
+    Column,
+    PrimaryGeneratedColumn,
+    Entity,
+    TableInheritance,
+} from "typeorm-core";
 
 @Entity()
 @TableInheritance({ column: { type: "varchar", name: "type" } })

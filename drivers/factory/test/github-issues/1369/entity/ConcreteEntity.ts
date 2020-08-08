@@ -1,4 +1,4 @@
-import {  Column, Entity  } from "typeorm-core";
+import { Column, Entity } from "typeorm-core";
 import { AbstractEntity } from "./AbstractEntity";
 
 @Entity()

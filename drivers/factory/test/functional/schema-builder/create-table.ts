@@ -1,11 +1,11 @@
 import { expect } from "chai";
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("schema builder > create table", () => {
     let connections: Connection[];

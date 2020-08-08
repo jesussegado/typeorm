@@ -1,9 +1,11 @@
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  TreeParent  } from "typeorm-core";
-import {  TreeChildren  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  Tree  } from "typeorm-core";
+import {
+    PrimaryGeneratedColumn,
+    Column,
+    TreeParent,
+    TreeChildren,
+    Entity,
+    Tree,
+} from "typeorm-core";
 
 @Entity()
 @Tree("nested-set")

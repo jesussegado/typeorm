@@ -1,8 +1,11 @@
-import { Entity } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+} from "typeorm-core";
+
 import { Parent } from "./Parent";
-import { ManyToOne  } from "typeorm-core";
 
 @Entity()
 export class Child {

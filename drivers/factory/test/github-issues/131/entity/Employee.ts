@@ -1,6 +1,5 @@
-import { Column } from "typeorm-core";
+import { Column, ChildEntity } from "typeorm-core";
 import { Person } from "./Person";
-import {  ChildEntity  } from "typeorm-core";
 
 @ChildEntity()
 export class Employee extends Person {

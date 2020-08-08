@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { UserEntity } from "./entity/UserEntity";
 import { UserToOrganizationEntity } from "./entity/UserToOrganizationEntity";
 import { OrganizationEntity } from "./entity/OrganizationEntity";

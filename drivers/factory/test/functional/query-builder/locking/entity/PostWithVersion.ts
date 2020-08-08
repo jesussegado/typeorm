@@ -1,7 +1,9 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  VersionColumn  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    VersionColumn,
+} from "typeorm-core";
 
 @Entity()
 export class PostWithVersion {

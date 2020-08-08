@@ -1,5 +1,5 @@
-import {  Repository  } from "typeorm-core";
-import {  EntityRepository  } from "typeorm-core";
+import { Repository, EntityRepository } from "typeorm-core";
+
 import { Category } from "../entity/Category";
 
 @EntityRepository(Category)

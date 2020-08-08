@@ -1,9 +1,11 @@
-import { Entity } from "typeorm-core";
-import { Column } from "typeorm-core";
-import {  Unique  } from "typeorm-core";
-import { PrimaryColumn } from "typeorm-core";
-import {  Check  } from "typeorm-core";
-import {  Exclusion  } from "typeorm-core";
+import {
+    Entity,
+    Column,
+    Unique,
+    PrimaryColumn,
+    Check,
+    Exclusion,
+} from "typeorm-core";
 
 @Entity()
 @Unique(["text", "tag"])

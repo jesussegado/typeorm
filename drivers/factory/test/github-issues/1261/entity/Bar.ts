@@ -1,9 +1,12 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import {  BaseEntity  } from "typeorm-core";
-import { OneToOne  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    BaseEntity,
+    OneToOne,
+    JoinColumn,
+} from "typeorm-core";
+
 import { Foo } from "./Foo";
-import { JoinColumn  } from "typeorm-core";
 
 @Entity()
 export class Bar extends BaseEntity {

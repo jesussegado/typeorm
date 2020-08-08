@@ -1,13 +1,13 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
-import { ColumnMetadataArgs } from 'typeorm-core/build/compiled/src/metadata-args/ColumnMetadataArgs';
-import { ColumnMetadata } from 'typeorm-core/build/compiled/src/metadata/ColumnMetadata';
+import { ColumnMetadataArgs } from "typeorm-core/build/compiled/src/metadata-args/ColumnMetadataArgs";
+import { ColumnMetadata } from "typeorm-core/build/compiled/src/metadata/ColumnMetadata";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
 import { Post } from "./entity/Post";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("schema builder > add column", () => {
     let connections: Connection[];

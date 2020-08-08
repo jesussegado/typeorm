@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { PostWithRelation } from "./entity/PostWithRelation";
 
 // This test is neccessary because finding with eager relation will be run in the different way

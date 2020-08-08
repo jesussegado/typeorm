@@ -1,9 +1,12 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryColumn,
+    Column,
+    OneToMany,
+    Generated,
+} from "typeorm-core";
+
 import { Post } from "./Post";
-import {  OneToMany  } from "typeorm-core";
-import {  Generated  } from "typeorm-core";
 
 @Entity()
 export class Category {

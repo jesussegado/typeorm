@@ -1,14 +1,14 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post";
 import { Uuid } from "./entity/Uuid";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("github issues > #1748 PrimaryColumn combined with transformer leads to error on save", () => {
     let connections: Connection[];

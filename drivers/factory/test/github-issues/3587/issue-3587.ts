@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { EquipmentModel } from "./entity/EquipmentModel";
 
 describe("github issues > #3587 do not generate change queries for number based enum types every time", () => {

@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { Student } from "./entity/Student";
 import { Teacher } from "./entity/Teacher";
 import { Accountant } from "./entity/Accountant";

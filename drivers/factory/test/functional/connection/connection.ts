@@ -1,6 +1,16 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { PromiseUtils } from "typeorm-base";
+import {
+    Connection,
+    Repository,
+    TreeRepository,
+    getConnectionManager,
+    EntityManager,
+} from "typeorm-core";
+import { PostgresConnectionOptions } from "typeorm-core/build/compiled/src/driver/postgres/PostgresConnectionOptions";
+import { CannotGetEntityManagerNotConnectedError } from "typeorm-core/build/compiled/src/error/CannotGetEntityManagerNotConnectedError";
+import { NoConnectionForRepositoryError } from "typeorm-core/build/compiled/src/error/NoConnectionForRepositoryError";
 import { Post } from "./entity/Post";
 import { Guest as GuestV1 } from "./entity/v1/Guest";
 import { Comment as CommentV1 } from "./entity/v1/Comment";
@@ -13,15 +23,8 @@ import {
     createTestingConnections,
     setupSingleTestingConnection,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import {  Repository  } from "typeorm-core";
-import {  TreeRepository  } from "typeorm-core";
-import {  getConnectionManager  } from "typeorm-core";
-import {  EntityManager  } from "typeorm-core";
-import { PostgresConnectionOptions } from 'typeorm-core/build/compiled/src/driver/postgres/PostgresConnectionOptions';
-import {CannotGetEntityManagerNotConnectedError } from "typeorm-core/build/compiled/src/error/CannotGetEntityManagerNotConnectedError"
-import {NoConnectionForRepositoryError} from "typeorm-core/build/compiled/src/error/NoConnectionForRepositoryError"
-import { createDriver } from '../../../src';
+
+import { createDriver } from "../../../src";
 
 describe("Connection", () => {
     // const resourceDir = __dirname + "/../../../../../test/functional/connection/";
@@ -87,18 +90,21 @@ describe("Connection", () => {
     describe.skip("establishing connection", function () {
         it("should throw DriverOptionNotSetError when extra.socketPath and host is missing", function () {
             expect(() => {
-                getConnectionManager().create({
-                    connectionOptions: {
-                        type: "mysql",
-                        username: "test",
-                        password: "test",
-                        database: "test",
+                getConnectionManager().create(
+                    {
+                        connectionOptions: {
+                            type: "mysql",
+                            username: "test",
+                            password: "test",
+                            database: "test",
+                        },
+                        typeORMOptions: {
+                            entities: [],
+                            dropSchema: false,
+                        },
                     },
-                    typeORMOptions: {
-                        entities: [],
-                        dropSchema: false,
-                    },
-                }, createDriver);
+                    createDriver
+                );
             }).to.throw(Error);
         });
     });

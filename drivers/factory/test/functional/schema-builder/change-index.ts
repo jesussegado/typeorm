@@ -1,7 +1,9 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { PromiseUtils } from "typeorm-base";
-import { Connection } from "typeorm-core";
+import { Connection, TableIndex } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { IndexMetadata } from "typeorm-core/build/compiled/src/metadata/IndexMetadata";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,9 +11,6 @@ import {
 } from "../../utils/test-utils";
 import { Teacher } from "./entity/Teacher";
 import { Student } from "./entity/Student";
-import {  TableIndex  } from "typeorm-core";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
-import { IndexMetadata } from 'typeorm-core/build/compiled/src/metadata/IndexMetadata';
 
 describe("schema builder > change index", () => {
     let connections: Connection[];

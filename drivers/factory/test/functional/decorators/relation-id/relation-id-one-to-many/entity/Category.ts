@@ -1,8 +1,11 @@
-import {  PrimaryColumn  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  OneToMany  } from "typeorm-core";
-import {  RelationId  } from "typeorm-core";
+import {
+    PrimaryColumn,
+    Entity,
+    Column,
+    OneToMany,
+    RelationId,
+} from "typeorm-core";
+
 import { Post } from "./Post";
 
 @Entity()

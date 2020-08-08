@@ -1,6 +1,3 @@
-import {  Chat } from "./Chat";
-import { User } from "./User";
-import { Recipient } from "./Recipient";
 import {
     Column,
     CreateDateColumn,
@@ -11,6 +8,9 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from "typeorm-core";
+import { Chat } from "./Chat";
+import { User } from "./User";
+import { Recipient } from "./Recipient";
 
 export enum MessageType {
     TEXT,

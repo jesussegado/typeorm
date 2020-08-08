@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Realm, User } from "./entity/User";
 
 describe("github issues > #4630 Enum string not escaping resulting in broken migrations.", () => {

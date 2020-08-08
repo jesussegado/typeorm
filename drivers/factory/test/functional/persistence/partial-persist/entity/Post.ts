@@ -1,9 +1,12 @@
-import {  PrimaryColumn  } from "typeorm-core";
+import {
+    PrimaryColumn,
+    Entity,
+    Column,
+    ManyToMany,
+    JoinTable,
+} from "typeorm-core";
 import { Category } from "./Category";
-import {  Entity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  ManyToMany  } from "typeorm-core";
-import {  JoinTable  } from "typeorm-core";
+
 import { Counters } from "./Counters";
 
 @Entity()

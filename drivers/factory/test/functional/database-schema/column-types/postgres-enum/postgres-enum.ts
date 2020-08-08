@@ -1,13 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import {  Connection  } from "typeorm-core";
+import { Connection, Table, TableColumn } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
 import { Post } from "./entity/Post";
-import { Table, TableColumn } from "typeorm-core";
 
 describe("database schema > column types > postgres-enum", () => {
     let connections: Connection[];

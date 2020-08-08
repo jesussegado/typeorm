@@ -1,14 +1,14 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { ReturningStatementNotSupportedError } from "typeorm-core/build/compiled/src/error/ReturningStatementNotSupportedError";
+import { User } from "./entity/User";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import { User } from "./entity/User";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
-import {ReturningStatementNotSupportedError} from "typeorm-core/build/compiled/src/error/ReturningStatementNotSupportedError"
 
 describe("github issues > #660 Specifying a RETURNING or OUTPUT clause with QueryBuilder", () => {
     let connections: Connection[];

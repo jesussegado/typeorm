@@ -1,9 +1,12 @@
-import { Entity } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    OneToMany,
+    Index,
+} from "typeorm-core";
+
 import { Student } from "./Student";
-import { OneToMany  } from "typeorm-core";
-import { Index} from "typeorm-core";
 
 @Entity()
 @Index("ignored_index", { synchronize: false })

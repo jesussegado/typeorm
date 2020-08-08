@@ -1,10 +1,13 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { ManyToMany } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToMany,
+    JoinTable,
+} from "typeorm-core";
+
 import { Post } from "./Post";
 import { Image } from "./Image";
-import { JoinTable } from "typeorm-core";
 
 @Entity()
 export class Category {

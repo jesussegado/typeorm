@@ -1,8 +1,6 @@
-import {  Column  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne } from "typeorm-core";
+
 import { Profile } from "./Profile";
-import {  OneToOne  } from "typeorm-core";
 
 @Entity()
 export class User {

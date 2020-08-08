@@ -1,7 +1,11 @@
-import {  JoinColumn  } from "typeorm-core";
-import {  Column, PrimaryColumn, ManyToOne  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  BaseEntity  } from "typeorm-core";
+import {
+    JoinColumn,
+    Column,
+    PrimaryColumn,
+    ManyToOne,
+    Entity,
+    BaseEntity,
+} from "typeorm-core";
 
 import { User } from "./user";
 import { Record } from "./record";

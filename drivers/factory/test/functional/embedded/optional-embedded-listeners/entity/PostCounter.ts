@@ -1,6 +1,4 @@
-import {  Column  } from "typeorm-core";
-import {  BeforeInsert  } from "typeorm-core";
-import {  BeforeUpdate  } from "typeorm-core";
+import { Column, BeforeInsert, BeforeUpdate } from "typeorm-core";
 
 export class PostCounter {
     @Column({ nullable: true })

@@ -1,9 +1,9 @@
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 
 import { TournamentGraph } from "./entity/TournamentGraph";
 import { SquadBilliardsTournament } from "./entity/SquadBilliardsTournament";

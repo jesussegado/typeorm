@@ -1,5 +1,4 @@
-import {  Column  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
+import { Column, PrimaryColumn } from "typeorm-core";
 
 export class Counters {
     @PrimaryColumn()

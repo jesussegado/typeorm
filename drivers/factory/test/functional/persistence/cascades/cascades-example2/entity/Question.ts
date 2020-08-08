@@ -1,8 +1,11 @@
-import { Column } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    OneToMany,
+} from "typeorm-core";
+
 import { Answer } from "./Answer";
-import {  OneToMany  } from "typeorm-core";
 
 @Entity()
 export class Question {

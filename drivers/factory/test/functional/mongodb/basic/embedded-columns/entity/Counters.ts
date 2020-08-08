@@ -1,4 +1,4 @@
-import {  Column  } from "typeorm-core";
+import { Column } from "typeorm-core";
 import { Information } from "./Information";
 import { ExtraInformation } from "./ExtraInformation";
 

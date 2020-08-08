@@ -1,5 +1,5 @@
-import {  Entity  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
+import { Entity, ManyToOne } from "typeorm-core";
+
 import { Post } from "./Post";
 import { Category } from "./Category";
 import { Image } from "./Image";

@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -7,7 +8,6 @@ import {
 } from "../../utils/test-utils";
 import { User } from "./entity/User";
 import { SpecificUser } from "./entity/SpecificUser";
-import { Connection } from "typeorm-core";
 
 describe("github issue > #1326 Wrong behavior w/ the same table names in different databases", () => {
     let connections: Connection[] = [];

@@ -1,12 +1,11 @@
 import "reflect-metadata";
-import { Connection } from "typeorm-core";
+import { Connection, Table } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import {  Table  } from "typeorm-core";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("query runner > rename table", () => {
     let connections: Connection[];

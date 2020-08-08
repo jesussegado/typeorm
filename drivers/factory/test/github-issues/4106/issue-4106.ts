@@ -1,14 +1,13 @@
 import { expect } from "chai";
+import { Connection, EntityManager } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Human } from "./entity/Human";
 import { Animal } from "./entity/Animal";
 import { Gender } from "./entity/GenderEnum";
-import {  EntityManager  } from "typeorm-core";
 
 describe("github issues > #4106 Specify enum type name in postgres", () => {
     let connections: Connection[];

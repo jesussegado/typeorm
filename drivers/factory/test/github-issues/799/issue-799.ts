@@ -2,9 +2,9 @@ import "reflect-metadata";
 import * as assert from "assert";
 import rimraf from "rimraf";
 import { dirname } from "path";
-import { createConnection } from "typeorm-core";
-import { Connection } from "typeorm-core";
-import { createDriver } from '../../../src';
+import { createConnection, Connection } from "typeorm-core";
+
+import { createDriver } from "../../../src";
 
 describe("github issues > #799 sqlite: 'database' path should be created", () => {
     let connection: Connection;
@@ -26,15 +26,18 @@ describe("github issues > #799 sqlite: 'database' path should be created", () =>
     });
 
     it("should create the whole path to database file", async function () {
-        connection = await createConnection({
-            connectionOptions: {
-                type: "sqlite",
-                database: path,
+        connection = await createConnection(
+            {
+                connectionOptions: {
+                    type: "sqlite",
+                    database: path,
+                },
+                typeORMOptions: {
+                    name: "sqlite",
+                },
             },
-            typeORMOptions: {
-                name: "sqlite",
-            },
-        }, createDriver);
+            createDriver
+        );
 
         assert.strictEqual(connection.isConnected, true);
     });

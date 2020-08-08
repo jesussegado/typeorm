@@ -1,7 +1,4 @@
-import {  Column  } from "typeorm-core";
-import {  BeforeInsert  } from "typeorm-core";
-import {  BeforeUpdate  } from "typeorm-core";
-import {  Index  } from "typeorm-core";
+import { Column, BeforeInsert, BeforeUpdate, Index } from "typeorm-core";
 
 @Index(["likes", "favorites"])
 export class PostCounter {

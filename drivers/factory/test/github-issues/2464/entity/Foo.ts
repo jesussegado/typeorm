@@ -3,10 +3,10 @@ import {
     JoinTable,
     ManyToMany,
     PrimaryColumn,
+    Entity,
 } from "typeorm-core";
 
 import { Bar } from "./Bar";
-import { Entity } from "typeorm-core";
 
 @Entity("foo")
 export class Foo extends BaseEntity {

@@ -1,7 +1,7 @@
-import { Entity } from "typeorm-core";
-import {  TableInheritance  } from "typeorm-core";
+import { Entity, TableInheritance, OneToOne, JoinColumn } from "typeorm-core";
+
 import { Token } from "./Token";
-import {  OneToOne, JoinColumn  } from "typeorm-core";
+
 import { Account } from "./Account";
 
 @Entity()

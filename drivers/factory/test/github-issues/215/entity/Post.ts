@@ -1,9 +1,12 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    OneToOne,
+    JoinColumn,
+} from "typeorm-core";
+
 import { Author } from "./Author";
 import { Abbreviation } from "./Abbreviation";
-import { OneToOne  } from "typeorm-core";
-import { JoinColumn  } from "typeorm-core";
 
 @Entity()
 export class Post {

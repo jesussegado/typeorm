@@ -1,8 +1,11 @@
-import {  ManyToMany  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  JoinTable  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
+import {
+    ManyToMany,
+    Entity,
+    Column,
+    JoinTable,
+    PrimaryColumn,
+} from "typeorm-core";
+
 import { Category } from "./Category";
 
 @Entity()

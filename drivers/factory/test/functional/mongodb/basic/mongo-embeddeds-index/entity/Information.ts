@@ -1,5 +1,4 @@
-import {  Column  } from "typeorm-core";
-import {  Index  } from "typeorm-core";
+import { Column, Index } from "typeorm-core";
 
 export class Information {
     @Column()

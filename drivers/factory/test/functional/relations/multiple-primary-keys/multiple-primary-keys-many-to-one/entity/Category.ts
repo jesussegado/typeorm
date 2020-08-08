@@ -1,9 +1,6 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  OneToMany  } from "typeorm-core";
+import { Entity, PrimaryColumn, Column, OneToMany, Unique } from "typeorm-core";
+
 import { Post } from "./Post";
-import { Unique } from "typeorm-core";
 
 @Entity()
 @Unique(["code", "version", "description"])

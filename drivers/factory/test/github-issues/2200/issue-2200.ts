@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Booking } from "./entity/Booking";
 import { NamingStrategyUnderTest } from "./naming/NamingStrategyUnderTest";
 

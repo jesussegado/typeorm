@@ -1,10 +1,10 @@
 import * as yargs from "yargs";
-import { Connection, createConnection } from "typeorm-core";
 import { camelCase } from "typeorm-base";
+import { Connection, createConnection } from "typeorm-core";
+import { createDriver } from "typeorm-driver-factory";
 import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
 import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import { CommandUtils } from "./CommandUtils";
-import { createDriver } from 'typeorm-driver-factory';
 
 const chalk = require("chalk");
 
@@ -89,7 +89,10 @@ export class MigrationGenerateCommand implements yargs.CommandModule {
                 dropSchema: false,
                 logging: false,
             });
-            connection = await createConnection(connectionOptions,createDriver);
+            connection = await createConnection(
+                connectionOptions,
+                createDriver
+            );
             const sqlInMemory = await connection.driver
                 .createSchemaBuilder()
                 .log();

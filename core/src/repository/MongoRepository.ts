@@ -40,8 +40,7 @@ import { FindOneOptions } from "../find-options/FindOneOptions";
 import { MongoEntityManager } from "../entity-manager/MongoEntityManager";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
-import { ObjectID } from '../driver/mongodb/MongoDriver';
-
+import { ObjectID } from "../driver/mongodb/MongoDriver";
 
 /**
  * Repository used to manage mongodb documents of a single entity type.

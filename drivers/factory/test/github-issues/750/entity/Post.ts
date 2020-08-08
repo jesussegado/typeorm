@@ -1,6 +1,4 @@
-import { Entity, PrimaryGeneratedColumn} from "typeorm-core";
-import { Column } from "typeorm-core";
-import { Index} from "typeorm-core";
+import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm-core";
 
 @Entity()
 @Index(["name"], { fulltext: true })

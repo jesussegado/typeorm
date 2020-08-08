@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { PromiseUtils } from "typeorm-base";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { TestEntity } from "./entity/TestEntity";
 
 describe("github issues > #1014 Transaction doesn't rollback", () => {

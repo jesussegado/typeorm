@@ -1,5 +1,4 @@
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Entity } from "typeorm-core";
+import { PrimaryGeneratedColumn, Entity } from "typeorm-core";
 
 @Entity({ name: "users", synchronize: false })
 export class User {

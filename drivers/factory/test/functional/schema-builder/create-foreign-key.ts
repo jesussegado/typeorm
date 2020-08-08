@@ -1,13 +1,13 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { ForeignKeyMetadata } from "typeorm-core/build/compiled/src/metadata/ForeignKeyMetadata";
+import { UniqueMetadata } from "typeorm-core/build/compiled/src/metadata/UniqueMetadata";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
-import { ForeignKeyMetadata } from 'typeorm-core/build/compiled/src/metadata/ForeignKeyMetadata';
-import { UniqueMetadata } from 'typeorm-core/build/compiled/src/metadata/UniqueMetadata';
 
 describe("schema builder > create foreign key", () => {
     let connections: Connection[];

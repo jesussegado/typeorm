@@ -1,8 +1,10 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Tree} from "typeorm-core";
-import { TreeChildren} from "typeorm-core";
-import { TreeParent} from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Tree,
+    TreeChildren,
+    TreeParent,
+} from "typeorm-core";
 
 @Entity({ name: "users", schema: "admin" })
 @Tree("nested-set")

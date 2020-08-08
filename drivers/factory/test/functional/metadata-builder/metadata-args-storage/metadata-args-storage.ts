@@ -1,8 +1,8 @@
 import "reflect-metadata";
+import { MetadataUtils } from "typeorm-core/build/compiled/src/metadata-builder/MetadataUtils";
 import { Post } from "./entity/Post";
 import { ContentModule } from "./entity/ContentModule";
 import { Unit } from "./entity/Unit";
-import {  MetadataUtils  } from "typeorm-core/build/compiled/src/metadata-builder/MetadataUtils";
 
 describe("metadata builder > MetadataArgsUtils", () => {
     it("getInheritanceTree", () => {

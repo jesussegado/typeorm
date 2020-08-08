@@ -1,13 +1,13 @@
 import { expect } from "chai";
+import { Connection, EntitySchema } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection, EntitySchema } from "typeorm-core";
 
 import { Post, PostSchema } from "./entity/Post";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("github issues > #3803 column option unique sqlite error", () => {
     let connections: Connection[];

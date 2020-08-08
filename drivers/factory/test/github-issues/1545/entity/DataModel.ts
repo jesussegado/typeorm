@@ -1,4 +1,4 @@
-import {  Entity, ManyToOne, JoinColumn, Column  } from "typeorm-core";
+import { Entity, ManyToOne, JoinColumn, Column } from "typeorm-core";
 import { MainModel } from "./MainModel";
 import { ValidationModel } from "./ValidationModel";
 

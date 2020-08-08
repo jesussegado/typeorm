@@ -1,6 +1,5 @@
-import {  ChildEntity  } from "typeorm-core";
-import {  ManyToMany  } from "typeorm-core";
-import {  JoinTable  } from "typeorm-core";
+import { ChildEntity, ManyToMany, JoinTable } from "typeorm-core";
+
 import { Employee } from "./Employee";
 import { Department } from "./Department";
 

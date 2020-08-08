@@ -1,9 +1,7 @@
-import {  Column  } from "typeorm-core";
-import {  JoinColumn  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
+import { Column, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm-core";
+
 import { User } from "./User";
 import { Subcounters } from "./Subcounters";
-import {  PrimaryColumn  } from "typeorm-core";
 
 export class Counters {
     @PrimaryColumn()

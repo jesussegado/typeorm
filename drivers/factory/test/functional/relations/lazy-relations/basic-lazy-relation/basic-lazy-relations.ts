@@ -1,13 +1,12 @@
 import "reflect-metadata";
+import { Connection, EntitySchema } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { EntitySchema } from "typeorm-core";
 
 /**
  * Because lazy relations are overriding prototype is impossible to run these tests on multiple connections.

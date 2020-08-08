@@ -1,10 +1,10 @@
 import { assert } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { User } from "./entity/User";
 import { TournamentUserParticipant } from "./entity/TournamentUserParticipant";
 import { TournamentSquadParticipant } from "./entity/TournamentSquadParticipant";

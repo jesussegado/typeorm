@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
 import { Category } from "./entity/Category";
 import { Question } from "./entity/Question";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("schema builder > update primary keys", () => {
     let connections: Connection[];

@@ -1,7 +1,7 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import {  Connection  } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,

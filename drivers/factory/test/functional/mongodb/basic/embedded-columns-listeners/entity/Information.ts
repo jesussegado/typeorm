@@ -1,5 +1,4 @@
-import {  Column  } from "typeorm-core";
-import { AfterLoad, BeforeInsert } from "typeorm-core";
+import { Column, AfterLoad, BeforeInsert } from "typeorm-core";
 
 export class Information {
     @Column()

@@ -1,8 +1,11 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    ManyToMany,
+    Column,
+} from "typeorm-core";
+
 import { Post } from "./Post";
-import { ManyToMany } from "typeorm-core";
-import { Column } from "typeorm-core";
 
 @Entity()
 export class Tag {

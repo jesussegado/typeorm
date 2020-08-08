@@ -1,5 +1,10 @@
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Column, Entity, OneToMany } from "typeorm-core";
+import {
+    PrimaryGeneratedColumn,
+    Column,
+    Entity,
+    OneToMany,
+} from "typeorm-core";
+
 import { AuthorWithVeryLongName } from "./AuthorWithVeryLongName";
 
 @Entity()

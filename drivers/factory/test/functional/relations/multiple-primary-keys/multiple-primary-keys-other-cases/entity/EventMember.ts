@@ -1,5 +1,5 @@
-import {  Entity  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
+import { Entity, ManyToOne } from "typeorm-core";
+
 import { Event } from "./Event";
 import { User } from "./User";
 

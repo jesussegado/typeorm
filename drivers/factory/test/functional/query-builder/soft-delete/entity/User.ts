@@ -1,7 +1,9 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  DeleteDateColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    DeleteDateColumn,
+    Column,
+} from "typeorm-core";
 
 @Entity()
 export class User {

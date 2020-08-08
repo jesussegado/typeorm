@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -8,7 +9,6 @@ import {
 } from "../../utils/test-utils";
 import { Plan } from "./entity/Plan";
 import { Item } from "./entity/Item";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("github issues > #1476 subqueries", () => {
     let connections: Connection[] = [];

@@ -1,14 +1,14 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { MissingDeleteDateColumnError } from "typeorm-core/build/compiled/src/error/MissingDeleteDateColumnError";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { Post } from "./entity/Post";
 import { PostWithoutDeleteDateColumn } from "./entity/PostWithoutDeleteDateColumn";
-import {  MissingDeleteDateColumnError  } from "typeorm-core/build/compiled/src/error/MissingDeleteDateColumnError";
 
 describe("repository > soft-remove", () => {
     let connections: Connection[];

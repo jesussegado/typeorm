@@ -1,10 +1,13 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  OneToOne  } from "typeorm-core";
-import {  JoinColumn  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    OneToOne,
+    JoinColumn,
+    DeleteDateColumn,
+} from "typeorm-core";
+
 import { CategoryWithRelation } from "./CategoryWithRelation";
-import {  DeleteDateColumn  } from "typeorm-core";
 
 @Entity()
 export class PostWithRelation {

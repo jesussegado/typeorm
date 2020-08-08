@@ -1,12 +1,15 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import {
+    ConnectionManager,
+    PrimaryGeneratedColumn,
+    Column,
+    Entity,
+} from "typeorm-core";
+
+import { MysqlDriver } from "typeorm-core/build/compiled/src/driver/mysql/MysqlDriver";
 import { setupSingleTestingConnection } from "../../utils/test-utils";
-import {  ConnectionManager  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import { MysqlDriver } from 'typeorm-core/build/compiled/src/driver/mysql/MysqlDriver';
-import { createDriver } from '../../../src';
+import { createDriver } from "../../../src";
 
 // Uncomment when testing the aurora data API driver
 // import { AuroraDataApiDriver } from "typeorm-core";
@@ -86,13 +89,17 @@ describe("ConnectionManager", () => {
             const connectionManager = new ConnectionManager();
 
             // create connection, save post and close connection
-            let connection = await connectionManager.create(options, createDriver).connect();
+            let connection = await connectionManager
+                .create(options, createDriver)
+                .connect();
             const post = new Post(1, "Hello post");
             await connection.manager.save(post);
             await connection.close();
 
             // recreate connection and find previously saved post
-            connection = await connectionManager.create(options, createDriver).connect();
+            connection = await connectionManager
+                .create(options, createDriver)
+                .connect();
             const loadedPost = (await connection.manager.findOne(Post, 1))!;
             loadedPost.should.be.instanceof(Post);
             loadedPost.should.be.eql({ id: 1, title: "Hello post" });
@@ -111,13 +118,17 @@ describe("ConnectionManager", () => {
             const connectionManager = new ConnectionManager();
 
             // create connection, save post and close connection
-            let connection = await connectionManager.create(options, createDriver).connect();
+            let connection = await connectionManager
+                .create(options, createDriver)
+                .connect();
             const post = new Post(1, "Hello post");
             await connection.manager.save(post);
             await connection.close();
 
             // recreate connection and find previously saved post
-            connection = await connectionManager.create(options, createDriver).connect();
+            connection = await connectionManager
+                .create(options, createDriver)
+                .connect();
             const loadedPost = await connection.manager.findOne(Post, 1);
             expect(loadedPost).to.be.undefined;
             await connection.close();

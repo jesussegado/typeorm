@@ -1,6 +1,8 @@
-import {  EventSubscriber  } from "typeorm-core";
-import {  EntitySubscriberInterface  } from "typeorm-core";
-import {  InsertEvent  } from "typeorm-core";
+import {
+    EventSubscriber,
+    EntitySubscriberInterface,
+    InsertEvent,
+} from "typeorm-core";
 
 @EventSubscriber()
 export class TestVideoSubscriber implements EntitySubscriberInterface {

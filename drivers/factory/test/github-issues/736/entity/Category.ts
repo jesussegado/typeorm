@@ -1,8 +1,11 @@
-import { Entity, PrimaryGeneratedColumn} from "typeorm-core";
-import { Tree} from "typeorm-core";
-import { TreeParent} from "typeorm-core";
-import { TreeChildren} from "typeorm-core";
-import { Column } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Tree,
+    TreeParent,
+    TreeChildren,
+    Column,
+} from "typeorm-core";
 
 @Entity()
 @Tree("closure-table")

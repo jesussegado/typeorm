@@ -1,4 +1,11 @@
-import { Entity, TableInheritance, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm-core";
+import {
+    Entity,
+    TableInheritance,
+    PrimaryGeneratedColumn,
+    Column,
+    OneToOne,
+    JoinColumn,
+} from "typeorm-core";
 
 import { TournamentGraph } from "./TournamentGraph";
 

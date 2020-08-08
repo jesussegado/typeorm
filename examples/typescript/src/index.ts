@@ -1,7 +1,8 @@
 import { createConnection, TypeormAndConnectionOptions } from "typeorm-core";
+import { createDriver } from "typeorm-driver-factory";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import {createDriver} from "typeorm-driver-factory"
+
 async function run() {
     const connectionOptions: TypeormAndConnectionOptions = {
         connectionOptions: {
@@ -20,7 +21,7 @@ async function run() {
         },
     };
 
-    const connection = await createConnection(connectionOptions,createDriver);
+    const connection = await createConnection(connectionOptions, createDriver);
     // connection settings can also be loaded using typeorm-options-reader
     try {
         const category1 = new Category();

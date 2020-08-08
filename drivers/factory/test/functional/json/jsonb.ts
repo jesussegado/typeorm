@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { Record } from "./entity/Record";
 import { Connection } from "typeorm-core";
+import { Record } from "./entity/Record";
 import {
     closeTestingConnections,
     createTestingConnections,

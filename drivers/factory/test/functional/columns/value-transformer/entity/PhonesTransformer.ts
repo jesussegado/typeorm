@@ -1,4 +1,4 @@
-import {  ValueTransformer  } from "typeorm-core";
+import { ValueTransformer } from "typeorm-core";
 
 export class PhonesTransformer implements ValueTransformer {
     to(value: Map<string, number>): string {

@@ -1,10 +1,10 @@
 import "reflect-metadata";
+import { Connection, EntityMetadata } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection, EntityMetadata } from "typeorm-core";
 
 import { Person } from "./entity/person";
 

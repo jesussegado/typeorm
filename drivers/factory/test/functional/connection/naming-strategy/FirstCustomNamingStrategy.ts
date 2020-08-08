@@ -1,5 +1,4 @@
-import {  DefaultNamingStrategy  } from "typeorm-core";
-import {  NamingStrategyInterface  } from "typeorm-core";
+import { DefaultNamingStrategy, NamingStrategyInterface } from "typeorm-core";
 
 export class FirstCustomNamingStrategy extends DefaultNamingStrategy
     implements NamingStrategyInterface {

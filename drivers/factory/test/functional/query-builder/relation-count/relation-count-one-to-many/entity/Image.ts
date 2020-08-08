@@ -1,8 +1,11 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToOne,
+} from "typeorm-core";
+
 import { Category } from "./Category";
-import {  ManyToOne  } from "typeorm-core";
 
 @Entity()
 export class Image {

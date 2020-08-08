@@ -1,10 +1,13 @@
-import {  PrimaryColumn  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  OneToOne  } from "typeorm-core";
-import {  JoinColumn  } from "typeorm-core";
+import {
+    PrimaryColumn,
+    Entity,
+    Column,
+    OneToOne,
+    JoinColumn,
+    RelationId,
+} from "typeorm-core";
+
 import { Category } from "./Category";
-import {  RelationId  } from "typeorm-core";
 
 @Entity()
 export class Post {

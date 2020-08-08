@@ -1,13 +1,12 @@
 import { expect } from "chai";
 import "reflect-metadata";
-import { getConnectionManager } from "typeorm-core";
-import {  Connection  } from "typeorm-core";
-import {  Repository  } from "typeorm-core";
+import { getConnectionManager, Connection, Repository } from "typeorm-core";
+
 import { setupSingleTestingConnection } from "../../../utils/test-utils";
 import { Category } from "./entity/Category";
 import { CategoryMetadata } from "./entity/CategoryMetadata";
 import { Post } from "./entity/Post";
-import { createDriver } from '../../../../src';
+import { createDriver } from "../../../../src";
 
 describe("persistence > custom-column-names", function () {
     // -------------------------------------------------------------------------

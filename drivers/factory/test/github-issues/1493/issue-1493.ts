@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import {  DriverUtils  } from "typeorm-core/build/compiled/src/driver/DriverUtils";
+import { DriverUtils } from "typeorm-core/build/compiled/src/driver/DriverUtils";
 // import {exec} from "child_process";
 
 describe("github issues > #1493 Error parsing pg connection string", () => {

@@ -1,6 +1,4 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import {  BaseEntity  } from "typeorm-core";
+import { Entity, PrimaryGeneratedColumn, BaseEntity } from "typeorm-core";
 
 @Entity()
 export class Foo extends BaseEntity {

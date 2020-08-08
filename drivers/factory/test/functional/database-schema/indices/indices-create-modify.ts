@@ -1,7 +1,8 @@
 import { expect } from "chai";
 import "reflect-metadata";
 import { Connection, EntityMetadata } from "typeorm-core";
-import {  IndexMetadata  } from "typeorm-core/build/compiled/src/metadata/IndexMetadata";
+import { IndexMetadata } from "typeorm-core/build/compiled/src/metadata/IndexMetadata";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,7 +10,6 @@ import {
 } from "../../../utils/test-utils";
 
 import { Person } from "./entity/Person";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("database schema > indices > reading index from entity and updating database", () => {
     let connections: Connection[];

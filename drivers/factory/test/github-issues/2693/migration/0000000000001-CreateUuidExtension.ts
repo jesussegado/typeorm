@@ -1,5 +1,4 @@
-import {  MigrationInterface  } from "typeorm-core";
-import {  QueryRunner  } from "typeorm-core";
+import { MigrationInterface, QueryRunner } from "typeorm-core";
 
 export class CreateUuidExtension0000000000001 implements MigrationInterface {
     public up(queryRunner: QueryRunner): Promise<any> {

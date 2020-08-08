@@ -1,5 +1,5 @@
-import {  Column  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
+import { Column, PrimaryColumn } from "typeorm-core";
+
 import { Subcounters } from "./Subcounters";
 
 export class Counters {

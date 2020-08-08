@@ -1,12 +1,11 @@
 import "reflect-metadata";
-import {  Connection  } from "typeorm-core";
+import { Connection, MongoRepository } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
 import { Post } from "./entity/Post";
-import {  MongoRepository  } from "typeorm-core";
 
 describe("mongodb > MongoRepository", () => {
     let connections: Connection[];

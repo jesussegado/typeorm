@@ -1,9 +1,9 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 
 describe("database-schema > rowid-column", () => {
     let connections: Connection[];

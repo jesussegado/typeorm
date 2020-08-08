@@ -1,13 +1,13 @@
 import "reflect-metadata";
 import { fail } from "assert";
+import { Connection, createConnection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
     setupSingleTestingConnection,
 } from "../../utils/test-utils";
-import { Connection, createConnection } from "typeorm-core";
-import { createDriver } from '../../../src';
+import { createDriver } from "../../../src";
 
 describe("github issues > #5119 migration with foreign key that changes target", () => {
     let connections: Connection[];
@@ -37,7 +37,10 @@ describe("github issues > #5119 migration with foreign key that changes target",
                     fail();
                     return;
                 }
-                const connection = await createConnection(options, createDriver);
+                const connection = await createConnection(
+                    options,
+                    createDriver
+                );
                 try {
                     const sqlInMemory = await connection.driver
                         .createSchemaBuilder()

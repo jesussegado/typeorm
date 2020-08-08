@@ -1,6 +1,5 @@
-import {  Column  } from "typeorm-core";
-import {  PrimaryColumn  } from "typeorm-core";
-import {  OneToMany  } from "typeorm-core";
+import { Column, PrimaryColumn, OneToMany } from "typeorm-core";
+
 import { Category } from "./Category";
 import { Subcounters } from "./Subcounters";
 

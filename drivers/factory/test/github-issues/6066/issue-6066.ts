@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection, QueryFailedError } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
 } from "../../utils/test-utils";
 import { Session } from "./entity/Session";
-import { Connection, QueryFailedError } from 'typeorm-core';
 
 describe("github issues > #6066 Column comment string is not escaped during synchronization", () => {
     let connections: Connection[];

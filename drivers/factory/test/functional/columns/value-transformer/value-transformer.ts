@@ -1,13 +1,13 @@
 import "reflect-metadata";
 
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
 
-import {  Connection  } from "typeorm-core";
 import { PhoneBook } from "./entity/PhoneBook";
 import { Post } from "./entity/Post";
 import { User } from "./entity/User";

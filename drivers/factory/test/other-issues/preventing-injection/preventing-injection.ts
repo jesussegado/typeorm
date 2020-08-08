@@ -1,13 +1,13 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { EntityColumnNotFound } from "typeorm-core/build/compiled/src/error/EntityColumnNotFound";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post";
-import { EntityColumnNotFound } from 'typeorm-core/build/compiled/src/error/EntityColumnNotFound';
 
 describe("other issues > preventing-injection", () => {
     let connections: Connection[];

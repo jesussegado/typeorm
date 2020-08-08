@@ -1,6 +1,5 @@
-import { Connection } from "typeorm-core";
-import {  ViewColumn  } from "typeorm-core";
-import {  ViewEntity  } from "typeorm-core";
+import { Connection, ViewColumn, ViewEntity } from "typeorm-core";
+
 import { Category } from "./Category";
 import { Post } from "./Post";
 

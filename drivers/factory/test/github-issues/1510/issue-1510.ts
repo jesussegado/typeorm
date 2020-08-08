@@ -1,12 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection, EntitySchema, InsertResult } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import { EntitySchema, InsertResult } from "typeorm-core";
 
 describe("github issues > #1510 entity schema does not support mode=objectId", () => {
     const UserEntity = new EntitySchema<any>({

@@ -1,13 +1,13 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { EntityColumnNotFound } from "typeorm-core/build/compiled/src/error/EntityColumnNotFound";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { User } from "../../functional/query-builder/update/entity/User";
-import { EntityColumnNotFound } from 'typeorm-core/build/compiled/src/error/EntityColumnNotFound';
 
 describe("github issues > #3416 Unknown fields are stripped from WHERE clause", () => {
     let connections: Connection[];

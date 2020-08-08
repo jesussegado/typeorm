@@ -1,7 +1,9 @@
-import {  PrimaryColumn  } from "typeorm-core";
-import {  UpdateDateColumn  } from "typeorm-core";
-import {  CreateDateColumn  } from "typeorm-core";
-import {  VersionColumn  } from "typeorm-core";
+import {
+    PrimaryColumn,
+    UpdateDateColumn,
+    CreateDateColumn,
+    VersionColumn,
+} from "typeorm-core";
 
 export class PostEmbedded {
     @PrimaryColumn()

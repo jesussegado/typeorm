@@ -1,7 +1,8 @@
 import { expect } from "chai";
 import "reflect-metadata";
-import { Category } from "./entity/Category";
 import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { Category } from "./entity/Category";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,7 +10,6 @@ import {
 } from "../../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { PostCategory } from "./entity/PostCategory";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("view entity > mssql", () => {
     let connections: Connection[];

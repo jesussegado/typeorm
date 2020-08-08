@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { Connection, Table } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection, Table } from "typeorm-core";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("github issues > #3379 Migration will keep create and drop indexes if index name is the same across tables", () => {
     let connections: Connection[];

@@ -1,5 +1,5 @@
-import { Vehicle } from "./Vehicle";
 import { ChildEntity, Column } from "typeorm-core";
+import { Vehicle } from "./Vehicle";
 import { CarEngine } from "./CarEngine";
 
 @ChildEntity()

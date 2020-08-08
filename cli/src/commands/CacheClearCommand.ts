@@ -1,7 +1,7 @@
 import * as yargs from "yargs";
 import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
 import { createConnection, Connection } from "typeorm-core";
-import { createDriver } from 'typeorm-driver-factory';
+import { createDriver } from "typeorm-driver-factory";
 
 const chalk = require("chalk");
 
@@ -46,7 +46,10 @@ export class CacheClearCommand implements yargs.CommandModule {
                 dropSchema: false,
                 logging: ["schema"],
             });
-            connection = await createConnection(connectionOptions,createDriver);
+            connection = await createConnection(
+                connectionOptions,
+                createDriver
+            );
 
             if (!connection.queryResultCache) {
                 console.log(

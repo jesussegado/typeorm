@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { Connection, UpdateResult } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
-import { UpdateResult } from "typeorm-core";
+
 import { Post } from "./entity/Post";
 import { PostBigInt } from "./entity/PostBigInt";
 import { UserWithEmbededEntity } from "./entity/UserWithEmbededEntity";

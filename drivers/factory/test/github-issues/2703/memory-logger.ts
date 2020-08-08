@@ -1,4 +1,4 @@
-import {  Logger  } from "typeorm-core";
+import { Logger } from "typeorm-core";
 
 export class MemoryLogger implements Logger {
     constructor(public enabled = true) {}

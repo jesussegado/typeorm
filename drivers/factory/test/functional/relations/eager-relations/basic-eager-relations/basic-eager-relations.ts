@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {  Connection  } from "typeorm-core";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,

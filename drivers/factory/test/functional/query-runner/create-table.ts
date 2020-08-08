@@ -1,17 +1,17 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { Connection } from "typeorm-core";
+import { Connection, Table } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { TableOptions } from "typeorm-core/build/compiled/src/schema-builder/options/TableOptions";
 import {
     closeTestingConnections,
     createTestingConnections,
 } from "../../utils/test-utils";
-import {  Table  } from "typeorm-core";
+
 import { Post } from "./entity/Post";
 import { Photo } from "./entity/Photo";
 import { Book } from "./entity/Book";
 import { Book2 } from "./entity/Book2";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
-import { TableOptions } from 'typeorm-core/build/compiled/src/schema-builder/options/TableOptions';
 
 describe("query runner > create table", () => {
     let connections: Connection[];

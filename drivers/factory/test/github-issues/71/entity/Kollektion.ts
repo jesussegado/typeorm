@@ -1,7 +1,4 @@
-import { Entity } from "typeorm-core";
-import { PrimaryColumn } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { Generated} from "typeorm-core";
+import { Entity, PrimaryColumn, Column, Generated } from "typeorm-core";
 
 @Entity("kollektion")
 export class Kollektion {

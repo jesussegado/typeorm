@@ -1,4 +1,4 @@
-import {  Entity, Column, PrimaryGeneratedColumn  } from "typeorm-core";
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm-core";
 import { EmbeddedItem } from "./EmbeddedItem";
 
 @Entity()

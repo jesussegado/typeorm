@@ -1,6 +1,4 @@
-import { Column } from "typeorm-core";
-import { Entity } from "typeorm-core";
-import { Index} from "typeorm-core";
+import { Column, Entity, Index } from "typeorm-core";
 
 @Entity()
 export class Foo {

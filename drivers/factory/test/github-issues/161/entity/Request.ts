@@ -1,8 +1,6 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { OneToOne  } from "typeorm-core";
+import { Entity, PrimaryGeneratedColumn, OneToOne, Column } from "typeorm-core";
+
 import { Ticket } from "./Ticket";
-import { Column } from "typeorm-core";
 
 @Entity()
 export class Request {

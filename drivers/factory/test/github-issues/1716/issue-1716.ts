@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import {  expect } from "chai";
+import { expect } from "chai";
+import { TypeormAndConnectionOptions, Connection } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
@@ -11,7 +12,6 @@ import { PgEntity } from "./entity/pgEntity";
 import { MysqlEntity } from "./entity/mysqlEntity";
 import { MariadbEntity } from "./entity/mariadbEntity";
 import { MssqlEntity } from "./entity/mssqlEntity";
-import { TypeormAndConnectionOptions, Connection } from 'typeorm-core';
 
 const toISOString = (input: string) => new Date(input).toISOString();
 

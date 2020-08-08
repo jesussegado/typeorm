@@ -1,5 +1,4 @@
-import {  Column  } from "typeorm-core";
-import {  VersionColumn  } from "typeorm-core";
+import { Column, VersionColumn } from "typeorm-core";
 
 export class Subcounters {
     @VersionColumn()

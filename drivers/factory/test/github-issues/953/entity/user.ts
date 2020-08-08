@@ -1,6 +1,4 @@
-import { Entity } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm-core";
 
 export type Role = "sa" | "user" | "admin" | "server";
 

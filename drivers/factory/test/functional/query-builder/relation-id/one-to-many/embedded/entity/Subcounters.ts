@@ -1,6 +1,5 @@
-import {  Column  } from "typeorm-core";
-import {  OneToMany  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
+import { Column, OneToMany, PrimaryGeneratedColumn } from "typeorm-core";
+
 import { User } from "./User";
 
 export class Subcounters {

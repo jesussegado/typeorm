@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { assert } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post";
 
 describe("github issues > #4185 afterLoad() subscriber interface missing additional info available on other events", () => {

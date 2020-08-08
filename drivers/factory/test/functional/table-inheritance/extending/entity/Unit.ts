@@ -1,4 +1,4 @@
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
+import { PrimaryGeneratedColumn } from "typeorm-core";
 
 export class Unit {
     @PrimaryGeneratedColumn()

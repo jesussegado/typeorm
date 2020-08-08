@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { ForeignKeyMetadata } from "typeorm-core/build/compiled/src/metadata/ForeignKeyMetadata";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
-import { ForeignKeyMetadata } from 'typeorm-core/build/compiled/src/metadata/ForeignKeyMetadata';
 
 describe("schema builder > custom-db-and-schema-sync", () => {
     let connections: Connection[];

@@ -1,12 +1,10 @@
 import "reflect-metadata";
+import { Connection, TableColumn, Table } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import {  TableColumn  } from "typeorm-core";
-import {  Table  } from "typeorm-core";
 
 describe("github issues > #2259 Missing type for generated columns", () => {
     let connections: Connection[];

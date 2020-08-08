@@ -1,17 +1,16 @@
 import "reflect-metadata";
 import { expect } from "chai";
 
+import { Connection, createConnection, Repository } from "typeorm-core";
 import {
     closeTestingConnections,
     reloadTestingDatabases,
     setupSingleTestingConnection,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import { createConnection, Repository } from "typeorm-core";
 
 import { Bar } from "./entity/Bar";
 import { DocumentEnum } from "./documentEnum";
-import { createDriver } from '../../../src';
+import { createDriver } from "../../../src";
 
 describe("github issues > #2871 Empty enum array is returned as array with single empty string", () => {
     let connection: Connection;

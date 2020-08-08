@@ -1,9 +1,9 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { Category, Post } from "./entity";
 
 describe("migrations > generate command", () => {

@@ -1,14 +1,14 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { EntityColumnNotFound } from "typeorm-core/build/compiled/src/error/EntityColumnNotFound";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { User } from "./entity/User";
 import { Photo } from "./entity/Photo";
-import { EntityColumnNotFound } from 'typeorm-core/build/compiled/src/error/EntityColumnNotFound';
 
 describe("query builder > delete", () => {
     let connections: Connection[];

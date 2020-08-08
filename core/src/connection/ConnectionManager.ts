@@ -1,4 +1,8 @@
-import { Connection, TypeormAndConnectionOptions, DriverFactory } from "./Connection";
+import {
+    Connection,
+    TypeormAndConnectionOptions,
+    DriverFactory,
+} from "./Connection";
 import { ConnectionNotFoundError } from "../error/ConnectionNotFoundError";
 import { AlreadyHasActiveConnectionError } from "../error/AlreadyHasActiveConnectionError";
 
@@ -47,7 +51,10 @@ export class ConnectionManager {
      * Creates a new connection based on the given connection options and registers it in the manager.
      * Connection won't be established, you'll need to manually call connect method to establish connection.
      */
-    create(options: TypeormAndConnectionOptions, driverFactory:DriverFactory): Connection {
+    create(
+        options: TypeormAndConnectionOptions,
+        driverFactory: DriverFactory
+    ): Connection {
         // check if such connection is already registered
         const existConnection = this.connections.find(
             (connection) =>
@@ -68,7 +75,7 @@ export class ConnectionManager {
         }
 
         // create a new connection
-        const connection = new Connection(options,driverFactory);
+        const connection = new Connection(options, driverFactory);
         this.connections.push(connection);
         return connection;
     }

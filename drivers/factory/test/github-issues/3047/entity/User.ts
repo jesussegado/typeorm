@@ -1,7 +1,5 @@
-import { Entity } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Index} from "typeorm-core";
+import { Entity, Column, PrimaryGeneratedColumn, Index } from "typeorm-core";
+
 @Entity()
 @Index("unique_idx", ["first_name", "last_name"], { unique: true })
 export class User {

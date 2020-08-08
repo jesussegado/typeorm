@@ -1,5 +1,4 @@
-import {  Column  } from "typeorm-core";
-import {  DeleteDateColumn  } from "typeorm-core";
+import { Column, DeleteDateColumn } from "typeorm-core";
 
 export class Counters {
     @Column({ default: 1 })

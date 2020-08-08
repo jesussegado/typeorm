@@ -1,4 +1,4 @@
-import { EntitySchemaOptions } from 'typeorm-core/build/compiled/src/entity-schema/EntitySchemaOptions';
+import { EntitySchemaOptions } from "typeorm-core/build/compiled/src/entity-schema/EntitySchemaOptions";
 
 export class Post {
     id: number;

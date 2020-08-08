@@ -1,7 +1,11 @@
-import { Entity, ObjectIdColumn, AfterLoad } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { BeforeUpdate  } from "typeorm-core";
-import { UpdateDateColumn } from "typeorm-core";
+import {
+    Entity,
+    ObjectIdColumn,
+    AfterLoad,
+    Column,
+    BeforeUpdate,
+    UpdateDateColumn,
+} from "typeorm-core";
 
 @Entity()
 export class Post {

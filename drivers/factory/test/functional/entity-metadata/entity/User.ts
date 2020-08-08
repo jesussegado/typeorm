@@ -1,7 +1,10 @@
-import { Column } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Entity } from "typeorm-core";
-import { ManyToMany } from "typeorm-core";
+import {
+    Column,
+    PrimaryGeneratedColumn,
+    Entity,
+    ManyToMany,
+} from "typeorm-core";
+
 import { Post } from "./Post";
 
 @Entity()

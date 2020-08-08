@@ -1,7 +1,6 @@
-import {  Entity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
+import { Entity, Column, PrimaryColumn } from "typeorm-core";
+
 import { PostEmbedded } from "./PostEmbedded";
-import {  PrimaryColumn  } from "typeorm-core";
 
 @Entity()
 export class PostComplex {

@@ -1,5 +1,4 @@
-import {  MigrationInterface  } from "typeorm-core";
-import {  QueryRunner  } from "typeorm-core";
+import { MigrationInterface, QueryRunner } from "typeorm-core";
 
 export class ExampleMigrationOne1567759789051 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {}

@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post";
 import { Image } from "./entity/Image";
 import {
@@ -7,7 +8,6 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 
 describe("query builder > relational with many > add and remove many to many", () => {
     let connections: Connection[];

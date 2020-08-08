@@ -2,13 +2,13 @@ import "reflect-metadata";
 import { expect } from "chai";
 import { PromiseUtils } from "typeorm-base";
 import { Connection } from "typeorm-core";
+import { EntityNotFoundError } from "typeorm-core/build/compiled/src/error/EntityNotFoundError";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 import { Post } from "./entity/Post";
-import {  EntityNotFoundError  } from "typeorm-core/build/compiled/src/error/EntityNotFoundError";
 
 describe("github issues > #2313 - BaseEntity has no findOneOrFail() method", () => {
     let connections: Connection[];

@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { Post } from "./entity/Post";
 import { Connection } from "typeorm-core";
+import { Post } from "./entity/Post";
 import {
     closeTestingConnections,
     createTestingConnections,

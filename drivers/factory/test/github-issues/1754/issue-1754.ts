@@ -1,3 +1,4 @@
+import { Connection } from "typeorm-core";
 import { Cliente } from "./entity/cliente";
 import "reflect-metadata";
 import {
@@ -5,7 +6,6 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { TipoCliente } from "./entity/tipo-cliente";
 
 describe("github issue #1754 Repository.save() always updating ManyToOne relation", () => {

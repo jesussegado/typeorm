@@ -1,5 +1,8 @@
 import "reflect-metadata";
 import { PromiseUtils, Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { IndexMetadata } from "typeorm-core/build/compiled/src/metadata/IndexMetadata";
+import { UniqueMetadata } from "typeorm-core/build/compiled/src/metadata/UniqueMetadata";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -7,9 +10,6 @@ import {
 } from "../../utils/test-utils";
 import { Post } from "./entity/Post";
 import { Teacher } from "./entity/Teacher";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
-import { IndexMetadata } from 'typeorm-core/build/compiled/src/metadata/IndexMetadata';
-import { UniqueMetadata } from 'typeorm-core/build/compiled/src/metadata/UniqueMetadata';
 
 describe("schema builder > change unique constraint", () => {
     let connections: Connection[];

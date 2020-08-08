@@ -1,5 +1,5 @@
+import { EntitySchemaOptions } from "typeorm-core/build/compiled/src/entity-schema/EntitySchemaOptions";
 import { Post } from "./Post";
-import { EntitySchemaOptions } from 'typeorm-core/build/compiled/src/entity-schema/EntitySchemaOptions';
 
 export class Author {
     id: number;

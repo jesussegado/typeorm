@@ -1,11 +1,14 @@
-import {  PrimaryColumn  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  ManyToMany  } from "typeorm-core";
+import {
+    PrimaryColumn,
+    Entity,
+    ManyToMany,
+    OneToMany,
+    JoinTable,
+    Column,
+    DeleteDateColumn,
+} from "typeorm-core";
+
 import { Photo } from "./Photo";
-import {  OneToMany  } from "typeorm-core";
-import {  JoinTable  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  DeleteDateColumn  } from "typeorm-core";
 
 @Entity()
 export class User {

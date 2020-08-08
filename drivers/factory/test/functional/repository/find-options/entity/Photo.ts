@@ -1,10 +1,11 @@
-import {   Entity  } from "typeorm-core";
 import {
+    Entity,
     PrimaryGeneratedColumn,
     ManyToMany,
     JoinTable,
+    Column,
 } from "typeorm-core";
-import {  Column  } from "typeorm-core";
+
 import { Category } from "./Category";
 
 @Entity()

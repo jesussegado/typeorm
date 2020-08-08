@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import { PromiseUtils } from "typeorm-base";
 import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { CheckMetadata } from "typeorm-core/build/compiled/src/metadata/CheckMetadata";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -8,8 +10,6 @@ import {
 } from "../../utils/test-utils";
 import { Teacher } from "./entity/Teacher";
 import { Post } from "./entity/Post";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
-import { CheckMetadata } from 'typeorm-core/build/compiled/src/metadata/CheckMetadata';
 
 describe("schema builder > change check constraint", () => {
     let connections: Connection[];

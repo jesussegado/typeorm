@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import {  Connection  } from "typeorm-core";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -12,7 +13,6 @@ import { Category } from "./entity/Category";
 import { Person } from "./entity/Person";
 import { Question } from "./entity/Question";
 import { Answer } from "./entity/Answer";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("multi-schema-and-database > basic-functionality", () => {
     describe("custom-table-schema", () => {

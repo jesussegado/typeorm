@@ -1,10 +1,5 @@
 import "reflect-metadata";
-import {  expect } from "chai";
-import {
-    closeTestingConnections,
-    createTestingConnections,
-    reloadTestingDatabases,
-} from "../../../utils/test-utils";
+import { expect } from "chai";
 import {
     Any,
     Between,
@@ -19,11 +14,17 @@ import {
     MoreThanOrEqual,
     Not,
     PromiseUtils,
+    Raw,
 } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import {
+    closeTestingConnections,
+    createTestingConnections,
+    reloadTestingDatabases,
+} from "../../../utils/test-utils";
 import { Post } from "./entity/Post";
-import {  Raw  } from "typeorm-core";
+
 import { PersonAR } from "./entity/PersonAR";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("repository > find options > operators", () => {
     let connections: Connection[];

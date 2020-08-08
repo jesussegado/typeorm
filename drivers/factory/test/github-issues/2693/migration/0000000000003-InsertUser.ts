@@ -1,5 +1,5 @@
-import {  MigrationInterface  } from "typeorm-core";
-import {  QueryRunner  } from "typeorm-core";
+import { MigrationInterface, QueryRunner } from "typeorm-core";
+
 import { User } from "../entity/user";
 
 export class InsertUser0000000000003 implements MigrationInterface {

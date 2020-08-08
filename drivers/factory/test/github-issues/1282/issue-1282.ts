@@ -1,14 +1,14 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { ColumnMetadata } from "typeorm-core/build/compiled/src/metadata/ColumnMetadata";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Animal } from "./entity/Animal";
 import { NamingStrategyUnderTest } from "./naming/NamingStrategyUnderTest";
-import { ColumnMetadata } from 'typeorm-core/build/compiled/src/metadata/ColumnMetadata';
 
 describe("github issue > #1282 FEATURE REQUEST - Naming strategy joinTableColumnName if it is called from the owning or owned (inverse) context ", () => {
     let connections: Connection[];

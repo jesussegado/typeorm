@@ -1,7 +1,7 @@
 import * as yargs from "yargs";
 import { Connection, createConnection } from "typeorm-core";
 import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
-import { createDriver } from 'typeorm-driver-factory';
+import { createDriver } from "typeorm-driver-factory";
 
 const chalk = require("chalk");
 
@@ -48,7 +48,10 @@ export class SchemaSyncCommand implements yargs.CommandModule {
                 dropSchema: false,
                 logging: ["query", "schema"],
             });
-            connection = await createConnection(connectionOptions,createDriver);
+            connection = await createConnection(
+                connectionOptions,
+                createDriver
+            );
             await connection.synchronize();
             await connection.close();
 

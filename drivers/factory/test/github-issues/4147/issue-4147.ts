@@ -1,10 +1,10 @@
+import { Connection, EntitySchema } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import { EntitySchema } from "typeorm-core";
+
 import { Post, PostSchema } from "./entity/Post";
 
 describe('github issues > #4147 `SQLITE_ERROR: near "-": syntax error` when use sqlite, simple-enum', () => {

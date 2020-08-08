@@ -1,4 +1,4 @@
-import {  Column  } from "typeorm-core";
+import { Column } from "typeorm-core";
 
 export class Information {
     @Column({ name: "descr" })

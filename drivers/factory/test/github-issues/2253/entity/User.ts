@@ -1,9 +1,4 @@
-import {
-    Column,
-    Entity,
-    PrimaryColumn,
-    TableInheritance,
-} from "typeorm-core";
+import { Column, Entity, PrimaryColumn, TableInheritance } from "typeorm-core";
 
 @TableInheritance({ column: "type" })
 @Entity()

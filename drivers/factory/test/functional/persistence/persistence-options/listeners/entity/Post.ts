@@ -1,8 +1,10 @@
-import {  BeforeInsert  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  AfterRemove  } from "typeorm-core";
+import {
+    BeforeInsert,
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    AfterRemove,
+} from "typeorm-core";
 
 @Entity()
 export class Post {

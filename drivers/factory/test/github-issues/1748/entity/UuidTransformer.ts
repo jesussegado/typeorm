@@ -1,4 +1,4 @@
-import {  ValueTransformer  } from "typeorm-core";
+import { ValueTransformer } from "typeorm-core";
 import { Uuid } from "./Uuid";
 
 export class UuidTransformer implements ValueTransformer {

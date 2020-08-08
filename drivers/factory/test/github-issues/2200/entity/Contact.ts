@@ -1,8 +1,4 @@
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    OneToMany,
-} from "typeorm-core";
+import { Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm-core";
 import { Booking } from "./Booking";
 
 @Entity()

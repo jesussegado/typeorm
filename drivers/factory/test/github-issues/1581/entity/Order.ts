@@ -1,7 +1,7 @@
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm-core";
 import { DeliverySlot } from "./DeliverySlot";
 import { User } from "./User";
 import { OrderItem } from "./OrderItem";
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm-core";
 
 @Entity()
 export class Order {

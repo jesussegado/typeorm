@@ -1,13 +1,12 @@
 import "reflect-metadata";
+import { Connection, IsNull } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { Photo } from "./entity/Photo";
 import { User } from "./entity/User";
-import { IsNull } from "typeorm-core";
 
 // todo: fix later
 describe.skip("persistence > cascades > remove", () => {

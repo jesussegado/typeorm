@@ -1,13 +1,11 @@
 import "reflect-metadata";
-import { Connection, Table } from "typeorm-core";
+import { Connection, Table, TableCheck } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-
-import {  TableCheck  } from "typeorm-core";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("query runner > create check constraint", () => {
     let connections: Connection[];

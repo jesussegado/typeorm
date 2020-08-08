@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { Post } from "./entity/Post";
 import { Connection } from "typeorm-core";
+import { Post } from "./entity/Post";
 import { createTestingConnections } from "../../utils/test-utils";
 
 describe("sqljs driver > autosave", () => {

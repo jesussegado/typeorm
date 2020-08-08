@@ -1,11 +1,11 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
 import { Post } from "./entity/Post";
-import {  Connection  } from "typeorm-core";
 import { PostWithDeleteDateColumn } from "./entity/PostWithDeleteDateColumn";
 // import {expect} from "chai";
 

@@ -1,7 +1,4 @@
-import { Column } from "typeorm-core";
-import {  TableInheritance  } from "typeorm-core";
-import { Entity } from "typeorm-core";
-import { PrimaryColumn } from "typeorm-core";
+import { Column, TableInheritance, Entity, PrimaryColumn } from "typeorm-core";
 
 export enum PersonType {
     Employee = 1,

@@ -1,7 +1,7 @@
 import * as yargs from "yargs";
 import { Connection, createConnection } from "typeorm-core";
 import { TypeormAndConnectionOptionsReader } from "typeorm-options-reader";
-import { createDriver } from 'typeorm-driver-factory';
+import { createDriver } from "typeorm-driver-factory";
 
 const chalk = require("chalk");
 
@@ -60,7 +60,10 @@ export class MigrationRevertCommand implements yargs.CommandModule {
                 dropSchema: false,
                 logging: ["query", "error", "schema"],
             });
-            connection = await createConnection(connectionOptions,createDriver);
+            connection = await createConnection(
+                connectionOptions,
+                createDriver
+            );
 
             const options = {
                 transaction: "all" as "all" | "none" | "each",

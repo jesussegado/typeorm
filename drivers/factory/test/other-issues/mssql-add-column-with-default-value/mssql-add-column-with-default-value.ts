@@ -1,8 +1,8 @@
+import { Connection } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post-Succeed";
 
 describe("mssql -> add column to existing table", () => {

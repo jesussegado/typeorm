@@ -1,6 +1,5 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Column } from "typeorm-core";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm-core";
+
 import { RecordData } from "./RecordData";
 import { RecordConfig } from "./RecordConfig";
 

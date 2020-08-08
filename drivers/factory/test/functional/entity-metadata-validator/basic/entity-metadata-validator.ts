@@ -1,25 +1,28 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import {  Connection  } from "typeorm-core";
-import {  ConnectionMetadataBuilder  } from "typeorm-core/build/compiled/src/connection/ConnectionMetadataBuilder";
-import {  EntityMetadataValidator  } from "typeorm-core/build/compiled/src/metadata-builder/EntityMetadataValidator";
-import { createDriver } from '../../../../src';
+import { Connection } from "typeorm-core";
+import { ConnectionMetadataBuilder } from "typeorm-core/build/compiled/src/connection/ConnectionMetadataBuilder";
+import { EntityMetadataValidator } from "typeorm-core/build/compiled/src/metadata-builder/EntityMetadataValidator";
+import { createDriver } from "../../../../src";
 
 describe("entity-metadata-validator", () => {
     it("should throw error if relation count decorator used with ManyToOne or OneToOne relations", () => {
-        const connection = new Connection({
-            connectionOptions: {
-                // dummy connection options, connection won't be established anyway
-                type: "mysql",
-                host: "localhost",
-                username: "test",
-                password: "test",
-                database: "test",
+        const connection = new Connection(
+            {
+                connectionOptions: {
+                    // dummy connection options, connection won't be established anyway
+                    type: "mysql",
+                    host: "localhost",
+                    username: "test",
+                    password: "test",
+                    database: "test",
+                },
+                typeORMOptions: {
+                    entities: [`${__dirname}/entity/*{.js,.ts}`],
+                },
             },
-            typeORMOptions: {
-                entities: [`${__dirname}/entity/*{.js,.ts}`],
-            },
-        }, createDriver);
+            createDriver
+        );
         const connectionMetadataBuilder = new ConnectionMetadataBuilder(
             connection
         );

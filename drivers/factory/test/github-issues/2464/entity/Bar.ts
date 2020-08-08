@@ -3,9 +3,9 @@ import {
     Column,
     ManyToMany,
     PrimaryGeneratedColumn,
+    Entity,
 } from "typeorm-core";
 
-import { Entity } from "typeorm-core";
 import { Foo } from "./Foo";
 
 @Entity()

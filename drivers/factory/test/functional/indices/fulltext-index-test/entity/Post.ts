@@ -1,5 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm-core";
-import {  Index  } from "typeorm-core";
+import { Column, Entity, PrimaryGeneratedColumn, Index } from "typeorm-core";
 
 @Entity()
 export class Post {

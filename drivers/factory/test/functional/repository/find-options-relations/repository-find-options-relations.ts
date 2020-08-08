@@ -1,16 +1,16 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
+import { FindRelationsNotFoundError } from "typeorm-core/build/compiled/src/error/FindRelationsNotFoundError";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { User } from "./entity/User";
 import { Category } from "./entity/Category";
 import { Post } from "./entity/Post";
 import { Photo } from "./entity/Photo";
 import { Counters } from "./entity/Counters";
-import {  FindRelationsNotFoundError  } from "typeorm-core/build/compiled/src/error/FindRelationsNotFoundError";
 
 describe("repository > find options > relations", () => {
     // -------------------------------------------------------------------------

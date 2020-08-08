@@ -1,15 +1,14 @@
 import "reflect-metadata";
 
 import { expect } from "chai";
+import { Connection, QueryFailedError } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
 
-import { Connection } from "typeorm-core";
 import { Foo } from "./entity/Foo";
-import { QueryFailedError } from "typeorm-core";
 
 describe("github issues > #2464 - ManyToMany onDelete option not working", () => {
     let connections: Connection[];

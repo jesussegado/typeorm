@@ -1,17 +1,17 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { Tag } from "./entity/Tag";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
 import { Image } from "./entity/Image";
 import { User } from "./entity/User";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("query builder > joins", () => {
     let connections: Connection[];

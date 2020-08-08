@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { ObjectLiteral } from "typeorm-base";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post";
 
 describe("github issues > #922 Support HSTORE column type", () => {

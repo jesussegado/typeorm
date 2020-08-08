@@ -1,33 +1,36 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { ConnectionMetadataBuilder } from "typeorm-core/build/compiled/src/connection/ConnectionMetadataBuilder";
+import { EntityMetadataValidator } from "typeorm-core/build/compiled/src/metadata-builder/EntityMetadataValidator";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import {  ConnectionMetadataBuilder  } from "typeorm-core/build/compiled/src/connection/ConnectionMetadataBuilder";
-import {  EntityMetadataValidator  } from "typeorm-core/build/compiled/src/metadata-builder/EntityMetadataValidator";
-import { createDriver } from '../../../../src';
+import { createDriver } from "../../../../src";
 
 describe("persistence > order of persistence execution operations", () => {
     describe("should throw exception when non-resolvable circular relations found", function () {
         it("should throw CircularRelationsError", () => {
-            const connection = new Connection({
-                connectionOptions: {
-                    // dummy connection options, connection won't be established anyway
-                    type: "mysql",
-                    host: "localhost",
-                    username: "test",
-                    password: "test",
-                    database: "test",
+            const connection = new Connection(
+                {
+                    connectionOptions: {
+                        // dummy connection options, connection won't be established anyway
+                        type: "mysql",
+                        host: "localhost",
+                        username: "test",
+                        password: "test",
+                        database: "test",
+                    },
+                    typeORMOptions: {
+                        entities: [`${__dirname}/entity/*{.js,.ts}`],
+                    },
                 },
-                typeORMOptions: {
-                    entities: [`${__dirname}/entity/*{.js,.ts}`],
-                },
-            }, createDriver);
+                createDriver
+            );
             const connectionMetadataBuilder = new ConnectionMetadataBuilder(
                 connection
             );

@@ -1,13 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection, Brackets } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { User } from "./entity/User";
-import {  Brackets  } from "typeorm-core";
 
 describe("query builder > brackets", () => {
     let connections: Connection[];

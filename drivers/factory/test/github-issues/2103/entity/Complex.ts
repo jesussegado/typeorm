@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn   } from "typeorm-core";
+import { Entity, Column, PrimaryColumn } from "typeorm-core";
 
 @Entity()
 export class Complex {

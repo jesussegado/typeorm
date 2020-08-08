@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import {  DriverUtils  } from "typeorm-core/build/compiled/src/driver/DriverUtils";
+import { DriverUtils } from "typeorm-core/build/compiled/src/driver/DriverUtils";
 
 describe("github issues > #1493 Error parsing pg connection string", () => {
     it("should parse url with empty password", () => {

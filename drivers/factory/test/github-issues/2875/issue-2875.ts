@@ -1,11 +1,10 @@
 import "reflect-metadata";
+import { Connection, Migration } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import {  Migration  } from "typeorm-core";
 
 describe("github issues > #2875 runMigrations() function is not returning a list of migrated files", () => {
     let connections: Connection[];

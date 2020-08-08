@@ -1,15 +1,15 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection, EntityMetadata } from "typeorm-core";
+
+import { IndexMetadata } from "typeorm-core/build/compiled/src/metadata/IndexMetadata";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { PersonSchema } from "./entity/Person";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
-import {  EntityMetadata  } from "typeorm-core";
-import {  IndexMetadata  } from "typeorm-core/build/compiled/src/metadata/IndexMetadata";
-import { PersonSchema } from "./entity/Person";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("entity-schema > indices > basic", () => {
     let connections: Connection[];

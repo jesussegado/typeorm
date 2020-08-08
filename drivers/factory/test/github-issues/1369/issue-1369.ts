@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { ConcreteEntity } from "./entity/ConcreteEntity";
 
 describe("github issues > #1369 EntitySubscriber not firing events on abstract class entity", () => {

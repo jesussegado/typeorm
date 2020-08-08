@@ -17,7 +17,7 @@ export class AuroraDataApiConnection extends Connection {
         driverFactory: DriverFactory,
         queryRunner: AuroraDataApiQueryRunner
     ) {
-        super(options,driverFactory);
+        super(options, driverFactory);
         this.queryRunnter = queryRunner;
     }
 

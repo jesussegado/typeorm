@@ -15,10 +15,13 @@ export class ReactNativeDriver extends AbstractSqliteDriver {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(connection: Connection, connectionOptions: ReactNativeConnectionOptions) {
+    constructor(
+        connection: Connection,
+        connectionOptions: ReactNativeConnectionOptions
+    ) {
         super(connection);
 
-        this.options=connectionOptions;
+        this.options = connectionOptions;
         this.database = this.options.database;
 
         // validate options to make sure everything is set

@@ -2,8 +2,8 @@ import { createConnection } from "typeorm-core";
 import electron from "electron";
 import url from "url";
 import path from "path";
-import { SqliteConnectionOptions } from 'typeorm-core/build/compiled/src/driver/sqlite/SqliteConnectionOptions';
-import {SqliteDriver} from "typeorm-core/build/compiled/src/driver/sqlite/SqliteDriver"
+import { SqliteConnectionOptions } from "typeorm-core/build/compiled/src/driver/sqlite/SqliteConnectionOptions";
+import { SqliteDriver } from "typeorm-core/build/compiled/src/driver/sqlite/SqliteDriver";
 
 electron.app.on("ready", async () => {
     const mainWindow = new electron.BrowserWindow({
@@ -19,21 +19,22 @@ electron.app.on("ready", async () => {
         })
     );
     console.log("You can also get posts from the second process:");
-    const connection = await createConnection({
-        connectionOptions: {
-            type: "sqlite",
-            database: "database.sqlite",
+    const connection = await createConnection(
+        {
+            connectionOptions: {
+                type: "sqlite",
+                database: "database.sqlite",
+            },
+            typeORMOptions: {
+                synchronize: true,
+                logging: true,
+                logger: "simple-console",
+                entities: ["src/entity/*.js"],
+            },
         },
-        typeORMOptions: {
-            synchronize: true,
-            logging: true,
-            logger: "simple-console",
-            entities: ["src/entity/*.js"],
-        },
-    },(connection,options)=>new SqliteDriver(
-        connection,
-        options as SqliteConnectionOptions
-    ) );
+        (connection, options) =>
+            new SqliteDriver(connection, options as SqliteConnectionOptions)
+    );
     const posts = await connection.getRepository("Post").find();
     console.log("posts:", posts);
 

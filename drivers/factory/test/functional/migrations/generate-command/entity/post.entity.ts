@@ -1,8 +1,12 @@
-import {  Entity  } from "typeorm-core";
-import {  BaseEntity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import { ManyToMany, JoinTable } from "typeorm-core";
+import {
+    Entity,
+    BaseEntity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToMany,
+    JoinTable,
+} from "typeorm-core";
+
 import { Category } from "./category.entity";
 
 @Entity("post_test", { schema: "public" })

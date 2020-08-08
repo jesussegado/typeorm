@@ -1,8 +1,4 @@
-import {
-    Repository,
-    Transaction,
-    TransactionRepository,
-} from "typeorm-core";
+import { Repository, Transaction, TransactionRepository } from "typeorm-core";
 import { A } from "../entity/A";
 import { B } from "../entity/B";
 import { C } from "../entity/C";

@@ -1,12 +1,10 @@
 import "reflect-metadata";
+import { Connection, Migration, QueryFailedError } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
-import {  Migration  } from "typeorm-core";
-import {  QueryFailedError  } from "typeorm-core";
 
 describe("github issues > #2875 Option to run migrations in 1-transaction-per-migration mode", () => {
     let connections: Connection[];

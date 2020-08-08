@@ -1,21 +1,21 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { OptimisticLockVersionMismatchError } from "typeorm-core/build/compiled/src/error/OptimisticLockVersionMismatchError";
+import { OptimisticLockCanNotBeUsedError } from "typeorm-core/build/compiled/src/error/OptimisticLockCanNotBeUsedError";
+import { NoVersionOrUpdateDateColumnError } from "typeorm-core/build/compiled/src/error/NoVersionOrUpdateDateColumnError";
+import { PessimisticLockTransactionRequiredError } from "typeorm-core/build/compiled/src/error/PessimisticLockTransactionRequiredError";
+import { LockNotSupportedOnGivenDriverError } from "typeorm-core/build/compiled/src/error/LockNotSupportedOnGivenDriverError";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
+import { PostWithVersionAndUpdatedDate } from "./entity/PostWithVersionAndUpdatedDate";
+import { PostWithUpdateDate } from "./entity/PostWithUpdateDate";
+import { PostWithoutVersionAndUpdateDate } from "./entity/PostWithoutVersionAndUpdateDate";
+import { PostWithVersion } from "./entity/PostWithVersion";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
-import { PostWithVersion } from "./entity/PostWithVersion";
-import { PostWithoutVersionAndUpdateDate } from "./entity/PostWithoutVersionAndUpdateDate";
-import { PostWithUpdateDate } from "./entity/PostWithUpdateDate";
-import { PostWithVersionAndUpdatedDate } from "./entity/PostWithVersionAndUpdatedDate";
-import {  OptimisticLockVersionMismatchError  } from "typeorm-core/build/compiled/src/error/OptimisticLockVersionMismatchError";
-import {  OptimisticLockCanNotBeUsedError  } from "typeorm-core/build/compiled/src/error/OptimisticLockCanNotBeUsedError";
-import {  NoVersionOrUpdateDateColumnError  } from "typeorm-core/build/compiled/src/error/NoVersionOrUpdateDateColumnError";
-import {  PessimisticLockTransactionRequiredError  } from "typeorm-core/build/compiled/src/error/PessimisticLockTransactionRequiredError";
-import {  LockNotSupportedOnGivenDriverError  } from "typeorm-core/build/compiled/src/error/LockNotSupportedOnGivenDriverError";
-import { isDriverSupported } from 'typeorm-core/build/compiled/src/driver/Driver';
 
 describe("query builder > locking", () => {
     let connections: Connection[];

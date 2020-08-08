@@ -1,8 +1,11 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
-import {  Index  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToOne,
+    Index,
+} from "typeorm-core";
+
 import { Guest } from "./Guest";
 
 @Entity()

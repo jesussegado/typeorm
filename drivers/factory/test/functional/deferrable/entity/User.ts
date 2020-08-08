@@ -1,7 +1,5 @@
-import { Entity } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { ManyToOne  } from "typeorm-core";
-import { PrimaryColumn } from "typeorm-core";
+import { Entity, Column, ManyToOne, PrimaryColumn } from "typeorm-core";
+
 import { Company } from "./Company";
 
 @Entity()

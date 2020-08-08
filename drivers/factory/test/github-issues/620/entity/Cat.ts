@@ -1,7 +1,6 @@
-import { Entity } from "typeorm-core";
-import { ManyToOne  } from "typeorm-core";
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm-core";
+
 import { Dog } from "./Dog";
-import { PrimaryGeneratedColumn } from "typeorm-core";
 
 @Entity()
 export class Cat {

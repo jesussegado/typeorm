@@ -1,19 +1,22 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "typeorm-core";
-import { PostgresConnectionOptions } from 'typeorm-core/build/compiled/src/driver/postgres/PostgresConnectionOptions';
-import { createDriver } from '../../../src';
+import { PostgresConnectionOptions } from "typeorm-core/build/compiled/src/driver/postgres/PostgresConnectionOptions";
+import { createDriver } from "../../../src";
 
 describe.skip("github issues > #114 Can not be parsed correctly the URL of pg.", () => {
     let connection: Connection;
     before(() => {
-        connection = new Connection({
-            connectionOptions: {
-                type: "postgres",
-                url: "postgres://test:test@localhost:5432/test",
+        connection = new Connection(
+            {
+                connectionOptions: {
+                    type: "postgres",
+                    url: "postgres://test:test@localhost:5432/test",
+                },
+                typeORMOptions: {},
             },
-            typeORMOptions: {},
-        }, createDriver);
+            createDriver
+        );
     });
 
     it("should not fail in url parser", () => {

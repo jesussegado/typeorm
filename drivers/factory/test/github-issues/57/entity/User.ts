@@ -1,10 +1,12 @@
+import {
+    JoinColumn,
+    OneToOne,
+    Column,
+    PrimaryColumn,
+    Entity,
+    Generated,
+} from "typeorm-core";
 import { AccessToken } from "./AccessToken";
-import { JoinColumn  } from "typeorm-core";
-import { OneToOne  } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { PrimaryColumn } from "typeorm-core";
-import { Entity } from "typeorm-core";
-import { Generated} from "typeorm-core";
 
 @Entity()
 export class User {

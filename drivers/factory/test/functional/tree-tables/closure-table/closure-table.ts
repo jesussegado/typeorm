@@ -1,6 +1,6 @@
 import "reflect-metadata";
+import { Connection } from "typeorm-core";
 import { Category } from "./entity/Category";
-import {  Connection  } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,

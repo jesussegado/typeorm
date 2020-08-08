@@ -11,7 +11,7 @@ import { InsertResult } from "../query-builder/result/InsertResult";
 import { UpdateResult } from "../query-builder/result/UpdateResult";
 import { DeleteResult } from "../query-builder/result/DeleteResult";
 import { QueryDeepPartialEntity } from "../query-builder/QueryPartialEntity";
-import { ObjectID } from '../driver/mongodb/MongoDriver';
+import { ObjectID } from "../driver/mongodb/MongoDriver";
 
 /**
  * Base abstract entity for all entities, used in ActiveRecord patterns.

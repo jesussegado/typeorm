@@ -1,6 +1,4 @@
-import {  PrimaryColumn, OneToMany  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  BaseEntity  } from "typeorm-core";
+import { PrimaryColumn, OneToMany, Entity, BaseEntity } from "typeorm-core";
 
 import { RecordContext } from "./context";
 

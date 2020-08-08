@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { PromiseUtils } from "typeorm-base";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Parent } from "./entity/Parent";
 import { Child } from "./entity/Child";
 

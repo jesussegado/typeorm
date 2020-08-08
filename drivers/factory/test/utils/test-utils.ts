@@ -1,4 +1,4 @@
-import { PromiseUtils , Mutable } from "typeorm-base";
+import { PromiseUtils, Mutable } from "typeorm-base";
 import {
     Connection,
     TypeormAndConnectionOptions,
@@ -9,10 +9,13 @@ import {
     TypeORMOptions,
     createConnections,
 } from "typeorm-core";
-import { QueryResultCache } from 'typeorm-core/build/compiled/src/cache/QueryResultCache';
-import { ConnectionOptions } from 'typeorm-core/build/compiled/src/connection/ConnectionOptions';
-import { isPostgres, isMssql } from 'typeorm-core/build/compiled/src/driver/Driver';
-import {createDriver} from "../../src"
+import { QueryResultCache } from "typeorm-core/build/compiled/src/cache/QueryResultCache";
+import { ConnectionOptions } from "typeorm-core/build/compiled/src/connection/ConnectionOptions";
+import {
+    isPostgres,
+    isMssql,
+} from "typeorm-core/build/compiled/src/driver/Driver";
+import { createDriver } from "../../src";
 
 /**
  * Interface in which data is stored in ormconfig.json of the project.

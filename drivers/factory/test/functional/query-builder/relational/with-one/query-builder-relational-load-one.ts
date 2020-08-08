@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
 import {
@@ -7,7 +8,6 @@ import {
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 
 describe("query builder > relational query builder > load operation > many-to-one and one-to-one relations", () => {
     let connections: Connection[];

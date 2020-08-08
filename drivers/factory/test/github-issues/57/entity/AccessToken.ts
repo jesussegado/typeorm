@@ -1,8 +1,11 @@
-import { Generated } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { PrimaryColumn } from "typeorm-core";
-import { Entity } from "typeorm-core";
-import { OneToOne  } from "typeorm-core";
+import {
+    Generated,
+    Column,
+    PrimaryColumn,
+    Entity,
+    OneToOne,
+} from "typeorm-core";
+
 import { User } from "./User";
 
 @Entity()

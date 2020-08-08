@@ -1,6 +1,12 @@
-import { PrimaryGeneratedColumn } from "typeorm-core";
+import {
+    PrimaryGeneratedColumn,
+    ManyToMany,
+    Entity,
+    ManyToOne,
+    Column,
+} from "typeorm-core";
 import { AuthorWithVeryLongName } from "./AuthorWithVeryLongName";
-import { ManyToMany, Entity, ManyToOne, Column } from "typeorm-core";
+
 import { CategoryWithVeryLongName } from "./CategoryWithVeryLongName";
 
 @Entity()

@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
     sleep,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { User } from "./entity/User";
 
 describe("query builder > cache", () => {

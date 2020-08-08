@@ -2,8 +2,8 @@ import "reflect-metadata";
 import * as fs from "fs";
 import * as path from "path";
 import { expect } from "chai";
-import { Post } from "./entity/Post";
 import { Connection } from "typeorm-core";
+import { Post } from "./entity/Post";
 import {
     closeTestingConnections,
     createTestingConnections,

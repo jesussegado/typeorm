@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { PromiseUtils } from "typeorm-base";
 import { Connection } from "typeorm-core";
+import { ExclusionMetadata } from "typeorm-core/build/compiled/src/metadata/ExclusionMetadata";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -8,7 +9,6 @@ import {
 } from "../../utils/test-utils";
 import { Teacher } from "./entity/Teacher";
 import { Post } from "./entity/Post";
-import { ExclusionMetadata } from 'typeorm-core/build/compiled/src/metadata/ExclusionMetadata';
 
 describe("schema builder > change exclusion constraint", () => {
     let connections: Connection[];

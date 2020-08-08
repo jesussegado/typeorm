@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post";
 import { Counters } from "./entity/Counters";
-import {  Connection  } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,

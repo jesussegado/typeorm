@@ -1,13 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection, In } from "typeorm-core";
 import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Category } from "./entity/Category";
-import { In } from "typeorm-core";
 
 describe("github issues > #3349 Multiple where conditions with parameters", () => {
     let connections: Connection[];

@@ -1,9 +1,12 @@
-import {  PrimaryColumn  } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
-import {  JoinColumn  } from "typeorm-core";
-import {  RelationId  } from "typeorm-core";
+import {
+    PrimaryColumn,
+    Entity,
+    Column,
+    ManyToOne,
+    JoinColumn,
+    RelationId,
+} from "typeorm-core";
+
 import { Category } from "./Category";
 
 @Entity()

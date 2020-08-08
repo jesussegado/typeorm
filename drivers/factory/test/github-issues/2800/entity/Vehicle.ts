@@ -1,8 +1,4 @@
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    TableInheritance,
-} from "typeorm-core";
+import { Entity, PrimaryGeneratedColumn, TableInheritance } from "typeorm-core";
 import { Engine } from "./Engine";
 
 @Entity()

@@ -12,8 +12,7 @@ import { UpdateResult } from "../query-builder/result/UpdateResult";
 import { InsertResult } from "../query-builder/result/InsertResult";
 import { QueryDeepPartialEntity } from "../query-builder/QueryPartialEntity";
 import { FindConditions } from "../find-options/FindConditions";
-import { ObjectID } from '../driver/mongodb/MongoDriver';
-
+import { ObjectID } from "../driver/mongodb/MongoDriver";
 
 /**
  * Repository is supposed to work with your entity objects. Find entities, insert, update, delete, etc.

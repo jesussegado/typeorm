@@ -1,15 +1,14 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { Connection  } from "typeorm-core";
-import { createConnection  } from "typeorm-core";
-import { Repository  } from "typeorm-core";
+import { Connection, createConnection, Repository } from "typeorm-core";
+
 import { PostDetails } from "../../sample/sample4-many-to-many/entity/PostDetails";
 import { Post } from "../../sample/sample4-many-to-many/entity/Post";
 import { PostCategory } from "../../sample/sample4-many-to-many/entity/PostCategory";
 import { PostMetadata } from "../../sample/sample4-many-to-many/entity/PostMetadata";
 import { PostImage } from "../../sample/sample4-many-to-many/entity/PostImage";
 import { setupSingleTestingConnection } from "../utils/test-utils";
-import { createDriver } from '../../src';
+import { createDriver } from "../../src";
 
 describe("many-to-many", function () {
     // -------------------------------------------------------------------------

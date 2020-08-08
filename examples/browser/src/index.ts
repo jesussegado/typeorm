@@ -1,25 +1,26 @@
 import { createConnection } from "typeorm-core";
+import { SqljsDriver } from "typeorm-core/build/compiled/src/driver/sqljs/SqljsDriver";
+import { SqljsConnectionOptions } from "typeorm-core/build/compiled/src/driver/sqljs/SqljsConnectionOptions";
 import { Author } from "./entity/Author";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";
-import { SqljsDriver } from 'typeorm-core/build/compiled/src/driver/sqljs/SqljsDriver';
-import { SqljsConnectionOptions } from 'typeorm-core/build/compiled/src/driver/sqljs/SqljsConnectionOptions';
 
-createConnection({
-    typeORMOptions: {
-        entities: [Author, Post, Category],
-        logging: ["query", "schema"],
-        synchronize: true,
+createConnection(
+    {
+        typeORMOptions: {
+            entities: [Author, Post, Category],
+            logging: ["query", "schema"],
+            synchronize: true,
+        },
+        connectionOptions: {
+            type: "sqljs",
+            location: "test",
+            autoSave: true,
+        },
     },
-    connectionOptions: {
-        type: "sqljs",
-        location: "test",
-        autoSave: true,
-    }
-},(connection,options)=>new SqljsDriver(
-    connection,
-    options as SqljsConnectionOptions
-))
+    (connection, options) =>
+        new SqljsDriver(connection, options as SqljsConnectionOptions)
+)
     .then(async (connection) => {
         // TODO: Enable compilation & setup test
         document.write("Writing new post...<br>");

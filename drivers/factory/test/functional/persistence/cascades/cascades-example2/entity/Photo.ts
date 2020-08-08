@@ -1,6 +1,4 @@
-import { Column } from "typeorm-core";
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm-core";
 
 @Entity()
 export class Photo {

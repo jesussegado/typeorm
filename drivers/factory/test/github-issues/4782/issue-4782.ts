@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { VersionUtils } from "typeorm-base";
+import { Connection } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 
 describe("github issues > 4782 mariadb driver wants to recreate create/update date columns CURRENT_TIMESTAMP(6) === current_timestamp(6)", () => {
     let connections: Connection[];

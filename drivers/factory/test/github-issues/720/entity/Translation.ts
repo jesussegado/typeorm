@@ -1,8 +1,5 @@
-import { Index} from "typeorm-core";
-import { Entity } from "typeorm-core";
-import { ManyToOne  } from "typeorm-core";
-import { JoinColumn  } from "typeorm-core";
-import { Column } from "typeorm-core";
+import { Index, Entity, ManyToOne, JoinColumn, Column } from "typeorm-core";
+
 import { Message } from "./Message";
 import { Locale } from "./Locale";
 

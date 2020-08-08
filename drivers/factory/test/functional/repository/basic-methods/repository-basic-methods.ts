@@ -1,19 +1,18 @@
 import "reflect-metadata";
 import { DeepPartial } from "typeorm-base";
+import { Connection, QueryBuilder, EntitySchema } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { Post } from "./entity/Post";
-import {  QueryBuilder  } from "typeorm-core";
+
 import { User } from "./model/User";
 import questionSchema from "./model-schema/QuestionSchema";
 import { Question } from "./model/Question";
 import { Blog } from "./entity/Blog";
 import { Category } from "./entity/Category";
-import { EntitySchema } from "typeorm-core";
 
 describe("repository > basic methods", () => {
     let userSchema: any;

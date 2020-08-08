@@ -1,10 +1,13 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { UpdateDateColumn } from "typeorm-core";
-import { OneToOne  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    UpdateDateColumn,
+    OneToOne,
+    JoinColumn,
+} from "typeorm-core";
+
 import { PostCategory } from "./PostCategory";
-import { JoinColumn  } from "typeorm-core";
 
 @Entity()
 export class Post {

@@ -1,8 +1,11 @@
-import {  Entity  } from "typeorm-core";
-import {  PrimaryGeneratedColumn  } from "typeorm-core";
-import {  OneToMany  } from "typeorm-core";
-import {  Column  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    OneToMany,
+    Column,
+    ManyToOne,
+} from "typeorm-core";
+
 import { EventMember } from "./EventMember";
 import { Person } from "./Person";
 

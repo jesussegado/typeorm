@@ -1,13 +1,12 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection, MssqlParameter } from "typeorm-core";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../utils/test-utils";
-import { Connection } from "typeorm-core";
 import { Post } from "./entity/Post";
-import {  MssqlParameter  } from "typeorm-core";
 
 describe("github issues > #352 double precision round to int in mssql", () => {
     let connections: Connection[];

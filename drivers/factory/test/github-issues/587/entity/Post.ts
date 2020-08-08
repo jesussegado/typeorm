@@ -1,8 +1,11 @@
-import { Entity } from "typeorm-core";
-import { PrimaryGeneratedColumn } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { Index} from "typeorm-core";
-import { ManyToOne  } from "typeorm-core";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    Index,
+    ManyToOne,
+} from "typeorm-core";
+
 import { Tag } from "./Tag";
 
 @Index(["a", "b", "c", "tag"])

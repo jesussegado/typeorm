@@ -1,9 +1,9 @@
-import {  Post } from "../entity/Post";
 import {
     EntitySubscriberInterface,
     EventSubscriber,
     InsertEvent,
 } from "typeorm-core";
+import { Post } from "../entity/Post";
 
 /**
  * Subscriber which checks the validity of the entity passed to beforeInsert().

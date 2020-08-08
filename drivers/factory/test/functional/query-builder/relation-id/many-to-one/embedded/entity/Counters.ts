@@ -1,5 +1,5 @@
-import {  Column  } from "typeorm-core";
-import {  ManyToOne  } from "typeorm-core";
+import { Column, ManyToOne } from "typeorm-core";
+
 import { Category } from "./Category";
 import { Subcounters } from "./Subcounters";
 

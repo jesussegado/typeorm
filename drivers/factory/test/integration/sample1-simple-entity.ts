@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { Connection  } from "typeorm-core";
+import { Connection } from "typeorm-core";
 import { Post } from "../../sample/sample1-simple-entity/entity/Post";
 import {
     closeTestingConnections,

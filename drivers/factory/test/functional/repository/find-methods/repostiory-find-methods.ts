@@ -1,14 +1,14 @@
 import "reflect-metadata";
 import { expect } from "chai";
+import { Connection } from "typeorm-core";
+import { EntityNotFoundError } from "typeorm-core/build/compiled/src/error/EntityNotFoundError";
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
 } from "../../../utils/test-utils";
-import {  Connection  } from "typeorm-core";
 import { Post } from "./entity/Post";
 import { User } from "./model/User";
-import {  EntityNotFoundError  } from "typeorm-core/build/compiled/src/error/EntityNotFoundError";
 import { UserEntity } from "./schema/UserEntity";
 
 describe("repository > find methods", () => {

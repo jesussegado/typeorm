@@ -1,9 +1,12 @@
-import { Entity } from "typeorm-core";
-import { Column } from "typeorm-core";
-import { ManyToOne  } from "typeorm-core";
+import {
+    Entity,
+    Column,
+    ManyToOne,
+    PrimaryColumn,
+    RelationId,
+} from "typeorm-core";
+
 import { Post } from "./Post";
-import { PrimaryColumn } from "typeorm-core";
-import { RelationId} from "typeorm-core";
 
 @Entity()
 export class Category {

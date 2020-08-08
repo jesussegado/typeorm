@@ -1,5 +1,10 @@
-import { Column, OneToMany, PrimaryGeneratedColumn } from "typeorm-core";
-import { Entity } from "typeorm-core";
+import {
+    Column,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    Entity,
+} from "typeorm-core";
+
 import { Bar } from "./Bar";
 
 @Entity("foo")

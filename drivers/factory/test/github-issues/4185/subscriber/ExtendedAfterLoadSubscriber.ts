@@ -1,6 +1,6 @@
-import { Post } from "../entity/Post";
 import { EntitySubscriberInterface, EventSubscriber } from "typeorm-core";
-import { LoadEvent } from 'typeorm-core/build/compiled/src/subscriber/event/LoadEvent';
+import { LoadEvent } from "typeorm-core/build/compiled/src/subscriber/event/LoadEvent";
+import { Post } from "../entity/Post";
 
 @EventSubscriber()
 export class ExtendedAfterLoadSubscriber

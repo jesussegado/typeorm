@@ -119,7 +119,7 @@
     "test": "echo empty",
     "watch": "./node_modules/.bin/tsc -w",
     "package": "gulp package",
-    "lint": "eslint {src,test}/**/*.ts",
+    "lint": "eslint {src,test}/**/*.ts --cache",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 2",
     "prettier": "prettier --write {src,test}/**/*.ts"
   },
