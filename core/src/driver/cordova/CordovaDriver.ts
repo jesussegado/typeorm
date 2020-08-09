@@ -1,5 +1,5 @@
+import { CordovaConnectionOptions } from "typeorm-base";
 import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
-import { CordovaConnectionOptions } from "./CordovaConnectionOptions";
 import { CordovaQueryRunner } from "./CordovaQueryRunner";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { Connection } from "../../connection/Connection";

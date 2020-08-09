@@ -1,4 +1,4 @@
-import { DateUtils, OrmUtils } from "typeorm-base";
+import { DateUtils, OrmUtils, SapConnectionOptions } from "typeorm-base";
 import {
     ColumnType,
     Connection,
@@ -14,7 +14,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 import { Driver, DriverType } from "../Driver";
 import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
-import { SapConnectionOptions } from "./SapConnectionOptions";
+
 import { SapQueryRunner } from "./SapQueryRunner";
 import { DriverUtils } from "../DriverUtils";
 

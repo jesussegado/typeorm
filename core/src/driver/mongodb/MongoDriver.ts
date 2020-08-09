@@ -1,23 +1,28 @@
-import { ObjectLiteral, ObjectUtils } from "typeorm-base";
+import {
+    ObjectLiteral,
+    ObjectUtils,
+    MongoConnectionOptions,
+    ConnectionOptions,
+} from "typeorm-base";
 import { MongoClient } from "mongodb";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { MongoQueryRunner } from "./MongoQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { Connection } from "../../connection/Connection";
-import { MongoConnectionOptions } from "./MongoConnectionOptions";
+
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
 import { ColumnType } from "../types/ColumnTypes";
 import { MongoSchemaBuilder } from "./MongoSchemaBuilder";
 import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { ConnectionOptions } from "../../connection/ConnectionOptions";
+
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 import { DriverUtils } from "../DriverUtils";
 import { MongoEntityManager, QueryRunner, MigrationExecutor } from "../..";
 import { MongoMigrationExecutor } from "./MongoMigrationExecutor";
-import { MongoRepository } from './MongoRepository';
+import { MongoRepository } from "./MongoRepository";
 
 export { ObjectID } from "mongodb";
 
@@ -520,7 +525,8 @@ export class MongoDriver extends Driver {
     ): MigrationExecutor {
         return new MongoMigrationExecutor(connection, queryRunner);
     }
-    createStandardRepository(){
+
+    createStandardRepository() {
         return new MongoRepository<any>();
     }
 }

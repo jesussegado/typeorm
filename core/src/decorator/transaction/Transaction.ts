@@ -95,16 +95,16 @@ export function Transaction(
 
                     // detect type of the repository and get instance from transaction entity manager
                     if (metadata.entityType) {
-                        if (metadata.repositoryType===TreeRepository) {
+                        if (metadata.repositoryType === TreeRepository) {
                             repositoryInstance = entityManager.getTreeRepository(
                                 metadata.entityType!
                             );
-                        }else{
+                        } else {
                             repositoryInstance = entityManager.getRepository(
                                 metadata.entityType!
                             );
                         }
-                    }else{
+                    } else {
                         repositoryInstance = entityManager.getCustomRepository(
                             metadata.repositoryType
                         );

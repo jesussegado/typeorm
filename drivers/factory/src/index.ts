@@ -1,29 +1,6 @@
 import { Connection, Driver } from "typeorm-core";
-import { ConnectionOptions } from "typeorm-core/build/compiled/src/connection/ConnectionOptions";
-import {
-    PostgresDriver,
-    AuroraDataApiPostgresDriver,
-} from "typeorm-core/build/compiled/src/driver/postgres/PostgresDriver";
-import { PostgresConnectionOptions } from "typeorm-core/build/compiled/src/driver/postgres/PostgresConnectionOptions";
-import { MissingDriverError } from "typeorm-core/build/compiled/src/error/MissingDriverError";
-import { MysqlDriver } from "typeorm-core/build/compiled/src/driver/mysql/MysqlDriver";
-import { MysqlConnectionOptions } from "typeorm-core/build/compiled/src/driver/mysql/MysqlConnectionOptions";
-import { CockroachConnectionOptions } from "typeorm-core/build/compiled/src/driver/cockroachdb/CockroachConnectionOptions";
-import { SapConnectionOptions } from "typeorm-core/build/compiled/src/driver/sap/SapConnectionOptions";
-import { SqliteConnectionOptions } from "typeorm-core/build/compiled/src/driver/sqlite/SqliteConnectionOptions";
-import { NativescriptConnectionOptions } from "typeorm-core/build/compiled/src/driver/nativescript/NativescriptConnectionOptions";
-import { ReactNativeConnectionOptions } from "typeorm-core/build/compiled/src/driver/react-native/ReactNativeConnectionOptions";
-import { SqljsDriver } from "typeorm-core/build/compiled/src/driver/sqljs/SqljsDriver";
-import { SqljsConnectionOptions } from "typeorm-core/build/compiled/src/driver/sqljs/SqljsConnectionOptions";
-import { OracleDriver } from "typeorm-core/build/compiled/src/driver/oracle/OracleDriver";
-import { OracleConnectionOptions } from "typeorm-core/build/compiled/src/driver/oracle/OracleConnectionOptions";
-import { SqlServerDriver } from "typeorm-core/build/compiled/src/driver/sqlserver/SqlServerDriver";
-import { SqlServerConnectionOptions } from "typeorm-core/build/compiled/src/driver/sqlserver/SqlServerConnectionOptions";
-import { MongoConnectionOptions } from "typeorm-core/build/compiled/src/driver/mongodb/MongoConnectionOptions";
-import { ExpoConnectionOptions } from "typeorm-core/build/compiled/src/driver/expo/ExpoConnectionOptions";
 import { AuroraDataApiDriver } from "typeorm-core/build/compiled/src/driver/aurora-data-api/AuroraDataApiDriver";
-import { AuroraDataApiConnectionOptions } from "typeorm-core/build/compiled/src/driver/aurora-data-api/AuroraDataApiConnectionOptions";
-import { AuroraDataApiPostgresConnectionOptions } from "typeorm-core/build/compiled/src/driver/aurora-data-api-pg/AuroraDataApiPostgresConnectionOptions";
+import { MissingDriverError } from "typeorm-core/build/compiled/src/error/MissingDriverError";
 import { CockroachDriver } from "typeorm-core/build/compiled/src/driver/cockroachdb/CockroachDriver";
 import { SapDriver } from "typeorm-core/build/compiled/src/driver/sap/SapDriver";
 import { SqliteDriver } from "typeorm-core/build/compiled/src/driver/sqlite/SqliteDriver";
@@ -32,6 +9,31 @@ import { NativescriptDriver } from "typeorm-core/build/compiled/src/driver/nativ
 import { ReactNativeDriver } from "typeorm-core/build/compiled/src/driver/react-native/ReactNativeDriver";
 import { MongoDriver } from "typeorm-core/build/compiled/src/driver/mongodb/MongoDriver";
 import { ExpoDriver } from "typeorm-core/build/compiled/src/driver/expo/ExpoDriver";
+import {
+    ConnectionOptions,
+    MysqlConnectionOptions,
+    PostgresConnectionOptions,
+    CockroachConnectionOptions,
+    SapConnectionOptions,
+    SqliteConnectionOptions,
+    NativescriptConnectionOptions,
+    ReactNativeConnectionOptions,
+    SqljsConnectionOptions,
+    OracleConnectionOptions,
+    SqlServerConnectionOptions,
+    MongoConnectionOptions,
+    ExpoConnectionOptions,
+    AuroraDataApiConnectionOptions,
+    AuroraDataApiPostgresConnectionOptions,
+} from "typeorm-base";
+import { MysqlDriver } from "typeorm-core/build/compiled/src/driver/mysql/MysqlDriver";
+import {
+    PostgresDriver,
+    AuroraDataApiPostgresDriver,
+} from "typeorm-core/build/compiled/src/driver/postgres/PostgresDriver";
+import { SqljsDriver } from "typeorm-core/build/compiled/src/driver/sqljs/SqljsDriver";
+import { OracleDriver } from "typeorm-core/build/compiled/src/driver/oracle/OracleDriver";
+import { SqlServerDriver } from "typeorm-core/build/compiled/src/driver/sqlserver/SqlServerDriver";
 /**
  * Creates a new driver depend on a given connection's driver type.
  */

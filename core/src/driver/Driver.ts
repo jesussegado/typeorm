@@ -1,4 +1,4 @@
-import { ObjectLiteral } from "typeorm-base";
+import { ObjectLiteral, ConnectionOptions } from "typeorm-base";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { ColumnType } from "./types/ColumnTypes";
@@ -14,7 +14,7 @@ import type { MysqlDriver } from "./mysql/MysqlDriver";
 import type { AuroraDataApiDriver } from "./aurora-data-api/AuroraDataApiDriver";
 import type { OracleDriver } from "./oracle/OracleDriver";
 import type { PostgresDriver } from "./postgres/PostgresDriver";
-import { ConnectionOptions } from "../connection/ConnectionOptions";
+
 import { RdbmsMigrationExecutor } from "../migration/RdbmsMigrationExecutor";
 import { MigrationExecutor } from "../migration/MigrationExecutor";
 
@@ -284,7 +284,8 @@ export abstract class Driver {
     ): MigrationExecutor {
         return new RdbmsMigrationExecutor(connection, queryRunner);
     }
-    createStandardRepository(){
+
+    createStandardRepository() {
         return new Repository<any>();
     }
 }

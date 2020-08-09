@@ -1,5 +1,5 @@
+import { ReactNativeConnectionOptions } from "typeorm-base";
 import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
-import { ReactNativeConnectionOptions } from "./ReactNativeConnectionOptions";
 import { ReactNativeQueryRunner } from "./ReactNativeQueryRunner";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { Connection } from "../../connection/Connection";

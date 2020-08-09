@@ -1,8 +1,10 @@
-import { ObjectLiteral } from "typeorm-base";
+import {
+    ObjectLiteral,
+    PostgresConnectionOptions,
+    SqlServerConnectionOptions,
+} from "typeorm-base";
 import { Connection } from "../connection/Connection";
-import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
 import { MssqlParameter } from "../driver/sqlserver/MssqlParameter";
-import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { Table } from "../schema-builder/table/Table";
 import { QueryResultCache } from "./QueryResultCache";

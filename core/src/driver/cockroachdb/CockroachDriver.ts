@@ -1,11 +1,16 @@
-import { ObjectLiteral, DateUtils, OrmUtils } from "typeorm-base";
+import {
+    ObjectLiteral,
+    DateUtils,
+    OrmUtils,
+    CockroachConnectionCredentialsOptions,
+    CockroachConnectionOptions,
+} from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { DriverUtils } from "../DriverUtils";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-import { CockroachConnectionCredentialsOptions } from "./CockroachConnectionCredentialsOptions";
-import { CockroachConnectionOptions } from "./CockroachConnectionOptions";
+
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
 import { MappedColumnTypes } from "../types/MappedColumnTypes";

@@ -1,7 +1,7 @@
 import * as fs from "fs";
-import { OrmUtils, ObjectLiteral } from "typeorm-base";
+import { OrmUtils, ObjectLiteral, SqljsConnectionOptions } from "typeorm-base";
 import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
-import { SqljsConnectionOptions } from "./SqljsConnectionOptions";
+
 import { SqljsQueryRunner } from "./SqljsQueryRunner";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { Connection } from "../../connection/Connection";

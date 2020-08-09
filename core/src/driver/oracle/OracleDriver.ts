@@ -1,4 +1,10 @@
-import { ObjectLiteral, DateUtils, OrmUtils } from "typeorm-base";
+import {
+    ObjectLiteral,
+    DateUtils,
+    OrmUtils,
+    OracleConnectionOptions,
+    OracleConnectionCredentialsOptions,
+} from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
@@ -6,12 +12,12 @@ import { OracleQueryRunner } from "./OracleQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
-import { OracleConnectionOptions } from "./OracleConnectionOptions";
+
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
 import { ColumnType } from "../types/ColumnTypes";
 import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { OracleConnectionCredentialsOptions } from "./OracleConnectionCredentialsOptions";
+
 import { DriverUtils } from "../DriverUtils";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 

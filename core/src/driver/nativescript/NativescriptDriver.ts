@@ -1,5 +1,5 @@
+import { NativescriptConnectionOptions } from "typeorm-base";
 import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
-import { NativescriptConnectionOptions } from "./NativescriptConnectionOptions";
 import { NativescriptQueryRunner } from "./NativescriptQueryRunner";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { Connection } from "../../connection/Connection";

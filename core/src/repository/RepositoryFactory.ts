@@ -33,8 +33,7 @@ export class RepositoryFactory {
         }
         // NOTE: dynamic access to protected properties. We need this to prevent unwanted properties in those classes to be exposed,
         // however we need these properties for internal work of the class
-        let repository: Repository<any>;
-        repository = manager.connection.driver.createStandardRepository();
+        const repository = manager.connection.driver.createStandardRepository();
         Object.assign(repository, {
             manager,
             metadata,

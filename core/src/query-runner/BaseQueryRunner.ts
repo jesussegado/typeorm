@@ -1,8 +1,12 @@
-import { PromiseUtils } from "typeorm-base";
-import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
+import {
+    PromiseUtils,
+    PostgresConnectionOptions,
+    SqlServerConnectionOptions,
+} from "typeorm-base";
+
 import { Query } from "../driver/Query";
 import { SqlInMemory } from "../driver/SqlInMemory";
-import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";
+
 import { View } from "../schema-builder/view/View";
 import { Connection } from "../connection/Connection";
 import { Table } from "../schema-builder/table/Table";

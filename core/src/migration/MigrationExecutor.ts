@@ -1,12 +1,15 @@
-import { PromiseUtils } from "typeorm-base";
+import {
+    PromiseUtils,
+    SqlServerConnectionOptions,
+    PostgresConnectionOptions,
+} from "typeorm-base";
 import { Table } from "../schema-builder/table/Table";
 import { Connection } from "../connection/Connection";
 import { Migration } from "./Migration";
 
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { MssqlParameter } from "../driver/sqlserver/MssqlParameter";
-import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";
-import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
+
 import { isDriverSupported } from "../driver/Driver";
 
 export type MigrationExecutorConditions = { timestamp: any; name: any };

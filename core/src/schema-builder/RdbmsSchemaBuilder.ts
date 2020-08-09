@@ -1,7 +1,11 @@
-import { PromiseUtils } from "typeorm-base";
-import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
+import {
+    PromiseUtils,
+    PostgresConnectionOptions,
+    SqlServerConnectionOptions,
+} from "typeorm-base";
+
 import { SapDriver } from "../driver/sap/SapDriver";
-import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";
+
 import { Table } from "./table/Table";
 import { TableColumn } from "./table/TableColumn";
 import { TableForeignKey } from "./table/TableForeignKey";

@@ -1,4 +1,4 @@
-import { PromiseUtils, Mutable } from "typeorm-base";
+import { PromiseUtils, Mutable, ConnectionOptions } from "typeorm-base";
 import {
     Connection,
     TypeormAndConnectionOptions,
@@ -10,7 +10,6 @@ import {
     createConnections,
 } from "typeorm-core";
 import { QueryResultCache } from "typeorm-core/build/compiled/src/cache/QueryResultCache";
-import { ConnectionOptions } from "typeorm-core/build/compiled/src/connection/ConnectionOptions";
 import {
     isPostgres,
     isMssql,

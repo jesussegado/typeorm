@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { PromiseUtils } from "typeorm-base";
+import { PromiseUtils, PostgresConnectionOptions } from "typeorm-base";
 import {
     Connection,
     Repository,
@@ -8,7 +8,6 @@ import {
     getConnectionManager,
     EntityManager,
 } from "typeorm-core";
-import { PostgresConnectionOptions } from "typeorm-core/build/compiled/src/driver/postgres/PostgresConnectionOptions";
 import { CannotGetEntityManagerNotConnectedError } from "typeorm-core/build/compiled/src/error/CannotGetEntityManagerNotConnectedError";
 import { NoConnectionForRepositoryError } from "typeorm-core/build/compiled/src/error/NoConnectionForRepositoryError";
 import { Post } from "./entity/Post";

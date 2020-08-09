@@ -1,4 +1,9 @@
-import { ObjectLiteral, DateUtils, OrmUtils } from "typeorm-base";
+import {
+    ObjectLiteral,
+    DateUtils,
+    OrmUtils,
+    ConnectionOptions,
+} from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 
@@ -13,7 +18,6 @@ import { EntityMetadata } from "../../metadata/EntityMetadata";
 
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 import { DriverUtils } from "../DriverUtils";
-import { ConnectionOptions } from "../../connection/ConnectionOptions";
 
 /**
  * Organizes communication with sqlite DBMS.

@@ -1,4 +1,4 @@
-import { ObjectType, ObjectUtils } from "typeorm-base";
+import { ObjectType, ObjectUtils, ConnectionOptions } from "typeorm-base";
 import { Driver, isDriverSupported } from "../driver/Driver";
 import { Repository } from "../repository/Repository";
 import { EntitySubscriberInterface } from "../subscriber/EntitySubscriberInterface";
@@ -16,7 +16,7 @@ import { Migration } from "../migration/Migration";
 import { MongoRepository } from "../driver/mongodb/MongoRepository";
 import { MongoEntityManager } from "../driver/mongodb/MongoEntityManager";
 import { EntityMetadataValidator } from "../metadata-builder/EntityMetadataValidator";
-import { ConnectionOptions } from "./ConnectionOptions";
+
 import { QueryRunnerProviderAlreadyReleasedError } from "../error/QueryRunnerProviderAlreadyReleasedError";
 import { ConnectionMetadataBuilder } from "./ConnectionMetadataBuilder";
 import { QueryRunner } from "../query-runner/QueryRunner";

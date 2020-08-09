@@ -1,8 +1,13 @@
-import { ObjectLiteral, OrmUtils, shorten } from "typeorm-base";
+import {
+    ObjectLiteral,
+    OrmUtils,
+    shorten,
+    PostgresConnectionOptions,
+    SqlServerConnectionOptions,
+} from "typeorm-base";
 import { QueryRunner, SelectQueryBuilder } from "..";
 import { Connection } from "../connection/Connection";
-import { PostgresConnectionOptions } from "../driver/postgres/PostgresConnectionOptions";
-import { SqlServerConnectionOptions } from "../driver/sqlserver/SqlServerConnectionOptions";
+
 import { CannotCreateEntityIdMapError } from "../error/CannotCreateEntityIdMapError";
 import { OrderByCondition } from "../find-options/OrderByCondition";
 import { TableMetadataArgs } from "../metadata-args/TableMetadataArgs";

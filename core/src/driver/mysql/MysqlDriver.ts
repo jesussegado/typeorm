@@ -1,4 +1,10 @@
-import { ObjectLiteral, DateUtils, OrmUtils } from "typeorm-base";
+import {
+    ObjectLiteral,
+    DateUtils,
+    OrmUtils,
+    MysqlConnectionOptions,
+    MysqlConnectionCredentialsOptions,
+} from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
@@ -7,12 +13,12 @@ import { MysqlQueryRunner } from "./MysqlQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
-import { MysqlConnectionOptions } from "./MysqlConnectionOptions";
+
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
 import { ColumnType } from "../types/ColumnTypes";
 import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { MysqlConnectionCredentialsOptions } from "./MysqlConnectionCredentialsOptions";
+
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 

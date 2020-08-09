@@ -1,16 +1,21 @@
-import { ObjectLiteral, DateUtils, OrmUtils } from "typeorm-base";
+import {
+    ObjectLiteral,
+    DateUtils,
+    OrmUtils,
+    AuroraDataApiConnectionOptions,
+    AuroraDataApiConnectionCredentialsOptions,
+} from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { DriverUtils } from "../DriverUtils";
 import { AuroraDataApiQueryRunner } from "./AuroraDataApiQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
-import { AuroraDataApiConnectionOptions } from "./AuroraDataApiConnectionOptions";
+
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
 import { ColumnType } from "../types/ColumnTypes";
 import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { AuroraDataApiConnectionCredentialsOptions } from "./AuroraDataApiConnectionCredentialsOptions";
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";

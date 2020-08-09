@@ -1,10 +1,10 @@
 import mkdirp from "mkdirp";
 import path from "path";
+import { SqliteConnectionOptions } from "typeorm-base";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
 import { SqliteQueryRunner } from "./SqliteQueryRunner";
 import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
 import { Connection } from "../../connection/Connection";
-import { SqliteConnectionOptions } from "./SqliteConnectionOptions";
 import { ColumnType } from "../types/ColumnTypes";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";

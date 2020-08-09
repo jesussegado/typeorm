@@ -1,4 +1,10 @@
-import { ObjectLiteral, DateUtils, OrmUtils } from "typeorm-base";
+import {
+    ObjectLiteral,
+    DateUtils,
+    OrmUtils,
+    SqlServerConnectionOptions,
+    SqlServerConnectionCredentialsOptions,
+} from "typeorm-base";
 import { Driver, DriverType } from "../Driver";
 import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
 import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
@@ -7,13 +13,13 @@ import { SqlServerQueryRunner } from "./SqlServerQueryRunner";
 import { ColumnMetadata } from "../../metadata/ColumnMetadata";
 import { Connection } from "../../connection/Connection";
 import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
-import { SqlServerConnectionOptions } from "./SqlServerConnectionOptions";
+
 import { MappedColumnTypes } from "../types/MappedColumnTypes";
 import { ColumnType } from "../types/ColumnTypes";
 import { DataTypeDefaults } from "../types/DataTypeDefaults";
 import { MssqlParameter } from "./MssqlParameter";
 import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { SqlServerConnectionCredentialsOptions } from "./SqlServerConnectionCredentialsOptions";
+
 import { EntityMetadata } from "../../metadata/EntityMetadata";
 
 import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";

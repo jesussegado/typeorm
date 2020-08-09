@@ -1,5 +1,5 @@
+import { ExpoConnectionOptions } from "typeorm-base";
 import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
-import { ExpoConnectionOptions } from "./ExpoConnectionOptions";
 import { ExpoQueryRunner } from "./ExpoQueryRunner";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 import { Connection } from "../../connection/Connection";

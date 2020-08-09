@@ -2,7 +2,7 @@ import { createConnection } from "typeorm-core";
 import electron from "electron";
 import url from "url";
 import path from "path";
-import { SqliteConnectionOptions } from "typeorm-core/build/compiled/src/driver/sqlite/SqliteConnectionOptions";
+import { SqliteConnectionOptions } from "typeorm-base";
 import { SqliteDriver } from "typeorm-core/build/compiled/src/driver/sqlite/SqliteDriver";
 
 electron.app.on("ready", async () => {
