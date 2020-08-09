@@ -17,6 +17,7 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 import { DriverUtils } from "../DriverUtils";
 import { MongoEntityManager, QueryRunner, MigrationExecutor } from "../..";
 import { MongoMigrationExecutor } from "./MongoMigrationExecutor";
+import { MongoRepository } from './MongoRepository';
 
 export { ObjectID } from "mongodb";
 
@@ -518,5 +519,8 @@ export class MongoDriver extends Driver {
         queryRunner?: QueryRunner
     ): MigrationExecutor {
         return new MongoMigrationExecutor(connection, queryRunner);
+    }
+    createStandardRepository(){
+        return new MongoRepository<any>();
     }
 }

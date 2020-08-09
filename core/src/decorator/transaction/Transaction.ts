@@ -1,8 +1,6 @@
 import {
     getConnection,
     getMetadataArgsStorage,
-    MongoRepository,
-    Repository,
     TreeRepository,
     EntityManager,
 } from "../..";
@@ -96,23 +94,20 @@ export function Transaction(
                     let repositoryInstance: any;
 
                     // detect type of the repository and get instance from transaction entity manager
-                    switch (metadata.repositoryType) {
-                        case Repository:
-                        case MongoRepository:
-                            repositoryInstance = entityManager.getRepository(
-                                metadata.entityType!
-                            );
-                            break;
-                        case TreeRepository:
+                    if (metadata.entityType) {
+                        if (metadata.repositoryType===TreeRepository) {
                             repositoryInstance = entityManager.getTreeRepository(
                                 metadata.entityType!
                             );
-                            break;
-                        // if not the TypeORM's ones, there must be custom repository classes
-                        default:
-                            repositoryInstance = entityManager.getCustomRepository(
-                                metadata.repositoryType
+                        }else{
+                            repositoryInstance = entityManager.getRepository(
+                                metadata.entityType!
                             );
+                        }
+                    }else{
+                        repositoryInstance = entityManager.getCustomRepository(
+                            metadata.repositoryType
+                        );
                     }
 
                     // replace method param with injection of repository instance

@@ -7,7 +7,7 @@ import { SchemaBuilder } from "../schema-builder/SchemaBuilder";
 import { DataTypeDefaults } from "./types/DataTypeDefaults";
 import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
-import { DatabaseType, Connection, EntityManager } from "..";
+import { DatabaseType, Connection, EntityManager, Repository } from "..";
 import type { SqljsDriver } from "./sqljs/SqljsDriver";
 import type { SqlServerDriver } from "./sqlserver/SqlServerDriver";
 import type { MysqlDriver } from "./mysql/MysqlDriver";
@@ -283,5 +283,8 @@ export abstract class Driver {
         queryRunner?: QueryRunner
     ): MigrationExecutor {
         return new RdbmsMigrationExecutor(connection, queryRunner);
+    }
+    createStandardRepository(){
+        return new Repository<any>();
     }
 }
