@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
+import { getMongoManager } from 'typeorm-driver-mongodb';
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -58,8 +59,8 @@ describe("github issues > #1210 mongodb does not have multiple entities properly
                 const users = [user1, user2];
                 const events = [event1, event2, event3, event4];
 
-                await connection.mongoManager.save(events);
-                await connection.mongoManager.save(users);
+                await getMongoManager(connection).save(events);
+                await getMongoManager(connection).save(users);
             })
         ));
 });

@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
+import { getMongoRepository } from 'typeorm-driver-mongodb';
 import { Product } from "./entity/Product";
 import {
     closeTestingConnections,
@@ -22,8 +23,8 @@ describe("github issues > #1929 Select attributes in Find method - mongodb", () 
     it("return column on include in select on find", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const productRepository = connection.getMongoRepository(
-                    Product
+                const productRepository = getMongoRepository(
+                    Product,connection
                 );
                 let product = new Product("test1", "label1", 10);
                 await productRepository.save(product);
@@ -41,8 +42,8 @@ describe("github issues > #1929 Select attributes in Find method - mongodb", () 
     it("return column on include in select on findAndCount", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const productRepository = connection.getMongoRepository(
-                    Product
+                const productRepository = getMongoRepository(
+                    Product,connection
                 );
                 let product = new Product("test1", "label1", 10);
                 await productRepository.save(product);
@@ -60,8 +61,8 @@ describe("github issues > #1929 Select attributes in Find method - mongodb", () 
     it("return column on include in select on findByIds", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const productRepository = connection.getMongoRepository(
-                    Product
+                const productRepository = getMongoRepository(
+                    Product,connection
                 );
                 let product = new Product("test1", "label1", 10);
                 await productRepository.save(product);
@@ -79,8 +80,8 @@ describe("github issues > #1929 Select attributes in Find method - mongodb", () 
     it("return column on include in select on findByIds ", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const productRepository = connection.getMongoRepository(
-                    Product
+                const productRepository = getMongoRepository(
+                    Product,connection
                 );
                 let product = new Product("test1", "label1", 10);
                 await productRepository.save(product);

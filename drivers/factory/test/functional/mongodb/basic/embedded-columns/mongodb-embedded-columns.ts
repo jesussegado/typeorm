@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "typeorm-core";
+import { getMongoRepository } from 'typeorm-driver-mongodb';
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -106,7 +107,7 @@ describe("mongodb > embedded columns", () => {
     it("should store results in correct camelCase format", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postRepository = connection.getMongoRepository(Post);
+                const postRepository = getMongoRepository(Post,connection);
 
                 // save few posts
                 const post = new Post();
@@ -137,7 +138,7 @@ describe("mongodb > embedded columns", () => {
     it("should transform results to correct boolean value", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postRepository = connection.getMongoRepository(Post);
+                const postRepository = getMongoRepository(Post,connection);
 
                 // save few posts
                 const post = new Post();
@@ -169,7 +170,7 @@ describe("mongodb > embedded columns", () => {
     it("should transform entity with nested embedded columns correctly", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postRepository = connection.getMongoRepository(Post);
+                const postRepository = getMongoRepository(Post,connection);
 
                 // save few posts
                 const post = new Post();

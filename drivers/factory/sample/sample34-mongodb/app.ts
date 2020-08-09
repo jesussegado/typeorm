@@ -1,9 +1,9 @@
 import "../sample1-simple-entity/node_modules/reflect-metadata";
 import { createConnection} from "typeorm-core/build/compiled/src/index";
+import { getMongoRepository, getMongoManager } from "typeorm-driver-mongodb"
 import {Post} from "./entity/Post";
 import {TypeormAndConnectionOptions} from "typeorm-core/build/compiled/src/index";
 import { createDriver } from '../../src';
-
 const options:  TypeormAndConnectionOptions = {
     connectionOptions:{
  type: "mongodb",
@@ -39,12 +39,12 @@ createConnection(options, createDriver).then(async connection => {
     console.log("All posts: ", allPosts);
 
     // perform mongodb-specific query using cursor which returns properly initialized entities
-    const cursor1 = connection.getMongoRepository(Post).createEntityCursor({ title: "hello" });
+    const cursor1 = getMongoRepository(Post,connection).createEntityCursor({ title: "hello" });
     console.log("Post retrieved via cursor #1: ", await cursor1.next());
     console.log("Post retrieved via cursor #2: ", await cursor1.next());
 
     // we can also perform mongodb-specific queries using mongodb-specific entity manager
-    const cursor2 = connection.mongoManager.createEntityCursor(Post, { title: "hello" });
+    const cursor2 = getMongoManager(connection).createEntityCursor(Post, { title: "hello" });
     console.log("Only two posts retrieved via cursor: ", await cursor2.limit(2).toArray());
 
 }, error => console.log("Error: ", error));

@@ -1,6 +1,6 @@
-import { MigrationExecutor, QueryRunner, Migration } from "../..";
+import { MigrationExecutor, QueryRunner, Migration } from "typeorm-core";
+import { MigrationExecutorConditions } from "typeorm-core/build/compiled/src/migration/MigrationExecutor";
 import { MongoQueryRunner } from "./MongoQueryRunner";
-import { MigrationExecutorConditions } from "../../migration/MigrationExecutor";
 
 export class MongoMigrationExecutor extends MigrationExecutor {
     protected loadExecutedMigrations(

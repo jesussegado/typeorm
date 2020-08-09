@@ -13,8 +13,6 @@ import { Logger } from "../logger/Logger";
 import { EntityMetadataNotFoundError } from "../error/EntityMetadataNotFoundError";
 import { MigrationInterface } from "../migration/MigrationInterface";
 import { Migration } from "../migration/Migration";
-import { MongoRepository } from "../driver/mongodb/MongoRepository";
-import { MongoEntityManager } from "../driver/mongodb/MongoEntityManager";
 import { EntityMetadataValidator } from "../metadata-builder/EntityMetadataValidator";
 
 import { QueryRunnerProviderAlreadyReleasedError } from "../error/QueryRunnerProviderAlreadyReleasedError";
@@ -147,20 +145,7 @@ export class Connection {
     // Public Accessors
     // -------------------------------------------------------------------------
 
-    /**
-     * Gets the mongodb entity manager that allows to perform mongodb-specific repository operations
-     * with any entity in this connection.
-     *
-     * Available only in mongodb connections.
-     */
-    get mongoManager(): MongoEntityManager {
-        if (!(this.manager instanceof MongoEntityManager))
-            throw new Error(
-                `MongoEntityManager is only available for MongoDB databases.`
-            );
 
-        return this.manager as MongoEntityManager;
-    }
 
     /**
      * Gets a sql.js specific Entity Manager that allows to perform special load and save operations
@@ -375,21 +360,6 @@ export class Connection {
         target: ObjectType<Entity> | EntitySchema<Entity> | string
     ): TreeRepository<Entity> {
         return this.manager.getTreeRepository(target);
-    }
-
-    /**
-     * Gets mongodb-specific repository for the given entity class or name.
-     * Works only if connection is mongodb-specific.
-     */
-    getMongoRepository<Entity>(
-        target: ObjectType<Entity> | EntitySchema<Entity> | string
-    ): MongoRepository<Entity> {
-        if (!isDriverSupported(["mongodb"], this.driver.type))
-            throw new Error(
-                `You can use getMongoRepository only for MongoDB connections.`
-            );
-
-        return this.manager.getRepository(target) as any;
     }
 
     /**

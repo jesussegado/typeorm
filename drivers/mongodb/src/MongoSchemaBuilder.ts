@@ -1,8 +1,8 @@
 import { IndexOptions } from "mongodb";
-import { Connection } from "../../connection/Connection";
-import { SchemaBuilder } from "../../schema-builder/SchemaBuilder";
+import { SchemaBuilder } from "typeorm-core/build/compiled/src/schema-builder/SchemaBuilder";
+import { Connection } from "typeorm-core";
+import { SqlInMemory } from "typeorm-core/build/compiled/src/driver/SqlInMemory";
 import { MongoDriver } from "./MongoDriver";
-import { SqlInMemory } from "../SqlInMemory";
 
 /**
  * Creates complete tables schemas in the database based on the entity metadatas.

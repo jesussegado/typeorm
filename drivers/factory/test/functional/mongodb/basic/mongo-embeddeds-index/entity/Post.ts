@@ -1,6 +1,6 @@
 import { Entity, Column, ObjectIdColumn, Index } from "typeorm-core";
 
-import { ObjectID } from "typeorm-core/build/compiled/src/driver/mongodb/MongoDriver";
+import { ObjectID } from 'typeorm-driver-mongodb';
 import { Information } from "./Information";
 
 @Entity()

@@ -14,8 +14,6 @@ import { Repository } from "./repository/Repository";
 import { EntityManager } from "./entity-manager/EntityManager";
 import { PlatformTools } from "./platform/PlatformTools";
 import { TreeRepository } from "./repository/TreeRepository";
-import { MongoRepository } from "./driver/mongodb/MongoRepository";
-import { MongoEntityManager } from "./driver/mongodb/MongoEntityManager";
 import { SqljsEntityManager } from "./entity-manager/SqljsEntityManager";
 import { SelectQueryBuilder } from "./query-builder/SelectQueryBuilder";
 import { EntitySchema } from "./entity-schema/EntitySchema";
@@ -111,7 +109,6 @@ export * from "./repository/AbstractRepository";
 export * from "./repository/Repository";
 export * from "./repository/BaseEntity";
 export * from "./repository/TreeRepository";
-export * from "./driver/mongodb/MongoRepository";
 export * from "./repository/RemoveOptions";
 export * from "./repository/SaveOptions";
 export * from "./schema-builder/table/TableCheck";
@@ -144,7 +141,6 @@ export { UpdateResult } from "./query-builder/result/UpdateResult";
 export { DeleteResult } from "./query-builder/result/DeleteResult";
 export { QueryRunner } from "./query-runner/QueryRunner";
 export { EntityManager } from "./entity-manager/EntityManager";
-export { MongoEntityManager } from "./driver/mongodb/MongoEntityManager";
 export { Migration } from "./migration/Migration";
 export { MigrationExecutor } from "./migration/MigrationExecutor";
 export { MigrationInterface } from "./migration/MigrationInterface";
@@ -152,7 +148,6 @@ export { DefaultNamingStrategy } from "./naming-strategy/DefaultNamingStrategy";
 export { NamingStrategyInterface } from "./naming-strategy/NamingStrategyInterface";
 export { Repository } from "./repository/Repository";
 export { TreeRepository } from "./repository/TreeRepository";
-export { MongoRepository } from "./driver/mongodb/MongoRepository";
 export { FindOneOptions } from "./find-options/FindOneOptions";
 export { FindManyOptions } from "./find-options/FindManyOptions";
 export { InsertEvent } from "./subscriber/event/InsertEvent";
@@ -245,16 +240,7 @@ export function getManager(connectionName: string = "default"): EntityManager {
     return getConnectionManager().get(connectionName).manager;
 }
 
-/**
- * Gets MongoDB entity manager from the connection.
- * If connection name wasn't specified, then "default" connection will be retrieved.
- */
-export function getMongoManager(
-    connectionName: string = "default"
-): MongoEntityManager {
-    return getConnectionManager().get(connectionName)
-        .manager as MongoEntityManager;
-}
+
 
 /**
  * Gets Sqljs entity manager from connection name.
@@ -304,17 +290,7 @@ export function getCustomRepository<T>(
         .getCustomRepository(customRepository);
 }
 
-/**
- * Gets mongodb repository for the given entity class or name.
- */
-export function getMongoRepository<Entity>(
-    entityClass: ObjectType<Entity> | string,
-    connectionName: string = "default"
-): MongoRepository<Entity> {
-    return getConnectionManager()
-        .get(connectionName)
-        .getMongoRepository<Entity>(entityClass);
-}
+
 
 /**
  * Creates a new query builder.

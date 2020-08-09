@@ -39,22 +39,12 @@ import {
     CollectionMapFunction,
     CollectionReduceFunction,
 } from "mongodb";
-import { Connection } from "../../connection/Connection";
-import { EntityManager } from "../../entity-manager/EntityManager";
-import { MongoQueryRunner } from "./MongoQueryRunner";
+import { EntityManager, Connection, EntitySchema, FindManyOptions, FindOptionsUtils, FindOneOptions, InsertResult, FindConditions, UpdateResult, DeleteResult, EntityMetadata } from "typeorm-core";
+import { QueryDeepPartialEntity } from "typeorm-core/build/compiled/src/query-builder/QueryPartialEntity";
+import { BroadcasterResult } from "typeorm-core/build/compiled/src/subscriber/BroadcasterResult";
+import { DocumentToEntityTransformer } from "typeorm-core/build/compiled/src/query-builder/transformer/DocumentToEntityTransformer";
 import { MongoDriver, ObjectID } from "./MongoDriver";
-import { DocumentToEntityTransformer } from "../../query-builder/transformer/DocumentToEntityTransformer";
-import { FindManyOptions } from "../../find-options/FindManyOptions";
-import { FindOptionsUtils } from "../../find-options/FindOptionsUtils";
-import { FindOneOptions } from "../../find-options/FindOneOptions";
-import { QueryDeepPartialEntity } from "../../query-builder/QueryPartialEntity";
-import { InsertResult } from "../../query-builder/result/InsertResult";
-import { UpdateResult } from "../../query-builder/result/UpdateResult";
-import { DeleteResult } from "../../query-builder/result/DeleteResult";
-import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { EntitySchema, FindConditions } from "../../index";
-import { BroadcasterResult } from "../../subscriber/BroadcasterResult";
-
+import { MongoQueryRunner } from "./MongoQueryRunner";
 /**
  * Entity manager supposed to work with any entity, automatically find its repository and call its methods,
  * whatever entity type are you passing.

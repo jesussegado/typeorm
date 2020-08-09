@@ -38,19 +38,11 @@ import {
     CollectionMapFunction,
     CollectionReduceFunction,
 } from "mongodb";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { Table } from "../../schema-builder/table/Table";
-import { TableForeignKey } from "../../schema-builder/table/TableForeignKey";
-import { TableIndex } from "../../schema-builder/table/TableIndex";
-import { View } from "../../schema-builder/view/View";
-import { Connection } from "../../connection/Connection";
+import { QueryRunner, Connection, Table, TableColumn, TableUnique, TableCheck, TableExclusion, TableForeignKey, TableIndex } from "typeorm-core";
+import { Broadcaster } from "typeorm-core/build/compiled/src/subscriber/Broadcaster";
+import { View } from "typeorm-core/build/compiled/src/schema-builder/view/View";
+import { SqlInMemory } from "typeorm-core/build/compiled/src/driver/SqlInMemory";
 import { MongoEntityManager } from "./MongoEntityManager";
-import { SqlInMemory } from "../SqlInMemory";
-import { TableUnique } from "../../schema-builder/table/TableUnique";
-import { Broadcaster } from "../../subscriber/Broadcaster";
-import { TableCheck } from "../../schema-builder/table/TableCheck";
-import { TableExclusion } from "../../schema-builder/table/TableExclusion";
 
 /**
  * Runs queries on a single MongoDB connection.

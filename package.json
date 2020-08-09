@@ -25,6 +25,7 @@
   "workspaces": [
     "base",
     "core",
+    "drivers/mongodb",
     "drivers/factory",
     "options-reader",
     "cli",

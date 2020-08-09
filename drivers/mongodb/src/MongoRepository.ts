@@ -34,12 +34,8 @@ import {
     CollectionMapFunction,
     CollectionReduceFunction,
 } from "mongodb";
-import { Repository } from "../../repository/Repository";
-import { FindManyOptions } from "../../find-options/FindManyOptions";
-import { FindOneOptions } from "../../find-options/FindOneOptions";
+import { Repository, QueryRunner, SelectQueryBuilder, FindManyOptions, FindOneOptions } from "typeorm-core";
 import { MongoEntityManager } from "./MongoEntityManager";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { SelectQueryBuilder } from "../../query-builder/SelectQueryBuilder";
 import { ObjectID } from "./MongoDriver";
 
 /**

@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
+import { getMongoRepository } from 'typeorm-driver-mongodb';
 import { Post } from "./entity/Post";
 import {
     closeTestingConnections,
@@ -22,7 +23,7 @@ describe("github issues > #970 Mongo Bad Sort Specification", () => {
     it("should order properly without errors", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postRepository = connection.getMongoRepository(Post);
+                const postRepository = getMongoRepository(Post,connection);
 
                 // save few posts
                 const firstPost = new Post();

@@ -1,4 +1,5 @@
 import { ObjectType, DeepPartial, ObjectUtils } from "typeorm-base";
+import { ObjectID } from 'mongodb';
 import { Connection } from "../connection/Connection";
 import { FindManyOptions } from "../find-options/FindManyOptions";
 import { EntityNotFoundError } from "../error/EntityNotFoundError";
@@ -7,7 +8,6 @@ import { FindOneOptions } from "../find-options/FindOneOptions";
 import { RemoveOptions } from "../repository/RemoveOptions";
 import { SaveOptions } from "../repository/SaveOptions";
 import { NoNeedToReleaseEntityManagerError } from "../error/NoNeedToReleaseEntityManagerError";
-import { MongoRepository } from "../driver/mongodb/MongoRepository";
 import { TreeRepository } from "../repository/TreeRepository";
 import { Repository } from "../repository/Repository";
 import { FindOptionsUtils } from "../find-options/FindOptionsUtils";
@@ -31,7 +31,6 @@ import { DeleteResult } from "../query-builder/result/DeleteResult";
 import { FindConditions } from "../find-options/FindConditions";
 import { IsolationLevel } from "../driver/types/IsolationLevel";
 import { isDriverSupported } from "../driver/Driver";
-import type { ObjectID } from "../driver/mongodb/MongoDriver";
 
 /**
  * Entity manager supposed to work with any entity, automatically find its repository and call its methods,
@@ -1856,15 +1855,6 @@ export class EntityManager {
             throw new RepositoryNotTreeError(target);
 
         return repository;
-    }
-
-    /**
-     * Gets mongodb repository for the given entity class.
-     */
-    getMongoRepository<Entity>(
-        target: ObjectType<Entity> | EntitySchema<Entity> | string
-    ): MongoRepository<Entity> {
-        return this.connection.getMongoRepository<Entity>(target);
     }
 
     /**

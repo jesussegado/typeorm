@@ -7,7 +7,6 @@ import { SqliteDriver } from "typeorm-core/build/compiled/src/driver/sqlite/Sqli
 import { CordovaDriver } from "typeorm-core/build/compiled/src/driver/cordova/CordovaDriver";
 import { NativescriptDriver } from "typeorm-core/build/compiled/src/driver/nativescript/NativescriptDriver";
 import { ReactNativeDriver } from "typeorm-core/build/compiled/src/driver/react-native/ReactNativeDriver";
-import { MongoDriver } from "typeorm-core/build/compiled/src/driver/mongodb/MongoDriver";
 import { ExpoDriver } from "typeorm-core/build/compiled/src/driver/expo/ExpoDriver";
 import {
     ConnectionOptions,
@@ -34,6 +33,7 @@ import {
 import { SqljsDriver } from "typeorm-core/build/compiled/src/driver/sqljs/SqljsDriver";
 import { OracleDriver } from "typeorm-core/build/compiled/src/driver/oracle/OracleDriver";
 import { SqlServerDriver } from "typeorm-core/build/compiled/src/driver/sqlserver/SqlServerDriver";
+import { MongoDriver } from 'typeorm-driver-mongodb';
 /**
  * Creates a new driver depend on a given connection's driver type.
  */

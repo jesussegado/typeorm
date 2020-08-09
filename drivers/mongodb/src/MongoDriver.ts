@@ -5,24 +5,19 @@ import {
     ConnectionOptions,
 } from "typeorm-base";
 import { MongoClient } from "mongodb";
-import { Driver, DriverType } from "../Driver";
-import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
-import { MongoQueryRunner } from "./MongoQueryRunner";
-import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-import { Connection } from "../../connection/Connection";
-
-import { MappedColumnTypes } from "../types/MappedColumnTypes";
-import { ColumnType } from "../types/ColumnTypes";
-import { MongoSchemaBuilder } from "./MongoSchemaBuilder";
-import { DataTypeDefaults } from "../types/DataTypeDefaults";
-import { TableColumn } from "../../schema-builder/table/TableColumn";
-
-import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
-import { DriverUtils } from "../DriverUtils";
-import { MongoEntityManager, QueryRunner, MigrationExecutor } from "../..";
-import { MongoMigrationExecutor } from "./MongoMigrationExecutor";
+import { Driver, ColumnType, Connection, TableColumn, EntityMetadata,  QueryRunner, MigrationExecutor } from "typeorm-core"
+import { DriverType } from "typeorm-core/build/compiled/src/driver/Driver";
+import { MappedColumnTypes } from "typeorm-core/build/compiled/src/driver/types/MappedColumnTypes";
+import { DataTypeDefaults } from "typeorm-core/build/compiled/src/driver/types/DataTypeDefaults";
+import { ColumnMetadata } from "typeorm-core/build/compiled/src/metadata/ColumnMetadata";
+import { ConnectionIsNotSetError } from "typeorm-core/build/compiled/src/error/ConnectionIsNotSetError";
+import { ApplyValueTransformers } from "typeorm-core/build/compiled/src/util/ApplyValueTransformers";
+import { DriverUtils } from "typeorm-core/build/compiled/src/driver/DriverUtils";
 import { MongoRepository } from "./MongoRepository";
+import { MongoMigrationExecutor } from "./MongoMigrationExecutor";
+import { MongoSchemaBuilder } from "./MongoSchemaBuilder";
+import { MongoQueryRunner } from "./MongoQueryRunner";
+import { MongoEntityManager } from './MongoEntityManager';
 
 export { ObjectID } from "mongodb";
 
