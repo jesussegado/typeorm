@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
-import { getMongoManager } from 'typeorm-driver-mongodb';
+import { getMongoManager } from "typeorm-driver-mongodb";
 import {
     closeTestingConnections,
     createTestingConnections,

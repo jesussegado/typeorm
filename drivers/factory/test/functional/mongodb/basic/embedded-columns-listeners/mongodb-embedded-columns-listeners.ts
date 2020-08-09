@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "typeorm-core";
-import { getMongoRepository } from 'typeorm-driver-mongodb';
+import { getMongoRepository } from "typeorm-driver-mongodb";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -75,7 +75,7 @@ describe("mongodb > embedded columns listeners", () => {
     it("should not work listeners in entity embeddeds if property is optional", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postRepository = getMongoRepository(Post,connection);
+                const postRepository = getMongoRepository(Post, connection);
 
                 // save posts without embeddeds
                 const post = new Post();

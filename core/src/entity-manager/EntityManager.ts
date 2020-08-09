@@ -1,5 +1,5 @@
 import { ObjectType, DeepPartial, ObjectUtils } from "typeorm-base";
-import { ObjectID } from 'mongodb';
+import { ObjectID } from "mongodb";
 import { Connection } from "../connection/Connection";
 import { FindManyOptions } from "../find-options/FindManyOptions";
 import { EntityNotFoundError } from "../error/EntityNotFoundError";

@@ -1,12 +1,12 @@
 import { MigrationInterface, QueryRunner } from "typeorm-core";
-import { getMongoRepository } from 'typeorm-driver-mongodb';
+import { getMongoRepository } from "typeorm-driver-mongodb";
 import { Item } from "../entity/item.entity";
 import { Config } from "../entity/config.entity";
 
 export class MergeConfigs1567689639607 implements MigrationInterface {
     public async up({ connection }: QueryRunner): Promise<any> {
-        const itemRepository = getMongoRepository(Item,connection);
-        const configRepository = getMongoRepository(Config,connection);
+        const itemRepository = getMongoRepository(Item, connection);
+        const configRepository = getMongoRepository(Config, connection);
 
         const configs = await configRepository.find();
 

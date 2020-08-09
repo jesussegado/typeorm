@@ -38,7 +38,17 @@ import {
     CollectionMapFunction,
     CollectionReduceFunction,
 } from "mongodb";
-import { QueryRunner, Connection, Table, TableColumn, TableUnique, TableCheck, TableExclusion, TableForeignKey, TableIndex } from "typeorm-core";
+import {
+    QueryRunner,
+    Connection,
+    Table,
+    TableColumn,
+    TableUnique,
+    TableCheck,
+    TableExclusion,
+    TableForeignKey,
+    TableIndex,
+} from "typeorm-core";
 import { Broadcaster } from "typeorm-core/build/compiled/src/subscriber/Broadcaster";
 import { View } from "typeorm-core/build/compiled/src/schema-builder/view/View";
 import { SqlInMemory } from "typeorm-core/build/compiled/src/driver/SqlInMemory";

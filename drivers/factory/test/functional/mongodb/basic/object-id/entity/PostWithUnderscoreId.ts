@@ -1,6 +1,6 @@
 import { Entity, Column, ObjectIdColumn } from "typeorm-core";
 
-import { ObjectID } from 'typeorm-driver-mongodb';
+import { ObjectID } from "typeorm-driver-mongodb";
 
 @Entity()
 export class PostWithUnderscoreId {

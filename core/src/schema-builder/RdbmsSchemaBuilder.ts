@@ -2,10 +2,8 @@ import {
     PromiseUtils,
     PostgresConnectionOptions,
     SqlServerConnectionOptions,
+    SapConnectionOptions,
 } from "typeorm-base";
-
-import { SapDriver } from "../driver/sap/SapDriver";
-
 import { Table } from "./table/Table";
 import { TableColumn } from "./table/TableColumn";
 import { TableForeignKey } from "./table/TableForeignKey";
@@ -18,8 +16,6 @@ import { SchemaBuilder } from "./SchemaBuilder";
 import { SqlInMemory } from "../driver/SqlInMemory";
 import { TableUtils } from "./util/TableUtils";
 import { TableColumnOptions } from "./options/TableColumnOptions";
-import { PostgresDriver } from "../driver/postgres/PostgresDriver";
-import { SqlServerDriver } from "../driver/sqlserver/SqlServerDriver";
 import { TableUnique } from "./table/TableUnique";
 import { TableCheck } from "./table/TableCheck";
 import { TableExclusion } from "./table/TableExclusion";
@@ -530,10 +526,10 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                                 : undefined;
                         const schema =
                             metadata.schema ||
-                            (this.connection.driver as
-                                | SqlServerDriver
-                                | PostgresDriver
-                                | SapDriver).options.schema;
+                            (this.connection.driver.options as
+                                | SqlServerConnectionOptions
+                                | PostgresConnectionOptions
+                                | SapConnectionOptions).schema;
                         const fullTableName = this.connection.driver.buildTableName(
                             metadata.tableName,
                             schema,
@@ -570,9 +566,10 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                             : undefined;
                     const schema =
                         metadata.schema ||
-                        (this.connection.driver as
-                            | SqlServerDriver
-                            | PostgresDriver).options.schema;
+                        (this.connection.driver.options as
+                            | SqlServerConnectionOptions
+                            | PostgresConnectionOptions
+                            | SapConnectionOptions).schema;
                     const fullViewName = this.connection.driver.buildTableName(
                         metadata.tableName,
                         schema,
@@ -619,9 +616,10 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                                 : undefined;
                         const schema =
                             metadata.schema ||
-                            (this.connection.driver as
-                                | SqlServerDriver
-                                | PostgresDriver).options.schema;
+                            (this.connection.driver.options as
+                                | SqlServerConnectionOptions
+                                | PostgresConnectionOptions
+                                | SapConnectionOptions).schema;
                         const fullViewName = this.connection.driver.buildTableName(
                             metadata.tableName,
                             schema,

@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "typeorm-core";
-import { getMongoRepository } from 'typeorm-driver-mongodb';
+import { getMongoRepository } from "typeorm-driver-mongodb";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -25,7 +25,10 @@ describe("mongodb > object id columns", () => {
     it("should persist ObjectIdColumn property as _id to DB", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postMongoRepository = getMongoRepository(Post,connection);
+                const postMongoRepository = getMongoRepository(
+                    Post,
+                    connection
+                );
 
                 // save a post
                 const post = new Post();
@@ -45,7 +48,10 @@ describe("mongodb > object id columns", () => {
     it("should map _id to ObjectIdColumn property and remove BD _id property", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postMongoRepository = getMongoRepository(Post,connection);
+                const postMongoRepository = getMongoRepository(
+                    Post,
+                    connection
+                );
 
                 // save a post
                 const post = new Post();
@@ -61,7 +67,8 @@ describe("mongodb > object id columns", () => {
         Promise.all(
             connections.map(async (connection) => {
                 const postMongoRepository = getMongoRepository(
-                    PostWithUnderscoreId,connection
+                    PostWithUnderscoreId,
+                    connection
                 );
 
                 // save a post
@@ -79,7 +86,10 @@ describe("mongodb > object id columns", () => {
     it("should not persist entity ObjectIdColumn property in DB on update by save", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postMongoRepository = getMongoRepository(Post,connection);
+                const postMongoRepository = getMongoRepository(
+                    Post,
+                    connection
+                );
 
                 // save a post
                 const post = new Post();

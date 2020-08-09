@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
-import { getMongoRepository } from 'typeorm-driver-mongodb';
+import { getMongoRepository } from "typeorm-driver-mongodb";
 import { Product } from "./entity/Product";
 import {
     closeTestingConnections,
@@ -24,7 +24,8 @@ describe("github issues > #1929 Select attributes in Find method - mongodb", () 
         Promise.all(
             connections.map(async (connection) => {
                 const productRepository = getMongoRepository(
-                    Product,connection
+                    Product,
+                    connection
                 );
                 let product = new Product("test1", "label1", 10);
                 await productRepository.save(product);
@@ -43,7 +44,8 @@ describe("github issues > #1929 Select attributes in Find method - mongodb", () 
         Promise.all(
             connections.map(async (connection) => {
                 const productRepository = getMongoRepository(
-                    Product,connection
+                    Product,
+                    connection
                 );
                 let product = new Product("test1", "label1", 10);
                 await productRepository.save(product);
@@ -62,7 +64,8 @@ describe("github issues > #1929 Select attributes in Find method - mongodb", () 
         Promise.all(
             connections.map(async (connection) => {
                 const productRepository = getMongoRepository(
-                    Product,connection
+                    Product,
+                    connection
                 );
                 let product = new Product("test1", "label1", 10);
                 await productRepository.save(product);
@@ -81,7 +84,8 @@ describe("github issues > #1929 Select attributes in Find method - mongodb", () 
         Promise.all(
             connections.map(async (connection) => {
                 const productRepository = getMongoRepository(
-                    Product,connection
+                    Product,
+                    connection
                 );
                 let product = new Product("test1", "label1", 10);
                 await productRepository.save(product);

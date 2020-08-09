@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { Connection } from "typeorm-core";
-import { getMongoRepository, MongoRepository } from 'typeorm-driver-mongodb';
+import { getMongoRepository, MongoRepository } from "typeorm-driver-mongodb";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -23,7 +23,7 @@ describe("mongodb > MongoRepository", () => {
     it("connection should return mongo repository when requested", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postRepository = getMongoRepository(Post,connection);
+                const postRepository = getMongoRepository(Post, connection);
                 postRepository.should.be.instanceOf(MongoRepository);
             })
         ));
@@ -39,7 +39,7 @@ describe("mongodb > MongoRepository", () => {
     it("should be able to use entity cursor which will return instances of entity classes", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postRepository = getMongoRepository(Post,connection);
+                const postRepository = getMongoRepository(Post, connection);
 
                 // save few posts
                 const firstPost = new Post();
@@ -68,7 +68,7 @@ describe("mongodb > MongoRepository", () => {
     it("should be able to use entity cursor which will return instances of entity classes", () =>
         Promise.all(
             connections.map(async (connection) => {
-                const postRepository = getMongoRepository(Post,connection);
+                const postRepository = getMongoRepository(Post, connection);
 
                 // save few posts
                 const firstPost = new Post();

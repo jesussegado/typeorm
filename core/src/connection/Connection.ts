@@ -145,8 +145,6 @@ export class Connection {
     // Public Accessors
     // -------------------------------------------------------------------------
 
-
-
     /**
      * Gets a sql.js specific Entity Manager that allows to perform special load and save operations
      *

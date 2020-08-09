@@ -1,4 +1,11 @@
-import { PromiseUtils, Mutable, ConnectionOptions } from "typeorm-base";
+import {
+    PromiseUtils,
+    Mutable,
+    ConnectionOptions,
+    PostgresConnectionOptions,
+    SqlServerConnectionOptions,
+    SapConnectionOptions,
+} from "typeorm-base";
 import {
     Connection,
     TypeormAndConnectionOptions,
@@ -10,10 +17,7 @@ import {
     createConnections,
 } from "typeorm-core";
 import { QueryResultCache } from "typeorm-core/build/compiled/src/cache/QueryResultCache";
-import {
-    isPostgres,
-    isMssql,
-} from "typeorm-core/build/compiled/src/driver/Driver";
+import { isDriverSupported } from "typeorm-core/build/compiled/src/driver/Driver";
 import { createDriver } from "../../src";
 
 /**
@@ -322,7 +326,12 @@ export async function createTestingConnections(
             );
 
             // create new schemas
-            if (isPostgres(connection.driver) || isMssql(connection.driver)) {
+            if (
+                isDriverSupported(
+                    ["postgres", "mssql", "sap"],
+                    connection.driver.type
+                )
+            ) {
                 const schemaPaths: string[] = [];
                 connection.entityMetadatas
                     .filter((entityMetadata) => !!entityMetadata.schemaPath)
@@ -334,7 +343,10 @@ export async function createTestingConnections(
                             schemaPaths.push(entityMetadata.schemaPath!);
                     });
 
-                const { schema } = connection.driver.options;
+                const { schema } = connection.driver.options as
+                    | PostgresConnectionOptions
+                    | SqlServerConnectionOptions
+                    | SapConnectionOptions;
                 if (schema && schemaPaths.indexOf(schema) === -1)
                     schemaPaths.push(schema);
 

@@ -1,5 +1,5 @@
 import { ObjectType, ObjectUtils, DeepPartial } from "typeorm-base";
-import { ObjectID } from 'mongodb';
+import { ObjectID } from "mongodb";
 import { Repository } from "./Repository";
 import { FindConditions, getConnection } from "../index";
 import { SaveOptions } from "./SaveOptions";

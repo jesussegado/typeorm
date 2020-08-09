@@ -1,28 +1,28 @@
-/* eslint-disable-next-line  max-classes-per-file */
 import {
     PostgresConnectionOptions,
     DateUtils,
     OrmUtils,
     PostgresConnectionCredentialsOptions,
-    AuroraDataApiPostgresConnectionOptions,
+    ObjectLiteral,
 } from "typeorm-base";
-import { Driver, DriverType } from "../Driver";
-import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
-import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
-import { DriverUtils } from "../DriverUtils";
-import { ColumnMetadata } from "../../metadata/ColumnMetadata";
+import {
+    Driver,
+    Connection,
+    QueryRunner,
+    ColumnType,
+    TableColumn,
+    EntityMetadata,
+} from "typeorm-core";
+import { DriverType } from "typeorm-core/build/compiled/src/driver/Driver";
+import { MappedColumnTypes } from "typeorm-core/build/compiled/src/driver/types/MappedColumnTypes";
+import { DataTypeDefaults } from "typeorm-core/build/compiled/src/driver/types/DataTypeDefaults";
+import { RdbmsSchemaBuilder } from "typeorm-core/build/compiled/src/schema-builder/RdbmsSchemaBuilder";
+import { ColumnMetadata } from "typeorm-core/build/compiled/src/metadata/ColumnMetadata";
+import { ConnectionIsNotSetError } from "typeorm-core/build/compiled/src/error/ConnectionIsNotSetError";
+import { DriverPackageNotInstalledError } from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError";
+import { ApplyValueTransformers } from "typeorm-core/build/compiled/src/util/ApplyValueTransformers";
+import { DriverUtils } from "typeorm-core/build/compiled/src/driver/DriverUtils";
 import { PostgresQueryRunner } from "./PostgresQueryRunner";
-import { Connection } from "../../connection/Connection";
-import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
-import { MappedColumnTypes } from "../types/MappedColumnTypes";
-import { ColumnType } from "../types/ColumnTypes";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { DataTypeDefaults } from "../types/DataTypeDefaults";
-import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
-import { AuroraDataApiPostgresQueryRunner } from "../aurora-data-api-pg/AuroraDataApiPostgresQueryRunner";
-import { ObjectLiteral } from "../..";
 
 /**
  * Organizes communication with PostgreSQL DBMS.
@@ -1188,116 +1188,5 @@ export class PostgresDriver extends Driver {
                 ? this.options.replication.master
                 : this.options
         ).database;
-    }
-}
-
-abstract class PostgresWrapper extends PostgresDriver {
-    options: any;
-
-    abstract createQueryRunner(mode: "master" | "slave"): any;
-}
-
-/**
- * Organizes communication with PostgreSQL DBMS.
- */
-export class AuroraDataApiPostgresDriver extends PostgresWrapper {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
-    /**
-     * Connection used by driver.
-     */
-    connection: Connection;
-
-    /**
-     * Aurora Data API underlying library.
-     */
-    DataApiDriver: any;
-
-    client: any;
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
-    /**
-     * Connection options.
-     */
-    options: AuroraDataApiPostgresConnectionOptions;
-
-    /**
-     * Master database used to perform all write queries.
-     */
-    database?: string;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
-    constructor(
-        connection: Connection,
-        connectionOptions: AuroraDataApiPostgresConnectionOptions
-    ) {
-        super();
-        this.connection = connection;
-        this.options = connectionOptions;
-        this.isReplicated = false;
-
-        // load data-api package
-        this.loadDependencies();
-
-        this.client = new this.DataApiDriver(
-            this.options.region,
-            this.options.secretArn,
-            this.options.resourceArn,
-            this.options.database,
-            (query: string, parameters?: any[]) =>
-                this.connection.logger.logQuery(query, parameters),
-            this.options.serviceConfigOptions
-        );
-    }
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Methods
-    // -------------------------------------------------------------------------
-
-    /**
-     * Performs connection to the database.
-     * Based on pooling options, it can either create connection immediately,
-     * either create a pool and create connection when needed.
-     */
-    async connect(): Promise<void> {}
-
-    /**
-     * Closes connection with database.
-     */
-    async disconnect(): Promise<void> {}
-
-    /**
-     * Creates a query runner used to execute database queries.
-     */
-    createQueryRunner(mode: "master" | "slave" = "master") {
-        return new AuroraDataApiPostgresQueryRunner(this, mode);
-    }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
-
-    /**
-     * If driver dependency is not given explicitly, then try to load it via "require".
-     */
-    protected loadDependencies(): void {
-        const { pg } = require("typeorm-aurora-data-api-driver");
-
-        this.DataApiDriver = pg;
-    }
-
-    /**
-     * Executes given query.
-     */
-    protected executeQuery(connection: any, query: string) {
-        return this.client.query(query);
     }
 }

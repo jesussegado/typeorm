@@ -1,6 +1,6 @@
 import { Entity, ObjectIdColumn, Column, UpdateDateColumn } from "typeorm-core";
 
-import { ObjectID } from 'typeorm-driver-mongodb';
+import { ObjectID } from "typeorm-driver-mongodb";
 @Entity()
 export class Post {
     @ObjectIdColumn()

@@ -39,7 +39,19 @@ import {
     CollectionMapFunction,
     CollectionReduceFunction,
 } from "mongodb";
-import { EntityManager, Connection, EntitySchema, FindManyOptions, FindOptionsUtils, FindOneOptions, InsertResult, FindConditions, UpdateResult, DeleteResult, EntityMetadata } from "typeorm-core";
+import {
+    EntityManager,
+    Connection,
+    EntitySchema,
+    FindManyOptions,
+    FindOptionsUtils,
+    FindOneOptions,
+    InsertResult,
+    FindConditions,
+    UpdateResult,
+    DeleteResult,
+    EntityMetadata,
+} from "typeorm-core";
 import { QueryDeepPartialEntity } from "typeorm-core/build/compiled/src/query-builder/QueryPartialEntity";
 import { BroadcasterResult } from "typeorm-core/build/compiled/src/subscriber/BroadcasterResult";
 import { DocumentToEntityTransformer } from "typeorm-core/build/compiled/src/query-builder/transformer/DocumentToEntityTransformer";

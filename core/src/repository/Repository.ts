@@ -1,5 +1,5 @@
 import { ObjectLiteral, DeepPartial } from "typeorm-base";
-import { ObjectID } from 'mongodb';
+import { ObjectID } from "mongodb";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { FindManyOptions } from "../find-options/FindManyOptions";
 import { FindOneOptions } from "../find-options/FindOneOptions";

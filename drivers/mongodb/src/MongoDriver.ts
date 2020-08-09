@@ -5,7 +5,15 @@ import {
     ConnectionOptions,
 } from "typeorm-base";
 import { MongoClient } from "mongodb";
-import { Driver, ColumnType, Connection, TableColumn, EntityMetadata,  QueryRunner, MigrationExecutor } from "typeorm-core"
+import {
+    Driver,
+    ColumnType,
+    Connection,
+    TableColumn,
+    EntityMetadata,
+    QueryRunner,
+    MigrationExecutor,
+} from "typeorm-core";
 import { DriverType } from "typeorm-core/build/compiled/src/driver/Driver";
 import { MappedColumnTypes } from "typeorm-core/build/compiled/src/driver/types/MappedColumnTypes";
 import { DataTypeDefaults } from "typeorm-core/build/compiled/src/driver/types/DataTypeDefaults";
@@ -17,7 +25,7 @@ import { MongoRepository } from "./MongoRepository";
 import { MongoMigrationExecutor } from "./MongoMigrationExecutor";
 import { MongoSchemaBuilder } from "./MongoSchemaBuilder";
 import { MongoQueryRunner } from "./MongoQueryRunner";
-import { MongoEntityManager } from './MongoEntityManager';
+import { MongoEntityManager } from "./MongoEntityManager";
 
 export { ObjectID } from "mongodb";
 

@@ -1,19 +1,12 @@
 // eslint-disable-next-line max-classes-per-file
-import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
-import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
-import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { IsolationLevel } from "../types/IsolationLevel";
-import { AuroraDataApiPostgresDriver } from "../postgres/PostgresDriver";
-import { PostgresQueryRunner } from "../postgres/PostgresQueryRunner";
 
-class PostgresQueryRunnerWrapper extends PostgresQueryRunner {
-    driver: any;
-
-    constructor(driver: any, mode: "master" | "slave") {
-        super(driver, mode);
-    }
-}
+import { QueryRunner } from "typeorm-core";
+import { IsolationLevel } from "typeorm-core/build/compiled/src/driver/types/IsolationLevel";
+import { TransactionAlreadyStartedError } from "typeorm-core/build/compiled/src/error/TransactionAlreadyStartedError";
+import { TransactionNotStartedError } from "typeorm-core/build/compiled/src/error/TransactionNotStartedError";
+import { QueryRunnerAlreadyReleasedError } from "typeorm-core/build/compiled/src/error/QueryRunnerAlreadyReleasedError";
+import { AuroraDataApiPostgresDriver } from "./AuroraDataApiPostgresDriver";
+import { PostgresQueryRunnerWrapper } from "./PostgresQueryRunnerWrapper";
 
 /**
  * Runs queries on a single postgres database connection.

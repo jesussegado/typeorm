@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { PromiseUtils } from "typeorm-base";
 import { Connection } from "typeorm-core";
-import { getMongoManager } from 'typeorm-driver-mongodb';
+import { getMongoManager } from "typeorm-driver-mongodb";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -49,7 +49,9 @@ describe("github issues > #3551 array of embedded documents through multiple lev
                 ],
             };
 
-            await getMongoManager(connection).getRepository(Book).insert(bookInput);
+            await getMongoManager(connection)
+                .getRepository(Book)
+                .insert(bookInput);
 
             const books = await getMongoManager(connection)
                 .getRepository(Book)

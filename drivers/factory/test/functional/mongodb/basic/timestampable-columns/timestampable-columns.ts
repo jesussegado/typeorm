@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import { Connection } from "typeorm-core";
-import { getMongoRepository } from 'typeorm-driver-mongodb';
+import { getMongoRepository } from "typeorm-driver-mongodb";
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -25,7 +25,8 @@ describe("mongodb > timestampable columns", () => {
         Promise.all(
             connections.map(async (connection) => {
                 const commentMongoRepository = getMongoRepository(
-                    Post,connection
+                    Post,
+                    connection
                 );
 
                 // save a post

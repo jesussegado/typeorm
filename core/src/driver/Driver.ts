@@ -13,7 +13,6 @@ import type { SqlServerDriver } from "./sqlserver/SqlServerDriver";
 import type { MysqlDriver } from "./mysql/MysqlDriver";
 import type { AuroraDataApiDriver } from "./aurora-data-api/AuroraDataApiDriver";
 import type { OracleDriver } from "./oracle/OracleDriver";
-import type { PostgresDriver } from "./postgres/PostgresDriver";
 
 import { RdbmsMigrationExecutor } from "../migration/RdbmsMigrationExecutor";
 import { MigrationExecutor } from "../migration/MigrationExecutor";
@@ -53,9 +52,6 @@ export function isAuroraDataApi(driver: Driver): driver is AuroraDataApiDriver {
 }
 export function isOracle(driver: Driver): driver is OracleDriver {
     return driver.type === "oracle";
-}
-export function isPostgres(driver: Driver): driver is PostgresDriver {
-    return driver.type === "postgres";
 }
 
 /**

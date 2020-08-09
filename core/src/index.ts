@@ -240,8 +240,6 @@ export function getManager(connectionName: string = "default"): EntityManager {
     return getConnectionManager().get(connectionName).manager;
 }
 
-
-
 /**
  * Gets Sqljs entity manager from connection name.
  * "default" connection is used, when no name is specified.
@@ -289,8 +287,6 @@ export function getCustomRepository<T>(
         .get(connectionName)
         .getCustomRepository(customRepository);
 }
-
-
 
 /**
  * Creates a new query builder.
