@@ -85,10 +85,10 @@
     "connectionOptions": {
       "type": "oracle",
       "host": "localhost",
-      "username": "system",
-      "password": "oracle",
+      "username": "typeorm",
+      "password": "Passw0rd",
       "port": 1521,
-      "sid": "xe.oracle.docker"
+      "sid": "orclpdb1.localdomain"
     },
     "skip": true
   },

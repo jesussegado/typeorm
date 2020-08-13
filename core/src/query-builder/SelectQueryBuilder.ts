@@ -1,4 +1,10 @@
-import { ObjectLiteral, ObjectType, ObjectUtils } from "typeorm-base";
+import {
+    ObjectLiteral,
+    ObjectType,
+    ObjectUtils,
+    MysqlConnectionOptions,
+    AuroraDataApiConnectionOptions,
+} from "typeorm-base";
 import { ReadStream } from "fs";
 import { RawSqlResultsToEntityTransformer } from "./transformer/RawSqlResultsToEntityTransformer";
 import { PessimisticLockTransactionRequiredError } from "../error/PessimisticLockTransactionRequiredError";
@@ -27,7 +33,7 @@ import { OffsetWithoutLimitNotSupportedError } from "../error/OffsetWithoutLimit
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { SelectQueryBuilderOption } from "./SelectQueryBuilderOption";
 import { DriverUtils } from "../driver/DriverUtils";
-import { isDriverSupported, isMysql, isAuroraDataApi } from "../driver/Driver";
+import { isDriverSupported } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -2425,11 +2431,14 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
                 this.connection.driver.spatialTypes.indexOf(column.type) !== -1
             ) {
                 if (
-                    isMysql(this.connection.driver) ||
-                    isAuroraDataApi(this.connection.driver)
+                    isDriverSupported(
+                        ["mysql", "aurora-data-api"],
+                        this.connection.driver.type
+                    )
                 ) {
-                    const useLegacy = this.connection.driver.options
-                        .legacySpatialSupport;
+                    const useLegacy = (this.connection.driver.options as
+                        | MysqlConnectionOptions
+                        | AuroraDataApiConnectionOptions).legacySpatialSupport;
                     const asText = useLegacy ? "AsText" : "ST_AsText";
                     selectionPath = `${asText}(${selectionPath})`;
                 }
