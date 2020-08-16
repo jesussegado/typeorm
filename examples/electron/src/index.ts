@@ -3,7 +3,7 @@ import electron from "electron";
 import url from "url";
 import path from "path";
 import { SqliteConnectionOptions } from "typeorm-base";
-import { SqliteDriver } from "typeorm-core/build/compiled/src/driver/sqlite/SqliteDriver";
+import { SqliteDriver } from "typeorm-driver-sqlite";
 
 electron.app.on("ready", async () => {
     const mainWindow = new electron.BrowserWindow({

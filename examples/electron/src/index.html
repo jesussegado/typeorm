@@ -15,7 +15,7 @@
     <small>Refresh and you'll see a new post added.</small>
     <script>
         var typeorm = require("typeorm-core");
-        var {SqliteDriver} = require("typeorm-core/build/compiled/src/driver/sqlite/SqliteDriver");
+        var {SqliteDriver} = require("typeorm-driver-sqlite");
         typeorm.createConnection({
             "typeORMOptions": {
                 "logging": true,

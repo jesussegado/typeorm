@@ -31,6 +31,6 @@
   "dependencies": {
     "electron": "^9.1.2",
     "sqlite3": "^5.0.0",
-    "typeorm-core": "*"
+    "typeorm-driver-sqlite": "*"
   }
 }

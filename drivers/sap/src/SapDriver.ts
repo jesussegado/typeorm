@@ -1,15 +1,25 @@
-import { DateUtils, OrmUtils, SapConnectionOptions, ObjectLiteral } from "typeorm-base";
-import { SapQueryRunner } from "./SapQueryRunner";
-import { Driver, Connection, ColumnType, TableColumn, EntityMetadata } from "typeorm-core"
-import { DriverType } from 'typeorm-core/build/compiled/src/driver/Driver';
-import { MappedColumnTypes } from 'typeorm-core/build/compiled/src/driver/types/MappedColumnTypes';
-import { DataTypeDefaults } from 'typeorm-core/build/compiled/src/driver/types/DataTypeDefaults';
-import { RdbmsSchemaBuilder } from 'typeorm-core/build/compiled/src/schema-builder/RdbmsSchemaBuilder';
-import { ColumnMetadata } from 'typeorm-core/build/compiled/src/metadata/ColumnMetadata';
+import {
+    DateUtils,
+    OrmUtils,
+    SapConnectionOptions,
+    ObjectLiteral,
+} from "typeorm-base";
+import {
+    Driver,
+    Connection,
+    ColumnType,
+    TableColumn,
+    EntityMetadata,
+} from "typeorm-core";
+import { DriverType } from "typeorm-core/build/compiled/src/driver/Driver";
+import { MappedColumnTypes } from "typeorm-core/build/compiled/src/driver/types/MappedColumnTypes";
+import { DataTypeDefaults } from "typeorm-core/build/compiled/src/driver/types/DataTypeDefaults";
+import { RdbmsSchemaBuilder } from "typeorm-core/build/compiled/src/schema-builder/RdbmsSchemaBuilder";
+import { ColumnMetadata } from "typeorm-core/build/compiled/src/metadata/ColumnMetadata";
 import { ApplyValueTransformers } from "typeorm-core/build/compiled/src/util/ApplyValueTransformers";
 import { DriverUtils } from "typeorm-core/build/compiled/src/driver/DriverUtils";
-import {DriverPackageNotInstalledError}  from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError"
-
+import { DriverPackageNotInstalledError } from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError";
+import { SapQueryRunner } from "./SapQueryRunner";
 
 /**
  * Organizes communication with SAP Hana DBMS.

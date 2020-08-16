@@ -30,6 +30,7 @@
     "drivers/postgres",
     "drivers/sap",
     "drivers/sqljs",
+    "drivers/sqlite",
     "drivers/factory",
     "options-reader",
     "cli",

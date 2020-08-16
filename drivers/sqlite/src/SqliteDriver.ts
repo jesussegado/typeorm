@@ -1,14 +1,13 @@
 import mkdirp from "mkdirp";
 import path from "path";
 import { SqliteConnectionOptions } from "typeorm-base";
-import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
+import { Connection, QueryRunner, ColumnType } from "typeorm-core";
+import { DriverType } from "typeorm-core/build/compiled/src/driver/Driver";
+import { AbstractSqliteDriver } from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteDriver";
+import { DriverOptionNotSetError } from "typeorm-core/build/compiled/src/error/DriverOptionNotSetError";
+import { DriverPackageNotInstalledError } from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError";
 import { SqliteQueryRunner } from "./SqliteQueryRunner";
-import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
-import { Connection } from "../../connection/Connection";
-import { ColumnType } from "../types/ColumnTypes";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
-import { DriverType } from "../Driver";
+
 /**
  * Organizes communication with sqlite DBMS.
  */
