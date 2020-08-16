@@ -28,6 +28,7 @@
     "drivers/cockroachdb",
     "drivers/mongodb",
     "drivers/postgres",
+    "drivers/sap",
     "drivers/sqljs",
     "drivers/factory",
     "options-reader",
