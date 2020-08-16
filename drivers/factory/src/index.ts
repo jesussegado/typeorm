@@ -26,10 +26,10 @@ import {
     AuroraDataApiPostgresConnectionOptions,
 } from "typeorm-base";
 import { MysqlDriver } from "typeorm-core/build/compiled/src/driver/mysql/MysqlDriver";
-import { SqljsDriver } from "typeorm-core/build/compiled/src/driver/sqljs/SqljsDriver";
 import { OracleDriver } from "typeorm-core/build/compiled/src/driver/oracle/OracleDriver";
 import { SqlServerDriver } from "typeorm-core/build/compiled/src/driver/sqlserver/SqlServerDriver";
 import { MongoDriver } from "typeorm-driver-mongodb";
+import { SqljsDriver } from "typeorm-driver-sqljs";
 import {
     PostgresDriver,
     AuroraDataApiPostgresDriver,

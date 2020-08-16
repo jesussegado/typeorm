@@ -1,8 +1,8 @@
-import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
-import { AbstractSqliteQueryRunner } from "../sqlite-abstract/AbstractSqliteQueryRunner";
+import { AbstractSqliteQueryRunner } from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteQueryRunner";
+import { QueryFailedError } from "typeorm-core";
+import { Broadcaster } from "typeorm-core/build/compiled/src/subscriber/Broadcaster";
+import { QueryRunnerAlreadyReleasedError } from "typeorm-core/build/compiled/src/error/QueryRunnerAlreadyReleasedError";
 import { SqljsDriver } from "./SqljsDriver";
-import { Broadcaster } from "../../subscriber/Broadcaster";
-import { QueryFailedError } from "../../error/QueryFailedError";
 
 /**
  * Runs queries on a single sqlite database connection.
@@ -45,9 +45,7 @@ export class SqljsQueryRunner extends AbstractSqliteQueryRunner {
             }
 
             // log slow queries if maxQueryExecution time is set
-            const {
-                maxQueryExecutionTime,
-            } = this.driver.connection.options;
+            const { maxQueryExecutionTime } = this.driver.connection.options;
             const queryEndTime = +new Date();
             const queryExecutionTime = queryEndTime - queryStartTime;
             if (
@@ -68,7 +66,10 @@ export class SqljsQueryRunner extends AbstractSqliteQueryRunner {
             }
 
             statement.free();
-            if (!this.isTransactionActive && !query.trim().toLowerCase().startsWith("select ")) {
+            if (
+                !this.isTransactionActive &&
+                !query.trim().toLowerCase().startsWith("select ")
+            ) {
                 await this.driver.autoSave();
             }
             return result;

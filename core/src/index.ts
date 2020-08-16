@@ -14,7 +14,6 @@ import { Repository } from "./repository/Repository";
 import { EntityManager } from "./entity-manager/EntityManager";
 import { PlatformTools } from "./platform/PlatformTools";
 import { TreeRepository } from "./repository/TreeRepository";
-import { SqljsEntityManager } from "./entity-manager/SqljsEntityManager";
 import { SelectQueryBuilder } from "./query-builder/SelectQueryBuilder";
 import { EntitySchema } from "./entity-schema/EntitySchema";
 
@@ -238,18 +237,6 @@ export function getConnection(connectionName: string = "default"): Connection {
  */
 export function getManager(connectionName: string = "default"): EntityManager {
     return getConnectionManager().get(connectionName).manager;
-}
-
-/**
- * Gets Sqljs entity manager from connection name.
- * "default" connection is used, when no name is specified.
- * Only works when Sqljs driver is used.
- */
-export function getSqljsManager(
-    connectionName: string = "default"
-): SqljsEntityManager {
-    return getConnectionManager().get(connectionName)
-        .manager as SqljsEntityManager;
 }
 
 /**

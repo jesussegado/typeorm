@@ -1,16 +1,13 @@
 import * as fs from "fs";
 import { OrmUtils, ObjectLiteral, SqljsConnectionOptions } from "typeorm-base";
-import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
-
+import { AbstractSqliteDriver } from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteDriver";
+import { Connection, QueryRunner, EntityMetadata } from "typeorm-core";
+import { DriverType } from "typeorm-core/build/compiled/src/driver/Driver";
+import { DriverOptionNotSetError } from "typeorm-core/build/compiled/src/error/DriverOptionNotSetError";
+import { DriverPackageNotInstalledError } from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError";
+import { PlatformTools } from "typeorm-core/build/compiled/src/platform/PlatformTools";
+import { SqljsEntityManager } from ".";
 import { SqljsQueryRunner } from "./SqljsQueryRunner";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { Connection } from "../../connection/Connection";
-import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
-import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
-import { EntityMetadata } from "../../metadata/EntityMetadata";
-import { DriverType } from "../Driver";
-import { PlatformTools } from "../../platform/PlatformTools";
-import { SqljsEntityManager } from "../../entity-manager/SqljsEntityManager";
 
 // This is needed to satisfy the typescript compiler.
 interface Window {

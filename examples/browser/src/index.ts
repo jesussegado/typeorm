@@ -1,6 +1,6 @@
 import { createConnection } from "typeorm-core";
-import { SqljsDriver } from "typeorm-core/build/compiled/src/driver/sqljs/SqljsDriver";
 import { SqljsConnectionOptions } from "typeorm-base";
+import { SqljsDriver } from "typeorm-driver-sqljs";
 import { Author } from "./entity/Author";
 import { Post } from "./entity/Post";
 import { Category } from "./entity/Category";

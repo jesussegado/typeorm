@@ -22,7 +22,6 @@ import { SelectQueryBuilder } from "../query-builder/SelectQueryBuilder";
 import { LoggerFactory } from "../logger/LoggerFactory";
 import { QueryResultCacheFactory } from "../cache/QueryResultCacheFactory";
 import { QueryResultCache } from "../cache/QueryResultCache";
-import { SqljsEntityManager } from "../entity-manager/SqljsEntityManager";
 import { RelationLoader } from "../query-builder/RelationLoader";
 import { RelationIdLoader } from "../query-builder/RelationIdLoader";
 import { EntitySchema, PromiseUtils } from "..";
@@ -131,20 +130,6 @@ export class Connection {
         this.relationLoader = new RelationLoader(this);
         this.relationIdLoader = new RelationIdLoader(this);
         this.isConnected = false;
-    }
-
-    /**
-     * Gets a sql.js specific Entity Manager that allows to perform special load and save operations
-     *
-     * Available only in connection with the sqljs driver.
-     */
-    get sqljsManager(): SqljsEntityManager {
-        if (!(this.manager instanceof SqljsEntityManager))
-            throw new Error(
-                `SqljsEntityManager is only available for Sqljs databases.`
-            );
-
-        return this.manager as SqljsEntityManager;
     }
 
     /**

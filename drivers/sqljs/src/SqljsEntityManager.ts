@@ -1,7 +1,5 @@
-import { Connection } from "../connection/Connection";
-import { QueryRunner } from "../query-runner/QueryRunner";
-import { EntityManager } from "./EntityManager";
-import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
+import { EntityManager, Connection, QueryRunner } from "typeorm-core";
+import { SqljsDriver } from ".";
 
 /**
  * A special EntityManager that includes import/export and load/save function

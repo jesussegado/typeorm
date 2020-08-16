@@ -1,7 +1,8 @@
 import "reflect-metadata";
 import * as fs from "fs";
 import { expect } from "chai";
-import { getSqljsManager, Connection } from "typeorm-core";
+import { Connection } from "typeorm-core";
+import { getSqljsManager } from "typeorm-driver-sqljs";
 import {
     closeTestingConnections,
     createTestingConnections,

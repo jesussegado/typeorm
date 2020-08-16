@@ -27,6 +27,7 @@
     "core",
     "drivers/mongodb",
     "drivers/postgres",
+    "drivers/sqljs",
     "drivers/factory",
     "options-reader",
     "cli",

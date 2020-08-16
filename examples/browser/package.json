@@ -31,6 +31,7 @@
   "dependencies": {
     "reflect-metadata": "^0.1.13",
     "sql.js": "^1.3.0",
-    "typeorm-core": "*"
+    "typeorm-core": "*",
+    "typeorm-driver-sqljs": "*"
   }
 }
