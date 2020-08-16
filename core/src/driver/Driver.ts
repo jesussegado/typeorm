@@ -8,7 +8,6 @@ import { DataTypeDefaults } from "./types/DataTypeDefaults";
 import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { DatabaseType, Connection, EntityManager, Repository } from "..";
-import type { SqljsDriver } from "./sqljs/SqljsDriver";
 import type { SqlServerDriver } from "./sqlserver/SqlServerDriver";
 import type { MysqlDriver } from "./mysql/MysqlDriver";
 import type { AuroraDataApiDriver } from "./aurora-data-api/AuroraDataApiDriver";
@@ -38,9 +37,6 @@ export function isDriverSupported(
     );
 }
 
-export function isSqljs(driver: Driver): driver is SqljsDriver {
-    return driver.type === "sqljs";
-}
 export function isMssql(driver: Driver): driver is SqlServerDriver {
     return driver.type === "mssql";
 }

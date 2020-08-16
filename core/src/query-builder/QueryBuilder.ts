@@ -18,7 +18,7 @@ import { EntitySchema } from "../";
 import { FindOperator } from "../find-options/FindOperator";
 import { In } from "../find-options/operator/In";
 import { EntityColumnNotFound } from "../error/EntityColumnNotFound";
-import { isDriverSupported, isSqljs, isOracle } from "../driver/Driver";
+import { isDriverSupported, isOracle } from "../driver/Driver";
 
 // todo: completely cover query builder with tests
 // todo: entityOrProperty can be target name. implement proper behaviour if it is.
@@ -473,9 +473,6 @@ export abstract class QueryBuilder<Entity> {
             if (queryRunner !== this.queryRunner) {
                 // means we created our own query runner
                 await queryRunner.release();
-            }
-            if (isSqljs(this.connection.driver)) {
-                await this.connection.driver.autoSave();
             }
         }
     }

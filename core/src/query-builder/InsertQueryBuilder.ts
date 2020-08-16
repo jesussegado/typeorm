@@ -12,7 +12,6 @@ import { EntitySchema } from "../entity-schema/EntitySchema";
 import {
     isDriverSupported,
     isMssql,
-    isSqljs,
     isMysql,
     isAuroraDataApi,
 } from "../driver/Driver";
@@ -168,12 +167,7 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
                 // means we created our own query runner
                 await queryRunner.release();
             }
-            if (
-                isSqljs(this.connection.driver) &&
-                !queryRunner.isTransactionActive
-            ) {
-                await this.connection.driver.autoSave();
-            }
+
             // console.timeEnd(".releasing connection");
             // console.timeEnd("QueryBuilder.execute");
         }

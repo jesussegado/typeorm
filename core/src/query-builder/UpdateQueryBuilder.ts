@@ -18,7 +18,6 @@ import { QueryDeepPartialEntity } from "./QueryPartialEntity";
 import {
     isDriverSupported,
     isMssql,
-    isSqljs,
     isMysql,
     isAuroraDataApi,
 } from "../driver/Driver";
@@ -172,12 +171,6 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
             if (queryRunner !== this.queryRunner) {
                 // means we created our own query runner
                 await queryRunner.release();
-            }
-            if (
-                isSqljs(this.connection.driver) &&
-                !queryRunner.isTransactionActive
-            ) {
-                await this.connection.driver.autoSave();
             }
         }
     }
