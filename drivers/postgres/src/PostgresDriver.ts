@@ -29,9 +29,6 @@ import { PostgresQueryRunner } from "./PostgresQueryRunner";
  */
 export class PostgresDriver extends Driver {
     type: DriverType = "postgres";
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection used by driver.
@@ -58,10 +55,6 @@ export class PostgresDriver extends Driver {
      * We store all created query runners because we need to release them.
      */
     connectedQueryRunners: QueryRunner[] = [];
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection options.
@@ -242,10 +235,6 @@ export class PostgresDriver extends Driver {
      */
     maxAliasLength = 63;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         connection?: Connection,
         connectionOptions?: PostgresConnectionOptions
@@ -273,10 +262,6 @@ export class PostgresDriver extends Driver {
         // if (!this.options.database)
         //     throw new DriverOptionNotSetError("database");
     }
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs connection to the database.
@@ -1066,10 +1051,6 @@ export class PostgresDriver extends Driver {
         return `$${index + 1}`;
     }
 
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Loads postgres query stream package.
      */
@@ -1083,10 +1064,6 @@ export class PostgresDriver extends Driver {
             );
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * If driver dependency is not given explicitly, then try to load it via "require".

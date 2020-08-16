@@ -15,10 +15,6 @@ import { DriverUtils } from "../../driver/DriverUtils";
  * Entity is constructed based on its entity metadata.
  */
 export class RawSqlResultsToEntityTransformer {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         protected expressionMap: QueryExpressionMap,
         protected driver: Driver,
@@ -26,10 +22,6 @@ export class RawSqlResultsToEntityTransformer {
         protected rawRelationCountResults: RelationCountLoadResult[],
         protected queryRunner?: QueryRunner
     ) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Since db returns a duplicated rows of the data where accuracies of the same object can be duplicated
@@ -44,10 +36,6 @@ export class RawSqlResultsToEntityTransformer {
         });
         return entities;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Groups given raw results by ids of given alias.

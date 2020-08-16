@@ -4,10 +4,6 @@ import { MigrationInterface } from "./MigrationInterface";
  * Represents entity of the migration in the database.
  */
 export class Migration {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Migration id.
      * Indicates order of the executed migrations.
@@ -28,10 +24,6 @@ export class Migration {
      * Migration instance that needs to be run.
      */
     instance?: MigrationInterface;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(
         id: number | undefined,

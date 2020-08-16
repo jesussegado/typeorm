@@ -7,20 +7,12 @@ import { EmbeddedMetadata } from "../../metadata/EmbeddedMetadata";
  * Entity is constructed based on its entity metadata.
  */
 export class DocumentToEntityTransformer {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         // private selectionMap: AliasMap,
         // private joinMappings: JoinMapping[],
         // private relationCountMetas: RelationCountAttribute[],
         private enableRelationIdValues: boolean = false
     ) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     transformAll(documents: ObjectLiteral[], metadata: EntityMetadata) {
         return documents.map((document) => this.transform(document, metadata));

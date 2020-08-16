@@ -15,10 +15,6 @@ import { TableColumn } from "../schema-builder/table/TableColumn";
 import { Broadcaster } from "../subscriber/Broadcaster";
 
 export abstract class BaseQueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Connection used by this query runner.
      */
@@ -61,10 +57,6 @@ export abstract class BaseQueryRunner {
      */
     broadcaster: Broadcaster;
 
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Real database connection from a connection pool used to perform queries.
      */
@@ -87,26 +79,14 @@ export abstract class BaseQueryRunner {
      */
     protected mode: "master" | "slave";
 
-    // -------------------------------------------------------------------------
-    // Public Abstract Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Executes a given SQL query.
      */
     abstract query(query: string, parameters?: any[]): Promise<any>;
 
-    // -------------------------------------------------------------------------
-    // Protected Abstract Methods
-    // -------------------------------------------------------------------------
-
     protected abstract async loadTables(tablePaths: string[]): Promise<Table[]>;
 
     protected abstract async loadViews(tablePaths: string[]): Promise<View[]>;
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Loads given table's data from the database.
@@ -194,10 +174,6 @@ export abstract class BaseQueryRunner {
             (downQuery) => this.query(downQuery.query, downQuery.parameters)
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Gets view from previously loaded views, otherwise loads it from database.

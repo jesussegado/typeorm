@@ -9,10 +9,6 @@ import { SelectQueryBuilder } from "../SelectQueryBuilder";
  * Stores all join relation id attributes which will be used to build a JOIN query.
  */
 export class RelationIdAttribute {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Alias of the joined (destination) table.
      */
@@ -40,20 +36,12 @@ export class RelationIdAttribute {
      */
     disableMixedMap = false;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         private queryExpressionMap: QueryExpressionMap,
         relationIdAttribute?: Partial<RelationIdAttribute>
     ) {
         ObjectUtils.assign(this, relationIdAttribute || {});
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     get joinInverseSideMetadata(): EntityMetadata {
         return this.relation.inverseEntityMetadata;

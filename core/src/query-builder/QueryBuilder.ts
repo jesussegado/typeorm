@@ -39,10 +39,6 @@ import { isDriverSupported, isSqljs, isOracle } from "../driver/Driver";
  * Allows to build complex sql queries in a fashion way and execute those queries.
  */
 export abstract class QueryBuilder<Entity> {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Connection on which QueryBuilder was created.
      */
@@ -53,18 +49,10 @@ export abstract class QueryBuilder<Entity> {
      */
     readonly expressionMap: QueryExpressionMap;
 
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Query runner used to execute query builder query.
      */
     protected queryRunner?: QueryRunner;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     /**
      * QueryBuilder can be initialized from given Connection and QueryRunner objects or from given other QueryBuilder.
@@ -94,18 +82,10 @@ export abstract class QueryBuilder<Entity> {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Abstract Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Gets generated sql query without parameters being replaced.
      */
     abstract getQuery(): string;
-
-    // -------------------------------------------------------------------------
-    // Accessors
-    // -------------------------------------------------------------------------
 
     /**
      * Gets the main alias string used in this query builder.
@@ -116,10 +96,6 @@ export abstract class QueryBuilder<Entity> {
 
         return this.expressionMap.mainAlias.name;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates SELECT query.
@@ -562,10 +538,6 @@ export abstract class QueryBuilder<Entity> {
         this.expressionMap.useTransaction = enabled;
         return this;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Gets escaped table name with schema name if SqlServer driver used with custom

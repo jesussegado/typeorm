@@ -9,10 +9,6 @@ import { OnUpdateType } from "./types/OnUpdateType";
  * Contains all information about entity's foreign key.
  */
 export class ForeignKeyMetadata {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Entity metadata where this foreign key is.
      */

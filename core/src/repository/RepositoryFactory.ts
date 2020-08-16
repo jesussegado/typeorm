@@ -8,10 +8,6 @@ import { EntityManager } from "../entity-manager/EntityManager";
  * Factory used to create different types of repositories.
  */
 export class RepositoryFactory {
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Creates a repository.
      */

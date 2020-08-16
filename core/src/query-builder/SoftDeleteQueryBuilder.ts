@@ -21,10 +21,6 @@ import { isDriverSupported, isSqljs } from "../driver/Driver";
  */
 export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
     implements WhereExpression {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         connectionOrQueryBuilder: Connection | QueryBuilder<any>,
         queryRunner?: QueryRunner
@@ -32,10 +28,6 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         super(connectionOrQueryBuilder as any, queryRunner);
         this.expressionMap.aliasNamePrefixingEnabled = false;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Gets generated sql query without parameters being replaced.
@@ -159,10 +151,6 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
             }
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Specifies FROM which entity's table select/update/delete/soft-delete will be executed.
@@ -425,10 +413,6 @@ export class SoftDeleteQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.updateEntity = enabled;
         return this;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates UPDATE express used to perform insert query.

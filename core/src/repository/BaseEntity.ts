@@ -17,20 +17,12 @@ import { QueryDeepPartialEntity } from "../query-builder/QueryPartialEntity";
  * Base abstract entity for all entities, used in ActiveRecord patterns.
  */
 export class BaseEntity {
-    // -------------------------------------------------------------------------
-    // Private Static Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Connection used in all static methods of the BaseEntity.
      */
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore: Unused variable which is actually used
     private static usedConnection?: Connection;
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Checks if entity has an id.
@@ -82,10 +74,6 @@ export class BaseEntity {
 
         ObjectUtils.assign(this, newestEntity);
     }
-
-    // -------------------------------------------------------------------------
-    // Public Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Sets connection to be used by entity.

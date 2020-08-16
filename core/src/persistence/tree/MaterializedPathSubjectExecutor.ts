@@ -5,15 +5,7 @@ import { QueryRunner } from "../../query-runner/QueryRunner";
  * Executes subject operations for materialized-path tree entities.
  */
 export class MaterializedPathSubjectExecutor {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(protected queryRunner: QueryRunner) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Executes operations when subject is being inserted.

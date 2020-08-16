@@ -2,10 +2,6 @@
  * Database's table index options.
  */
 export interface TableIndexOptions {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Constraint name.
      */

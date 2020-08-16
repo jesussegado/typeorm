@@ -38,24 +38,12 @@ import { isDriverSupported } from "../driver/Driver";
  * 9. create indices which are missing in db yet, and drops indices which exist in the db, but does not exist in the metadata anymore
  */
 export class RdbmsSchemaBuilder implements SchemaBuilder {
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Used to execute schema creation queries in a single connection.
      */
     protected queryRunner: QueryRunner;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(protected connection: Connection) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates complete schemas for the given entity metadatas.
@@ -144,10 +132,6 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
             await this.queryRunner.release();
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Returns only entities that should be synced in the database.

@@ -13,18 +13,10 @@ import { PostgresQueryRunnerWrapper } from "./PostgresQueryRunnerWrapper";
  */
 export class AuroraDataApiPostgresQueryRunner extends PostgresQueryRunnerWrapper
     implements QueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Database driver used by connection.
      */
     driver: AuroraDataApiPostgresDriver;
-
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Promise used to obtain a database connection for a first time.
@@ -36,20 +28,12 @@ export class AuroraDataApiPostgresQueryRunner extends PostgresQueryRunnerWrapper
      */
     protected releaseCallback: Function;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         driver: AuroraDataApiPostgresDriver,
         mode: "master" | "slave" = "master"
     ) {
         super(driver, mode);
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates/uses database connection from the connection pool to perform further operations.

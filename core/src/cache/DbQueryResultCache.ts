@@ -15,15 +15,7 @@ import { isDriverSupported } from "../driver/Driver";
  * Caches query result into current database, into separate table called "query-result-cache".
  */
 export class DbQueryResultCache implements QueryResultCache {
-    // -------------------------------------------------------------------------
-    // Private properties
-    // -------------------------------------------------------------------------
-
     private queryResultCacheTable: string;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(protected connection: Connection) {
         const options = this.connection.driver.options as
@@ -41,10 +33,6 @@ export class DbQueryResultCache implements QueryResultCache {
             options.database
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a connection with given cache provider.
@@ -294,10 +282,6 @@ export class DbQueryResultCache implements QueryResultCache {
             })
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Gets a query runner to work with.

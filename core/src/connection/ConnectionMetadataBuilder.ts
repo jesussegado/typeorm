@@ -14,15 +14,7 @@ import { EntitySubscriberInterface } from "../subscriber/EntitySubscriberInterfa
  * Builds migration instances, subscriber instances and entity metadatas for the given classes.
  */
 export class ConnectionMetadataBuilder {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(protected connection: Connection) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Builds migration instances for the given classes or directories.

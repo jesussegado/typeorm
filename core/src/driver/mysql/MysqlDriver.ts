@@ -27,9 +27,6 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  */
 export class MysqlDriver extends Driver {
     type: DriverType = "mysql";
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection used by driver.
@@ -51,10 +48,6 @@ export class MysqlDriver extends Driver {
      * Pool cluster used in replication mode.
      */
     poolCluster: any;
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection options.
@@ -296,10 +289,6 @@ export class MysqlDriver extends Driver {
      */
     maxAliasLength = 63;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         connection: Connection,
         connectionOptions: MysqlConnectionOptions
@@ -330,10 +319,6 @@ export class MysqlDriver extends Driver {
         // todo: check what is going on when connection is setup without database and how to connect to a database then?
         // todo: provide options to auto-create a database if it does not exist yet
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs connection to the database.
@@ -910,10 +895,6 @@ export class MysqlDriver extends Driver {
     createParameter(parameterName: string, index: number): string {
         return "?";
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Loads all driver dependencies.

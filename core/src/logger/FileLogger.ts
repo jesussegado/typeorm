@@ -9,15 +9,7 @@ import { Logger } from "./Logger";
  * This version of logger logs everything into ormlogs.log file.
  */
 export class FileLogger implements Logger {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(private options?: LoggerOptions) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Logs query and parameters used in it.
@@ -137,10 +129,6 @@ export class FileLogger implements Logger {
                 assertUnreachable(level);
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Writes given strings into the log file.

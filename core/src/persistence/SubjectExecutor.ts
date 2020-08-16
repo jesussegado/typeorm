@@ -19,18 +19,10 @@ import { isDriverSupported } from "../driver/Driver";
  * with given persistence subjects.
  */
 export class SubjectExecutor {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Indicates if executor has any operations to execute (e.g. has insert / update / delete operations to be executed).
      */
     hasExecutableOperations: boolean = false;
-
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
 
     /**
      * QueryRunner used to execute all queries with a given subjects.
@@ -72,10 +64,6 @@ export class SubjectExecutor {
      */
     protected recoverSubjects: Subject[] = [];
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         queryRunner: QueryRunner,
         subjects: Subject[],
@@ -87,10 +75,6 @@ export class SubjectExecutor {
         this.validate();
         this.recompute();
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Executes all operations over given array of subjects.
@@ -184,10 +168,6 @@ export class SubjectExecutor {
         }
         // console.timeEnd("SubjectExecutor.execute");
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Validates all given subjects.

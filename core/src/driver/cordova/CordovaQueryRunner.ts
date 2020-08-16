@@ -14,10 +14,6 @@ export class CordovaQueryRunner extends AbstractSqliteQueryRunner {
      */
     driver: CordovaDriver;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(driver: CordovaDriver) {
         super();
         this.driver = driver;
@@ -79,10 +75,6 @@ export class CordovaQueryRunner extends AbstractSqliteQueryRunner {
             );
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Parametrizes given object of values. Used to create column=value queries.

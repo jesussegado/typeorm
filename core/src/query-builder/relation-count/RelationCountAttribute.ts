@@ -28,20 +28,12 @@ export class RelationCountAttribute {
         qb: SelectQueryBuilder<any>
     ) => SelectQueryBuilder<any>;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         private expressionMap: QueryExpressionMap,
         relationCountAttribute?: Partial<RelationCountAttribute>
     ) {
         ObjectUtils.assign(this, relationCountAttribute || {});
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     get joinInverseSideMetadata(): EntityMetadata {
         return this.relation.inverseEntityMetadata;

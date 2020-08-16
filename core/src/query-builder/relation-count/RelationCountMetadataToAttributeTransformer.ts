@@ -3,15 +3,7 @@ import { RelationCountMetadata } from "../../metadata/RelationCountMetadata";
 import { RelationCountAttribute } from "./RelationCountAttribute";
 
 export class RelationCountMetadataToAttributeTransformer {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(protected expressionMap: QueryExpressionMap) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     transform() {
         // by example:
@@ -49,10 +41,6 @@ export class RelationCountMetadataToAttributeTransformer {
             });
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Private Methods
-    // -------------------------------------------------------------------------
 
     private metadataToAttribute(
         parentAliasName: string,

@@ -4,10 +4,6 @@ import { Connection, SelectQueryBuilder } from "../..";
  * View options.
  */
 export interface ViewOptions {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * View name.
      */

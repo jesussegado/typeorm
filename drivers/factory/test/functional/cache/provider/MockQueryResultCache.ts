@@ -12,15 +12,7 @@ import { QueryResultCacheOptions } from "typeorm-core/build/compiled/src/cache/Q
  * Caches query result into current database, into separate table called "mock-query-result-cache".
  */
 export class MockQueryResultCache implements QueryResultCache {
-    // -------------------------------------------------------------------------
-    // Private properties
-    // -------------------------------------------------------------------------
-
     private queryResultCacheTable: string;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(protected connection: Connection) {
         const options = this.connection.driver.options as
@@ -39,10 +31,6 @@ export class MockQueryResultCache implements QueryResultCache {
             options.database
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a connection with given cache provider.
@@ -292,10 +280,6 @@ export class MockQueryResultCache implements QueryResultCache {
             })
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Gets a query runner to work with.

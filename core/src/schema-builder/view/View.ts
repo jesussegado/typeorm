@@ -6,10 +6,6 @@ import { ViewOptions } from "../options/ViewOptions";
  * View in the database represented in this class.
  */
 export class View {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Contains database name, schema name and table name.
      * E.g. "myDB"."mySchema"."myTable"
@@ -26,10 +22,6 @@ export class View {
      */
     expression: string | ((connection: Connection) => SelectQueryBuilder<any>);
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(options?: ViewOptions) {
         if (options) {
             this.name = options.name;
@@ -37,10 +29,6 @@ export class View {
             this.materialized = !!options.materialized;
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Clones this table to a new table with all properties cloned.
@@ -52,10 +40,6 @@ export class View {
             materialized: this.materialized,
         } as ViewOptions);
     }
-
-    // -------------------------------------------------------------------------
-    // Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates view from a given entity metadata.

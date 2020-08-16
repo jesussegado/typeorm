@@ -7,15 +7,7 @@ import { Connection } from "../connection/Connection";
  * Caches query result into Redis database.
  */
 export class QueryResultCacheFactory {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(protected connection: Connection) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a new query result cache based on connection options.

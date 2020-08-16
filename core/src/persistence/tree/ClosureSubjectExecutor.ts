@@ -7,15 +7,7 @@ import { CannotAttachTreeChildrenEntityError } from "../../error/CannotAttachTre
  * Executes subject operations for closure entities.
  */
 export class ClosureSubjectExecutor {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(protected queryRunner: QueryRunner) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Executes operations when subject is being inserted.

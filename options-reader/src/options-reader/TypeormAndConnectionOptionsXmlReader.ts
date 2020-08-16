@@ -5,10 +5,6 @@ import { TypeormAndConnectionOptions } from "typeorm-core";
  * Reads connection options defined in the xml file.
  */
 export class TypeormAndConnectionOptionsXmlReader {
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Reads connection options from given xml file.
      */
@@ -54,10 +50,6 @@ export class TypeormAndConnectionOptionsXmlReader {
             };
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Reads xml file contents and returns them in a promise.

@@ -23,9 +23,6 @@ import { DriverUtils } from "../DriverUtils";
  * Organizes communication with sqlite DBMS.
  */
 export abstract class AbstractSqliteDriver extends Driver {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
     abstract type: DriverType;
 
     /**
@@ -42,10 +39,6 @@ export abstract class AbstractSqliteDriver extends Driver {
      * Real database connection with sqlite database.
      */
     databaseConnection: any;
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection options.
@@ -184,27 +177,15 @@ export abstract class AbstractSqliteDriver extends Driver {
      */
     maxAliasLength?: number;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(connection: Connection) {
         super();
         this.connection = connection;
     }
 
-    // -------------------------------------------------------------------------
-    // Public Abstract
-    // -------------------------------------------------------------------------
-
     /**
      * Creates a query runner used to execute database queries.
      */
     abstract createQueryRunner(mode: "master" | "slave"): QueryRunner;
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs connection to the database.
@@ -647,10 +628,6 @@ export abstract class AbstractSqliteDriver extends Driver {
         return "?";
         // return "$" + parameterName;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates connection with the database.

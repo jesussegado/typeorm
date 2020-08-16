@@ -29,18 +29,10 @@ import { TableExclusion } from "../../schema-builder/table/TableExclusion";
  */
 export class CockroachQueryRunner extends BaseQueryRunner
     implements QueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Database driver used by connection.
      */
     driver: CockroachDriver;
-
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Promise used to obtain a database connection for a first time.
@@ -62,10 +54,6 @@ export class CockroachQueryRunner extends BaseQueryRunner
      */
     protected storeQueries: boolean = false;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(driver: CockroachDriver, mode: "master" | "slave" = "master") {
         super();
         this.driver = driver;
@@ -73,10 +61,6 @@ export class CockroachQueryRunner extends BaseQueryRunner
         this.mode = mode;
         this.broadcaster = new Broadcaster(this);
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates/uses database connection from the connection pool to perform further operations.
@@ -2160,10 +2144,6 @@ export class CockroachQueryRunner extends BaseQueryRunner
             throw error;
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     protected async loadViews(viewNames: string[]): Promise<View[]> {
         const hasTable = await this.hasTable(

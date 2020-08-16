@@ -6,10 +6,6 @@ import { EntityMetadata } from "../metadata/EntityMetadata";
  * to make sure insert or remove operations are executed in a proper order.
  */
 export class SubjectTopoligicalSorter {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Insert subjects needs to be sorted.
      */
@@ -20,18 +16,10 @@ export class SubjectTopoligicalSorter {
      */
     metadatas: EntityMetadata[];
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(subjects: Subject[]) {
         this.subjects = [...subjects]; // copy subjects to prevent changing of sent array
         this.metadatas = this.getUniqueMetadatas(this.subjects);
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Sorts (orders) subjects in their topological order.
@@ -90,10 +78,6 @@ export class SubjectTopoligicalSorter {
         sortedSubjects.push(...this.subjects);
         return sortedSubjects;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Removes already sorted subjects from this.subjects list of subjects.

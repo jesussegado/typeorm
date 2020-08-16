@@ -18,10 +18,6 @@ export type MigrationExecutorConditions = { timestamp: any; name: any };
  * Executes migrations: runs pending and reverts previously executed migrations.
  */
 export abstract class MigrationExecutor {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Indicates how migrations should be run in transactions.
      *   all: all migrations are run in a single transaction
@@ -30,17 +26,9 @@ export abstract class MigrationExecutor {
      */
     transaction: "all" | "none" | "each" = "all";
 
-    // -------------------------------------------------------------------------
-    // Private Properties
-    // -------------------------------------------------------------------------
-
     protected readonly migrationsTable: string;
 
     protected readonly migrationsTableName: string;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(
         protected connection: Connection,
@@ -57,10 +45,6 @@ export abstract class MigrationExecutor {
             options.database
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Tries to execute a single migration given.
@@ -393,10 +377,6 @@ export abstract class MigrationExecutor {
             if (!this.queryRunner) await queryRunner.release();
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates table "migrations" that will store information about executed migrations.

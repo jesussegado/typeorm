@@ -25,10 +25,6 @@ export class SqljsDriver extends AbstractSqliteDriver {
     // The driver specific options.
     options: SqljsConnectionOptions;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         connection: Connection,
         connectionOptions: SqljsConnectionOptions
@@ -49,10 +45,6 @@ export class SqljsDriver extends AbstractSqliteDriver {
         // load sql.js package
         this.loadDependencies();
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs connection to the database.
@@ -264,10 +256,6 @@ export class SqljsDriver extends AbstractSqliteDriver {
 
         return Object.keys(generatedMap).length > 0 ? generatedMap : undefined;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates connection with the database.

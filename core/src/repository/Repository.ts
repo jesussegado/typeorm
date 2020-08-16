@@ -18,10 +18,6 @@ import { FindConditions } from "../find-options/FindConditions";
  * Repository is supposed to work with your entity objects. Find entities, insert, update, delete, etc.
  */
 export class Repository<Entity extends ObjectLiteral> {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Entity Manager used by this repository.
      */
@@ -36,10 +32,6 @@ export class Repository<Entity extends ObjectLiteral> {
      * Query runner provider used for this repository.
      */
     readonly queryRunner?: QueryRunner;
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a new query builder that can be used to build a sql query.

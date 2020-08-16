@@ -25,9 +25,6 @@ import { DriverUtils } from "../DriverUtils";
  */
 export class SapDriver extends Driver {
     type: DriverType = "sap";
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection used by driver.
@@ -49,10 +46,6 @@ export class SapDriver extends Driver {
      * Used in replication.
      */
     slaves: any[] = [];
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection options.
@@ -188,10 +181,6 @@ export class SapDriver extends Driver {
      */
     maxAliasLength = 128;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         connection: Connection,
         connectionOptions: SapConnectionOptions
@@ -201,10 +190,6 @@ export class SapDriver extends Driver {
         this.options = connectionOptions;
         this.loadDependencies();
     }
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs connection to the database.
@@ -696,10 +681,6 @@ export class SapDriver extends Driver {
     createParameter(parameterName: string, index: number): string {
         return "?";
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * If driver dependency is not given explicitly, then try to load it via "require".

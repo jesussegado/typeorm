@@ -32,10 +32,6 @@ import { isDriverSupported } from "../driver/Driver";
  * Contains all entity metadata.
  */
 export class EntityMetadata {
-    // -------------------------------------------------------------------------
-    // Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Connection where this entity metadata is created.
      */
@@ -511,10 +507,6 @@ export class EntityMetadata {
         this.withoutRowid = this.tableMetadataArgs.withoutRowid;
     }
 
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Creates a new entity.
      */
@@ -766,10 +758,6 @@ export class EntityMetadata {
         });
         return relationsAndValues;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a property paths for a given entity.

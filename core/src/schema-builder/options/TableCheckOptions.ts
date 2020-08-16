@@ -2,10 +2,6 @@
  * Database's table check constraint options.
  */
 export interface TableCheckOptions {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Constraint name.
      */

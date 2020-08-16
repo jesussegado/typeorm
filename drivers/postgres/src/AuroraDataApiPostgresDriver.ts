@@ -7,10 +7,6 @@ import { PostgresWrapper } from "./PostgresWrapper";
  * Organizes communication with PostgreSQL DBMS.
  */
 export class AuroraDataApiPostgresDriver extends PostgresWrapper {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Connection used by driver.
      */
@@ -23,10 +19,6 @@ export class AuroraDataApiPostgresDriver extends PostgresWrapper {
 
     client: any;
 
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Connection options.
      */
@@ -36,10 +28,6 @@ export class AuroraDataApiPostgresDriver extends PostgresWrapper {
      * Master database used to perform all write queries.
      */
     database?: string;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(
         connection: Connection,
@@ -64,10 +52,6 @@ export class AuroraDataApiPostgresDriver extends PostgresWrapper {
         );
     }
 
-    // -------------------------------------------------------------------------
-    // Public Implemented Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Performs connection to the database.
      * Based on pooling options, it can either create connection immediately,
@@ -86,10 +70,6 @@ export class AuroraDataApiPostgresDriver extends PostgresWrapper {
     createQueryRunner(mode: "master" | "slave" = "master") {
         return new AuroraDataApiPostgresQueryRunner(this, mode);
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * If driver dependency is not given explicitly, then try to load it via "require".

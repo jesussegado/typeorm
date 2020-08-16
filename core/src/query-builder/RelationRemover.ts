@@ -8,18 +8,10 @@ import { QueryExpressionMap } from "./QueryExpressionMap";
  * todo: add transactions everywhere
  */
 export class RelationRemover {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         protected queryBuilder: QueryBuilder<any>,
         protected expressionMap: QueryExpressionMap
     ) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs remove operation on a relation.

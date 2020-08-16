@@ -28,9 +28,6 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  */
 export class OracleDriver extends Driver {
     type: DriverType = "oracle";
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection used by driver.
@@ -52,10 +49,6 @@ export class OracleDriver extends Driver {
      * Used in replication.
      */
     slaves: any[] = [];
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection options.
@@ -209,10 +202,6 @@ export class OracleDriver extends Driver {
      */
     maxAliasLength = 30;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         connection: Connection,
         connectionOptions: OracleConnectionOptions
@@ -237,10 +226,6 @@ export class OracleDriver extends Driver {
         //     throw new DriverOptionNotSetError("sid");
         //
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs connection to the database.
@@ -732,10 +717,6 @@ export class OracleDriver extends Driver {
                 );
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Loads all driver dependencies.

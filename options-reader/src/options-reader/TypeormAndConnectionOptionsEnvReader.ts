@@ -8,10 +8,6 @@ import { getEnvVariable } from "..";
  * Its strongly required to define TYPEORM_CONNECTION env variable.
  */
 export class TypeormAndConnectionOptionsEnvReader {
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Reads connection options from environment variables.
      */
@@ -74,10 +70,6 @@ export class TypeormAndConnectionOptionsEnvReader {
             },
         };
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Transforms logging string into real logging value connection requires.

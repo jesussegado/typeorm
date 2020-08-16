@@ -27,18 +27,10 @@ import { SqlServerDriver } from "./SqlServerDriver";
  */
 export class SqlServerQueryRunner extends BaseQueryRunner
     implements QueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Database driver used by connection.
      */
     driver: SqlServerDriver;
-
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Last executed query in a transaction.
@@ -49,10 +41,6 @@ export class SqlServerQueryRunner extends BaseQueryRunner
      */
     protected queryResponsibilityChain: Promise<any>[] = [];
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(driver: SqlServerDriver, mode: "master" | "slave" = "master") {
         super();
         this.driver = driver;
@@ -60,10 +48,6 @@ export class SqlServerQueryRunner extends BaseQueryRunner
         this.broadcaster = new Broadcaster(this);
         this.mode = mode;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates/uses database connection from the connection pool to perform further operations.
@@ -2371,10 +2355,6 @@ export class SqlServerQueryRunner extends BaseQueryRunner
             throw error;
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Return current database.

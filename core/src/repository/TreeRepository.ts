@@ -12,10 +12,6 @@ export class TreeRepository<Entity> extends Repository<Entity> {
     // todo: implement moving
     // todo: implement removing
 
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Gets complete trees for all roots in the table.
      */
@@ -355,10 +351,6 @@ export class TreeRepository<Entity> extends Repository<Entity> {
     move(entity: Entity, to: Entity): Promise<void> {
         return Promise.resolve();
     } */
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     protected createRelationMaps(
         alias: string,

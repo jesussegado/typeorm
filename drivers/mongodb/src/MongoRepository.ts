@@ -50,10 +50,6 @@ import { ObjectID } from "./MongoDriver";
 export class MongoRepository<Entity extends ObjectLiteral> extends Repository<
     Entity
 > {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Entity Manager used by this repository.
      */

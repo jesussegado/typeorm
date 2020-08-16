@@ -10,9 +10,6 @@ export class ExpoDriver extends AbstractSqliteDriver {
     options: ExpoConnectionOptions;
 
     type: DriverType = "expo";
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(
         connection: Connection,
@@ -32,10 +29,6 @@ export class ExpoDriver extends AbstractSqliteDriver {
         // load sqlite package
         this.sqlite = this.options.driver;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Closes connection with database.
@@ -61,10 +54,6 @@ export class ExpoDriver extends AbstractSqliteDriver {
 
         return this.queryRunner;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates connection with the database.

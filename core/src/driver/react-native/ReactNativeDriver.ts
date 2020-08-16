@@ -11,9 +11,6 @@ export class ReactNativeDriver extends AbstractSqliteDriver {
     options: ReactNativeConnectionOptions;
 
     type: DriverType = "react-native";
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(
         connection: Connection,
@@ -35,10 +32,6 @@ export class ReactNativeDriver extends AbstractSqliteDriver {
         this.loadDependencies();
     }
 
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Closes connection with database.
      */
@@ -58,10 +51,6 @@ export class ReactNativeDriver extends AbstractSqliteDriver {
 
         return this.queryRunner;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates connection with the database.

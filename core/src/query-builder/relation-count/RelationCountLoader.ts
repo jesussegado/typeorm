@@ -5,19 +5,11 @@ import { RelationCountLoadResult } from "./RelationCountLoadResult";
 import { QueryRunner } from "../../query-runner/QueryRunner";
 
 export class RelationCountLoader {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         protected connection: Connection,
         protected queryRunner: QueryRunner | undefined,
         protected relationCountAttributes: RelationCountAttribute[]
     ) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     async load(rawEntities: any[]): Promise<RelationCountLoadResult[]> {
         const onlyUnique = (value: any, index: number, self: any) => {

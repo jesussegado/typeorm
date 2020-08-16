@@ -9,10 +9,6 @@ import { EntityMetadata } from "../metadata/EntityMetadata";
  * Utilities to work with FindOptions.
  */
 export class FindOptionsUtils {
-    // -------------------------------------------------------------------------
-    // Public Static Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Checks if given object is really instance of FindOneOptions interface.
      */
@@ -236,10 +232,6 @@ export class FindOptionsUtils {
 
         return qb;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Adds joins for all relations and sub-relations of the given relations provided in the find options.

@@ -24,27 +24,15 @@ import { TableExclusion } from "../../schema-builder/table/TableExclusion";
  * Runs queries on a single oracle database connection.
  */
 export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Database driver used by connection.
      */
     driver: OracleDriver;
 
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Promise used to obtain a database connection for a first time.
      */
     protected databaseConnectionPromise: Promise<any>;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(driver: OracleDriver, mode: "master" | "slave" = "master") {
         super();
@@ -53,10 +41,6 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
         this.broadcaster = new Broadcaster(this);
         this.mode = mode;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates/uses database connection from the connection pool to perform further operations.
@@ -1792,10 +1776,6 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
             throw error;
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     protected async loadViews(viewNames: string[]): Promise<View[]> {
         const hasTable = await this.hasTable(

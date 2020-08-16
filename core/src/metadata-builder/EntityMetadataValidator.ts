@@ -29,10 +29,6 @@ import { InitializedRelationError } from "../error/InitializedRelationError";
  * Validates built entity metadatas.
  */
 export class EntityMetadataValidator {
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Validates all given entity metadatas.
      */

@@ -10,15 +10,7 @@ import { RelationMetadata } from "../metadata/RelationMetadata";
  * Broadcaster provides a helper methods to broadcast events to the subscribers.
  */
 export class Broadcaster {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(private queryRunner: QueryRunner) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Broadcasts "BEFORE_INSERT" event.
@@ -387,10 +379,6 @@ export class Broadcaster {
             }
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Checks if subscriber's methods can be executed by checking if its don't listen to the particular entity,

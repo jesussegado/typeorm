@@ -28,10 +28,6 @@ import { ExclusionMetadataArgs } from "./ExclusionMetadataArgs";
  * MetadataArgs used to create a real Metadata objects.
  */
 export class MetadataArgsStorage {
-    // -------------------------------------------------------------------------
-    // Properties
-    // -------------------------------------------------------------------------
-
     readonly tables: TableMetadataArgs[] = [];
 
     readonly trees: TreeMetadataArgs[] = [];
@@ -75,10 +71,6 @@ export class MetadataArgsStorage {
     readonly inheritances: InheritanceMetadataArgs[] = [];
 
     readonly discriminatorValues: DiscriminatorValueMetadataArgs[] = [];
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     filterTables(target: Function | string): TableMetadataArgs[];
 
@@ -369,10 +361,6 @@ export class MetadataArgsStorage {
             (discriminatorValue) => discriminatorValue.target === target
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Filters given array by a given target or targets.

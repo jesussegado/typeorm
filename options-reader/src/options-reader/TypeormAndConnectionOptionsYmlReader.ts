@@ -5,10 +5,6 @@ import { safeLoad } from "js-yaml";
  * Reads connection options defined in the yml file.
  */
 export class TypeormAndConnectionOptionsYmlReader {
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Reads connection options from given yml file.
      */

@@ -87,10 +87,6 @@ export class MigrationCreateCommand implements yargs.CommandModule {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Protected Static Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Gets contents of the migration file.
      */

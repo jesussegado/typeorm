@@ -19,10 +19,6 @@ import { ExclusionMetadataArgs } from "../metadata-args/ExclusionMetadataArgs";
  * The result will be just like entities read from decorators.
  */
 export class EntitySchemaTransformer {
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Transforms entity schema into new metadata args storage object.
      */

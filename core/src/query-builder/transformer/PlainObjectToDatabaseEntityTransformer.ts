@@ -12,10 +12,6 @@ import { LoadMap } from "./LoadMap";
 export class PlainObjectToDatabaseEntityTransformer {
     constructor(private manager: EntityManager) {}
 
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     async transform(
         plainObject: ObjectLiteral,
         metadata: EntityMetadata

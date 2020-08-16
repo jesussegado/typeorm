@@ -27,10 +27,6 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  * Organizes communication with Cockroach DBMS.
  */
 export class CockroachDriver extends Driver {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     type: DriverType = "cockroachdb";
 
     /**
@@ -58,10 +54,6 @@ export class CockroachDriver extends Driver {
      * We store all created query runners because we need to release them.
      */
     connectedQueryRunners: QueryRunner[] = [];
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection options.
@@ -203,10 +195,6 @@ export class CockroachDriver extends Driver {
      */
     maxAliasLength?: number;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         connection: Connection,
         connectionOptions: CockroachConnectionOptions
@@ -229,10 +217,6 @@ export class CockroachDriver extends Driver {
         // if (!this.options.database)
         //     throw new DriverOptionNotSetError("database");
     }
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs connection to the database.
@@ -733,10 +717,6 @@ export class CockroachDriver extends Driver {
         return `$${index + 1}`;
     }
 
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Loads postgres query stream package.
      */
@@ -750,10 +730,6 @@ export class CockroachDriver extends Driver {
             );
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * If driver dependency is not given explicitly, then try to load it via "require".

@@ -3,15 +3,7 @@ import { QueryExpressionMap } from "../QueryExpressionMap";
 import { RelationIdMetadata } from "../../metadata/RelationIdMetadata";
 
 export class RelationIdMetadataToAttributeTransformer {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(protected expressionMap: QueryExpressionMap) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     transform() {
         // by example:
@@ -49,10 +41,6 @@ export class RelationIdMetadataToAttributeTransformer {
             });
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Private Methods
-    // -------------------------------------------------------------------------
 
     private metadataToAttribute(
         parentAliasName: string,

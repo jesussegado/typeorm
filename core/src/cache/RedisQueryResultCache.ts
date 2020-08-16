@@ -8,10 +8,6 @@ import { QueryRunner } from "../query-runner/QueryRunner";
  * Caches query result into Redis database.
  */
 export class RedisQueryResultCache implements QueryResultCache {
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Redis module instance loaded dynamically.
      */
@@ -27,10 +23,6 @@ export class RedisQueryResultCache implements QueryResultCache {
      */
     protected clientType: "redis" | "ioredis" | "ioredis/cluster";
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         protected connection: Connection,
         clientType: "redis" | "ioredis" | "ioredis/cluster"
@@ -38,10 +30,6 @@ export class RedisQueryResultCache implements QueryResultCache {
         this.clientType = clientType;
         this.redis = this.loadRedis();
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a connection with given cache provider.
@@ -198,10 +186,6 @@ export class RedisQueryResultCache implements QueryResultCache {
             })
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Removes a single key from redis database.

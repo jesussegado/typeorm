@@ -21,10 +21,6 @@ import {
  * Allows to build complex sql queries in a fashion way and execute those queries.
  */
 export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
-    // -------------------------------------------------------------------------
-    // Public Implemented Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Gets generated sql query without parameters being replaced.
      */
@@ -183,10 +179,6 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Specifies INTO which entity's table insertion will be executed.
      */
@@ -337,10 +329,6 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
         }
         return this;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates INSERT express used to perform insert query.

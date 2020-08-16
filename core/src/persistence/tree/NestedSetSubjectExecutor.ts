@@ -6,15 +6,7 @@ import { QueryRunner } from "../../query-runner/QueryRunner";
  * Executes subject operations for nested set tree entities.
  */
 export class NestedSetSubjectExecutor {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(protected queryRunner: QueryRunner) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Executes operations when subject is being inserted.

@@ -2,10 +2,6 @@
  * Database's table exclusion constraint options.
  */
 export interface TableExclusionOptions {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Constraint name.
      */

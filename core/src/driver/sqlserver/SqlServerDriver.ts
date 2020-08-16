@@ -29,9 +29,6 @@ import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
  */
 export class SqlServerDriver extends Driver {
     type: DriverType = "mssql";
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection used by driver.
@@ -53,10 +50,6 @@ export class SqlServerDriver extends Driver {
      * Used in replication.
      */
     slaves: any[] = [];
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection options.
@@ -207,10 +200,6 @@ export class SqlServerDriver extends Driver {
      */
     maxAliasLength = 128;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         connection: Connection,
         connectionOptions: SqlServerConnectionOptions
@@ -232,10 +221,6 @@ export class SqlServerDriver extends Driver {
         // if (!this.options.database)
         //     throw new DriverOptionNotSetError("database");
     }
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs connection to the database.
@@ -704,10 +689,6 @@ export class SqlServerDriver extends Driver {
         return `@${index}`;
     }
 
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Sql server's parameters needs to be wrapped into special object with type information about this value.
      * This method wraps given value into MssqlParameter based on its column definition.
@@ -798,10 +779,6 @@ export class SqlServerDriver extends Driver {
 
         return `DECLARE ${identifier} TABLE (${outputColumns.join(", ")})`;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * If driver dependency is not given explicitly, then try to load it via "require".

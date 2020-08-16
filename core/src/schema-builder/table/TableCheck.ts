@@ -5,10 +5,6 @@ import { CheckMetadata } from "../../metadata/CheckMetadata";
  * Database's table check constraint stored in this class.
  */
 export class TableCheck {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Constraint name.
      */
@@ -24,19 +20,11 @@ export class TableCheck {
      */
     expression?: string;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(options: TableCheckOptions) {
         this.name = options.name;
         this.columnNames = options.columnNames;
         this.expression = options.expression;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a new copy of this constraint with exactly same properties.
@@ -48,10 +36,6 @@ export class TableCheck {
             expression: this.expression,
         } as TableCheckOptions);
     }
-
-    // -------------------------------------------------------------------------
-    // Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates checks from the check metadata object.

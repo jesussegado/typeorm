@@ -64,10 +64,6 @@ import { MongoQueryRunner } from "./MongoQueryRunner";
  * This implementation is used for MongoDB driver which has some specifics in its EntityManager.
  */
 export class MongoEntityManager extends EntityManager {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(connection: Connection) {
         super(connection);
     }
@@ -381,10 +377,6 @@ export class MongoEntityManager extends EntityManager {
 
         return new DeleteResult();
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a cursor for a query that can be used to iterate over results from MongoDB.
@@ -936,10 +928,6 @@ export class MongoEntityManager extends EntityManager {
             options
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Converts FindManyOptions to mongodb query.

@@ -28,10 +28,6 @@ import {
  */
 export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
     implements WhereExpression {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         connectionOrQueryBuilder: Connection | QueryBuilder<any>,
         queryRunner?: QueryRunner
@@ -39,10 +35,6 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
         super(connectionOrQueryBuilder as any, queryRunner);
         this.expressionMap.aliasNamePrefixingEnabled = false;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Gets generated sql query without parameters being replaced.
@@ -189,10 +181,6 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
             }
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Values needs to be updated.
@@ -446,10 +434,6 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.updateEntity = enabled;
         return this;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates UPDATE express used to perform insert query.

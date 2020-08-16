@@ -4,15 +4,7 @@
  * @see https://github.com/patriksimek/node-mssql#data-types
  */
 export class MssqlParameter {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     public params: any[] = [];
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(value: any, type: "bit");
     constructor(value: any, type: "bigint");

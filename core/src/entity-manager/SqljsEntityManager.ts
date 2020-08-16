@@ -10,18 +10,10 @@ import { SqljsDriver } from "../driver/sqljs/SqljsDriver";
 export class SqljsEntityManager extends EntityManager {
     private driver: SqljsDriver;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(connection: Connection, queryRunner?: QueryRunner) {
         super(connection, queryRunner);
         this.driver = connection.driver as SqljsDriver;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Loads either the definition from a file (Node.js) or localstorage (browser)

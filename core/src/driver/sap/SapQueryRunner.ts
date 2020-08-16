@@ -24,18 +24,10 @@ import { SapDriver } from "./SapDriver";
  * Runs queries on a single SQL Server database connection.
  */
 export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Database driver used by connection.
      */
     driver: SapDriver;
-
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Last executed query in a transaction.
@@ -49,10 +41,6 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
      */
     protected databaseConnectionPromise: Promise<any>;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(driver: SapDriver, mode: "master" | "slave" = "master") {
         super();
         this.driver = driver;
@@ -60,10 +48,6 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         this.broadcaster = new Broadcaster(this);
         this.mode = mode;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates/uses database connection from the connection pool to perform further operations.
@@ -2303,10 +2287,6 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
             throw error;
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Return current database.

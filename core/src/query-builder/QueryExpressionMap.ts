@@ -16,10 +16,6 @@ import { SelectQueryBuilderOption } from "./SelectQueryBuilderOption";
  * Contains all properties of the QueryBuilder that needs to be build a final query.
  */
 export class QueryExpressionMap {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Indicates if QueryBuilder used to select entities and not a raw results.
      */
@@ -284,15 +280,7 @@ export class QueryExpressionMap {
      */
     nativeParameters: ObjectLiteral = {};
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(protected connection: Connection) {}
-
-    // -------------------------------------------------------------------------
-    // Accessors
-    // -------------------------------------------------------------------------
 
     /**
      * Get all ORDER BY queries - if order by is specified by user then it uses them,
@@ -313,10 +301,6 @@ export class QueryExpressionMap {
 
         return this.orderBys;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a main alias and adds it to the current expression map.

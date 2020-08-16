@@ -17,10 +17,6 @@ import { CascadesSubjectBuilder } from "./subject-builder/CascadesSubjectBuilder
  * Persists a single entity or multiple entities - saves or removes them.
  */
 export class EntityPersistExecutor {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         protected connection: Connection,
         protected queryRunner: QueryRunner | undefined,
@@ -29,10 +25,6 @@ export class EntityPersistExecutor {
         protected entity: ObjectLiteral | ObjectLiteral[],
         protected options?: SaveOptions & RemoveOptions
     ) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Executes persistence operation ob given entity or entities.

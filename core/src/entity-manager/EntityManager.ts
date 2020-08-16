@@ -37,10 +37,6 @@ import { isDriverSupported } from "../driver/Driver";
  * whatever entity type are you passing.
  */
 export class EntityManager {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Connection used by this entity manager.
      */
@@ -52,10 +48,6 @@ export class EntityManager {
      */
     readonly queryRunner?: QueryRunner;
 
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Once created and then reused by en repositories.
      */
@@ -66,10 +58,6 @@ export class EntityManager {
      */
     protected plainObjectToEntityTransformer = new PlainObjectToNewEntityTransformer();
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(connection: Connection, queryRunner?: QueryRunner) {
         this.connection = connection;
         if (queryRunner) {
@@ -78,10 +66,6 @@ export class EntityManager {
             ObjectUtils.assign(this.queryRunner, { manager: this });
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Wraps given function execution (and all operations made there) in a transaction.

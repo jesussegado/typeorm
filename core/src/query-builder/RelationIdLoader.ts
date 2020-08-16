@@ -6,15 +6,7 @@ import { ColumnMetadata } from "../metadata/ColumnMetadata";
  * Loads relation ids for the given entities.
  */
 export class RelationIdLoader {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(private connection: Connection) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Loads relation ids of the given entity or entities.
@@ -213,10 +205,6 @@ export class RelationIdLoader {
             return group;
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Loads relation ids for the many-to-many relation.

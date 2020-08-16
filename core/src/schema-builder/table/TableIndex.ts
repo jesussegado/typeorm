@@ -5,10 +5,6 @@ import { TableIndexOptions } from "../options/TableIndexOptions";
  * Database's table index stored in this class.
  */
 export class TableIndex {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Index name.
      */
@@ -47,10 +43,6 @@ export class TableIndex {
      */
     where: string;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(options: TableIndexOptions) {
         this.name = options.name;
         this.columnNames = options.columnNames;
@@ -60,10 +52,6 @@ export class TableIndex {
         this.parser = options.parser;
         this.where = options.where ? options.where : "";
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a new copy of this index with exactly same properties.
@@ -79,10 +67,6 @@ export class TableIndex {
             where: this.where,
         } as TableIndexOptions);
     }
-
-    // -------------------------------------------------------------------------
-    // Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates index from the index metadata object.

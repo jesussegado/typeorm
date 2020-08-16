@@ -17,18 +17,10 @@ import { EntitySchema } from "../entity-schema/EntitySchema";
  * @experimental
  */
 export class AbstractRepository<Entity extends ObjectLiteral> {
-    // -------------------------------------------------------------------------
-    // Protected Methods Set Dynamically
-    // -------------------------------------------------------------------------
-
     /**
      * Gets entity manager that allows to perform repository operations with any entity.
      */
     protected manager: EntityManager;
-
-    // -------------------------------------------------------------------------
-    // Protected Accessors
-    // -------------------------------------------------------------------------
 
     /**
      * Gets the original ORM repository for the entity that is managed by this repository.
@@ -53,10 +45,6 @@ export class AbstractRepository<Entity extends ObjectLiteral> {
 
         return this.manager.getTreeRepository<Entity>(target);
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a new query builder for the repository's entity that can be used to build a sql query.
@@ -97,10 +85,6 @@ export class AbstractRepository<Entity extends ObjectLiteral> {
     ): TreeRepository<T> {
         return this.manager.getTreeRepository(entity);
     }
-
-    // -------------------------------------------------------------------------
-    // Private Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Gets custom repository's managed entity.

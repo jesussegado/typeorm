@@ -11,18 +11,10 @@ import { AlreadyHasActiveConnectionError } from "../error/AlreadyHasActiveConnec
  * It also provides useful factory methods to simplify connection creation.
  */
 export class ConnectionManager {
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * List of connections registered in this connection manager.
      */
     public readonly connections: Connection[] = [];
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Checks if connection with the given name exist in the manager.

@@ -26,28 +26,16 @@ import { TableExclusion } from "../../schema-builder/table/TableExclusion";
  */
 export class AuroraDataApiQueryRunner extends BaseQueryRunner
     implements QueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Database driver used by connection.
      */
 
     driver: AuroraDataApiDriver;
 
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Promise used to obtain a database connection from a pool for a first time.
      */
     protected databaseConnectionPromise: Promise<any>;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(driver: AuroraDataApiDriver) {
         super();
@@ -55,10 +43,6 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
         this.connection = driver.connection;
         this.broadcaster = new Broadcaster(this);
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates/uses database connection from the connection pool to perform further operations.
@@ -1846,10 +1830,6 @@ export class AuroraDataApiQueryRunner extends BaseQueryRunner
             throw error;
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Returns current database.

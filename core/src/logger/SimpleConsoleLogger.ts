@@ -8,15 +8,7 @@ import { Logger } from "./Logger";
  * This version of logger uses console to log events and does not use syntax highlighting.
  */
 export class SimpleConsoleLogger implements Logger {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(private options?: LoggerOptions) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Logs query and parameters used in it.
@@ -138,10 +130,6 @@ export class SimpleConsoleLogger implements Logger {
                 assertUnreachable(level);
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Converts parameters to a string.

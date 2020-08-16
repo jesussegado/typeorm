@@ -13,10 +13,6 @@ import { TableExclusion } from "./TableExclusion";
  * Table in the database represented in this class.
  */
 export class Table {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Contains database name, schema name and table name.
      * E.g. "myDB"."mySchema"."myTable"
@@ -65,10 +61,6 @@ export class Table {
      */
     engine?: string;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(options?: TableOptions) {
         if (options) {
             this.name = options.name;
@@ -110,17 +102,9 @@ export class Table {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Accessors
-    // -------------------------------------------------------------------------
-
     get primaryColumns(): TableColumn[] {
         return this.columns.filter((column) => column.isPrimary);
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Clones this table to a new table with all properties cloned.
@@ -333,10 +317,6 @@ export class Table {
             );
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates table from a given entity metadata.

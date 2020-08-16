@@ -14,10 +14,6 @@ export class ReactNativeQueryRunner extends AbstractSqliteQueryRunner {
      */
     driver: ReactNativeDriver;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(driver: ReactNativeDriver) {
         super();
         this.driver = driver;
@@ -80,10 +76,6 @@ export class ReactNativeQueryRunner extends AbstractSqliteQueryRunner {
             );
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Parametrizes given object of values. Used to create column=value queries.

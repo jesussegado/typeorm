@@ -19,15 +19,7 @@ import { MongoDriver } from "./MongoDriver";
  * 9. create indices which are missing in db yet, and drops indices which exist in the db, but does not exist in the metadata anymore
  */
 export class MongoSchemaBuilder implements SchemaBuilder {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(protected connection: Connection) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates complete schemas for the given entity metadatas.

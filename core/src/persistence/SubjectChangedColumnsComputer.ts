@@ -7,10 +7,6 @@ import { ApplyValueTransformers } from "../util/ApplyValueTransformers";
  * Finds what columns are changed in the subject entities.
  */
 export class SubjectChangedColumnsComputer {
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Finds what columns are changed in the subject entities.
      */
@@ -20,10 +16,6 @@ export class SubjectChangedColumnsComputer {
             this.computeDiffRelationalColumns(subjects, subject);
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Differentiate columns from the updated entity and entity stored in the database.

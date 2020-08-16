@@ -33,10 +33,6 @@ export { ObjectID } from "mongodb";
  * Organizes communication with MongoDB.
  */
 export class MongoDriver extends Driver {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     type: DriverType = "mongodb";
 
     /**
@@ -48,10 +44,6 @@ export class MongoDriver extends Driver {
      * because it does not have a regular connection pool as RDBMS systems have.
      */
     queryRunner?: MongoQueryRunner;
-
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection options.
@@ -139,10 +131,6 @@ export class MongoDriver extends Driver {
      */
     maxAliasLength?: number;
 
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Valid mongo connection options
      * NOTE: Keep sync with MongoConnectionOptions
@@ -210,10 +198,6 @@ export class MongoDriver extends Driver {
         "useUnifiedTopology",
     ];
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         protected connection: Connection,
         connectionOptions: MongoConnectionOptions
@@ -227,10 +211,6 @@ export class MongoDriver extends Driver {
         // load mongodb package
         this.loadDependencies();
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs connection to the database.
@@ -451,10 +431,6 @@ export class MongoDriver extends Driver {
     createParameter(parameterName: string, index: number): string {
         return "";
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Validate driver options to make sure everything is correct and driver will be able to establish connection.

@@ -82,10 +82,6 @@ export class EntityCreateCommand implements yargs.CommandModule {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Protected Static Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Gets contents of the entity file.
      */

@@ -7,10 +7,6 @@ import { isDriverSupported } from "../driver/Driver";
  * Find Operator used in Find Conditions.
  */
 export class FindOperator<T> {
-    // -------------------------------------------------------------------------
-    // Private Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Operator type.
      */
@@ -31,10 +27,6 @@ export class FindOperator<T> {
      */
     private _multipleParameters: boolean;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         type: FindOperatorType,
         value: T | FindOperator<T>,
@@ -46,10 +38,6 @@ export class FindOperator<T> {
         this._useParameter = useParameter;
         this._multipleParameters = multipleParameters;
     }
-
-    // -------------------------------------------------------------------------
-    // Accessors
-    // -------------------------------------------------------------------------
 
     /**
      * Indicates if parameter is used or not for this operator.
@@ -81,10 +69,6 @@ export class FindOperator<T> {
 
         return this._value;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Gets SQL needs to be inserted into final query.

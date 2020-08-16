@@ -16,10 +16,6 @@ import { ColumnMetadata } from "../metadata/ColumnMetadata";
  * Having this collection of subjects we can perform database queries.
  */
 export class Subject {
-    // -------------------------------------------------------------------------
-    // Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Entity metadata of the subject entity.
      */
@@ -129,10 +125,6 @@ export class Subject {
      */
     diffRelations: RelationMetadata[] = [];
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(options: {
         metadata: EntityMetadata;
         parentSubject?: Subject;
@@ -165,10 +157,6 @@ export class Subject {
 
         this.recompute();
     }
-
-    // -------------------------------------------------------------------------
-    // Accessors
-    // -------------------------------------------------------------------------
 
     /**
      * Checks if this subject must be inserted into the database.
@@ -222,10 +210,6 @@ export class Subject {
                 (this.databaseEntityLoaded && this.databaseEntity))
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a value set needs to be inserted / updated in the database.

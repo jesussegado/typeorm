@@ -14,9 +14,6 @@ import { DriverType } from "../Driver";
  */
 export class SqliteDriver extends AbstractSqliteDriver {
     type: DriverType = "sqlite";
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection options.
@@ -27,10 +24,6 @@ export class SqliteDriver extends AbstractSqliteDriver {
      * SQLite underlying library.
      */
     sqlite: any;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(
         connection: Connection,
@@ -49,10 +42,6 @@ export class SqliteDriver extends AbstractSqliteDriver {
         // load sqlite package
         this.loadDependencies();
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Closes connection with database.
@@ -87,10 +76,6 @@ export class SqliteDriver extends AbstractSqliteDriver {
 
         return super.normalizeType(column);
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates connection with the database.

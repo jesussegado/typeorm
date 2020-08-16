@@ -46,10 +46,6 @@ export type DriverFactory = (
  * You can have multiple connections to multiple databases in your application.
  */
 export class Connection {
-    // -------------------------------------------------------------------------
-    // Public Readonly Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Connection name.
      */
@@ -115,10 +111,6 @@ export class Connection {
      */
     readonly relationIdLoader: RelationIdLoader;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         config: TypeormAndConnectionOptions,
         driverFactory: DriverFactory
@@ -141,10 +133,6 @@ export class Connection {
         this.isConnected = false;
     }
 
-    // -------------------------------------------------------------------------
-    // Public Accessors
-    // -------------------------------------------------------------------------
-
     /**
      * Gets a sql.js specific Entity Manager that allows to perform special load and save operations
      *
@@ -158,10 +146,6 @@ export class Connection {
 
         return this.manager as SqljsEntityManager;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs connection to the database.
@@ -502,10 +486,6 @@ export class Connection {
 
         return relationMetadata.junctionEntityMetadata;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Finds exist entity metadata by the given entity class, target name or table name.

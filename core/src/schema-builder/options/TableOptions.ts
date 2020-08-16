@@ -9,10 +9,6 @@ import { TableExclusionOptions } from "./TableExclusionOptions";
  * Table options.
  */
 export interface TableOptions {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Table name.
      */

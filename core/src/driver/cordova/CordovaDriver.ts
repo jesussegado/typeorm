@@ -19,10 +19,6 @@ export class CordovaDriver extends AbstractSqliteDriver {
 
     options: CordovaConnectionOptions;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(connection: Connection) {
         super(connection);
 
@@ -40,10 +36,6 @@ export class CordovaDriver extends AbstractSqliteDriver {
         // load sqlite package
         this.loadDependencies();
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Closes connection with database.
@@ -63,10 +55,6 @@ export class CordovaDriver extends AbstractSqliteDriver {
 
         return this.queryRunner;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates connection with the database.

@@ -1,10 +1,6 @@
 import { ObjectLiteral } from "../common/ObjectLiteral";
 
 export class OrmUtils {
-    // -------------------------------------------------------------------------
-    // Public methods
-    // -------------------------------------------------------------------------
-
     /**
      * Chunks array into peaces.
      */
@@ -213,10 +209,6 @@ export class OrmUtils {
             return arr2.indexOf(element) !== -1;
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Private methods
-    // -------------------------------------------------------------------------
 
     private static compare2Objects(
         leftChain: any,

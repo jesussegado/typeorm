@@ -13,20 +13,12 @@ export class SqljsQueryRunner extends AbstractSqliteQueryRunner {
      */
     driver: SqljsDriver;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(driver: SqljsDriver) {
         super();
         this.driver = driver;
         this.connection = driver.connection;
         this.broadcaster = new Broadcaster(this);
     }
-
-    // -------------------------------------------------------------------------
-    // Public methods
-    // -------------------------------------------------------------------------
 
     /**
      * Commits transaction.

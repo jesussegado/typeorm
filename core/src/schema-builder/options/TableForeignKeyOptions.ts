@@ -2,10 +2,6 @@
  * Foreign key options.
  */
 export interface TableForeignKeyOptions {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Name of the table which contains this foreign key.
      */

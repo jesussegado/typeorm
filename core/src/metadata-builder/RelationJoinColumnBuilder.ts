@@ -37,15 +37,7 @@ import { isDriverSupported } from "../driver/Driver";
  * and create join column metadata args for them.
  */
 export class RelationJoinColumnBuilder {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(private connection: Connection) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Builds a foreign key of the many-to-one or one-to-one owner relations.
@@ -106,9 +98,6 @@ export class RelationJoinColumnBuilder {
 
         return { foreignKey, uniqueConstraint: undefined };
     }
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Collects referenced columns from the given join column args.

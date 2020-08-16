@@ -2,10 +2,6 @@
  * Provides utilities to transform hydrated and persisted data.
  */
 export class DateUtils {
-    // -------------------------------------------------------------------------
-    // Public Static Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Normalizes date object hydrated from the database.
      */
@@ -235,10 +231,6 @@ export class DateUtils {
 
         return value;
     }
-
-    // -------------------------------------------------------------------------
-    // Private Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Formats given number to "0x" format, e.g. if it is 1 then it will return "01".

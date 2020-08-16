@@ -10,10 +10,6 @@ import { Alias } from "./Alias";
  * Stores all join attributes which will be used to build a JOIN query.
  */
 export class JoinAttribute {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Join direction.
      */
@@ -44,10 +40,6 @@ export class JoinAttribute {
      */
     isMappingMany?: boolean;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         private connection: Connection,
         private queryExpressionMap: QueryExpressionMap,
@@ -55,10 +47,6 @@ export class JoinAttribute {
     ) {
         ObjectUtils.assign(this, joinAttribute || {});
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     get isMany(): boolean {
         if (this.isMappingMany !== undefined) return this.isMappingMany;

@@ -16,10 +16,6 @@ export class SqliteQueryRunner extends AbstractSqliteQueryRunner {
      */
     driver: SqliteDriver;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(driver: SqliteDriver) {
         super();
         this.driver = driver;

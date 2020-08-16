@@ -23,10 +23,6 @@ export async function getTypeormAndConnectionOptions(
 }
 
 export class TypeormAndConnectionOptionsReader {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         protected options?: {
             /**
@@ -41,10 +37,6 @@ export class TypeormAndConnectionOptionsReader {
             configName?: string;
         }
     ) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Returns all connection options read from the ormconfig.
@@ -92,10 +84,6 @@ export class TypeormAndConnectionOptionsReader {
         );
         return !!targetOptions;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Loads all connection options from a configuration file.

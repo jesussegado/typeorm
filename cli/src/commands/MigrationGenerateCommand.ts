@@ -192,10 +192,6 @@ export class MigrationGenerateCommand implements yargs.CommandModule {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Protected Static Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Formats query parameters for migration queries if parameters actually exist
      */

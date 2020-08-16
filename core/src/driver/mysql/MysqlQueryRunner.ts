@@ -25,27 +25,15 @@ import { TableExclusion } from "../../schema-builder/table/TableExclusion";
  * Runs queries on a single mysql database connection.
  */
 export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Database driver used by connection.
      */
     driver: MysqlDriver;
 
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Promise used to obtain a database connection from a pool for a first time.
      */
     protected databaseConnectionPromise: Promise<any>;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(driver: MysqlDriver, mode: "master" | "slave" = "master") {
         super();
@@ -54,10 +42,6 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
         this.broadcaster = new Broadcaster(this);
         this.mode = mode;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates/uses database connection from the connection pool to perform further operations.
@@ -1932,10 +1916,6 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
             throw error;
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Returns current database.

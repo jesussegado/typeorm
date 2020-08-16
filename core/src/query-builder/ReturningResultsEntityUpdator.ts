@@ -11,18 +11,10 @@ import { isDriverSupported } from "../driver/Driver";
  * Updates entity with returning results in the entity insert and update operations.
  */
 export class ReturningResultsEntityUpdator {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         protected queryRunner: QueryRunner,
         protected expressionMap: QueryExpressionMap
     ) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Updates entities with a special columns after updation query execution.

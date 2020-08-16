@@ -6,19 +6,11 @@ import { QueryRunner } from "../../query-runner/QueryRunner";
 import { DriverUtils } from "../../driver/DriverUtils";
 
 export class RelationIdLoader {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         protected connection: Connection,
         protected queryRunner: QueryRunner | undefined,
         protected relationIdAttributes: RelationIdAttribute[]
     ) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     async load(rawEntities: any[]): Promise<RelationIdLoadResult[]> {
         const promises = this.relationIdAttributes.map(

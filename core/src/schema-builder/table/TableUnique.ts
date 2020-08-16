@@ -5,10 +5,6 @@ import { UniqueMetadata } from "../../metadata/UniqueMetadata";
  * Database's table unique constraint stored in this class.
  */
 export class TableUnique {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Constraint name.
      */
@@ -19,18 +15,10 @@ export class TableUnique {
      */
     columnNames: string[] = [];
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(options: TableUniqueOptions) {
         this.name = options.name;
         this.columnNames = options.columnNames;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a new copy of this constraint with exactly same properties.
@@ -41,10 +29,6 @@ export class TableUnique {
             columnNames: [...this.columnNames],
         } as TableUniqueOptions);
     }
-
-    // -------------------------------------------------------------------------
-    // Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates unique from the unique metadata object.

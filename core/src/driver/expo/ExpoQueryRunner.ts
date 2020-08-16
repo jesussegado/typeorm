@@ -39,10 +39,6 @@ export class ExpoQueryRunner extends AbstractSqliteQueryRunner {
      */
     private transaction?: Transaction;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(driver: ExpoDriver) {
         super();
         this.driver = driver;

@@ -23,26 +23,14 @@ import { TableExclusion } from "../../schema-builder/table/TableExclusion";
  */
 export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
     implements QueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Database driver used by connection.
      */
     driver: AbstractSqliteDriver;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor() {
         super();
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates/uses database connection from the connection pool to perform further operations.
@@ -1046,10 +1034,6 @@ export abstract class AbstractSqliteQueryRunner extends BaseQueryRunner
             await this.query(`PRAGMA foreign_keys = ON;`);
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     protected async loadViews(viewNames: string[]): Promise<View[]> {
         const hasTable = await this.hasTable(

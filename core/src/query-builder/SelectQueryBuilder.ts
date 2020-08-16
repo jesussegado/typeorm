@@ -40,10 +40,6 @@ import { isDriverSupported } from "../driver/Driver";
  */
 export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
     implements WhereExpression {
-    // -------------------------------------------------------------------------
-    // Public Implemented Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Gets generated sql query without parameters being replaced.
      */
@@ -60,10 +56,6 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         if (this.expressionMap.subQuery) sql = `(${sql})`;
         return sql;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a subquery - query that can be used inside other queries.
@@ -1824,10 +1816,6 @@ export class SelectQueryBuilder<Entity> extends QueryBuilder<Entity>
         this.expressionMap.options.push(option);
         return this;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     protected join(
         direction: "INNER" | "LEFT",

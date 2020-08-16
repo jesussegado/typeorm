@@ -5,10 +5,6 @@ import { TableForeignKeyOptions } from "../options/TableForeignKeyOptions";
  * Foreign key from the database stored in this class.
  */
 export class TableForeignKey {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Name of the foreign key constraint.
      */
@@ -47,10 +43,6 @@ export class TableForeignKey {
      */
     deferrable?: string;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(options: TableForeignKeyOptions) {
         this.name = options.name;
         this.columnNames = options.columnNames;
@@ -60,10 +52,6 @@ export class TableForeignKey {
         this.onUpdate = options.onUpdate;
         this.deferrable = options.deferrable;
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a new copy of this foreign key with exactly same properties.
@@ -79,10 +67,6 @@ export class TableForeignKey {
             deferrable: this.deferrable,
         } as TableForeignKeyOptions);
     }
-
-    // -------------------------------------------------------------------------
-    // Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a new table foreign key from the given foreign key metadata.

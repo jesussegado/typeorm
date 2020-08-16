@@ -14,10 +14,6 @@ export class NativescriptQueryRunner extends AbstractSqliteQueryRunner {
      */
     driver: NativescriptDriver;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(driver: NativescriptDriver) {
         super();
         this.driver = driver;
@@ -77,10 +73,6 @@ export class NativescriptQueryRunner extends AbstractSqliteQueryRunner {
             });
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Parametrizes given object of values. Used to create column=value queries.

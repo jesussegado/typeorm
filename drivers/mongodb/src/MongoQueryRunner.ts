@@ -58,10 +58,6 @@ import { MongoEntityManager } from "./MongoEntityManager";
  * Runs queries on a single MongoDB connection.
  */
 export class MongoQueryRunner implements QueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Connection used by this query runner.
      */
@@ -111,19 +107,11 @@ export class MongoQueryRunner implements QueryRunner {
      */
     databaseConnection: MongoClient;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(connection: Connection, databaseConnection: MongoClient) {
         this.connection = connection;
         this.databaseConnection = databaseConnection;
         this.broadcaster = new Broadcaster(this);
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates a cursor for a query that can be used to iterate over results from MongoDB.
@@ -1227,10 +1215,6 @@ export class MongoQueryRunner implements QueryRunner {
     async executeMemoryDownSql(): Promise<void> {
         throw new Error(`This operation is not supported by MongoDB driver.`);
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Gets collection from the database with a given name.

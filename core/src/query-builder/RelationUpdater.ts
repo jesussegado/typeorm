@@ -9,18 +9,10 @@ import { isDriverSupported } from "../driver/Driver";
  * todo: add transactions everywhere
  */
 export class RelationUpdater {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         protected queryBuilder: QueryBuilder<any>,
         protected expressionMap: QueryExpressionMap
     ) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Performs set or add operation on a relation.

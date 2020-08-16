@@ -5,10 +5,6 @@ import { Driver } from "./Driver";
  * Common driver utility functions.
  */
 export class DriverUtils {
-    // -------------------------------------------------------------------------
-    // Public Static Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Normalizes and builds a new driver options.
      * Extracts settings from connection url and sets to a new options object.
@@ -64,10 +60,6 @@ export class DriverUtils {
 
         return columnAliasName;
     }
-
-    // -------------------------------------------------------------------------
-    // Private Static Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Extracts connection data from the connection url.

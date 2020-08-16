@@ -13,9 +13,6 @@ import { DriverType } from "../Driver";
  */
 export class NativescriptDriver extends AbstractSqliteDriver {
     type: DriverType = "nativescript";
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Connection options.
@@ -28,10 +25,6 @@ export class NativescriptDriver extends AbstractSqliteDriver {
      * but user can pass his own
      */
     driver: any;
-
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
 
     constructor(
         connection: Connection,
@@ -52,10 +45,6 @@ export class NativescriptDriver extends AbstractSqliteDriver {
         // load sqlite package
         this.loadDependencies();
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Closes connection with database.
@@ -90,9 +79,6 @@ export class NativescriptDriver extends AbstractSqliteDriver {
 
         return super.normalizeType(column);
     }
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates connection with the database.

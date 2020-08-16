@@ -4,10 +4,6 @@ import { TableColumnOptions } from "../options/TableColumnOptions";
  * Table's columns in the database represented in this class.
  */
 export class TableColumn {
-    // -------------------------------------------------------------------------
-    // Public Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Column name.
      */
@@ -139,10 +135,6 @@ export class TableColumn {
      */
     srid?: number;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(options?: TableColumnOptions) {
         if (options) {
             this.name = options.name;
@@ -172,10 +164,6 @@ export class TableColumn {
             this.srid = options.srid;
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Clones this column to a new column with exact same properties as this column has.

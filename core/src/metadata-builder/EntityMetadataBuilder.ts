@@ -23,10 +23,6 @@ import { isDriverSupported } from "../driver/Driver";
  * Builds EntityMetadata objects and all its sub-metadatas.
  */
 export class EntityMetadataBuilder {
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Used to build entity metadatas of the junction entities.
      */
@@ -42,10 +38,6 @@ export class EntityMetadataBuilder {
      */
     protected relationJoinColumnBuilder: RelationJoinColumnBuilder;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(
         private connection: Connection,
         private metadataArgsStorage: MetadataArgsStorage
@@ -60,10 +52,6 @@ export class EntityMetadataBuilder {
             connection
         );
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Builds a complete entity metadatas for the given entity classes.
@@ -402,10 +390,6 @@ export class EntityMetadataBuilder {
 
         return entityMetadatas;
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates entity metadata from the given table args.

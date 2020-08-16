@@ -28,18 +28,10 @@ import { PostgresDriver } from "./PostgresDriver";
  */
 export class PostgresQueryRunner extends BaseQueryRunner
     implements QueryRunner {
-    // -------------------------------------------------------------------------
-    // Public Implemented Properties
-    // -------------------------------------------------------------------------
-
     /**
      * Database driver used by connection.
      */
     driver: PostgresDriver;
-
-    // -------------------------------------------------------------------------
-    // Protected Properties
-    // -------------------------------------------------------------------------
 
     /**
      * Promise used to obtain a database connection for a first time.
@@ -51,10 +43,6 @@ export class PostgresQueryRunner extends BaseQueryRunner
      */
     protected releaseCallback: Function;
 
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(driver: PostgresDriver, mode: "master" | "slave" = "master") {
         super();
         this.driver = driver;
@@ -62,10 +50,6 @@ export class PostgresQueryRunner extends BaseQueryRunner
         this.mode = mode;
         this.broadcaster = new Broadcaster(this);
     }
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Creates/uses database connection from the connection pool to perform further operations.
@@ -2398,10 +2382,6 @@ export class PostgresQueryRunner extends BaseQueryRunner
             throw error;
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Protected Methods
-    // -------------------------------------------------------------------------
 
     protected async loadViews(viewNames: string[]): Promise<View[]> {
         const hasTable = await this.hasTable(

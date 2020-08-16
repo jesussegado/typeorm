@@ -6,10 +6,6 @@ import { EntityMetadata } from "../../metadata/EntityMetadata";
  * Entity is constructed based on its entity metadata.
  */
 export class PlainObjectToNewEntityTransformer {
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
-
     transform<T>(
         newEntity: T,
         object: ObjectLiteral,
@@ -27,10 +23,6 @@ export class PlainObjectToNewEntityTransformer {
         // console.log("result:", newEntity);
         return newEntity;
     }
-
-    // -------------------------------------------------------------------------
-    // Private Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Since db returns a duplicated rows of the data where accuracies of the same object can be duplicated

@@ -134,10 +134,6 @@ export class InitCommand implements yargs.CommandModule {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Protected Static Methods
-    // -------------------------------------------------------------------------
-
     /**
      * Gets contents of the ormconfig file.
      */

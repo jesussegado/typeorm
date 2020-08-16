@@ -6,15 +6,7 @@ import { RelationMetadata } from "../metadata/RelationMetadata";
  * to be able to lazily load relations when accessing these relations.
  */
 export class RelationLoader {
-    // -------------------------------------------------------------------------
-    // Constructor
-    // -------------------------------------------------------------------------
-
     constructor(private connection: Connection) {}
-
-    // -------------------------------------------------------------------------
-    // Public Methods
-    // -------------------------------------------------------------------------
 
     /**
      * Loads relation data for the given entity and its relation.
