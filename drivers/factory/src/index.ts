@@ -1,7 +1,6 @@
 import { Connection, Driver } from "typeorm-core";
 import { AuroraDataApiDriver } from "typeorm-core/build/compiled/src/driver/aurora-data-api/AuroraDataApiDriver";
 import { MissingDriverError } from "typeorm-core/build/compiled/src/error/MissingDriverError";
-import { CockroachDriver } from "typeorm-core/build/compiled/src/driver/cockroachdb/CockroachDriver";
 import { SapDriver } from "typeorm-core/build/compiled/src/driver/sap/SapDriver";
 import { SqliteDriver } from "typeorm-core/build/compiled/src/driver/sqlite/SqliteDriver";
 import { CordovaDriver } from "typeorm-core/build/compiled/src/driver/cordova/CordovaDriver";
@@ -30,6 +29,7 @@ import { OracleDriver } from "typeorm-core/build/compiled/src/driver/oracle/Orac
 import { SqlServerDriver } from "typeorm-core/build/compiled/src/driver/sqlserver/SqlServerDriver";
 import { MongoDriver } from "typeorm-driver-mongodb";
 import { SqljsDriver } from "typeorm-driver-sqljs";
+import { CockroachDriver } from "typeorm-driver-cockroachdb";
 import {
     PostgresDriver,
     AuroraDataApiPostgresDriver,

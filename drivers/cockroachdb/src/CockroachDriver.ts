@@ -5,23 +5,17 @@ import {
     CockroachConnectionCredentialsOptions,
     CockroachConnectionOptions,
 } from "typeorm-base";
-import { Driver, DriverType } from "../Driver";
-import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
-import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
-import { DriverUtils } from "../DriverUtils";
-import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-
-import { Connection } from "../../connection/Connection";
-import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
-import { MappedColumnTypes } from "../types/MappedColumnTypes";
-import { ColumnType } from "../types/ColumnTypes";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { DataTypeDefaults } from "../types/DataTypeDefaults";
-import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { EntityMetadata } from "../../metadata/EntityMetadata";
-
 import { CockroachQueryRunner } from "./CockroachQueryRunner";
-import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
+import { Driver, Connection, QueryRunner, ColumnType, TableColumn, EntityMetadata } from "typeorm-core"
+import { DriverType } from 'typeorm-core/build/compiled/src/driver/Driver';
+import { MappedColumnTypes } from 'typeorm-core/build/compiled/src/driver/types/MappedColumnTypes';
+import { DataTypeDefaults } from 'typeorm-core/build/compiled/src/driver/types/DataTypeDefaults';
+import { RdbmsSchemaBuilder } from 'typeorm-core/build/compiled/src/schema-builder/RdbmsSchemaBuilder';
+import { ColumnMetadata } from 'typeorm-core/build/compiled/src/metadata/ColumnMetadata';
+import {ConnectionIsNotSetError}  from "typeorm-core/build/compiled/src/error/ConnectionIsNotSetError"
+import {DriverPackageNotInstalledError}  from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError"
+import { ApplyValueTransformers } from "typeorm-core/build/compiled/src/util/ApplyValueTransformers";
+import { DriverUtils } from "typeorm-core/build/compiled/src/driver/DriverUtils";
 
 /**
  * Organizes communication with Cockroach DBMS.

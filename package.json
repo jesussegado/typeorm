@@ -25,6 +25,7 @@
   "workspaces": [
     "base",
     "core",
+    "drivers/cockroachdb",
     "drivers/mongodb",
     "drivers/postgres",
     "drivers/sqljs",

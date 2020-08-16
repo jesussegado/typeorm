@@ -1,29 +1,16 @@
-import { ObjectLiteral, OrmUtils } from "typeorm-base";
+import { ObjectLiteral, OrmUtils, PromiseUtils } from "typeorm-base";
 import { ReadStream } from "fs";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
-import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
-import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { Table } from "../../schema-builder/table/Table";
-import { TableIndex } from "../../schema-builder/table/TableIndex";
-import { TableForeignKey } from "../../schema-builder/table/TableForeignKey";
-import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
-import { View } from "../../schema-builder/view/View";
-import { Query } from "../Query";
 import { CockroachDriver } from "./CockroachDriver";
-
-import { QueryFailedError } from "../../error/QueryFailedError";
-import { Broadcaster } from "../../subscriber/Broadcaster";
-import { TableIndexOptions } from "../../schema-builder/options/TableIndexOptions";
-import { TableUnique } from "../../schema-builder/table/TableUnique";
-import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";
-
-import { PromiseUtils, ColumnType } from "../..";
-import { TableCheck } from "../../schema-builder/table/TableCheck";
-
-import { IsolationLevel } from "../types/IsolationLevel";
-import { TableExclusion } from "../../schema-builder/table/TableExclusion";
-
+import { QueryRunner, QueryFailedError, Table, TableColumn, TableUnique, TableCheck, TableExclusion, TableForeignKey, TableIndex, ColumnType } from "typeorm-core"
+import { BaseQueryRunner } from 'typeorm-core/build/compiled/src/query-runner/BaseQueryRunner';
+import { Broadcaster } from 'typeorm-core/build/compiled/src/subscriber/Broadcaster';
+import { IsolationLevel } from 'typeorm-core/build/compiled/src/driver/types/IsolationLevel';
+import { Query } from 'typeorm-core/build/compiled/src/driver/Query';
+import { View } from 'typeorm-core/build/compiled/src/schema-builder/view/View';
+import { TableIndexOptions } from 'typeorm-core/build/compiled/src/schema-builder/options/TableIndexOptions';
+import {TransactionAlreadyStartedError}  from "typeorm-core/build/compiled/src/error/TransactionAlreadyStartedError"
+import {TransactionNotStartedError}  from "typeorm-core/build/compiled/src/error/TransactionNotStartedError"
+import {QueryRunnerAlreadyReleasedError}  from "typeorm-core/build/compiled/src/error/QueryRunnerAlreadyReleasedError"
 /**
  * Runs queries on a single postgres database connection.
  */
