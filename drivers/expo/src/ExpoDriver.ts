@@ -1,10 +1,9 @@
 import { ExpoConnectionOptions } from "typeorm-base";
-import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
+import { DriverType } from 'typeorm-core/build/compiled/src/driver/Driver';
+import {AbstractSqliteDriver} from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteDriver"
+import {DriverOptionNotSetError} from "typeorm-core/build/compiled/src/error/DriverOptionNotSetError"
+import { Connection, QueryRunner } from 'typeorm-core';
 import { ExpoQueryRunner } from "./ExpoQueryRunner";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { Connection } from "../../connection/Connection";
-import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
-import { DriverType } from "../Driver";
 
 export class ExpoDriver extends AbstractSqliteDriver {
     options: ExpoConnectionOptions;

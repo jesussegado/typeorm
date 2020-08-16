@@ -1,9 +1,9 @@
 import { ObjectLiteral } from "typeorm-base";
-import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
-import { QueryFailedError } from "../../error/QueryFailedError";
-import { AbstractSqliteQueryRunner } from "../sqlite-abstract/AbstractSqliteQueryRunner";
+import {AbstractSqliteQueryRunner} from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteQueryRunner"
+import { Broadcaster } from 'typeorm-core/build/compiled/src/subscriber/Broadcaster';
+import { QueryFailedError } from 'typeorm-core';
+import {QueryRunnerAlreadyReleasedError} from "typeorm-core/build/compiled/src/error/QueryRunnerAlreadyReleasedError"
 import { NativescriptDriver } from "./NativescriptDriver";
-import { Broadcaster } from "../../subscriber/Broadcaster";
 
 /**
  * Runs queries on a single sqlite database connection.

@@ -1,29 +1,23 @@
-import { CordovaConnectionOptions } from "typeorm-base";
-import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
-import { CordovaQueryRunner } from "./CordovaQueryRunner";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { Connection } from "../../connection/Connection";
-import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
-import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
-import { DriverType } from "../Driver";
+import { ReactNativeConnectionOptions } from "typeorm-base";
+import { DriverType } from 'typeorm-core/build/compiled/src/driver/Driver';
+import {AbstractSqliteDriver} from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteDriver"
+import {DriverOptionNotSetError} from "typeorm-core/build/compiled/src/error/DriverOptionNotSetError"
+import {DriverPackageNotInstalledError} from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError"
+import { Connection, QueryRunner } from 'typeorm-core';
+import { ReactNativeQueryRunner } from "./ReactNativeQueryRunner";
 
-// needed for typescript compiler
-interface Window {
-    sqlitePlugin: any;
-}
+export class ReactNativeDriver extends AbstractSqliteDriver {
+    options: ReactNativeConnectionOptions;
 
-declare let window: Window;
+    type: DriverType = "react-native";
 
-export class CordovaDriver extends AbstractSqliteDriver {
-    type: DriverType = "cordova";
-
-    options: CordovaConnectionOptions;
-
-    constructor(connection: Connection) {
+    constructor(
+        connection: Connection,
+        connectionOptions: ReactNativeConnectionOptions
+    ) {
         super(connection);
 
-        // this.connection = connection;
-        // this.options = connection.options as CordovaConnectionOptions;
+        this.options = connectionOptions;
         this.database = this.options.database;
 
         // validate options to make sure everything is set
@@ -51,7 +45,8 @@ export class CordovaDriver extends AbstractSqliteDriver {
      * Creates a query runner used to execute database queries.
      */
     createQueryRunner(mode: "master" | "slave" = "master"): QueryRunner {
-        if (!this.queryRunner) this.queryRunner = new CordovaQueryRunner(this);
+        if (!this.queryRunner)
+            this.queryRunner = new ReactNativeQueryRunner(this);
 
         return this.queryRunner;
     }
@@ -73,7 +68,7 @@ export class CordovaDriver extends AbstractSqliteDriver {
                     const databaseConnection = db;
 
                     // we need to enable foreign keys in sqlite to make sure all foreign key related features
-                    // working properly. this also makes onDelete to work with sqlite.
+                    // working properly. this also makes onDelete work with sqlite.
                     databaseConnection.executeSql(
                         `PRAGMA foreign_keys = ON;`,
                         [],
@@ -97,11 +92,11 @@ export class CordovaDriver extends AbstractSqliteDriver {
      */
     protected loadDependencies(): void {
         try {
-            this.sqlite = window.sqlitePlugin;
+            this.sqlite = require("react-native-sqlite-storage");
         } catch (e) {
             throw new DriverPackageNotInstalledError(
-                "Cordova-SQLite",
-                "cordova-sqlite-storage"
+                "React-Native",
+                "react-native-sqlite-storage"
             );
         }
     }

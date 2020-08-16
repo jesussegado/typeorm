@@ -1,12 +1,10 @@
 import { NativescriptConnectionOptions } from "typeorm-base";
-import { AbstractSqliteDriver } from "../sqlite-abstract/AbstractSqliteDriver";
+import { DriverType } from 'typeorm-core/build/compiled/src/driver/Driver';
+import {AbstractSqliteDriver} from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteDriver"
+import {DriverOptionNotSetError} from "typeorm-core/build/compiled/src/error/DriverOptionNotSetError"
+import {DriverPackageNotInstalledError} from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError"
+import { Connection, QueryRunner, ColumnType } from 'typeorm-core';
 import { NativescriptQueryRunner } from "./NativescriptQueryRunner";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { Connection } from "../../connection/Connection";
-import { DriverOptionNotSetError } from "../../error/DriverOptionNotSetError";
-import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
-import { ColumnType } from "../types/ColumnTypes";
-import { DriverType } from "../Driver";
 
 /**
  * Organizes communication with sqlite DBMS within Nativescript.

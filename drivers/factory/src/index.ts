@@ -1,10 +1,6 @@
 import { Connection, Driver } from "typeorm-core";
 import { AuroraDataApiDriver } from "typeorm-core/build/compiled/src/driver/aurora-data-api/AuroraDataApiDriver";
 import { MissingDriverError } from "typeorm-core/build/compiled/src/error/MissingDriverError";
-import { CordovaDriver } from "typeorm-core/build/compiled/src/driver/cordova/CordovaDriver";
-import { NativescriptDriver } from "typeorm-core/build/compiled/src/driver/nativescript/NativescriptDriver";
-import { ReactNativeDriver } from "typeorm-core/build/compiled/src/driver/react-native/ReactNativeDriver";
-import { ExpoDriver } from "typeorm-core/build/compiled/src/driver/expo/ExpoDriver";
 import {
     ConnectionOptions,
     MysqlConnectionOptions,
@@ -30,6 +26,10 @@ import { SqljsDriver } from "typeorm-driver-sqljs";
 import { CockroachDriver } from "typeorm-driver-cockroachdb";
 import { SapDriver } from "typeorm-driver-sap";
 import { SqliteDriver } from "typeorm-driver-sqlite";
+import { CordovaDriver } from "typeorm-driver-cordova";
+import { NativescriptDriver } from "typeorm-driver-nativescript";
+import { ReactNativeDriver } from "typeorm-driver-react-native";
+import { ExpoDriver } from "typeorm-driver-expo";
 import {
     PostgresDriver,
     AuroraDataApiPostgresDriver,
