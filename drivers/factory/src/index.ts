@@ -1,5 +1,4 @@
 import { Connection, Driver } from "typeorm-core";
-import { AuroraDataApiDriver } from "typeorm-core/build/compiled/src/driver/aurora-data-api/AuroraDataApiDriver";
 import { MissingDriverError } from "typeorm-core/build/compiled/src/error/MissingDriverError";
 import {
     ConnectionOptions,
@@ -18,7 +17,6 @@ import {
     AuroraDataApiConnectionOptions,
     AuroraDataApiPostgresConnectionOptions,
 } from "typeorm-base";
-import { MysqlDriver } from "typeorm-core/build/compiled/src/driver/mysql/MysqlDriver";
 import { OracleDriver } from "typeorm-core/build/compiled/src/driver/oracle/OracleDriver";
 import { SqlServerDriver } from "typeorm-core/build/compiled/src/driver/sqlserver/SqlServerDriver";
 import { MongoDriver } from "typeorm-driver-mongodb";
@@ -30,6 +28,8 @@ import { CordovaDriver } from "typeorm-driver-cordova";
 import { NativescriptDriver } from "typeorm-driver-nativescript";
 import { ReactNativeDriver } from "typeorm-driver-react-native";
 import { ExpoDriver } from "typeorm-driver-expo";
+import { MysqlDriver } from "typeorm-driver-mysql";
+import { AuroraDataApiDriver } from "typeorm-driver-aurora-data-api";
 import {
     PostgresDriver,
     AuroraDataApiPostgresDriver,

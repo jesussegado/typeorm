@@ -5,20 +5,21 @@ import {
     AuroraDataApiConnectionOptions,
     AuroraDataApiConnectionCredentialsOptions,
 } from "typeorm-base";
-import { Driver, DriverType } from "../Driver";
-import { DriverUtils } from "../DriverUtils";
+import {
+    Driver,
+    Connection,
+    ColumnType,
+    TableColumn,
+    EntityMetadata,
+} from "typeorm-core";
+import { DriverType } from "typeorm-core/build/compiled/src/driver/Driver";
+import { MappedColumnTypes } from "typeorm-core/build/compiled/src/driver/types/MappedColumnTypes";
+import { DataTypeDefaults } from "typeorm-core/build/compiled/src/driver/types/DataTypeDefaults";
+import { RdbmsSchemaBuilder } from "typeorm-core/build/compiled/src/schema-builder/RdbmsSchemaBuilder";
+import { ColumnMetadata } from "typeorm-core/build/compiled/src/metadata/ColumnMetadata";
+import { DriverUtils } from "typeorm-core/build/compiled/src/driver/DriverUtils";
+import { ApplyValueTransformers } from "typeorm-core/build/compiled/src/util/ApplyValueTransformers";
 import { AuroraDataApiQueryRunner } from "./AuroraDataApiQueryRunner";
-import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-import { Connection } from "../../connection/Connection";
-import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
-
-import { MappedColumnTypes } from "../types/MappedColumnTypes";
-import { ColumnType } from "../types/ColumnTypes";
-import { DataTypeDefaults } from "../types/DataTypeDefaults";
-import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { EntityMetadata } from "../../metadata/EntityMetadata";
-
-import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 
 /**
  * Organizes communication with MySQL DBMS.

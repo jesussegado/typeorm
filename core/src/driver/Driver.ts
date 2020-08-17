@@ -9,8 +9,6 @@ import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { DatabaseType, Connection, EntityManager, Repository } from "..";
 import type { SqlServerDriver } from "./sqlserver/SqlServerDriver";
-import type { MysqlDriver } from "./mysql/MysqlDriver";
-import type { AuroraDataApiDriver } from "./aurora-data-api/AuroraDataApiDriver";
 import type { OracleDriver } from "./oracle/OracleDriver";
 
 import { RdbmsMigrationExecutor } from "../migration/RdbmsMigrationExecutor";
@@ -39,12 +37,6 @@ export function isDriverSupported(
 
 export function isMssql(driver: Driver): driver is SqlServerDriver {
     return driver.type === "mssql";
-}
-export function isMysql(driver: Driver): driver is MysqlDriver {
-    return driver.type === "mysql";
-}
-export function isAuroraDataApi(driver: Driver): driver is AuroraDataApiDriver {
-    return driver.type === "aurora-data-api";
 }
 export function isOracle(driver: Driver): driver is OracleDriver {
     return driver.type === "oracle";

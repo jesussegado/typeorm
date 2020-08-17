@@ -1,11 +1,10 @@
-import { AuroraDataApiQueryRunner } from "./AuroraDataApiQueryRunner";
 import {
     Connection,
     TypeormAndConnectionOptions,
-    DriverFactory,
-} from "../../connection/Connection";
-import { QueryRunner } from "../..";
-
+    QueryRunner,
+} from "typeorm-core";
+import { DriverFactory } from "typeorm-core/build/compiled/src/connection/Connection";
+import { AuroraDataApiQueryRunner } from "./AuroraDataApiQueryRunner";
 /**
  * Organizes communication with MySQL DBMS.
  */

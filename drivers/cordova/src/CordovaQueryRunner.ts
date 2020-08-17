@@ -1,8 +1,8 @@
 import { ObjectLiteral } from "typeorm-base";
-import {AbstractSqliteQueryRunner} from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteQueryRunner"
-import { Broadcaster } from 'typeorm-core/build/compiled/src/subscriber/Broadcaster';
-import { QueryFailedError } from 'typeorm-core';
-import {QueryRunnerAlreadyReleasedError} from "typeorm-core/build/compiled/src/error/QueryRunnerAlreadyReleasedError"
+import { AbstractSqliteQueryRunner } from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteQueryRunner";
+import { Broadcaster } from "typeorm-core/build/compiled/src/subscriber/Broadcaster";
+import { QueryFailedError } from "typeorm-core";
+import { QueryRunnerAlreadyReleasedError } from "typeorm-core/build/compiled/src/error/QueryRunnerAlreadyReleasedError";
 import { CordovaDriver } from "./CordovaDriver";
 /**
  * Runs queries on a single sqlite database connection.

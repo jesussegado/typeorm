@@ -1,25 +1,32 @@
-import { ObjectLiteral, OrmUtils, VersionUtils } from "typeorm-base";
+import {
+    ObjectLiteral,
+    OrmUtils,
+    VersionUtils,
+    PromiseUtils,
+} from "typeorm-base";
 import { ReadStream } from "fs";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
-import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
-import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { Table } from "../../schema-builder/table/Table";
-import { TableForeignKey } from "../../schema-builder/table/TableForeignKey";
-import { TableIndex } from "../../schema-builder/table/TableIndex";
-import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
-import { View } from "../../schema-builder/view/View";
-import { Query } from "../Query";
+import { BaseQueryRunner } from "typeorm-core/build/compiled/src/query-runner/BaseQueryRunner";
+import {
+    QueryRunner,
+    QueryFailedError,
+    Table,
+    TableColumn,
+    TableIndex,
+    TableUnique,
+    TableCheck,
+    TableExclusion,
+    TableForeignKey,
+    ColumnType,
+} from "typeorm-core";
+import { Broadcaster } from "typeorm-core/build/compiled/src/subscriber/Broadcaster";
+import { IsolationLevel } from "typeorm-core/build/compiled/src/driver/types/IsolationLevel";
+import { Query } from "typeorm-core/build/compiled/src/driver/Query";
+import { View } from "typeorm-core/build/compiled/src/schema-builder/view/View";
+import { TableIndexOptions } from "typeorm-core/build/compiled/src/schema-builder/options/TableIndexOptions";
+import { TransactionNotStartedError } from "typeorm-core/build/compiled/src/error/TransactionNotStartedError";
+import { TransactionAlreadyStartedError } from "typeorm-core/build/compiled/src/error/TransactionAlreadyStartedError";
+import { QueryRunnerAlreadyReleasedError } from "typeorm-core/build/compiled/src/error/QueryRunnerAlreadyReleasedError";
 import { MysqlDriver } from "./MysqlDriver";
-import { QueryFailedError } from "../../error/QueryFailedError";
-import { TableIndexOptions } from "../../schema-builder/options/TableIndexOptions";
-import { TableUnique } from "../../schema-builder/table/TableUnique";
-import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";
-import { Broadcaster } from "../../subscriber/Broadcaster";
-import { ColumnType, PromiseUtils } from "../../index";
-import { TableCheck } from "../../schema-builder/table/TableCheck";
-import { IsolationLevel } from "../types/IsolationLevel";
-import { TableExclusion } from "../../schema-builder/table/TableExclusion";
 
 /**
  * Runs queries on a single mysql database connection.

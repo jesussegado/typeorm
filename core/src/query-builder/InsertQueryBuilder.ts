@@ -1,4 +1,10 @@
-import { ObjectLiteral, ObjectType, RandomGenerator } from "typeorm-base";
+import {
+    ObjectLiteral,
+    ObjectType,
+    RandomGenerator,
+    MysqlConnectionOptions,
+    AuroraDataApiConnectionOptions,
+} from "typeorm-base";
 
 import { QueryBuilder } from "./QueryBuilder";
 import { QueryDeepPartialEntity } from "./QueryPartialEntity";
@@ -9,12 +15,7 @@ import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { ReturningResultsEntityUpdator } from "./ReturningResultsEntityUpdator";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { EntitySchema } from "../entity-schema/EntitySchema";
-import {
-    isDriverSupported,
-    isMssql,
-    isMysql,
-    isAuroraDataApi,
-} from "../driver/Driver";
+import { isDriverSupported, isMssql } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -621,14 +622,18 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
 
                         this.expressionMap.nativeParameters[paramName] = value;
                         if (
-                            (isMysql(this.connection.driver) ||
-                                isAuroraDataApi(this.connection.driver)) &&
+                            isDriverSupported(
+                                ["aurora-data-api", "mysql"],
+                                this.connection.driver.type
+                            ) &&
                             this.connection.driver.spatialTypes.indexOf(
                                 column.type
                             ) !== -1
                         ) {
-                            const useLegacy = this.connection.driver.options
-                                .legacySpatialSupport;
+                            const useLegacy = (this.connection.driver
+                                .options as
+                                | AuroraDataApiConnectionOptions
+                                | MysqlConnectionOptions).legacySpatialSupport;
                             const geomFromText = useLegacy
                                 ? "GeomFromText"
                                 : "ST_GeomFromText";

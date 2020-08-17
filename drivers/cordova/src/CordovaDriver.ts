@@ -1,9 +1,9 @@
 import { CordovaConnectionOptions } from "typeorm-base";
-import { Connection, QueryRunner } from "typeorm-core"
-import { DriverType } from 'typeorm-core/build/compiled/src/driver/Driver';
-import {AbstractSqliteDriver} from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteDriver"
-import {DriverOptionNotSetError} from "typeorm-core/build/compiled/src/error/DriverOptionNotSetError"
-import {DriverPackageNotInstalledError} from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError"
+import { Connection, QueryRunner } from "typeorm-core";
+import { DriverType } from "typeorm-core/build/compiled/src/driver/Driver";
+import { AbstractSqliteDriver } from "typeorm-core/build/compiled/src/driver/sqlite-abstract/AbstractSqliteDriver";
+import { DriverOptionNotSetError } from "typeorm-core/build/compiled/src/error/DriverOptionNotSetError";
+import { DriverPackageNotInstalledError } from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError";
 import { CordovaQueryRunner } from "./CordovaQueryRunner";
 // needed for typescript compiler
 interface Window {

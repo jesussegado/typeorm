@@ -1,5 +1,5 @@
 {
-  "name": "typeorm-driver-factory",
+  "name": "typeorm-driver-aurora-data-api",
   "version": "1.0.0",
   "description": "",
   "main": "./build/compiled/src/index.js",
@@ -9,25 +9,13 @@
     "watch": "./node_modules/.bin/tsc -w",
     "lint": "eslint {src,test}/**/*.ts --cache",
     "prettier": "prettier --write {src,test}/**/*.ts",
-    "test": "mocha --require ./build/compiled/test/utils/test-setup.js --bail --recursive --timeout 60000 ./build/compiled/test"
+    "test": "echo empty"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "typeorm-core":"*",
-    "typeorm-driver-cockroachdb":"*",
-    "typeorm-driver-mysql":"*",
-    "typeorm-driver-aurora-data-api":"*",
-    "typeorm-driver-mongodb":"*",
-    "typeorm-driver-postgres":"*",
-    "typeorm-driver-sap":"*",
-    "typeorm-driver-sqlite":"*",
-    "typeorm-driver-cordova":"*",
-    "typeorm-driver-nativescript":"*",
-    "typeorm-driver-react-native":"*",
-    "typeorm-driver-expo":"*",
-    "typeorm-driver-sqljs":"*"
+    "typeorm-core":"*"
 
   },
   "devDependencies": {

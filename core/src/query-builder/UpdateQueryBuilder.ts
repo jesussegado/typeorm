@@ -1,4 +1,8 @@
-import { ObjectLiteral } from "typeorm-base";
+import {
+    ObjectLiteral,
+    AuroraDataApiConnectionOptions,
+    MysqlConnectionOptions,
+} from "typeorm-base";
 import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { QueryBuilder } from "./QueryBuilder";
 import { Connection } from "../connection/Connection";
@@ -15,12 +19,7 @@ import { LimitOnUpdateNotSupportedError } from "../error/LimitOnUpdateNotSupport
 import { UpdateValuesMissingError } from "../error/UpdateValuesMissingError";
 import { EntityColumnNotFound } from "../error/EntityColumnNotFound";
 import { QueryDeepPartialEntity } from "./QueryPartialEntity";
-import {
-    isDriverSupported,
-    isMssql,
-    isMysql,
-    isAuroraDataApi,
-} from "../driver/Driver";
+import { isDriverSupported, isMssql } from "../driver/Driver";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -533,13 +532,18 @@ export class UpdateQueryBuilder<Entity> extends QueryBuilder<Entity>
 
                             let expression = null;
                             if (
-                                (isMysql(this.connection.driver) ||
-                                    isAuroraDataApi(this.connection.driver)) &&
+                                isDriverSupported(
+                                    ["aurora-data-api", "mysql"],
+                                    this.connection.driver.type
+                                ) &&
                                 this.connection.driver.spatialTypes.indexOf(
                                     column.type
                                 ) !== -1
                             ) {
-                                const useLegacy = this.connection.driver.options
+                                const useLegacy = (this.connection.driver
+                                    .options as
+                                    | AuroraDataApiConnectionOptions
+                                    | MysqlConnectionOptions)
                                     .legacySpatialSupport;
                                 const geomFromText = useLegacy
                                     ? "GeomFromText"

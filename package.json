@@ -25,6 +25,8 @@
   "workspaces": [
     "base",
     "core",
+    "drivers/mysql",
+    "drivers/aurora-data-api",
     "drivers/cockroachdb",
     "drivers/mongodb",
     "drivers/postgres",

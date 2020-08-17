@@ -7,7 +7,7 @@ import {
     Entity,
 } from "typeorm-core";
 
-import { MysqlDriver } from "typeorm-core/build/compiled/src/driver/mysql/MysqlDriver";
+import { MysqlDriver } from "typeorm-driver-mysql";
 import { setupSingleTestingConnection } from "../../utils/test-utils";
 import { createDriver } from "../../../src";
 
