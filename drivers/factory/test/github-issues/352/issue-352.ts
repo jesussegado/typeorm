@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { Connection, MssqlParameter } from "typeorm-core";
+import { Connection } from "typeorm-core";
+import { MssqlParameter } from "typeorm-driver-mssql";
 import {
     closeTestingConnections,
     createTestingConnections,

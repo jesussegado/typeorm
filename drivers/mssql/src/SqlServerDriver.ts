@@ -5,24 +5,23 @@ import {
     SqlServerConnectionOptions,
     SqlServerConnectionCredentialsOptions,
 } from "typeorm-base";
-import { Driver, DriverType } from "../Driver";
-import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
-import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
-import { DriverUtils } from "../DriverUtils";
-import { SqlServerQueryRunner } from "./SqlServerQueryRunner";
-import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-import { Connection } from "../../connection/Connection";
-import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
-
-import { MappedColumnTypes } from "../types/MappedColumnTypes";
-import { ColumnType } from "../types/ColumnTypes";
-import { DataTypeDefaults } from "../types/DataTypeDefaults";
-import { MssqlParameter } from "./MssqlParameter";
-import { TableColumn } from "../../schema-builder/table/TableColumn";
-
-import { EntityMetadata } from "../../metadata/EntityMetadata";
-
-import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
+import {
+    Driver,
+    Connection,
+    ColumnType,
+    TableColumn,
+    EntityMetadata,
+} from "typeorm-core";
+import { DriverType } from "typeorm-core/build/compiled/src/driver/Driver";
+import { MappedColumnTypes } from "typeorm-core/build/compiled/src/driver/types/MappedColumnTypes";
+import { DataTypeDefaults } from "typeorm-core/build/compiled/src/driver/types/DataTypeDefaults";
+import { RdbmsSchemaBuilder } from "typeorm-core/build/compiled/src/schema-builder/RdbmsSchemaBuilder";
+import { ColumnMetadata } from "typeorm-core/build/compiled/src/metadata/ColumnMetadata";
+import { ConnectionIsNotSetError } from "typeorm-core/build/compiled/src/error/ConnectionIsNotSetError";
+import { DriverPackageNotInstalledError } from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError";
+import { ApplyValueTransformers } from "typeorm-core/build/compiled/src/util/ApplyValueTransformers";
+import { DriverUtils } from "typeorm-core/build/compiled/src/driver/DriverUtils";
+import { MssqlParameter, SqlServerQueryRunner } from ".";
 
 /**
  * Organizes communication with SQL Server DBMS.
@@ -693,7 +692,7 @@ export class SqlServerDriver extends Driver {
      * Sql server's parameters needs to be wrapped into special object with type information about this value.
      * This method wraps given value into MssqlParameter based on its column definition.
      */
-    parametrizeValue(column: ColumnMetadata, value: any) {
+    createNativeParameter(column: Partial<ColumnMetadata>, value?: any): any {
         // if its already MssqlParameter then simply return it
         if (value instanceof MssqlParameter) return value;
 
@@ -756,28 +755,9 @@ export class SqlServerDriver extends Driver {
                 // if we didn't find a column then we can't proceed because we don't have a column type
                 return value;
 
-            newMap[key] = this.parametrizeValue(column, value);
+            newMap[key] = this.createNativeParameter(column, value);
             return newMap;
         }, {} as ObjectLiteral);
-    }
-
-    buildTableVariableDeclaration(
-        identifier: string,
-        columns: ColumnMetadata[]
-    ): string {
-        const outputColumns = columns.map((column) => {
-            return `${this.escape(column.databaseName)} ${this.createFullType(
-                new TableColumn({
-                    name: column.databaseName,
-                    type: this.normalizeType(column),
-                    length: column.length,
-                    isNullable: column.isNullable,
-                    isArray: column.isArray,
-                })
-            )}`;
-        });
-
-        return `DECLARE ${identifier} TABLE (${outputColumns.join(", ")})`;
     }
 
     /**

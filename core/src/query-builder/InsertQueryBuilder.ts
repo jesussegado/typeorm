@@ -15,7 +15,8 @@ import { ColumnMetadata } from "../metadata/ColumnMetadata";
 import { ReturningResultsEntityUpdator } from "./ReturningResultsEntityUpdator";
 import { BroadcasterResult } from "../subscriber/BroadcasterResult";
 import { EntitySchema } from "../entity-schema/EntitySchema";
-import { isDriverSupported, isMssql } from "../driver/Driver";
+import { isDriverSupported } from "../driver/Driver";
+import { TableColumn } from "..";
 
 /**
  * Allows to build complex sql queries in a fashion way and execute those queries.
@@ -87,12 +88,29 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
 
                 if (
                     this.expressionMap.extraReturningColumns.length > 0 &&
-                    isMssql(this.connection.driver)
+                    isDriverSupported(["mssql"], this.connection.driver.type)
                 ) {
-                    declareSql = this.connection.driver.buildTableVariableDeclaration(
-                        "@OutputTable",
-                        this.expressionMap.extraReturningColumns
+                    const outputColumns = this.expressionMap.extraReturningColumns.map(
+                        (column) => {
+                            return `${this.escape(
+                                column.databaseName
+                            )} ${this.connection.driver.createFullType(
+                                new TableColumn({
+                                    name: column.databaseName,
+                                    type: this.connection.driver.normalizeType(
+                                        column
+                                    ),
+                                    length: column.length,
+                                    isNullable: column.isNullable,
+                                    isArray: column.isArray,
+                                })
+                            )}`;
+                        }
                     );
+
+                    declareSql = `DECLARE @OutputTable TABLE (${outputColumns.join(
+                        ", "
+                    )})`;
                     selectOutputSql = `SELECT * FROM @OutputTable`;
                 }
             }
@@ -610,8 +628,13 @@ export class InsertQueryBuilder<Entity> extends QueryBuilder<Entity> {
 
                         // just any other regular value
                     } else {
-                        if (isMssql(this.connection.driver))
-                            value = this.connection.driver.parametrizeValue(
+                        if (
+                            isDriverSupported(
+                                ["mssql"],
+                                this.connection.driver.type
+                            )
+                        )
+                            value = this.connection.driver.createNativeParameter(
                                 column,
                                 value
                             );

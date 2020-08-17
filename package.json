@@ -27,6 +27,7 @@
     "core",
     "drivers/oracle",
     "drivers/mysql",
+    "drivers/mssql",
     "drivers/aurora-data-api",
     "drivers/cockroachdb",
     "drivers/mongodb",

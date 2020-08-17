@@ -8,7 +8,6 @@ import { DataTypeDefaults } from "./types/DataTypeDefaults";
 import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { DatabaseType, Connection, EntityManager, Repository } from "..";
-import type { SqlServerDriver } from "./sqlserver/SqlServerDriver";
 import { RdbmsMigrationExecutor } from "../migration/RdbmsMigrationExecutor";
 import { MigrationExecutor } from "../migration/MigrationExecutor";
 
@@ -31,10 +30,6 @@ export function isDriverSupported(
         (supportedDrivers.includes("sqlite-abstract") &&
             abstractSqlite.includes(driver))
     );
-}
-
-export function isMssql(driver: Driver): driver is SqlServerDriver {
-    return driver.type === "mssql";
 }
 
 /**
@@ -247,7 +242,7 @@ export abstract class Driver {
      */
     abstract createParameter(parameterName: string, index: number): string;
 
-    createNativeParameter(column: ColumnMetadata, value?: any): any {
+    createNativeParameter(column: Partial<ColumnMetadata>, value?: any): any {
         return value;
     }
 

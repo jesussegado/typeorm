@@ -8,7 +8,6 @@ import { Connection } from "../connection/Connection";
 import { Migration } from "./Migration";
 
 import { QueryRunner } from "../query-runner/QueryRunner";
-import { MssqlParameter } from "../driver/sqlserver/MssqlParameter";
 
 import { isDriverSupported } from "../driver/Driver";
 
@@ -515,18 +514,16 @@ export abstract class MigrationExecutor {
             timestamp: undefined,
         };
         if (isDriverSupported(["mssql"], this.connection.driver.type)) {
-            values.timestamp = new MssqlParameter(
-                migration.timestamp,
-                this.connection.driver.normalizeType({
+            values.timestamp = this.connection.driver.createNativeParameter(
+                {
                     type: this.connection.driver.mappedDataTypes
                         .migrationTimestamp,
-                }) as any
+                },
+                migration.timestamp
             );
-            values.name = new MssqlParameter(
-                migration.name,
-                this.connection.driver.normalizeType({
-                    type: this.connection.driver.mappedDataTypes.migrationName,
-                }) as any
+            values.name = this.connection.driver.createNativeParameter(
+                { type: this.connection.driver.mappedDataTypes.migrationName },
+                migration.name
             );
         } else {
             values.timestamp = migration.timestamp;
@@ -552,18 +549,16 @@ export abstract class MigrationExecutor {
             timestamp: undefined,
         };
         if (isDriverSupported(["mssql"], this.connection.driver.type)) {
-            conditions.timestamp = new MssqlParameter(
-                migration.timestamp,
-                this.connection.driver.normalizeType({
+            conditions.timestamp = this.connection.driver.createNativeParameter(
+                {
                     type: this.connection.driver.mappedDataTypes
                         .migrationTimestamp,
-                }) as any
+                },
+                migration.timestamp
             );
-            conditions.name = new MssqlParameter(
-                migration.name,
-                this.connection.driver.normalizeType({
-                    type: this.connection.driver.mappedDataTypes.migrationName,
-                }) as any
+            conditions.name = this.connection.driver.createNativeParameter(
+                { type: this.connection.driver.mappedDataTypes.migrationName },
+                migration.name
             );
         } else {
             conditions.timestamp = migration.timestamp;

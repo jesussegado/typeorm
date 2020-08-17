@@ -1,27 +1,28 @@
-import { ObjectLiteral, OrmUtils } from "typeorm-base";
+import { ObjectLiteral, OrmUtils, PromiseUtils } from "typeorm-base";
 import { ReadStream } from "fs";
-import { QueryFailedError } from "../../error/QueryFailedError";
-import { QueryRunnerAlreadyReleasedError } from "../../error/QueryRunnerAlreadyReleasedError";
-import { TransactionAlreadyStartedError } from "../../error/TransactionAlreadyStartedError";
-import { TransactionNotStartedError } from "../../error/TransactionNotStartedError";
-import { ColumnType, PromiseUtils } from "../../index";
-import { BaseQueryRunner } from "../../query-runner/BaseQueryRunner";
-import { QueryRunner } from "../../query-runner/QueryRunner";
-import { TableIndexOptions } from "../../schema-builder/options/TableIndexOptions";
-import { Table } from "../../schema-builder/table/Table";
-import { TableCheck } from "../../schema-builder/table/TableCheck";
-import { TableColumn } from "../../schema-builder/table/TableColumn";
-import { TableExclusion } from "../../schema-builder/table/TableExclusion";
-import { TableForeignKey } from "../../schema-builder/table/TableForeignKey";
-import { TableIndex } from "../../schema-builder/table/TableIndex";
-import { TableUnique } from "../../schema-builder/table/TableUnique";
-import { View } from "../../schema-builder/view/View";
-import { Broadcaster } from "../../subscriber/Broadcaster";
-import { Query } from "../Query";
-import { IsolationLevel } from "../types/IsolationLevel";
-import { MssqlParameter } from "./MssqlParameter";
+import {
+    QueryRunner,
+    QueryFailedError,
+    Table,
+    TableColumn,
+    TableUnique,
+    TableCheck,
+    TableExclusion,
+    TableForeignKey,
+    TableIndex,
+    ColumnType,
+} from "typeorm-core";
+import { BaseQueryRunner } from "typeorm-core/build/compiled/src/query-runner/BaseQueryRunner";
+import { Broadcaster } from "typeorm-core/build/compiled/src/subscriber/Broadcaster";
+import { IsolationLevel } from "typeorm-core/build/compiled/src/driver/types/IsolationLevel";
+import { Query } from "typeorm-core/build/compiled/src/driver/Query";
+import { View } from "typeorm-core/build/compiled/src/schema-builder/view/View";
+import { TableIndexOptions } from "typeorm-core/build/compiled/src/schema-builder/options/TableIndexOptions";
+import { QueryRunnerAlreadyReleasedError } from "typeorm-core/build/compiled/src/error/QueryRunnerAlreadyReleasedError";
+import { TransactionAlreadyStartedError } from "typeorm-core/build/compiled/src/error/TransactionAlreadyStartedError";
+import { TransactionNotStartedError } from "typeorm-core/build/compiled/src/error/TransactionNotStartedError";
 import { SqlServerDriver } from "./SqlServerDriver";
-
+import { MssqlParameter } from "./MssqlParameter";
 /**
  * Runs queries on a single SQL Server database connection.
  */

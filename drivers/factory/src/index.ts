@@ -17,7 +17,6 @@ import {
     AuroraDataApiConnectionOptions,
     AuroraDataApiPostgresConnectionOptions,
 } from "typeorm-base";
-import { SqlServerDriver } from "typeorm-core/build/compiled/src/driver/sqlserver/SqlServerDriver";
 import { MongoDriver } from "typeorm-driver-mongodb";
 import { SqljsDriver } from "typeorm-driver-sqljs";
 import { CockroachDriver } from "typeorm-driver-cockroachdb";
@@ -30,6 +29,7 @@ import { ExpoDriver } from "typeorm-driver-expo";
 import { MysqlDriver } from "typeorm-driver-mysql";
 import { AuroraDataApiDriver } from "typeorm-driver-aurora-data-api";
 import { OracleDriver } from "typeorm-driver-oracle";
+import { SqlServerDriver } from "typeorm-driver-mssql";
 import {
     PostgresDriver,
     AuroraDataApiPostgresDriver,

@@ -4,7 +4,6 @@ import {
     SqlServerConnectionOptions,
 } from "typeorm-base";
 import { Connection } from "../connection/Connection";
-import { MssqlParameter } from "../driver/sqlserver/MssqlParameter";
 import { QueryRunner } from "../query-runner/QueryRunner";
 import { Table } from "../schema-builder/table/Table";
 import { QueryResultCache } from "./QueryResultCache";
@@ -139,7 +138,10 @@ export class DbQueryResultCache implements QueryResultCache {
                         ["mssql"],
                         this.connection.driver.type
                     )
-                        ? new MssqlParameter(options.identifier, "nvarchar")
+                        ? this.connection.driver.createNativeParameter(
+                              { type: "string" },
+                              options.identifier
+                          )
                         : options.identifier,
                 })
                 .getRawOne();
@@ -163,7 +165,10 @@ export class DbQueryResultCache implements QueryResultCache {
                         ["mssql"],
                         this.connection.driver.type
                     )
-                        ? new MssqlParameter(options.query, "nvarchar")
+                        ? this.connection.driver.createNativeParameter(
+                              { type: "string" },
+                              options.query
+                          )
                         : options.query,
                 })
                 .getRawOne();
@@ -203,11 +208,26 @@ export class DbQueryResultCache implements QueryResultCache {
         if (isDriverSupported(["mssql"], this.connection.driver.type)) {
             // todo: bad abstraction, re-implement this part, probably better if we create an entity metadata for cache table
             insertedValues = {
-                identifier: new MssqlParameter(options.identifier, "nvarchar"),
-                time: new MssqlParameter(options.time, "bigint"),
-                duration: new MssqlParameter(options.duration, "int"),
-                query: new MssqlParameter(options.query, "nvarchar"),
-                result: new MssqlParameter(options.result, "nvarchar"),
+                identifier: this.connection.driver.createNativeParameter(
+                    { type: "string" },
+                    options.identifier
+                ),
+                time: this.connection.driver.createNativeParameter(
+                    { type: "bigint" },
+                    options.time
+                ),
+                duration: this.connection.driver.createNativeParameter(
+                    { type: "integer" },
+                    options.duration
+                ),
+                query: this.connection.driver.createNativeParameter(
+                    { type: "string" },
+                    options.query
+                ),
+                result: this.connection.driver.createNativeParameter(
+                    { type: "string" },
+                    options.result
+                ),
             };
         }
 

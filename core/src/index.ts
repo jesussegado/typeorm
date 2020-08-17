@@ -118,7 +118,6 @@ export * from "./schema-builder/table/TableIndex";
 export * from "./schema-builder/table/TableUnique";
 export * from "./schema-builder/table/Table";
 export * from "./driver/types/DatabaseType";
-export * from "./driver/sqlserver/MssqlParameter";
 
 export {
     Connection,
