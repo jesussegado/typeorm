@@ -18,7 +18,7 @@ import { EntitySchema } from "../";
 import { FindOperator } from "../find-options/FindOperator";
 import { In } from "../find-options/operator/In";
 import { EntityColumnNotFound } from "../error/EntityColumnNotFound";
-import { isDriverSupported, isOracle } from "../driver/Driver";
+import { isDriverSupported } from "../driver/Driver";
 
 // todo: completely cover query builder with tests
 // todo: entityOrProperty can be target name. implement proper behaviour if it is.
@@ -809,7 +809,7 @@ export abstract class QueryBuilder<Entity> {
                 })
                 .join(", ");
 
-            if (isOracle(driver)) {
+            if (isDriverSupported(["oracle"], this.connection.driver.type)) {
                 columnsExpression +=
                     " INTO " +
                     columns
@@ -818,12 +818,7 @@ export abstract class QueryBuilder<Entity> {
                                 "output_" + column.databaseName;
                             this.expressionMap.nativeParameters[
                                 parameterName
-                            ] = {
-                                type: driver.columnTypeToNativeParameter(
-                                    column.type
-                                ),
-                                dir: driver.oracle.BIND_OUT,
-                            };
+                            ] = driver.createNativeParameter(column);
                             return this.connection.driver.createParameter(
                                 parameterName,
                                 Object.keys(this.expressionMap.nativeParameters)

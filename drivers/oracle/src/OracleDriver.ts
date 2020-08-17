@@ -5,23 +5,24 @@ import {
     OracleConnectionOptions,
     OracleConnectionCredentialsOptions,
 } from "typeorm-base";
-import { Driver, DriverType } from "../Driver";
-import { ConnectionIsNotSetError } from "../../error/ConnectionIsNotSetError";
-import { DriverPackageNotInstalledError } from "../../error/DriverPackageNotInstalledError";
+import * as oracledb from "oracledb";
+import {
+    Driver,
+    Connection,
+    ColumnType,
+    TableColumn,
+    EntityMetadata,
+} from "typeorm-core";
+import { DriverType } from "typeorm-core/build/compiled/src/driver/Driver";
+import { MappedColumnTypes } from "typeorm-core/build/compiled/src/driver/types/MappedColumnTypes";
+import { DataTypeDefaults } from "typeorm-core/build/compiled/src/driver/types/DataTypeDefaults";
+import { RdbmsSchemaBuilder } from "typeorm-core/build/compiled/src/schema-builder/RdbmsSchemaBuilder";
+import { ColumnMetadata } from "typeorm-core/build/compiled/src/metadata/ColumnMetadata";
+import { ConnectionIsNotSetError } from "typeorm-core/build/compiled/src/error/ConnectionIsNotSetError";
+import { ApplyValueTransformers } from "typeorm-core/build/compiled/src/util/ApplyValueTransformers";
+import { DriverPackageNotInstalledError } from "typeorm-core/build/compiled/src/error/DriverPackageNotInstalledError";
+import { DriverUtils } from "typeorm-core/build/compiled/src/driver/DriverUtils";
 import { OracleQueryRunner } from "./OracleQueryRunner";
-import { ColumnMetadata } from "../../metadata/ColumnMetadata";
-import { Connection } from "../../connection/Connection";
-import { RdbmsSchemaBuilder } from "../../schema-builder/RdbmsSchemaBuilder";
-
-import { MappedColumnTypes } from "../types/MappedColumnTypes";
-import { ColumnType } from "../types/ColumnTypes";
-import { DataTypeDefaults } from "../types/DataTypeDefaults";
-import { TableColumn } from "../../schema-builder/table/TableColumn";
-
-import { DriverUtils } from "../DriverUtils";
-import { EntityMetadata } from "../../metadata/EntityMetadata";
-
-import { ApplyValueTransformers } from "../../util/ApplyValueTransformers";
 
 /**
  * Organizes communication with Oracle RDBMS.
@@ -37,7 +38,7 @@ export class OracleDriver extends Driver {
     /**
      * Underlying oracle library.
      */
-    oracle: any;
+    oracle: typeof oracledb;
 
     /**
      * Pool for master database.
@@ -214,7 +215,7 @@ export class OracleDriver extends Driver {
         this.loadDependencies();
 
         // extra oracle setup
-        this.oracle.outFormat = this.oracle.OBJECT;
+        this.oracle.outFormat = (this.oracle as any).OBJECT; // not in @types package
 
         // Object.assign(connection.options, DriverUtils.buildDriverOptions(connection.options)); // todo: do it better way
         // validate options to make sure everything is set
@@ -683,10 +684,23 @@ export class OracleDriver extends Driver {
         return `:${parameterName}`;
     }
 
+    createNativeParameter(
+        column: ColumnMetadata,
+        value?: any,
+        dir: any = this.oracle.BIND_OUT
+    ) {
+        const type = this.columnTypeToNativeParameter(column.type);
+        const parameter = {
+            type,
+            dir,
+        };
+        return parameter;
+    }
+
     /**
      * Converts column type in to native oracle type.
      */
-    columnTypeToNativeParameter(type: ColumnType): any {
+    private columnTypeToNativeParameter(type: ColumnType): any {
         const normalizedType = this.normalizeType({ type: type as any });
         switch (normalizedType) {
             case "number":

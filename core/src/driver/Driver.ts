@@ -9,8 +9,6 @@ import { TableColumn } from "../schema-builder/table/TableColumn";
 import { EntityMetadata } from "../metadata/EntityMetadata";
 import { DatabaseType, Connection, EntityManager, Repository } from "..";
 import type { SqlServerDriver } from "./sqlserver/SqlServerDriver";
-import type { OracleDriver } from "./oracle/OracleDriver";
-
 import { RdbmsMigrationExecutor } from "../migration/RdbmsMigrationExecutor";
 import { MigrationExecutor } from "../migration/MigrationExecutor";
 
@@ -37,9 +35,6 @@ export function isDriverSupported(
 
 export function isMssql(driver: Driver): driver is SqlServerDriver {
     return driver.type === "mssql";
-}
-export function isOracle(driver: Driver): driver is OracleDriver {
-    return driver.type === "oracle";
 }
 
 /**
@@ -251,6 +246,10 @@ export abstract class Driver {
      * Creates an escaped parameter.
      */
     abstract createParameter(parameterName: string, index: number): string;
+
+    createNativeParameter(column: ColumnMetadata, value?: any): any {
+        return value;
+    }
 
     // This database name property is nested for replication configs.
     abstract getDatabaseName(): string;
