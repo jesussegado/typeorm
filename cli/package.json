@@ -8,8 +8,6 @@
   "scripts": {
     "test": "echo empty",
     "clean":"rimraf ./build/compiled/* ",
-    "compile": "tsc",
-    "watch": "./node_modules/.bin/tsc -w",
     "lint": "eslint {src,test}/**/*.ts --cache",
     "prettier": "prettier --write {src,test}/**/*.ts"
   },

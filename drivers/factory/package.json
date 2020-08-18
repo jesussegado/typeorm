@@ -5,8 +5,6 @@
   "main": "./build/compiled/src/index.js",
   "scripts": {
     "clean":"rimraf ./build/compiled/* ",
-    "compile": "tsc",
-    "watch": "./node_modules/.bin/tsc -w",
     "lint": "eslint {src,test}/**/*.ts --cache",
     "prettier": "prettier --write {src,test}/**/*.ts",
     "test": "mocha --require ./build/compiled/test/utils/test-setup.js --bail --recursive --timeout 60000 ./build/compiled/test"

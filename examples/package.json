@@ -1,12 +1,12 @@
 {
-  "name": "typeorm_monorepo",
+  "name": "typeorm_examples",
   "version": "1.0.0",
   "description": "",
   "private": "true",
   "scripts": {
     "lint": "yarn workspaces run lint",
     "test": "yarn workspaces run test",
-    "compile": "tsc -b && cd examples && yarn workspaces run compile",
+    "compile": "yarn workspaces run compile",
     "clean": "yarn workspaces run clean",
     "prettier": "yarn workspaces run prettier",
     "eslint": "yarn workspaces run lint"
@@ -23,28 +23,8 @@
   },
   "homepage": "https://github.com/Kononnable/typeorm#readme",
   "workspaces": [
-    "base",
-    "core",
-    "drivers/oracle",
-    "drivers/mysql",
-    "drivers/mssql",
-    "drivers/aurora-data-api",
-    "drivers/cockroachdb",
-    "drivers/mongodb",
-    "drivers/postgres",
-    "drivers/sap",
-    "drivers/sqljs",
-    "drivers/sqlite",
-    "drivers/cordova",
-    "drivers/expo",
-    "drivers/nativescript",
-    "drivers/react-native",
-    "drivers/factory",
-    "options-reader",
-    "cli",
-    "examples"
-  ],
-  "dependencies": {
-    "typescript": "^3.6.5"
-  }
+    "electron",
+    "typescript",
+    "browser"
+  ]
 }

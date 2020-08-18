@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "echo empty",
-    "clean": "rimraf ./dist/**/*",
+    "clean": "rimraf ./dist/*",
     "compile": "webpack || echo disabled",
     "lint": "eslint {src,test}/**/*.ts",
     "prettier": "prettier --write {src,test}/**/*.ts",

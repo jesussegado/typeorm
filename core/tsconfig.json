@@ -1,31 +1,13 @@
 {
-    "version": "2.1.1",
-    "compilerOptions": {
-        "outDir": "build/compiled",
-        "allowSyntheticDefaultImports": true,
-	    "esModuleInterop": true,
-        "target": "ES2018",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "importHelpers": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "declaration": true,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitReturns": true,
-        "stripInternal": true,
-        "pretty": true,
-        "strictNullChecks": true,
-        "noUnusedLocals": true,
-        "composite": true
-    },
-    "exclude": [
-        "tmp",
-        "temp",
-        "build",
-        "node_modules"
-    ],
-
+  "version": "2.1.1",
+  "extends": "../tsconfig-base.json",
+  "compilerOptions": {
+      "outDir": "build/compiled",
+  },
+  "exclude": [
+      "tmp",
+      "temp",
+      "build",
+      "node_modules"
+  ]
 }
