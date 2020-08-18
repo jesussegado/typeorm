@@ -42,7 +42,9 @@
     "drivers/factory",
     "options-reader",
     "cli",
-    "examples"
+    "examples/electron",
+    "examples/typescript",
+    "examples/browser"
   ],
   "dependencies": {
     "typescript": "^3.6.5"

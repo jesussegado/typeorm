@@ -4,12 +4,7 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "lint": "yarn workspaces run lint",
-    "test": "yarn workspaces run test",
-    "compile": "yarn workspaces run compile",
-    "clean": "yarn workspaces run clean",
-    "prettier": "yarn workspaces run prettier",
-    "eslint": "yarn workspaces run lint"
+    "compile": "yarn workspaces run compile"
   },
   "repository": {
     "type": "git",
